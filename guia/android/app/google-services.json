@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "565303824476",
+    "firebase_url": "https://guia-dos-aventureiros.firebaseio.com",
+    "project_id": "guia-dos-aventureiros",
+    "storage_bucket": "guia-dos-aventureiros.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565303824476:android:d3920be96325c28bee5699",
+        "android_client_info": {
+          "package_name": "com.guia.aventureiros"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565303824476-qq41ffi515rsu2njghjunmrcillss4ns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBes7qEMf22aKhaFnIbrkdFCgOnZc2SKFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565303824476-qq41ffi515rsu2njghjunmrcillss4ns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
