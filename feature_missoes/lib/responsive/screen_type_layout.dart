@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import './responsive_builder.dart';
 import '../enum/device_screen_type.dart';

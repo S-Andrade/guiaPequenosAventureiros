@@ -8,6 +8,8 @@ class MissionsNotifier with ChangeNotifier{
   Mission _currentMission;
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
+  
+  
 
   Mission get currentMission => _currentMission;
 

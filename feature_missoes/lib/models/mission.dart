@@ -5,9 +5,11 @@ class Mission {
   int counter;
   String type;
   bool done;
+  bool reload;
   String content;
   String linkVideo;
   String linkImage;
+  String linkAudio;
  
   
   Mission();
@@ -18,9 +20,11 @@ class Mission {
     counter=data['counter'];
     type=data['type'];
     done=data['done'];
+    reload=data['reload'];
     content=data['content'];
     linkVideo=data['linkVideo'];
     linkImage=data['linkImage'];
+    linkAudio=data['linkAudio'];
   }
   
   Map<String, dynamic> toMap() {
@@ -33,6 +37,8 @@ class Mission {
       'content':content,
       'linkVideo':linkVideo,
       'linkImage':linkImage,
+      'linkAudio':linkAudio,
+      'reload':reload,
     };
   }
   

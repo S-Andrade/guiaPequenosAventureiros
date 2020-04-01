@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guia_pa_feature_missoes/notifiers/missions_notifier.dart';
-import './screens/missions/all_missions_screen.dart';
+import 'package:guia_pa_feature_missoes/notifier/missions_notifier.dart';
+import 'package:guia_pa_feature_missoes/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MultiProvider(
