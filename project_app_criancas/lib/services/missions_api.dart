@@ -39,6 +39,7 @@ getMissions(MissionsNotifier missionsNotifier) async {
       quizReference.get().then( (quizSnapshot){
         if(quizSnapshot.exists){
           Quiz quiz = Quiz.fromMap(quizSnapshot.data);
+          quiz.id = quizReference;
           List<Question> questions = [];
           quiz.questions.forEach((questionReference){
             DocumentReference question = questionReference;
@@ -301,4 +302,20 @@ updateMissionDoneInFirestore(Mission mission) async {
 
 }
 
+//para saber o número de tentativas
+updateMissionCounterInFirestore(Mission mission) async {
+
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  mission.counter  = mission.counter;
+
+  await missionRef.document(mission.id).updateData({'counter': mission.counter});
+
+
+}
+updateMissionQuizResultInFirestore(Mission mission) async {
+
+  DocumentReference missionRef = mission.content.id;
+  await missionRef.updateData({'result': mission.content.result});
+}
 

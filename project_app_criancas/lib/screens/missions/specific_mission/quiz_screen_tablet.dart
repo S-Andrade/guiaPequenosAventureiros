@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project_app_criancas/models/mission.dart';
+import 'package:project_app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:project_app_criancas/services/missions_api.dart';
 import 'package:project_app_criancas/widgets/color_loader.dart';
 import 'package:project_app_criancas/widgets/color_parser.dart';
@@ -20,6 +21,7 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
   int _state = 0;
   int nQuestion = 0;
   int score = 0;
+  List allAnswers;
 
   _QuizScreenTabletPortraitState(this.mission);
 
@@ -30,6 +32,10 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
 
   @override
   Widget build(BuildContext context) {
+    allAnswers = mission.content.questions[nQuestion].sortedListAnswers();
+    allAnswers.shuffle();
+    print('aquiiii');
+
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -66,8 +72,8 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        height: 530,
-                        width: 630,
+                        height: 430,
+                        width: 530,
                         color: parseColor('#320a5c'),
                         child: Column(children: <Widget>[
                           Padding(
@@ -78,7 +84,8 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                               children: <Widget>[
                                 Flexible(
                                   child: Text(
-                                    mission.content.questions[nQuestion].question,
+                                    mission
+                                        .content.questions[nQuestion].question,
                                     style: TextStyle(
                                         fontSize: 50,
                                         color: Colors.white,
@@ -103,32 +110,9 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                           fit: BoxFit.fill,
                         ))),
                 Positioned(
-                  top: 920,
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      //button 1
-                      new SizedBox(height: 100, width: 100,),
-                      RaisedButton(
-                        color: parseColor('#320a5c'),
-                        onPressed: () {
-                          setState(() {
-                            if (nQuestion ==
-                                mission.content.questions.length - 1) {
-                                  print('ultima');
-                            } else {
-                              nQuestion++;
-                            }
-                          });
-                        },
-                        child: new Text(
-                            mission
-                                .content.questions[nQuestion].wrongAnswers[0],
-                            style:
-                                TextStyle(fontSize: 32, color: Colors.white)),
-                      ),
-
-                    ],
+                  top: 820,
+                  child: new Column(
+                    children: _listAnswers(),
                   ),
                 ),
               ],
@@ -137,42 +121,115 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
     );
   }
 
-  Widget setButton() {
-    if (mission.done == false) {
-      if (_state == 0 && nQuestion == mission.content.questions.length - 1) {
-        return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
-        );
-      } else
-        return ColorLoader();
-    } else {
-      return new Text(
-        "Feita",
-        style: const TextStyle(
+  createDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return new AlertDialog(
+            backgroundColor: Colors.white,
+            title: new Text("Resultado", style: new TextStyle(
+              color: parseColor('#320a5c'),
+              fontSize: 50,               
+              fontFamily: 'Amatic SC',
+              letterSpacing: 4),
+            
+              ),
+        content: new Container( 
+          child: new Text("${mission.content.result} %\n Esta é a tua tentativa número ${mission.counter} \n Queres repetir? ", style: new TextStyle(
+          color: Colors.black,
+          fontSize: 30,               
           fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
-      );
-    }
+          letterSpacing: 4,),
+          ),
+          ),
+          actions: <Widget>[
+            new MaterialButton(
+              onPressed: (){
+                _loadButton();
+              },
+              color: Colors.red,
+              child: new Text('Sair', style: new TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontFamily: 'Amatic SC',
+                letterSpacing: 4,
+              ),
+              ),
+              ),
+              new MaterialButton(
+                onPressed: (){
+                  setState(() {
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return new QuizScreenTabletPortrait(this.mission);
+                    }));
+                  });  
+              },
+              color: Colors.green,
+              child: new Text("Repetir", style: new TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontFamily: 'Amatic SC',
+                letterSpacing: 4,
+              )),)
+          ],
+          );
+        }
+    );
   }
 
+ 
+
   void _loadButton() {
-    if (mission.done == true) {
-      print('back');
-      Navigator.pop(context);
-    } else {
       Timer(Duration(milliseconds: 3000), () {
         updateMissionDoneInFirestore(mission);
-        Navigator.pop(context);
+        updateMissionCounterInFirestore(mission);
+        updateMissionQuizResultInFirestore(mission);
+        Navigator.push(context, MaterialPageRoute( builder: (context){
+                      return new AllMissionsScreen();
+        }),);
       });
+  }
+
+  List<Widget> _listAnswers() {
+    List<Widget> lines = [];
+    List<Widget> buttons = [];
+    for (int n = 0; n < 4; n++) {
+      Widget button = new MaterialButton(
+        height: 50,
+        minWidth: 100,
+        color: parseColor('#320a5c'),
+        shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(20.0)),
+        onPressed: () {
+          setState(() {
+            if (allAnswers[n] ==
+                mission.content.questions[nQuestion].correctAnswer) {
+              score++;
+            }
+            if (nQuestion == mission.content.questions.length - 1) {
+              print('ultima');
+              score = ((score * 100) / mission.content.questions.length).round();
+              mission.content.result=score;
+              mission.counter++;
+              mission.done=true;
+              print(score);
+              createDialog(context);
+            } else {
+              nQuestion++;
+            }
+          });
+        },
+        child: new Text(allAnswers[n],
+            style: TextStyle(fontSize: 32, color: Colors.white)),
+      );
+      buttons.add(new Row(
+        children: [button],
+      ));
+      buttons.add(new Padding(
+        padding: EdgeInsets.all(20),
+      ));
     }
+    lines = buttons;
+    return lines;
   }
 }

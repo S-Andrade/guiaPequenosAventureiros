@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Quiz{
   int result;
   List questions;
+  DocumentReference id;
 
   Quiz();
 
@@ -14,5 +17,9 @@ class Quiz{
       'result':result,
       'questions':questions,
     };
+  }
+
+  set idSetter(DocumentReference id){
+    this.id = id;
   }
 }
