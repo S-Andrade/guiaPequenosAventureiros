@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../home_screen.dart';
 import 'package:guia_pa/widgets/app drawer/app_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../auth.dart';
 
 
 
@@ -15,9 +16,21 @@ class LoginTabletPortrait extends StatefulWidget {
 }
 
 class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
-  String _codigo;
+  String email = "";
+  String pass = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final myControllerEmail = TextEditingController();
+  final myControllerPass = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myControllerEmail.dispose();
+    myControllerPass.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,30 +101,64 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                 ]),
                             child: Center(
                               child: TextFormField(
+                                controller: myControllerEmail,
                                 textAlign: TextAlign.center,
                                 style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
                                   validator: (input) {
                                     if (input.isEmpty) {
-                                      return 'Código de acesso não inserido';
+                                      return 'Nome do utilizador não inserido';
                                     }
                                   },
-                                  onSaved: (input) => _codigo = input,
+                                  onSaved: (input) { 
+                                    email = input;
+                                  },
                                   decoration: InputDecoration(
-                                    hintText: 'Código de acesso   ',
+                                    hintText: 'Nome do utilizador   ',
                                     fillColor: Colors.white,
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(
                                         bottom: 10.0, left: 50.0, right: 10.0),
                                   )),
                             )),
-                           
+                        Container(
+                            width: 460,
+                            height: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4.0,
+                                  )
+                                ]),
+                            child: Center(
+                              child: TextFormField(
+                                controller: myControllerPass,
+                                textAlign: TextAlign.center,
+                                style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Palavra-passe não inserido';
+                                    }
+                                  },
+                                  onSaved: (input){
+                                    pass = input;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'Palavra-passe   ',
+                                    fillColor: Colors.white,
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 10.0, left: 50.0, right: 10.0),
+                                  )),
+                            )),   
                         SizedBox(height: 50),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => HomeScreen()));
+                            print("------PASS-----");
+                            print(myControllerPass.text);
+                            Auth().signIn(context,myControllerEmail.text,myControllerPass.text);
                           },
                           child: Container(
                             width: 460,
@@ -144,43 +191,6 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
             )));
   }
 
-
-
-//////// AUTENTICAÇÃO FIREBASE PERSONALIZADA
-
-
-  Future<void> autenticar() async {
-
-     final formState = _formKey.currentState;
-
-    if (formState.validate()) {
-      formState.save();
-
-      try {
-
-        final FirebaseAuth auth = FirebaseAuth.instance;
-
-        Future<AuthResult> result = auth.signInWithCustomToken(token: _codigo);
-      
-        Future<FirebaseUser> user = auth.currentUser();
-
-        print('User:'+user.toString());
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      
-        print('Novo utilizador criado!');
-
-  
-        
-        
-      } catch (e) {
-        print('falha' + e.message);
-      }
-    }
-  }
-
-
 }
 
 
@@ -197,9 +207,21 @@ class LoginTabletLandscape extends StatefulWidget {
 
 
 class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
-  String _codigo;
+  String email = "";
+  String pass = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final myControllerPass = TextEditingController();
+  final myControllerEmail = TextEditingController();
+  
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myControllerEmail.dispose();
+    myControllerPass.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -270,16 +292,52 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                                 ]),
                             child: Center(
                               child: TextFormField(
+                                controller: myControllerEmail,
                                 textAlign: TextAlign.center,
                                 style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
                                   validator: (input) {
                                     if (input.isEmpty) {
-                                      return 'Código de acesso não inserido';
+                                      return 'Nome do utilizador não inserido';
                                     }
                                   },
-                                  onSaved: (input) => _codigo = input,
+                                  onSaved: (input) {
+                                    email = input;
+                                  },
                                   decoration: InputDecoration(
-                                    hintText: 'Código de acesso   ',
+                                    hintText: 'Nome do utilizador   ',
+                                    fillColor: Colors.white,
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 10.0, left: 50.0, right: 10.0),
+                                  )),
+                            )),
+                        Container(
+                            width: 460,
+                            height: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4.0,
+                                  )
+                                ]),
+                            child: Center(
+                              child: TextFormField(
+                                controller: myControllerPass,
+                                textAlign: TextAlign.center,
+                                style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Palavra-passe não inserido';
+                                    }
+                                  },
+                                  onSaved: (input){
+                                    pass = input;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'Palavra-passe   ',
                                     fillColor: Colors.white,
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(
@@ -289,7 +347,9 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                         SizedBox(height: 50),
                         GestureDetector(
                           onTap: () {
-                            autenticar();
+                            print("-----EMAIL------");
+                            print(myControllerEmail.text);
+                             Auth().signIn(context,myControllerEmail.text,myControllerPass.text);
                           },
                           child: Container(
                             width: 460,
@@ -320,48 +380,6 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                 ],
               ),
             )));
-  }
-
-
-
-
-
-
-
-
-//////// AUTENTICAÇÃO FIREBASE PERSONALIZADA
-
-
-  Future<void> autenticar() async {
-
-     final formState = _formKey.currentState;
-
-    if (formState.validate()) {
-      formState.save();
-
-      try {
-
-        final FirebaseAuth auth = FirebaseAuth.instance;
-
-        Future<AuthResult> result = auth.signInWithCustomToken(token: _codigo);
-      
-        Future<FirebaseUser> user = auth.currentUser();
-
-        print('User:'+user.toString());
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      
-        print('Novo utilizador criado!');
-
-  
-        
-        
-      } catch (e) {
-        print('falha' + e.message);
-      }
-    }
-  
   }
 
 }

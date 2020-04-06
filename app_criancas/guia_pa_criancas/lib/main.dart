@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './screens/login/login_screen.dart';
+import './auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,9 +16,8 @@ class _MyHomePageState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    
-    
+    //criar users na base de dados
+    //Auth().signUp('gan01@cucu.pt','password');
     return MaterialApp(
       title: 'Guia de Pequenos Aventureiros',
       debugShowCheckedModeBanner: false,
