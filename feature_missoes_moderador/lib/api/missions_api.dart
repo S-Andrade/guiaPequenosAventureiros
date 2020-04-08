@@ -3,8 +3,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import '../notifier/missions_notifier.dart';
 import '../models/mission.dart';
+import '../models/activity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:math';
 
 
 
@@ -22,20 +24,43 @@ getMissions(MissionsNotifier missionsNotifier) async {
   missionNotifier=missionsNotifier;
 
   List<Mission> _missionListFinal = [];
-  List<Mission> _missionListNotDone = [];
-  List<Mission> _missionListDone = [];
+  
 
   QuerySnapshot snapshot =
       await Firestore.instance.collection("mission").getDocuments();
 
 
-  snapshot.documents.forEach((document) {
+  snapshot.documents.forEach((document) { 
+    
     Mission mission = Mission.fromMap(document.data);
-    if(mission.done==false) _missionListNotDone.add(mission);
-    else _missionListDone.add(mission);
+
+    if(mission.type == "Activity"){
+
+      List<Activity> activities = [];
+
+      DocumentReference activityReference;
+
+      for (activityReference in mission.content){
+        activityReference.get().then( (activitySnapshot){
+              if(activitySnapshot.exists){
+                Activity activity = Activity.fromMap(activitySnapshot.data);
+                activities.add(activity);
+              }
+            });
+      mission.content=activities;
+      }
+
+     
+      
+
+      
+
+    }
+
+     _missionListFinal.add(mission);
   });
 
-  _missionListFinal=_missionListNotDone+_missionListDone;
+
 
   missionsNotifier.missionsList = _missionListFinal;
   
@@ -58,6 +83,29 @@ getMissionsLargerId() {
 
   return _largerId;
 
+
+}
+
+
+getActivitiesLargerId() {
+
+  int _largerId=0;
+
+  List<Mission> _missionList=missionNotifier.missionsList;
+
+
+  for(Mission m in _missionList) {
+    if(m.type=="Activity"){
+      for(Activity a in m.content){
+        int _idNumber=int.parse(a.id);
+        if(_idNumber>_largerId){
+          _largerId=_idNumber;
+        }
+    }
+  }
+  }
+
+  return _largerId;
 
 }
 
@@ -87,6 +135,7 @@ createMissionImageInFirestore(String imageUrl,String titulo,String descricao) as
     mission.title = titulo;
     mission.counter = 0;
     mission.done = false;
+    mission.reload=false;
     mission.type = 'Image';
     mission.content=descricao;
   }
@@ -120,10 +169,141 @@ addUploadedImageToFirebaseStorage(String titulo, String descricao,File localFile
       return false;
     });
 
+    String imageUrl = await firebaseStorageRef.getDownloadURL();
+
+    createMissionImageInFirestore(imageUrl, titulo, descricao);
+   
+  }
+
+
+}
+
+
+  uploadImageToFirebaseStorage(File localFile) async {
+
+    var fileExtension = path.extension(localFile.path);
+
+    var uuid = Uuid().v4();
+
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child('mission/moderadores/uploaded_images/$uuid$fileExtension');
+
+    await firebaseStorageRef
+        .putFile(localFile)
+        .onComplete
+        .catchError((onError) {
+      print(onError);
+      return false;
+    });
+
+    String imageUrl = await firebaseStorageRef.getDownloadURL();
+
+    return imageUrl;
+
+  }
+
+// PRIMEIRO CRIA SE OS DOCUMENTOS PARA CADA ATIVIDADE
+// DEPOIS CRIA-SE A MISSÃO COM A LISTA DOS DOCUMENTOS DE ATIVIDADE
+
+
+  createMissionActivityInFirestore(String titulo, List<Activity> activities) async{
+
+    CollectionReference activityRef = Firestore.instance.collection('activity');
+
+    List<dynamic> documentos = new List<dynamic>();
+
+    var rng = new Random();
+
+    for(Activity activity in activities) {
+
+      int index=(activities.indexOf(activity))+1;
+
+      activity.id=(rng.nextInt(1000)+rng.nextInt(1000)+index).toString();
+      
+      DocumentReference documentRef = activityRef.document(activity.id);
+
+      await documentRef.setData(activity.toMap());
+
+      documentos.add(documentRef);
+
+     
+
+      
+
+
+
+    }
+
+    
+
+    
+
+    Mission mission = new Mission();
+
+    CollectionReference missionRef = Firestore.instance.collection('mission');
+  
+    mission.id = (getMissionsLargerId()+1).toString();
+    mission.title = titulo;
+    mission.counter = 0;
+    mission.done = false;
+    mission.reload = false;
+    mission.type = 'Activity';
+    mission.content=documentos;
+  
+
+  DocumentReference documentRef = missionRef.document(mission.id);
+
+  await documentRef.setData(mission.toMap());
+
+
+  }
+
+
+
+
+createActivityInFirestore(String _description,File localFile) async {
+
+  
+
+  String url;
+
+  if (localFile != null) {
+    var fileExtension = path.extension(localFile.path);
+
+    var uuid = Uuid().v4();
+
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child('mission/moderadores/uploaded_images/$uuid$fileExtension');
+
+    await firebaseStorageRef
+        .putFile(localFile)
+        .onComplete
+        .catchError((onError) {
+      print(onError);
+      return false;
+    });
+
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionImageInFirestore(url,titulo,descricao);
+    
   }
+
+  Activity a = new Activity();
+
+  CollectionReference aRef = Firestore.instance.collection('activity');
+  
+  
+    
+    a.linkImage = url;
+    a.id = (getActivitiesLargerId()+1).toString();
+    a.description=_description;
+  
+
+  DocumentReference documentRef = aRef.document(a.id);
+
+  await documentRef.setData(a.toMap());
 
 }
 
@@ -355,6 +535,15 @@ createMissionUploadVideoInFirestore(String titulo,String descricao) async {
 
 
 deleteMissionInFirestore(Mission mission) async {
+
+  if(mission.type=="Activity"){
+    for(Activity a in mission.content){
+      
+      CollectionReference activityRef = Firestore.instance.collection('activity');
+
+      await activityRef.document(a.id).delete();
+    }
+  }
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
