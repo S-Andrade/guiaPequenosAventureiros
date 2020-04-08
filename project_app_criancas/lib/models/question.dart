@@ -7,6 +7,8 @@ class Question{
   List wrongAnswers;
   bool multipleChoice;
   List allAnswers = [];
+  bool done;
+  bool success;
 
   Question();
 
@@ -16,6 +18,8 @@ class Question{
     correctAnswer = data['correct_answer'];
     wrongAnswers = data['wrong_answers'];
     multipleChoice = data['multiple_choice'];
+    done = data['done'];
+    success = data['success'];
   }
 
   List sortedListAnswers (){
