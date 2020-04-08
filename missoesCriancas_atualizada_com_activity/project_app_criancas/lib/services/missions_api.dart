@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:project_app_criancas/models/question.dart';
 import 'package:project_app_criancas/models/quiz.dart';
+import 'package:project_app_criancas/models/activity.dart';
 import '../notifier/missions_notifier.dart';
 import '../models/mission.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,6 +57,22 @@ getMissions(MissionsNotifier missionsNotifier) async {
           missionsNotifier.missionContent = quiz;
         }
       });
+    }
+    if(mission.type == "Activity"){
+
+      List<Activity> activities = [];
+
+      DocumentReference activityReference;
+
+      for (activityReference in mission.content){
+        activityReference.get().then( (activitySnapshot){
+              if(activitySnapshot.exists){
+                Activity activity = Activity.fromMap(activitySnapshot.data);
+                activities.add(activity);
+              }
+            });
+      mission.content=activities;
+      }
     }
     if(mission.done==false) _missionListNotDone.add(mission);
     else _missionListDone.add(mission);
