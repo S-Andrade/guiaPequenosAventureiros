@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:guia_pa/screens/login/login_screen_tablet.dart';
-import 'package:guia_pa/responsive/orientation_layout.dart';
-import 'package:guia_pa/responsive/screen_type_layout.dart';
+import '../login/login_screen_tablet.dart';
+import '../../responsive/orientation_layout.dart';
+import '../../responsive/screen_type_layout.dart';
 
 
 class LoginScreen extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';
 import '../turma/turma.dart';
-import '../../database/database.dart';
+import '../../services/database.dart';
 import '../escola/escola.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

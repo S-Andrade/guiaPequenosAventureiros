@@ -1,7 +1,7 @@
+import '../missions/all_missions/all_missions_screen.dart';
+
 import 'capitulo.dart';
 import 'package:flutter/material.dart';
-
-import 'capitulo_missoes.dart';
 
 class CapituloTile extends StatelessWidget {
 
@@ -20,7 +20,7 @@ class CapituloTile extends StatelessWidget {
     if (!capitulo.bloqueado){
       return GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CapitulosDetailsMissoes(missoes: capitulo.missoes, id: capitulo.id)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AllMissionsScreen(missoes: capitulo.missoes)));
         } ,
         child:Card(
           margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
