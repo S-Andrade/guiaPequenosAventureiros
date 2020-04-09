@@ -47,7 +47,6 @@ getMissions(MissionsNotifier missionsNotifier) async {
               if(questionSnapshot.exists){
                 Question q = Question.fromMap(questionSnapshot.data);
                 questions.add(q);
-                print(q.question);
               }
             });
           });
@@ -319,3 +318,11 @@ updateMissionQuizResultInFirestore(Mission mission) async {
   await missionRef.updateData({'result': mission.content.result});
 }
 
+updateMissionQuizQuestionDone(Question question) async{
+  CollectionReference questionRef = Firestore.instance.collection('question');
+  await questionRef.document(question.id).updateData({'done': question.done});
+}
+updateMissionQuizQuestionSuccess(Question question) async{
+  CollectionReference questionRef = Firestore.instance.collection('question');
+  await questionRef.document(question.id).updateData({'success': question.success});
+}

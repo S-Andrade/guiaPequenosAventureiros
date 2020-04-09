@@ -13,9 +13,10 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageTabletState extends State<QuizPage> {
   int nQuestion = 0;
-  int score = 0;
+  int score =0;
   List allAnswers;
   List allQuestions;
+  List quizQuestions;
 
   @override
   void initState() {
@@ -25,82 +26,123 @@ class _QuizPageTabletState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
-    allQuestions = missionsNotifier.currentMission.content.questions;
+    quizQuestions = missionsNotifier.currentMission.content.questions;
+    allQuestions=quizQuestions;
+    allQuestions.sort((a,b)=> a.question.length.compareTo(b.question.length));
+    if(missionsNotifier.completed == false){
+      score=missionNotifier.currentScore;
+      nQuestion=0;
+      quizQuestions.forEach((question){
+        if(question.done==true){
+          nQuestion++;
+        }
+      });
+    }
     allAnswers = allQuestions[nQuestion].sortedListAnswers();
     allAnswers.shuffle();
-    return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+    
+
+    return new WillPopScope(
+      onWillPop: () async => false,
+      child: new Scaffold(
+        body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/back6.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                  top: 110,
-                  child: Column(
-                    children: <Widget>[
-                      new Row(
-                        children: _listQuestions(),
-                      )
-                    ],
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Positioned(
+                    top: 110,
+                    child: Column(
+                      children: <Widget>[
+                        new Row(
+                          children: _listQuestions(),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                    top: 340,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        height: 430,
-                        width: 530,
-                        color: parseColor('#320a5c'),
-                        child: Column(children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, right: 30, bottom: 30, top: 100),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Text(
-                                    allQuestions[nQuestion].question,
-                                    style: TextStyle(
-                                        fontSize: 50,
-                                        color: Colors.white,
-                                        fontFamily: 'Amatic SC',
-                                        letterSpacing: 4),
+                  Positioned(
+                      top: 340,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 430,
+                          width: 530,
+                          color: parseColor('#320a5c'),
+                          child: Column(children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 30, right: 30, bottom: 30, top: 100),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      allQuestions[nQuestion].question,
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          color: Colors.white,
+                                          fontFamily: 'Amatic SC',
+                                          letterSpacing: 4),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ]),
-                      ),
-                    )),
-                Positioned(
-                    top: 180,
+                          ]),
+                        ),
+                      )),
+                  Positioned(
+                      top: 180,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image(
+                            height: 200.0,
+                            width: 220.0,
+                            image: AssetImage("assets/images/quiz.png"),
+                            fit: BoxFit.fill,
+                          ))),
+                  Positioned(
+                    top: 50,
+                    right: 50,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
-                        child: Image(
-                          height: 200.0,
-                          width: 220.0,
-                          image: AssetImage("assets/images/quiz.png"),
-                          fit: BoxFit.fill,
-                        ))),
-                Positioned(
-                  top: 820,
-                  child: new Column(
-                    children: _listAnswers(),
+                        child: new MaterialButton(
+                          color: parseColor("320a5c"),
+                          onPressed: () {
+                            setState(() {
+                              print(score);
+                              missionsNotifier.completed = false;
+                              missionNotifier.currentMission.done = false;
+                              missionNotifier.allQuestions =allQuestions;
+                              missionNotifier.currentScore = score;
+                              _loadButton();
+                            });
+                          },
+                          child: new Text("X",
+                              style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 50,
+                                  fontFamily: 'Amatic SC',
+                                  letterSpacing: 4)),
+                        )),
                   ),
-                ),
-              ],
-            ),
-          )),
+                  Positioned(
+                    top: 820,
+                    child: new Column(
+                      children: _listAnswers(),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      ),
     );
   }
 
@@ -120,7 +162,7 @@ class _QuizPageTabletState extends State<QuizPage> {
             ),
             content: new Container(
               child: new Text(
-                "${missionNotifier.currentMission.content.result} %\n Esta é a tua tentativa número ${missionNotifier.currentMission.counter} \n Queres repetir? ",
+                "${missionNotifier.currentMission.content.result} %\n Esta é a tua tentativa número ${missionNotifier.currentMission.counter + 1} \n Queres repetir? ",
                 style: new TextStyle(
                   color: Colors.black,
                   fontSize: 30,
@@ -132,7 +174,17 @@ class _QuizPageTabletState extends State<QuizPage> {
             actions: <Widget>[
               new MaterialButton(
                 onPressed: () {
-                  _loadButton();
+                  setState(() {
+                    missionNotifier.currentMission.counter++;
+                    missionNotifier.currentMission.done = true;
+                    allQuestions.forEach((question) {
+                      question.done = false;
+                      question.success = false;
+                      updateMissionQuizQuestionDone(question);
+                      updateMissionQuizQuestionSuccess(question);
+                    });
+                    _loadButton();
+                  });
                 },
                 color: Colors.red,
                 child: new Text(
@@ -148,6 +200,18 @@ class _QuizPageTabletState extends State<QuizPage> {
               new MaterialButton(
                 onPressed: () {
                   setState(() {
+                    missionNotifier.currentMission.counter++;
+                    missionNotifier.currentMission.done = true;
+                    allQuestions.forEach((question) {
+                      question.done = false;
+                      question.success = false;
+                      updateMissionQuizQuestionDone(question);
+                      updateMissionQuizQuestionSuccess(question);
+                    });
+                    updateMissionCounterInFirestore(
+                        missionNotifier.currentMission);
+                    updateMissionDoneInFirestore(
+                        missionNotifier.currentMission);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return new QuizPage();
@@ -194,31 +258,42 @@ class _QuizPageTabletState extends State<QuizPage> {
             borderRadius: new BorderRadius.circular(20.0)),
         onPressed: () {
           setState(() {
+            missionNotifier.completed=true;
             if (nQuestion == allQuestions.length - 1) {
               if (allAnswers[n] == allQuestions[nQuestion].correctAnswer) {
-                score++;
-                print(score);
+                if(allQuestions[nQuestion].success==false){
+                 score++;
+                }
+                missionNotifier.currentScore = score;
                 allQuestions[nQuestion].done = true;
+                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
                 allQuestions[nQuestion].success = true;
                 score = ((score * 100) / allQuestions.length).round();
                 missionNotifier.currentMission.content.result = score;
-                missionNotifier.currentMission.counter++;
-                missionNotifier.currentMission.done = true;
                 createDialog(context);
               } else {
                 allQuestions[nQuestion].done = true;
+                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
                 allQuestions[nQuestion].success = false;
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
                 createDialogQuestion(context);
               }
             } else {
               if (allAnswers[n] == allQuestions[nQuestion].correctAnswer) {
-                score++;
+                 if(allQuestions[nQuestion].success==false){
+                  score++;
+                }
+                missionNotifier.currentScore = score;
                 allQuestions[nQuestion].done = true;
+                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
                 allQuestions[nQuestion].success = true;
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
                 nQuestion++;
               } else {
                 allQuestions[nQuestion].done = true;
+                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
                 allQuestions[nQuestion].success = false;
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
                 createDialogQuestion(context);
               }
             }
@@ -241,51 +316,81 @@ class _QuizPageTabletState extends State<QuizPage> {
   List<Widget> _listQuestions() {
     List<Widget> questions = [];
     allQuestions.forEach((question) {
-      if (question.done == false) {
+      if(question==allQuestions[nQuestion]){
         Widget button = new MaterialButton(
           height: 20,
           minWidth: 20,
+          shape: Border.all(style: BorderStyle.solid, width: 2, color: Colors.orange),
           color: Colors.blueGrey,
           onPressed: () {
             setState(() {
+              missionNotifier.completed=true;
               nQuestion = allQuestions.indexOf(question);
+              question.done =false;
+              updateMissionQuizQuestionDone(question);
             });
           },
           child: new Text((allQuestions.indexOf(question) + 1).toString(),
               style: new TextStyle(fontSize: 32, color: Colors.white)),
         );
         questions.add(button);
-      } else {
-        if (question.success == false) {
+        questions.add(new Padding(padding: EdgeInsets.all(10)));
+      }
+      else if (question.done == false) {
+        Widget button = new MaterialButton(
+          height: 20,
+          minWidth: 20,
+          color: Colors.blueGrey,
+          onPressed: () {
+            setState(() {
+              missionNotifier.completed=true;
+              nQuestion = allQuestions.indexOf(question);
+              question.done =false;
+              updateMissionQuizQuestionDone(question);
+            });
+          },
+          child: new Text((allQuestions.indexOf(question) + 1).toString(),
+              style: new TextStyle(fontSize: 32, color: Colors.white)),
+        );
+        questions.add(button);
+        questions.add(new Padding(padding: EdgeInsets.all(10)));
+      } else if (question.success == false) {
           Widget button = new MaterialButton(
             height: 20,
             minWidth: 20,
             color: Colors.red,
             onPressed: () {
               setState(() {
+                missionNotifier.completed=true;
                 nQuestion = allQuestions.indexOf(question);
+                question.done =false;
+                updateMissionQuizQuestionDone(question);
               });
             },
             child: new Text((allQuestions.indexOf(question) + 1).toString(),
                 style: new TextStyle(fontSize: 32, color: Colors.white)),
           );
           questions.add(button);
-        } else {
+          questions.add(new Padding(padding: EdgeInsets.all(10)));
+        } else if(question.success==true){
           Widget button = new MaterialButton(
             height: 20,
             minWidth: 20,
             color: Colors.green,
             onPressed: () {
               setState(() {
+                missionNotifier.completed=true;
                 nQuestion = allQuestions.indexOf(question);
+                question.done =false;
+                updateMissionQuizQuestionDone(question);
               });
             },
             child: new Text((allQuestions.indexOf(question) + 1).toString(),
                 style: new TextStyle(fontSize: 32, color: Colors.white)),
           );
           questions.add(button);
+          questions.add(new Padding(padding: EdgeInsets.all(10)));
         }
-      }
     });
     return questions;
   }
@@ -310,14 +415,13 @@ class _QuizPageTabletState extends State<QuizPage> {
                   setState(() {
                     Navigator.pop(context);
                     if (nQuestion == allQuestions.length - 1) {
+                      missionNotifier.completed = true;
                       score = ((score * 100) / allQuestions.length).round();
                       missionNotifier.currentMission.content.result = score;
-                      missionNotifier.currentMission.counter++;
-                      missionNotifier.currentMission.done = true;
                       createDialog(context);
                     } else {
-                      print('alliiiiiiiiiiiiiiiiiiii');
                       nQuestion++;
+                      updateMissionQuizQuestionDone(allQuestions[nQuestion]);
                     }
                   });
                 },

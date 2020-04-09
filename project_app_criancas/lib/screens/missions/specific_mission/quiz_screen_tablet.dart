@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_app_criancas/models/mission.dart';
 import 'package:project_app_criancas/screens/missions/specific_mission/quiz_page_tablet.dart';
+import 'package:project_app_criancas/widgets/color_parser.dart';
 
 class QuizScreenTabletPortrait extends StatefulWidget {
   final Mission mission;
@@ -64,6 +65,7 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                         return QuizPage();
                       }));
                     },
+                    color: parseColor("#320a5c"),
                     shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(20.0)),
                     child: new Text("Começar!",

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:project_app_criancas/models/question.dart';
 import 'package:project_app_criancas/models/quiz.dart';
 
 import '../models/mission.dart';
@@ -9,8 +10,15 @@ class MissionsNotifier with ChangeNotifier{
   List<Mission> _missionsList = [];
   Mission _currentMission;
   dynamic _missionContent;
+  bool _completed;
+  int _currentScore;
+  List<Question> _allQuestions;
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
+  UnmodifiableListView<Question> get allQuestions => UnmodifiableListView(_allQuestions);
+
+  bool get completed => _completed;
+  int get currentScore => _currentScore; 
   
   
 
@@ -22,6 +30,11 @@ class MissionsNotifier with ChangeNotifier{
     notifyListeners();
   }
 
+  set allQuestions(List<Question> list) {
+    _allQuestions = list;
+    notifyListeners();
+  }
+
   set currentMission(Mission mission) {
     _currentMission = mission;
     notifyListeners();
@@ -29,6 +42,15 @@ class MissionsNotifier with ChangeNotifier{
 
   set missionContent(dynamic content){
     _missionContent = content;
+    notifyListeners();
+  }
+
+  set completed(bool completed){
+    _completed =completed;
+    notifyListeners();
+  }
+  set currentScore(int score){
+    _currentScore = score;
     notifyListeners();
   }
 
