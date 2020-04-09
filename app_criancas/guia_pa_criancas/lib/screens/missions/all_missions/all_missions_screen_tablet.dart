@@ -27,6 +27,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
   @override
   void initState() {
+    print(missoes);
     MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     getMissions(missionsNotifier, missoes);
@@ -69,7 +70,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                  
                   
                   Mission mission = missionsNotifier.missionsList[index];
-                  
+                  print(mission.title);
+                  print('olaaaaaaaaaaaaaaaaaaaaaa');                  
                   if (mission.done == true)
                     _completada = 0.2;
                   else if (mission.done == false) _completada = 0.8;

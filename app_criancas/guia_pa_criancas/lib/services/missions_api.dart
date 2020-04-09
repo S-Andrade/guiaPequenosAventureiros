@@ -8,104 +8,88 @@ import '../models/mission.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-
-
 // API FIRESTORE AND STORAGE FUNCTIONS FOR MISSIONS PAGE
 
-
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
-
-
 
 MissionsNotifier missionNotifier;
 
 getMissions(MissionsNotifier missionsNotifier, List missions) async {
-
-  missionNotifier=missionsNotifier;
+  missionNotifier = missionsNotifier;
 
   List<Mission> _missionListFinal = [];
   List<Mission> _missionListNotDone = [];
   List<Mission> _missionListDone = [];
 
-
-
   missions.forEach((document) {
-    Mission mission = Mission.fromMap(document.data);
-    if(mission.type == "Quiz"){
+    print(document);
+    //falta ir buscar a missão que está na referenci
+    DocumentReference missionRef = document;
+    Mission mission;
+    missionRef.get().then((missionSnapchot) {
+      print(missionSnapchot.data);
+      mission = Mission.fromMap(missionSnapchot.data);
+      if (mission.type == "Quiz") {
       DocumentReference quizReference = mission.content;
-      quizReference.get().then( (quizSnapshot){
-        if(quizSnapshot.exists){
+      quizReference.get().then((quizSnapshot) {
+        if (quizSnapshot.exists) {
           Quiz quiz = Quiz.fromMap(quizSnapshot.data);
           quiz.id = quizReference;
           List<Question> questions = [];
-          quiz.questions.forEach((questionReference){
+          quiz.questions.forEach((questionReference) {
             DocumentReference question = questionReference;
-            question.get().then( (questionSnapshot){
-              if(questionSnapshot.exists){
+            question.get().then((questionSnapshot) {
+              if (questionSnapshot.exists) {
                 Question q = Question.fromMap(questionSnapshot.data);
                 questions.add(q);
               }
             });
           });
-          quiz.questions =  questions;
+          quiz.questions = questions;
           mission.content = quiz;
           missionsNotifier.missionContent = quiz;
         }
       });
     }
-    if(mission.done==false) _missionListNotDone.add(mission);
-    else _missionListDone.add(mission);
-  });
-
-  _missionListFinal=_missionListNotDone+_missionListDone;
+    if (mission.done == false)
+      _missionListNotDone.add(mission);
+    else
+      _missionListDone.add(mission);
+    });
+    }); 
+  _missionListFinal = _missionListNotDone + _missionListDone;
 
   missionsNotifier.missionsList = _missionListFinal;
-  
-
 }
 
 getMissionsLargerId() {
+  List<Mission> _missionList = missionNotifier.missionsList;
 
-  List<Mission> _missionList=missionNotifier.missionsList;
+  int _largerId = 0;
 
-  int _largerId=0;
-
-  for(Mission m in _missionList) {
-    int _idNumber=int.parse(m.id);
-    if(_idNumber>_largerId){
-      _largerId=_idNumber;
-
+  for (Mission m in _missionList) {
+    int _idNumber = int.parse(m.id);
+    if (_idNumber > _largerId) {
+      _largerId = _idNumber;
     }
   }
 
   return _largerId;
-
-
 }
-
-
-
-
-
 
 //////// CRIAR UMA NOVA MISSAO DO TIPO IMAGEM COM A IMAGEM QUE SE FEZ UPLOAD PARA
 /// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER;
 /// SE OS UPLOADS FUNCIONAM, ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
-
-
-
-createMissionImageInFirestore(String imageUrl,String titulo) async {
-
+createMissionImageInFirestore(String imageUrl, String titulo) async {
   Mission mission = new Mission();
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
-  
-  
+
   if (imageUrl != null) {
     mission.linkImage = imageUrl;
-    mission.id = (getMissionsLargerId()+1).toString();
+    mission.id = (getMissionsLargerId() + 1).toString();
     mission.title = titulo;
     mission.counter = 0;
     mission.done = false;
@@ -115,15 +99,11 @@ createMissionImageInFirestore(String imageUrl,String titulo) async {
   DocumentReference documentRef = missionRef.document(mission.id);
 
   await documentRef.setData(mission.toMap());
-
 }
-
 
 /////// UPLOAD DE UMA IMAGEM PARA O FIREBASE STORAGE
 
-
-addUploadedImageToFirebaseStorage(File localFile,titulo) async {
-
+addUploadedImageToFirebaseStorage(File localFile, titulo) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -143,28 +123,23 @@ addUploadedImageToFirebaseStorage(File localFile,titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionImageInFirestore(url,titulo);
+    createMissionImageInFirestore(url, titulo);
   }
-
 }
 
-
-
 //////// CRIAR UMA NOVA MISSAO DO TIPO VIDEO COM O VIDEO QUE SE FEZ UPLOAD PARA
-/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER 
+/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER
 /// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
-
-createMissionVideoInFirestore(String videoUrl,String titulo) async {
-
+createMissionVideoInFirestore(String videoUrl, String titulo) async {
   Mission mission = new Mission();
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   if (videoUrl != null) {
     mission.linkVideo = videoUrl;
-    mission.id = (getMissionsLargerId()+1).toString();
+    mission.id = (getMissionsLargerId() + 1).toString();
     mission.title = titulo;
     mission.counter = 0;
     mission.done = false;
@@ -174,15 +149,11 @@ createMissionVideoInFirestore(String videoUrl,String titulo) async {
   DocumentReference documentRef = missionRef.document(mission.id);
 
   await documentRef.setData(mission.toMap());
-
 }
-
 
 /////// UPLOAD DE UM VIDEO PARA O FIREBASE STORAGE
 
-
-addUploadedVideoToFirebaseStorage(File localFile,String titulo) async {
-
+addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -202,31 +173,23 @@ addUploadedVideoToFirebaseStorage(File localFile,String titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionVideoInFirestore(url,titulo);
+    createMissionVideoInFirestore(url, titulo);
   }
-
 }
 
-
-
-
-
-
 //////// CRIAR UMA NOVA MISSAO DO TIPO AUDIO COM O AUDIO QUE SE FEZ UPLOAD PARA
-/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER 
+/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER
 /// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
-
-createMissionAudioInFirestore(String audioUrl,String titulo) async {
-
+createMissionAudioInFirestore(String audioUrl, String titulo) async {
   Mission mission = new Mission();
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   if (audioUrl != null) {
     mission.linkAudio = audioUrl;
-    mission.id = (getMissionsLargerId()+1).toString();
+    mission.id = (getMissionsLargerId() + 1).toString();
     mission.title = titulo;
     mission.counter = 0;
     mission.done = false;
@@ -236,18 +199,12 @@ createMissionAudioInFirestore(String audioUrl,String titulo) async {
   DocumentReference documentRef = missionRef.document(mission.id);
 
   await documentRef.setData(mission.toMap());
-
 }
-
 
 /////// UPLOAD DE UM AUDIO PARA O FIREBASE STORAGE
 
-
-addUploadedAudioToFirebaseStorage(File localFile,String titulo) async {
-
+addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
   if (localFile != null) {
-
-
     var fileExtension = path.extension(localFile.path);
 
     var uuid = Uuid().v4();
@@ -266,60 +223,50 @@ addUploadedAudioToFirebaseStorage(File localFile,String titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionAudioInFirestore(url,titulo);
-
+    createMissionAudioInFirestore(url, titulo);
   }
-
 }
-
-
-
-
 
 //////// ATUALIZAR UMA DADA MISSÃO COM UM DADO CAMPO
 //// NO CASO DAS CRIANÇAS, SERIA NECESSÁRIO ATUALIZAR OS CAMPOS DE :
 /// - DONE (SE A MISSÃO FOI FEITA OU NÃO)
 /// - RESULTADOS : ?  ( TO DO )
 
-
-
-
 updateMissionDoneInFirestore(Mission mission) async {
-
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   mission.done = true;
   mission.reload = true;
 
-  
-
-  await missionRef.document(mission.id).updateData({'done':mission.done,'reload':mission.reload});
-
-
+  await missionRef
+      .document(mission.id)
+      .updateData({'done': mission.done, 'reload': mission.reload});
 }
 
 //para saber o número de tentativas
 updateMissionCounterInFirestore(Mission mission) async {
-
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
-  mission.counter  = mission.counter;
+  mission.counter = mission.counter;
 
-  await missionRef.document(mission.id).updateData({'counter': mission.counter});
-
-
+  await missionRef
+      .document(mission.id)
+      .updateData({'counter': mission.counter});
 }
-updateMissionQuizResultInFirestore(Mission mission) async {
 
+updateMissionQuizResultInFirestore(Mission mission) async {
   DocumentReference missionRef = mission.content.id;
   await missionRef.updateData({'result': mission.content.result});
 }
 
-updateMissionQuizQuestionDone(Question question) async{
+updateMissionQuizQuestionDone(Question question) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
   await questionRef.document(question.id).updateData({'done': question.done});
 }
-updateMissionQuizQuestionSuccess(Question question) async{
+
+updateMissionQuizQuestionSuccess(Question question) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
-  await questionRef.document(question.id).updateData({'success': question.success});
+  await questionRef
+      .document(question.id)
+      .updateData({'success': question.success});
 }
