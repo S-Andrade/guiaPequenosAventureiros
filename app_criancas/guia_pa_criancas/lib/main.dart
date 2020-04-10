@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import './screens/login/login_screen.dart';
-import './auth.dart';
+import 'package:provider/provider.dart';
+import 'notifier/missions_notifier.dart';
 
-void main() => runApp(MyApp());
+
+void main() => runApp(MultiProvider(
+  providers: [
+    ChangeNotifierProvider(create: (context) =>
+    MissionsNotifier()
+    ),
+    ],
+    child:MyApp()));
 
 
 

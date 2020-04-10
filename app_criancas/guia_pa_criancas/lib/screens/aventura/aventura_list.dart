@@ -4,7 +4,7 @@ import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';
 import '../turma/turma.dart';
-import '../../database/database.dart';
+import '../../services/database.dart';
 import '../escola/escola.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -25,7 +25,7 @@ class _AventuraListState extends State<AventuraList> {
   List<Aventura> aventura ;
   List<Turma> turma;
   List<Escola> escola;
-  List<Aventura> ave;
+  List<Aventura> ave = [];
   Turma turmaIn;
   Escola escolaIn;
 
@@ -57,19 +57,19 @@ class _AventuraListState extends State<AventuraList> {
   Future<void> getAventuras(BuildContext context) async{
     print("aventura");
     //while(aventura != null){
-      await getAllAventuras(context);
+      getAllAventuras(context);
     //}
     print(aventura);
 
     print("turma");
     //while(turma != null){
-      await getAllTurmas(context);
+      getAllTurmas(context);
     //}
     print(turma);
 
     print("escola");
     //while(escola != null){
-      await getAllEscolas(context);
+      getAllEscolas(context);
     //}
     print(escola);
 
