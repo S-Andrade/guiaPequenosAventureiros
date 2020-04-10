@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../home_screen.dart';
-import 'package:guia_pa/widgets/app drawer/app_drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../widgets/app drawer/app_drawer.dart';
+
 import '../../auth.dart';
 
 
