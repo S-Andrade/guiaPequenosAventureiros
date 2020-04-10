@@ -22,44 +22,41 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
   List<Mission> _missionListDone = [];
 
   missions.forEach((document) {
-    print(document);
     //falta ir buscar a missão que está na referenci
     DocumentReference missionRef = document;
-    Mission mission;
     missionRef.get().then((missionSnapchot) {
-      print(missionSnapchot.data);
-      mission = Mission.fromMap(missionSnapchot.data);
+      Mission mission = Mission.fromMap(missionSnapchot.data);
       if (mission.type == "Quiz") {
-      DocumentReference quizReference = mission.content;
-      quizReference.get().then((quizSnapshot) {
-        if (quizSnapshot.exists) {
-          Quiz quiz = Quiz.fromMap(quizSnapshot.data);
-          quiz.id = quizReference;
-          List<Question> questions = [];
-          quiz.questions.forEach((questionReference) {
-            DocumentReference question = questionReference;
-            question.get().then((questionSnapshot) {
-              if (questionSnapshot.exists) {
-                Question q = Question.fromMap(questionSnapshot.data);
-                questions.add(q);
-              }
+        DocumentReference quizReference = mission.content;
+        quizReference.get().then((quizSnapshot) {
+          if (quizSnapshot.exists) {
+            Quiz quiz = Quiz.fromMap(quizSnapshot.data);
+            quiz.id = quizReference;
+            List<Question> questions = [];
+            quiz.questions.forEach((questionReference) {
+              DocumentReference question = questionReference;
+              question.get().then((questionSnapshot) {
+                if (questionSnapshot.exists) {
+                  Question q = Question.fromMap(questionSnapshot.data);
+                  questions.add(q);
+                }
+              });
             });
-          });
-          quiz.questions = questions;
-          mission.content = quiz;
-          missionsNotifier.missionContent = quiz;
-        }
-      });
-    }
-    if (mission.done == false)
-      _missionListNotDone.add(mission);
-    else
-      _missionListDone.add(mission);
+            quiz.questions = questions;
+            mission.content = quiz;
+            missionsNotifier.missionContent = quiz;
+          }
+        });
+      }
+      if (mission.done == false)
+        _missionListNotDone.add(mission);
+      else
+        _missionListDone.add(mission);
+        
+    _missionListFinal = _missionListNotDone + _missionListDone;
+    missionsNotifier.missionsList = _missionListFinal;
     });
-    }); 
-  _missionListFinal = _missionListNotDone + _missionListDone;
-
-  missionsNotifier.missionsList = _missionListFinal;
+  });
 }
 
 getMissionsLargerId() {

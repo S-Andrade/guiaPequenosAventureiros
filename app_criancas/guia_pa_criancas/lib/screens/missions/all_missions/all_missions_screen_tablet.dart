@@ -13,46 +13,43 @@ import 'package:provider/provider.dart';
 class AllMissionsTabletPortrait extends StatefulWidget {
 
   List missoes;
-  AllMissionsTabletPortrait({this.missoes});
+  AllMissionsTabletPortrait(this.missoes);
 
   @override
   _AllMissionsTabletPortraitState createState() =>
-      _AllMissionsTabletPortraitState(missoes: missoes);
+      _AllMissionsTabletPortraitState(missoes);
 }
 
 class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List missoes;
-  _AllMissionsTabletPortraitState({this.missoes});
+  _AllMissionsTabletPortraitState(this.missoes);
 
   @override
   void initState() {
-    print(missoes);
     MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     getMissions(missionsNotifier, missoes);
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
+    print('eu sou um rapazinhoooo embora pequeninho');
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+    
     double _completada;
-
     String _imagem;
 
-    
+    print("Estou a ver as misssões mas só que não");
+
     Future<void> _refreshList() async {
       print('refresh');
       getMissions(missionsNotifier, missoes);
+      print(missionNotifier.missionsList[0].title);
     }
-
-    return Scaffold(
+    return new Scaffold(
         key: _scaffoldKey,
-        
         drawer: AppDrawer(),
         body: Container(
           decoration: BoxDecoration(
@@ -62,16 +59,10 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
             ),
           ),
           child: new RefreshIndicator(
-            
               onRefresh: _refreshList,
               child: ListView.separated(
-                
                 itemBuilder: (BuildContext context, int index) {
-                 
-                  
                   Mission mission = missionsNotifier.missionsList[index];
-                  print(mission.title);
-                  print('olaaaaaaaaaaaaaaaaaaaaaa');                  
                   if (mission.done == true)
                     _completada = 0.2;
                   else if (mission.done == false) _completada = 0.8;

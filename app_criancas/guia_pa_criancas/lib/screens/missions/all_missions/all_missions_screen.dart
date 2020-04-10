@@ -7,13 +7,13 @@ import 'all_missions_screen_tablet.dart';
 
 class AllMissionsScreen extends StatelessWidget {
   List missoes; 
-  AllMissionsScreen({this.missoes});
+  AllMissionsScreen(this.missoes);
 
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: OrientationLayout(
-        portrait: AllMissionsTabletPortrait(missoes: missoes),
+        portrait: AllMissionsTabletPortrait(missoes),
         landscape: AllMissionsTabletLandscape(),
       ),
     );

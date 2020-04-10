@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './screens/login/login_screen.dart';
-import 'screens/missions/all_missions/all_missions_screen.dart';
 import 'package:provider/provider.dart';
 import 'notifier/missions_notifier.dart';
 

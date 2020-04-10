@@ -240,7 +240,7 @@ class _QuizPageTabletState extends State<QuizPage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return new AllMissionsScreen();
+          return new AllMissionsScreen(missionNotifier.missionsList);
         }),
       );
     });

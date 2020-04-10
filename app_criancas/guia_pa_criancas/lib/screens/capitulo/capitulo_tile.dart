@@ -20,7 +20,7 @@ class CapituloTile extends StatelessWidget {
     if (!capitulo.bloqueado){
       return GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AllMissionsScreen(missoes: capitulo.missoes)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AllMissionsScreen(capitulo.missoes)));
         } ,
         child:Card(
           margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
