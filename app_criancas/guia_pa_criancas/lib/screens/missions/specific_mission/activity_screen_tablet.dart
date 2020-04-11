@@ -1,17 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-<<<<<<< HEAD:project_app_criancas/lib/screens/missions/specific_mission/activity_screen_tablet.dart
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:project_app_criancas/models/mission.dart';
-import 'package:project_app_criancas/models/activity.dart';
-import 'package:project_app_criancas/services/missions_api.dart';
-import 'package:project_app_criancas/widgets/color_loader.dart';
-=======
+import '../../../models/activity.dart';
+import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
->>>>>>> master:app_criancas/guia_pa_criancas/lib/screens/missions/specific_mission/activity_screen_tablet.dart
-
 import '../../../widgets/color_parser.dart';
 
 class ActivityScreenTabletPortrait extends StatefulWidget {
