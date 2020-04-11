@@ -1,8 +1,14 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
+<<<<<<< HEAD:project_app_criancas/lib/services/missions_api.dart
+import 'package:project_app_criancas/models/question.dart';
+import 'package:project_app_criancas/models/quiz.dart';
+import 'package:project_app_criancas/models/activity.dart';
+=======
 import '../models/question.dart';
 import '../models/quiz.dart';
+>>>>>>> master:app_criancas/guia_pa_criancas/lib/services/missions_api.dart
 import '../notifier/missions_notifier.dart';
 import '../models/mission.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,6 +48,33 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
                 }
               });
             });
+<<<<<<< HEAD:project_app_criancas/lib/services/missions_api.dart
+          });
+          quiz.questions =  questions;
+          mission.content = quiz;
+          missionsNotifier.missionContent = quiz;
+        }
+      });
+    }
+    if(mission.type == "Activity"){
+
+      List<Activity> activities = [];
+
+      DocumentReference activityReference;
+
+      for (activityReference in mission.content){
+        activityReference.get().then( (activitySnapshot){
+              if(activitySnapshot.exists){
+                Activity activity = Activity.fromMap(activitySnapshot.data);
+                activities.add(activity);
+              }
+            });
+                 mission.content=activities;
+      }
+    }
+    if(mission.done==false) _missionListNotDone.add(mission);
+    else _missionListDone.add(mission);
+=======
             quiz.questions = questions;
             mission.content = quiz;
             missionsNotifier.missionContent = quiz;
@@ -56,6 +89,7 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
     _missionListFinal = _missionListNotDone + _missionListDone;
     missionsNotifier.missionsList = _missionListFinal;
     });
+>>>>>>> master:app_criancas/guia_pa_criancas/lib/services/missions_api.dart
   });
 }
 
