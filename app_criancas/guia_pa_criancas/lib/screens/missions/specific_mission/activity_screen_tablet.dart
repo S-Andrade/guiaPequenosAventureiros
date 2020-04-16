@@ -8,7 +8,6 @@ import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 
 class ActivityScreenTabletPortrait extends StatefulWidget {
-  
   Mission mission;
 
   ActivityScreenTabletPortrait(this.mission);
@@ -18,18 +17,17 @@ class ActivityScreenTabletPortrait extends StatefulWidget {
       _ActivityScreenTabletPortraitState(mission);
 }
 
-class _ActivityScreenTabletPortraitState extends State<ActivityScreenTabletPortrait> {
-  
+class _ActivityScreenTabletPortraitState
+    extends State<ActivityScreenTabletPortrait> {
   Mission mission;
   int _state = 0;
 
   double padValue = 0;
-  
+
   _ActivityScreenTabletPortraitState(this.mission);
 
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -71,21 +69,19 @@ class _ActivityScreenTabletPortraitState extends State<ActivityScreenTabletPortr
                 if (activities[index].linkImage != null)
                   _image = new NetworkImage(activities[index].linkImage);
                 return Column(children: [
-                  
                   Row(
                     children: <Widget>[
                       IconButton(
                         icon: Icon(FontAwesomeIcons.star),
                         iconSize: 40,
                         color: parseColor("#320a5c"),
-                        
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
                             width: 370,
-                            child: Row(
-                                                          children:[ Flexible(
+                            child: Row(children: [
+                              Flexible(
                                 child: Text(
                                   activities[index].description,
                                   style: TextStyle(
@@ -95,8 +91,8 @@ class _ActivityScreenTabletPortraitState extends State<ActivityScreenTabletPortr
                                       letterSpacing: 2,
                                       fontSize: 40),
                                 ),
-                              ),]
-                            )),
+                              ),
+                            ])),
                       ),
                       Container(
                         width: 300.0,
@@ -109,34 +105,26 @@ class _ActivityScreenTabletPortraitState extends State<ActivityScreenTabletPortr
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
-                  
-                
-                  
                 ]);
               }),
-              
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top:70.0,left:300,right:300),
-         
-              child: MaterialButton(
-                          child: setButton(),
-                          onPressed: () {
-                            setState(() {
-                              _state = 1;
-                              _loadButton();
-                            });
-                          },
-                          height: 90,
-                          
-                          color: parseColor('#320a5c'),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(20.0))),
-            
+            padding: const EdgeInsets.only(top: 70.0, left: 300, right: 300),
+            child: MaterialButton(
+                child: setButton(),
+                onPressed: () {
+                  setState(() {
+                    _state = 1;
+                    _loadButton();
+                  });
+                },
+                height: 90,
+                color: parseColor('#320a5c'),
+                shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0))),
           )
         ],
       ),

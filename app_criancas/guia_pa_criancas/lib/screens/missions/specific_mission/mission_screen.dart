@@ -1,3 +1,4 @@
+import 'package:app_criancas/screens/missions/specific_mission/questionario_screen_tablet.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
 import '../../../responsive/orientation_layout.dart';
@@ -80,6 +81,13 @@ class MissionScreen extends StatelessWidget {
       return ScreenTypeLayout(
         mobile: OrientationLayout(
           portrait: UploadExampleScreenTabletPortrait(mission),
+        ),
+      );
+    }
+    else if (mission.type == 'Questionario') {
+      return ScreenTypeLayout(
+        mobile: OrientationLayout(
+          portrait: QuestionarioScreen(mission),
         ),
       );
     }
