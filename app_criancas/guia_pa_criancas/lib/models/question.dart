@@ -9,6 +9,7 @@ class Question{
   List allAnswers = [];
   bool done;
   bool success;
+  List answers = [];
 
   Question();
 
@@ -20,6 +21,7 @@ class Question{
     multipleChoice = data['multiple_choice'];
     done = data['done'];
     success = data['success'];
+    answers = data['answers'];
   }
 
   List sortedListAnswers (){

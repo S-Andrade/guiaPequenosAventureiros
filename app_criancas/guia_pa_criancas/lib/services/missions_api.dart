@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app_criancas/models/questionario.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import '../models/activity.dart';
@@ -63,6 +64,29 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
             });
                  mission.content=activities;
       }
+    }
+    else if(mission.type=='Questionario'){
+      DocumentReference questionarioReference = mission.content;
+        questionarioReference.get().then((qSnapshot) {
+          if (qSnapshot.exists) {
+            Questionario questionario = Questionario.fromMap(qSnapshot.data);
+            questionario.id = questionarioReference;
+            List<Question> questions = [];
+            questionario.questions.forEach((questionReference) {
+              DocumentReference question = questionReference;
+              question.get().then((questionSnapshot) {
+                if (questionSnapshot.exists) {
+                  Question q = Question.fromMap(questionSnapshot.data);
+                  questions.add(q);
+                }
+              });
+            });
+          questionario.questions =  questions;
+          mission.content = questionario;
+          missionsNotifier.missionContent = questionario;
+          }
+        });
+
     }
       if (mission.done == false)
         _missionListNotDone.add(mission);
