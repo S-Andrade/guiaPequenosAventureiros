@@ -152,3 +152,31 @@ class DatabaseService {
   }
 
 }
+
+//info Aluno
+void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai) {
+  CollectionReference alunoCollection = Firestore.instance.collection('aluno');
+  alunoCollection.document(id).updateData({
+    'idadeAluno': idade,
+    'generoAluno': genero,
+    'dataNascimentoAluno': dateTime,
+    'frequentouPre': frequentouPre,
+    'idadeIngresso': idadeIngresso,
+    'maisInfo': maisInfo,
+    'nacionalidadeAluno': nacionalidade,
+    'grauParentescoEE': grauParentesco,
+    'idadeEE': idadeEE,
+    'profissaoEE':profissaoEE,
+    'nacionalidadeEE': nacionalidadeEE,
+    'habilitacoesEE': habilitacoesEE,
+    'idadeMae': idadeMae,
+    'idadePai': idadePai,
+    'profissaoMae': profissaoMae,
+    'profissaoPai': profissaoPai,
+    'nacionalidadeMae': nacionalidadeMae,
+    'nacionalidadePai': nacionalidadePai,
+    'habilitacoesMae': habilitacoesMae,
+    'habilitacoesPai': habilitacoesPai,
+  });
+
+}

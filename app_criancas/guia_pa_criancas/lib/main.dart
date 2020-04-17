@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import './screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'notifier/missions_notifier.dart';
@@ -34,6 +35,11 @@ class _MyHomePageState extends State<MyApp> {
         accentColor: Color(0xFF64FFDA),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [const Locale('pt', 'BR')],
       home: LoginScreen(),
     );
   }

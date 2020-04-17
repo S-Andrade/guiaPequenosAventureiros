@@ -1,3 +1,4 @@
+import 'package:app_criancas/screens/login/user_data_screen_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/home_screen.dart';
@@ -25,7 +26,7 @@ class Auth {
       result = await auth.signInWithEmailAndPassword(email: email.trim(), password: password);
       FirebaseUser user = result.user;
       Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+            context, MaterialPageRoute(builder: (context) => UserData(user:user)));
     }catch(e){
       print(e.toString());
        showDialog(

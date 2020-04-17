@@ -75,6 +75,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     _imagem = 'assets/images/video.png';
                   else if (mission.type == 'Quiz')
                     _imagem = 'assets/images/quiz.png';
+                  else if (mission.type == 'Questionario')
+                    _imagem = 'assets/images/quiz.png';
                   else if (mission.type == 'Activity')
                     _imagem = 'assets/images/atividade.png';
                   else if (mission.type == 'UploadExample')
