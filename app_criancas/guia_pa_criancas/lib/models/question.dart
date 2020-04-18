@@ -10,6 +10,7 @@ class Question{
   bool done;
   bool success;
   List answers = [];
+  String respostaEscolhida = "";
 
   Question();
 
@@ -22,6 +23,7 @@ class Question{
     done = data['done'];
     success = data['success'];
     answers = data['answers'];
+    respostaEscolhida = data['respostaEscolhida'];
   }
 
   List sortedListAnswers (){
