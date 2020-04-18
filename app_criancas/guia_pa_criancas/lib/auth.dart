@@ -1,4 +1,3 @@
-import 'package:app_criancas/screens/login/user_data_screen_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/home_screen.dart';
@@ -7,6 +6,7 @@ import 'screens/home_screen.dart';
 class Auth {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+  
 
   //psicologo
   Future<String> signUp(String email, String password) async {
@@ -18,15 +18,16 @@ class Auth {
   }
 
   Future<void> signIn(BuildContext context, String email, String password) async {
-    print(email);
-    print(password);
+    
+    FirebaseUser user;
+
     AuthResult result;
 
     try{
       result = await auth.signInWithEmailAndPassword(email: email.trim(), password: password);
-      FirebaseUser user = result.user;
+      user = result.user;
       Navigator.push(
-            context, MaterialPageRoute(builder: (context) => UserData(user:user)));
+            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
     }catch(e){
       print(e.toString());
        showDialog(
@@ -51,7 +52,14 @@ class Auth {
     }
   }
 
+  Future<FirebaseUser> getUser() async {
+    return await auth.currentUser();
+  }
+
 }
+
+
+
 
 
 

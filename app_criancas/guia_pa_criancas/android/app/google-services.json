@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1032489512157:android:0e8cbb22d05999eb6ebf34",
+        "android_client_info": {
+          "package_name": "com.example.feature_missoes_moderador"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOXk8YY2hnqk4X3xmQXfn39fVSBXcYG-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1032489512157:android:8ac526ff5886f5716ebf34",
         "android_client_info": {
           "package_name": "com.example.guia_pa"
@@ -37,9 +66,96 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1032489512157:android:1398c990db0fdd9a6ebf34",
+        "android_client_info": {
+          "package_name": "com.example.guia_pa_feature_missoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOXk8YY2hnqk4X3xmQXfn39fVSBXcYG-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1032489512157:android:c9cf8e3dedb184cb6ebf34",
         "android_client_info": {
           "package_name": "com.example.guia_pa_moderadores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOXk8YY2hnqk4X3xmQXfn39fVSBXcYG-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032489512157:android:77acc3065b478e166ebf34",
+        "android_client_info": {
+          "package_name": "com.example.project_app_criancas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOXk8YY2hnqk4X3xmQXfn39fVSBXcYG-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032489512157-p89kiv5i47kn0slg32nks46sjqkgv6tn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032489512157:android:86ba658e13ae633e6ebf34",
+        "android_client_info": {
+          "package_name": "com.example.quiz"
         }
       },
       "oauth_client": [

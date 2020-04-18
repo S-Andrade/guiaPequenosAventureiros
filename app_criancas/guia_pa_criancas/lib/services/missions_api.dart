@@ -1,22 +1,26 @@
 import 'dart:io';
-import 'package:app_criancas/models/questionario.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
-import '../models/activity.dart';
 import '../models/question.dart';
 import '../models/quiz.dart';
 import '../notifier/missions_notifier.dart';
 import '../models/mission.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
+import '../models/activity.dart';
 
 // API FIRESTORE AND STORAGE FUNCTIONS FOR MISSIONS PAGE
+
+
 
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
 
 MissionsNotifier missionNotifier;
 
-getMissions(MissionsNotifier missionsNotifier, List missions) async {
+getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) async {
+
+  bool done;
+
   missionNotifier = missionsNotifier;
 
   List<Mission> _missionListFinal = [];
@@ -24,10 +28,11 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
   List<Mission> _missionListDone = [];
 
   missions.forEach((document) {
-    //falta ir buscar a missão que está na referenci
+    
     DocumentReference missionRef = document;
     missionRef.get().then((missionSnapchot) {
       Mission mission = Mission.fromMap(missionSnapchot.data);
+
       if (mission.type == "Quiz") {
         DocumentReference quizReference = mission.content;
         quizReference.get().then((quizSnapshot) {
@@ -44,61 +49,55 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
                 }
               });
             });
-          quiz.questions =  questions;
-          mission.content = quiz;
-          missionsNotifier.missionContent = quiz;
+            quiz.questions = questions;
+            mission.content = quiz;
+            missionsNotifier.missionContent = quiz;
           }
         });
-      }else if(mission.type == "Activity"){
 
-      List<Activity> activities = [];
+      } 
+      
+      
+      else if (mission.type == "Activity") {
+        
+        List<Activity> activities = [];
 
-      DocumentReference activityReference;
+        DocumentReference activityReference;
 
-      for (activityReference in mission.content){
-        activityReference.get().then( (activitySnapshot){
-              if(activitySnapshot.exists){
-                Activity activity = Activity.fromMap(activitySnapshot.data);
-                activities.add(activity);
-              }
-            });
-                 mission.content=activities;
+        for (activityReference in mission.content) {
+          activityReference.get().then((activitySnapshot) {
+            if (activitySnapshot.exists) {
+              Activity activity = Activity.fromMap(activitySnapshot.data);
+              activities.add(activity);
+            }
+          });
+          mission.content = activities;
+        }
+
       }
-    }
-    else if(mission.type=='Questionario'){
-      DocumentReference questionarioReference = mission.content;
-        questionarioReference.get().then((qSnapshot) {
-          if (qSnapshot.exists) {
-            Questionario questionario = Questionario.fromMap(qSnapshot.data);
-            questionario.id = questionarioReference;
-            List<Question> questions = [];
-            questionario.questions.forEach((questionReference) {
-              DocumentReference question = questionReference;
-              question.get().then((questionSnapshot) {
-                if (questionSnapshot.exists) {
-                  Question q = Question.fromMap(questionSnapshot.data);
-                  questions.add(q);
-                }
-              });
-            });
-          questionario.questions =  questions;
-          mission.content = questionario;
-          missionsNotifier.missionContent = questionario;
-          }
-        });
 
-    }
-      if (mission.done == false)
+      for(var a in mission.resultados){
+        if(a["aluno"]==_userID){
+          done=a["done"];
+        }
+      }
+
+     
+      if (done == false)
         _missionListNotDone.add(mission);
       else
         _missionListDone.add(mission);
-        
-    _missionListFinal = _missionListNotDone + _missionListDone;
-    missionsNotifier.missionsList = _missionListFinal;
+
+      _missionListFinal = _missionListNotDone + _missionListDone;
+    
+      missionsNotifier.missionsList = _missionListFinal;
+     
     });
   });
 }
 
+
+/*
 getMissionsLargerId() {
   List<Mission> _missionList = missionNotifier.missionsList;
 
@@ -114,12 +113,18 @@ getMissionsLargerId() {
   return _largerId;
 }
 
+*/
+
 //////// CRIAR UMA NOVA MISSAO DO TIPO IMAGEM COM A IMAGEM QUE SE FEZ UPLOAD PARA
 /// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER;
 /// SE OS UPLOADS FUNCIONAM, ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
+/*
 createMissionImageInFirestore(String imageUrl, String titulo) async {
+
+  // TO BE CHANGED; HOW TO STORE AND PRESENT THE IMAGE UPLOADED BY CHILDREN?
+
   Mission mission = new Mission();
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
@@ -138,9 +143,12 @@ createMissionImageInFirestore(String imageUrl, String titulo) async {
   await documentRef.setData(mission.toMap());
 }
 
+*/
+
 /////// UPLOAD DE UMA IMAGEM PARA O FIREBASE STORAGE
 
 addUploadedImageToFirebaseStorage(File localFile, titulo) async {
+
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -148,7 +156,7 @@ addUploadedImageToFirebaseStorage(File localFile, titulo) async {
 
     final StorageReference firebaseStorageRef = FirebaseStorage.instance
         .ref()
-        .child('mission/uploaded_images/$uuid$fileExtension');
+        .child('mission/uploaded_images_children/$uuid$fileExtension');
 
     await firebaseStorageRef
         .putFile(localFile)
@@ -160,7 +168,7 @@ addUploadedImageToFirebaseStorage(File localFile, titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionImageInFirestore(url, titulo);
+    
   }
 }
 
@@ -169,6 +177,7 @@ addUploadedImageToFirebaseStorage(File localFile, titulo) async {
 /// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
+/*
 createMissionVideoInFirestore(String videoUrl, String titulo) async {
   Mission mission = new Mission();
 
@@ -187,7 +196,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo) async {
 
   await documentRef.setData(mission.toMap());
 }
-
+*/
 /////// UPLOAD DE UM VIDEO PARA O FIREBASE STORAGE
 
 addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
@@ -210,7 +219,7 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionVideoInFirestore(url, titulo);
+   
   }
 }
 
@@ -219,6 +228,7 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
 /// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
 /// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
 
+/*
 createMissionAudioInFirestore(String audioUrl, String titulo) async {
   Mission mission = new Mission();
 
@@ -237,6 +247,7 @@ createMissionAudioInFirestore(String audioUrl, String titulo) async {
 
   await documentRef.setData(mission.toMap());
 }
+*/
 
 /////// UPLOAD DE UM AUDIO PARA O FIREBASE STORAGE
 
@@ -260,7 +271,7 @@ addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    createMissionAudioInFirestore(url, titulo);
+   
   }
 }
 
@@ -269,26 +280,42 @@ addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
 /// - DONE (SE A MISSÃO FOI FEITA OU NÃO)
 /// - RESULTADOS : ?  ( TO DO )
 
-updateMissionDoneInFirestore(Mission mission) async {
+updateMissionDoneInFirestore(Mission mission, String id) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
-  mission.done = true;
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["done"] = true;
+    }
+  });
   mission.reload = true;
 
   await missionRef
       .document(mission.id)
-      .updateData({'done': mission.done, 'reload': mission.reload});
+      .updateData({'resultados': mission.resultados});
 }
 
 //para saber o número de tentativas
-updateMissionCounterInFirestore(Mission mission) async {
+updateMissionCounterInFirestore(Mission mission, String id, int counter) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
-  mission.counter = mission.counter;
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["counter"] = counter;
+    }
+  });
 
   await missionRef
       .document(mission.id)
-      .updateData({'counter': mission.counter});
+      .updateData({'resultados': mission.resultados});
 }
 
 updateMissionQuizResultInFirestore(Mission mission) async {
@@ -306,4 +333,45 @@ updateMissionQuizQuestionSuccess(Question question) async {
   await questionRef
       .document(question.id)
       .updateData({'success': question.success});
+}
+
+updateMissionTimeAndCounterVisitedInFirestore(
+    Mission mission, String id, int timeVisited, int counterVisited) async {
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["counterVisited"] = counterVisited;
+
+      mapa["timeVisited"] = timeVisited;
+    }
+  });
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
+}
+
+saveMissionMovementAndLightDataInFirestore(
+    Mission mission, String id, List movementData, List lightData) async {
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["movementData"] = movementData;
+      mapa["lightData"] = lightData;
+    }
+  });
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
 }

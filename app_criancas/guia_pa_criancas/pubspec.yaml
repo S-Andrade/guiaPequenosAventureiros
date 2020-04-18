@@ -14,14 +14,14 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   video_player: 0.10.8+1
-  flutter_localizations:
-    sdk: flutter
+  
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   firebase_auth: ^0.15.5+3
@@ -37,8 +37,15 @@ dependencies:
   audioplayers: ^0.14.2
   file_picker: ^1.5.0+2
   youtube_player_flutter: ^6.1.0+4
-
-
+  native_state: ^1.1.0
+  firebase_analytics: ^1.0.4
+  sensors: ^0.4.1+10
+  oscilloscope: ^0.0.3
+  noise_meter: ^1.0.2
+  light: ^0.1.1
+  percent_indicator: ^1.0.16
+  flutter_sparkline: ^0.1.0
+  pie_chart: ^3.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

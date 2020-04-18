@@ -5,7 +5,7 @@ import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
-
+import '../../../auth.dart';
 
 class ImageScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -17,16 +17,77 @@ class ImageScreenTabletPortrait extends StatefulWidget {
       _ImageScreenTabletPortraitState(mission);
 }
 
-class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait> {
+class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
+    with WidgetsBindingObserver {
   Mission mission;
   int _state = 0;
+String _userID;
+  Map resultados;
+  bool _done;
+  int _timeSpentOnThisScreen;
+  int _timeVisited;
+  int _counterVisited;
+  DateTime _paused;
+  DateTime _returned;
+  int _totalPaused;
+  DateTime _start;
+  DateTime _end;
 
   _ImageScreenTabletPortraitState(this.mission);
 
   @override
   void initState() {
+    Auth().getUser().then((user) {
+                  setState(() {
+                    _userID = user.email;
+                    for (var a in mission.resultados) {
+                      if (a["aluno"] == _userID) {
+                        resultados = a;
+                        _done = resultados["done"];
+                        _counterVisited=resultados["counterVisited"];
+                        _timeVisited=resultados["timeVisited"];
+                      }
+                    }
+                  });
+                });
+
+    WidgetsBinding.instance.addObserver(this);
+   
+    _start=DateTime.now();
     super.initState();
   }
+
+  @override
+  void dispose() {
+    print('dispose');
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+
+   AppLifecycleState state;
+
+  @override
+  void deactivate() {
+      _counterVisited=_counterVisited+1;
+    _end=DateTime.now();
+    _timeSpentOnThisScreen=_end.difference(_start).inSeconds;
+    _timeVisited=_timeVisited+_timeSpentOnThisScreen;
+    updateMissionTimeAndCounterVisitedInFirestore(mission,_userID,_timeVisited,_counterVisited);
+    super.deactivate();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
+      _returned = DateTime.now();
+    }
+    _totalPaused = _returned.difference(_paused).inSeconds;
+    _timeVisited = _timeVisited - _totalPaused;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +183,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait> {
   }
 
   Widget setButton() {
-    if (mission.done == false) {
+    if (_done == false) {
       if (_state == 0) {
         return new Text(
           "okay",
@@ -149,12 +210,12 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait> {
   }
 
   void _loadButton() {
-    if (mission.done == true) {
+    if (_done == true) {
       print('back');
       Navigator.pop(context);
     } else {
       Timer(Duration(milliseconds: 3000), () {
-        updateMissionDoneInFirestore(mission);
+        updateMissionDoneInFirestore(mission, _userID);
         Navigator.pop(context);
       });
     }
