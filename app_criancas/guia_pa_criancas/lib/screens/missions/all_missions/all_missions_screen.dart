@@ -12,10 +12,11 @@ class AllMissionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      mobile: OrientationLayout(
+      tablet: OrientationLayout(
         portrait: AllMissionsTabletPortrait(missoes),
         landscape: AllMissionsTabletLandscape(),
       ),
+      mobile:OrientationLayout(portrait: AllMissionsMobilePortrait(missoes),)
     );
   }
 }

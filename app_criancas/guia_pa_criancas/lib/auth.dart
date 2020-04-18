@@ -6,6 +6,7 @@ import 'screens/home_screen.dart';
 class Auth {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+  
 
   //psicologo
   Future<String> signUp(String email, String password) async {
@@ -17,13 +18,14 @@ class Auth {
   }
 
   Future<void> signIn(BuildContext context, String email, String password) async {
-    print(email);
-    print(password);
+    
+    FirebaseUser user;
+
     AuthResult result;
 
     try{
       result = await auth.signInWithEmailAndPassword(email: email.trim(), password: password);
-      FirebaseUser user = result.user;
+      user = result.user;
       Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
     }catch(e){
@@ -50,7 +52,14 @@ class Auth {
     }
   }
 
+  Future<FirebaseUser> getUser() async {
+    return await auth.currentUser();
+  }
+
 }
+
+
+
 
 
 
