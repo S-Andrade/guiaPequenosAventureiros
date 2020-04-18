@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
 import '../../../responsive/orientation_layout.dart';
-import '../../../responsive/orientation_layout.dart';
 import '../../../responsive/screen_type_layout.dart';
 import '../specific_mission/activity_screen_tablet.dart';
 import '../specific_mission/audio_screen_tablet.dart';

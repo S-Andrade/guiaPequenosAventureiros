@@ -375,3 +375,10 @@ saveMissionMovementAndLightDataInFirestore(
       .document(mission.id)
       .updateData({'resultados': mission.resultados});
 }
+
+updateAnswerQuestion(Question question) async {
+  CollectionReference questionRef = Firestore.instance.collection('question');
+  await questionRef
+      .document(question.id)
+      .updateData({'respostaEscolhida': question.respostaEscolhida});
+}
