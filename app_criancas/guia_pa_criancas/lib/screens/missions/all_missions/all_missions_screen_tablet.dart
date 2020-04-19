@@ -1,3 +1,5 @@
+import 'package:app_criancas/widgets/app%20drawer/app_drawer.dart';
+import 'package:app_criancas/widgets/app%20drawer/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../models/mission.dart';
@@ -50,7 +52,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     }
     return new Scaffold(
         key: _scaffoldKey,
-        drawer: AppDrawer(),
+//        drawer: AppDrawer(),
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
