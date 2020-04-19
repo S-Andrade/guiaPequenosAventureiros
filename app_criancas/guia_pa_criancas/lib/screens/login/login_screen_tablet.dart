@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../widgets/app drawer/app_drawer.dart';
-
-import '../../auth.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../home_screen.dart';
+import 'user_data_screen_tablet.dart';
 
 ///////// VISTA TABLET PORTRAIT
 
@@ -19,9 +19,17 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   String pass = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
+  bool isLoggedIn = false;
+
+   @override
+  void initState() {
+    autoLogIn();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -153,10 +161,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                     widthFactor: 0.4,
                                     child: GestureDetector(
                                       onTap: () {
-                                        print("------PASS-----");
-                                        print(myControllerPass.text);
-                                        Auth().signIn(context, myControllerEmail.text,
-                                            myControllerPass.text);
+                                        loginUser();
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -192,6 +197,71 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
               ),
             )));
   }
+  //se já tiver feito login uma vez
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userId = prefs.getString('username');
+    final String password = prefs.getString('password');
+
+    if (userId != null) {
+      setState(() async {
+        email = userId;
+        pass = password;
+        isLoggedIn = true;
+        AuthResult result;
+        result = await auth.signInWithEmailAndPassword(email:email.trim(), password: pass);
+        FirebaseUser user = result.user;
+        isLoggedIn=true;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
+      });
+      return;
+    }
+  }
+  
+  //inicia a primeira vez
+
+  Future<void> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', myControllerEmail.text);
+    prefs.setString('password', myControllerPass.text);
+    setState(() async {
+      email = myControllerEmail.text;
+      pass = myControllerPass.text;
+      print(email);
+      print(pass);
+      AuthResult result;
+      try{
+        result = await auth.signInWithEmailAndPassword(email:email.trim(), password: pass);
+        FirebaseUser user = result.user;
+        isLoggedIn=true;
+        Navigator.push(
+              context, MaterialPageRoute(builder: (context) => UserData(user:user)));
+      }catch(e){
+        print(e.toString());
+        showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // retorna um objeto do tipo Dialog
+                return AlertDialog(
+                  title: new Text("Problema de autenticação"),
+                  content: new Text("Nome do utilizador ou palavra-passe incorreta!"),
+                  actions: <Widget>[
+                    // define os botões na base do dialogo
+                    new FlatButton(
+                      child: new Text("Fechar"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+      }
+    });
+    myControllerEmail.clear();
+    myControllerPass.clear();
+  }
 }
 
 ///////// VISTA TABLET LANDSCAPE
@@ -204,11 +274,19 @@ class LoginTabletLandscape extends StatefulWidget {
 class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
   String email = "";
   String pass = "";
+  bool isLoggedIn = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final myControllerPass = TextEditingController();
   final myControllerEmail = TextEditingController();
+
+  @override
+  void initState() {
+    autoLogIn();
+    super.initState();
+  }
+
 
   @override
   void dispose() {
@@ -222,7 +300,6 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-//        drawer: AppDrawer(),
         backgroundColor: Colors.yellow[600],
         body: Form(
             key: _formKey,
@@ -367,8 +444,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                           onTap: () {
                             print("-----EMAIL------");
                             print(myControllerEmail.text);
-                            Auth().signIn(context, myControllerEmail.text,
-                                myControllerPass.text);
+                            loginUser();
                           },
                           child: Container(
                             width: 460,
@@ -400,4 +476,37 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
               ),
             )));
   }
+
+  //se já tiver feito login uma vez
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userId = prefs.getString('username');
+    final String password = prefs.getString('password');
+
+    if (userId != null) {
+      setState(() {
+        email = userId;
+        pass = password;
+        isLoggedIn = true;
+      });
+      return;
+    }
+  }
+  
+  //inicia a primeira vez
+  Future<Null> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', myControllerEmail.text);
+    prefs.setString('password', myControllerPass.text);
+    setState(() {
+      email = myControllerEmail.text;
+      pass = myControllerPass.text;
+      isLoggedIn=true;
+    });
+    myControllerEmail.clear();
+    myControllerPass.clear();
+  }
+
+
+
 }

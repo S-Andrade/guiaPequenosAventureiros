@@ -9,19 +9,18 @@ class Auth {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   //psicologo
-  Future<String> signUp(String email, String password) async {
-    AuthResult result = await auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    FirebaseUser user = result.user;
-    print(user.uid);
-    return user.uid;
-  }
+  //Future<String> signUp(String email, String password) async {
+  //  AuthResult result = await auth.createUserWithEmailAndPassword(
+  //      email: email, password: password);
+  //  FirebaseUser user = result.user;
+  //  print(user.uid);
+  //  return user.uid;
+  //}
 
   Future<void> signIn(BuildContext context, String email, String password) async {
     print(email);
     print(password);
     AuthResult result;
-
     try{
       result = await auth.signInWithEmailAndPassword(email: email.trim(), password: password);
       FirebaseUser user = result.user;
@@ -52,9 +51,6 @@ class Auth {
   }
 
 }
-
-
-
 
 /* showDialog(
             context: context,
