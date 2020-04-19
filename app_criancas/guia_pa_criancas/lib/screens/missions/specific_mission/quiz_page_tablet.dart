@@ -62,7 +62,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   void dispose() {
     print('dispose');
     WidgetsBinding.instance.removeObserver(this);
-
     super.dispose();
   }
 
@@ -187,7 +186,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                             setState(() {
                               print(score);
                               missionsNotifier.completed = false;
-                              _done = false;
                               missionNotifier.allQuestions = allQuestions;
                               missionNotifier.currentScore = score;
                               _loadButton();
@@ -312,12 +310,15 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       _timeVisited = _timeVisited + _timeSpentOnThisScreen;
       updateMissionTimeAndCounterVisitedInFirestore(
           mission, _userID, _timeVisited, _counterVisited);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return new AllMissionsScreen(missionNotifier.missionsList);
-        }),
-      );
+      
+      Navigator.pop(context);
+      Navigator.pop(context);
+      //Navigator.push(
+      //  context,
+      //  MaterialPageRoute(builder: (context) {
+      //    return new AllMissionsScreen(missionNotifier.missionsList);
+       // }),
+      //);
     });
   }
 

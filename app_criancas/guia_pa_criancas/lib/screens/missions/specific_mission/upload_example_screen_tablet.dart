@@ -38,8 +38,6 @@ class _UploadExampleScreenTabletPortraitState
 
   @override
   void initState() {
-    MissionsNotifier missionNotifier =
-        Provider.of<MissionsNotifier>(context, listen: false);
     super.initState();
   }
 

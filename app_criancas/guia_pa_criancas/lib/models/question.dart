@@ -9,11 +9,8 @@ class Question{
   List allAnswers = [];
   bool done;
   bool success;
-<<<<<<< HEAD
-=======
   List answers = [];
   String respostaEscolhida = "";
->>>>>>> 58e5b144ed900107127f38daaf802d1e7be37994
 
   Question();
 
@@ -25,11 +22,8 @@ class Question{
     multipleChoice = data['multiple_choice'];
     done = data['done'];
     success = data['success'];
-<<<<<<< HEAD
-=======
     answers = data['answers'];
     respostaEscolhida = data['respostaEscolhida'];
->>>>>>> 58e5b144ed900107127f38daaf802d1e7be37994
   }
 
   List sortedListAnswers (){
