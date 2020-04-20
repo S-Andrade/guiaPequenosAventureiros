@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:app_criancas/models/mission.dart';
 import 'package:flutter/material.dart';
 import '../../../notifier/missions_notifier.dart';
-import '../all_missions/all_missions_screen.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
+import '../all_missions/all_missions_screen.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -310,16 +310,9 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       _timeVisited = _timeVisited + _timeSpentOnThisScreen;
       updateMissionTimeAndCounterVisitedInFirestore(
           mission, _userID, _timeVisited, _counterVisited);
-      
-      Navigator.pop(context);
-      Navigator.pop(context);
-      //Navigator.push(
-      //  context,
-      //  MaterialPageRoute(builder: (context) {
-      //    return new AllMissionsScreen(missionNotifier.missionsList);
-       // }),
-      //);
     });
+   int count = 0;
+   Navigator.of(context).popUntil((_) => count++ >= 2);
   }
 
   List<Widget> _listAnswers() {

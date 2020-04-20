@@ -31,12 +31,12 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
   _AllMissionsTabletPortraitState(this.missoes);
 
   @override
-  Future<void> initState() {
+  void initState() {
     Auth().getUser().then((user) {
       _userID = user.email;
     });
     _done = false;
-    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context, listen:false );
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context, listen:false);
     getMissions(missionsNotifier, missoes, _userID);
     super.initState();
   }
@@ -66,7 +66,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                Mission mission = missionsNotifier.missionsList[index];
-               print(mission.title);
                 for (var a in mission.resultados) {
                   if (a["aluno"] == _userID) {
                     resultados = a;

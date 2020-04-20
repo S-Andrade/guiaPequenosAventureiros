@@ -17,15 +17,12 @@ import '../models/activity.dart';
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
 
 MissionsNotifier missionNotifier;
-
+bool flag = false;
 getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) async {
 
   bool done;
-
   missionNotifier = missionsNotifier;
-
   List<Mission> _missionListFinal = [];
-  List<Mission> _missionListFinalTemp = [];
   List<Mission> _missionListNotDone = [];
   List<Mission> _missionListDone = [];
 
@@ -108,11 +105,11 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
         print('feito');
         _missionListDone.add(mission);
       }
-
       _missionListFinal = _missionListNotDone + _missionListDone;
       missionNotifier.missionsList = _missionListFinal;
     });
   });
+  flag = true;
 }
 
 
