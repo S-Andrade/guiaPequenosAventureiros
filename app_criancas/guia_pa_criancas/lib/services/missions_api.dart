@@ -17,7 +17,6 @@ import '../models/activity.dart';
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
 
 MissionsNotifier missionNotifier;
-bool flag = false;
 getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) async {
 
   bool done;
@@ -109,7 +108,6 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
       missionNotifier.missionsList = _missionListFinal;
     });
   });
-  flag = true;
 }
 
 

@@ -282,8 +282,6 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
       getMissions(missionsNotifier, missoes, _userID);
     }
 
- 
-
     return new Scaffold(
         key: _scaffoldKey,
         body: Container(

@@ -249,6 +249,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                       updateMissionQuizQuestionDone(question);
                       updateMissionQuizQuestionSuccess(question);
                     });
+                    Navigator.pop(context);
                     _loadButton();
                   });
                 },
@@ -299,7 +300,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   }
 
   void _loadButton() {
-    Timer(Duration(milliseconds: 3000), () {
       updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
       updateMissionCounterInFirestore(
           missionNotifier.currentMission, _userID, _counter);
@@ -310,9 +310,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       _timeVisited = _timeVisited + _timeSpentOnThisScreen;
       updateMissionTimeAndCounterVisitedInFirestore(
           mission, _userID, _timeVisited, _counterVisited);
-    });
-   int count = 0;
-   Navigator.of(context).popUntil((_) => count++ >= 2);
+      Navigator.pop(context);
+      Navigator.pop(context);
   }
 
   List<Widget> _listAnswers() {
