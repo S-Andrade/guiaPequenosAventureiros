@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app_criancas/models/questionario.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import '../models/question.dart';
@@ -16,23 +17,17 @@ import '../models/activity.dart';
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
 
 MissionsNotifier missionNotifier;
-
 getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) async {
 
   bool done;
-
   missionNotifier = missionsNotifier;
-
   List<Mission> _missionListFinal = [];
   List<Mission> _missionListNotDone = [];
   List<Mission> _missionListDone = [];
 
   missions.forEach((document) {
-    
-    DocumentReference missionRef = document;
-    missionRef.get().then((missionSnapchot) {
+    document.get().then((missionSnapchot) {
       Mission mission = Mission.fromMap(missionSnapchot.data);
-
       if (mission.type == "Quiz") {
         DocumentReference quizReference = mission.content;
         quizReference.get().then((quizSnapshot) {
@@ -57,7 +52,6 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
 
       } 
       
-      
       else if (mission.type == "Activity") {
         
         List<Activity> activities = [];
@@ -75,23 +69,43 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
         }
 
       }
-
+      else if(mission.type=='Questionario'){
+      DocumentReference questionarioReference = mission.content;
+        questionarioReference.get().then((qSnapshot) {
+          if (qSnapshot.exists) {
+            Questionario questionario = Questionario.fromMap(qSnapshot.data);
+            questionario.id = questionarioReference;
+            List<Question> questions = [];
+            questionario.questions.forEach((questionReference) {
+              DocumentReference question = questionReference;
+              question.get().then((questionSnapshot) {
+                if (questionSnapshot.exists) {
+                  Question q = Question.fromMap(questionSnapshot.data);
+                  questions.add(q);
+                }
+              });
+            });
+          questionario.questions =  questions;
+          mission.content = questionario;
+          missionsNotifier.missionContent = questionario;
+          }
+        });
+    }
       for(var a in mission.resultados){
         if(a["aluno"]==_userID){
           done=a["done"];
         }
       }
-
-     
-      if (done == false)
+      
+      if (done == false){
         _missionListNotDone.add(mission);
-      else
+      }
+      else{
+        print('feito');
         _missionListDone.add(mission);
-
+      }
       _missionListFinal = _missionListNotDone + _missionListDone;
-    
-      missionsNotifier.missionsList = _missionListFinal;
-     
+      missionNotifier.missionsList = _missionListFinal;
     });
   });
 }

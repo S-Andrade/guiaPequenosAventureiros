@@ -1,3 +1,4 @@
+import 'package:app_criancas/screens/missions/specific_mission/questionario_screen_tablet.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
 import '../../../responsive/orientation_layout.dart';
@@ -28,7 +29,6 @@ class MissionScreen extends StatelessWidget {
         //mobile:OrientationLayout(portrait: VideoScreenMobilePortrait(mission),)
       );
     } 
-
         else if (mission.type == 'Activity') {
       return ScreenTypeLayout(
         tablet: OrientationLayout(
@@ -43,6 +43,14 @@ class MissionScreen extends StatelessWidget {
       return ScreenTypeLayout(
         tablet: OrientationLayout(
           portrait: QuizScreenTabletPortrait(mission),
+        ),
+        //mobile:OrientationLayout(portrait: QuizScreenMobilePortrait(mission),)
+      );
+    } 
+    else if (mission.type == 'Questionario') {
+      return ScreenTypeLayout(
+        tablet: OrientationLayout(
+          portrait: QuestionarioScreen(mission),
         ),
         //mobile:OrientationLayout(portrait: QuizScreenMobilePortrait(mission),)
       );

@@ -26,8 +26,6 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     steps = [];
     bool complete = false;
     currentPage = 1;
-    print(feedback);
-    print(resposta);
 
     goTo(int step) {
       print(step);

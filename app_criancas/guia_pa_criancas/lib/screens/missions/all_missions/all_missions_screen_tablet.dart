@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../auth.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../specific_mission/mission_screen.dart';
 import '../../../services/missions_api.dart';
-
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
-import '../../../auth.dart';
 
 ///////// VISTA TABLET PORTRAIT
 
@@ -23,10 +22,11 @@ class AllMissionsTabletPortrait extends StatefulWidget {
 class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
- List missoes;
+  List missoes;
   String _userID;
   Map resultados;
   bool _done;
+
 
   _AllMissionsTabletPortraitState(this.missoes);
 
@@ -36,12 +36,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
       _userID = user.email;
     });
     _done = false;
-    MissionsNotifier missionsNotifier =
-        Provider.of<MissionsNotifier>(context, listen:false );
-
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context, listen:false);
     getMissions(missionsNotifier, missoes, _userID);
-
-
     super.initState();
   }
 
@@ -56,9 +52,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
       getMissions(missionsNotifier, missoes, _userID);
     }
 
-
-
- 
     return new Scaffold(
         key: _scaffoldKey,
         body: Container(
@@ -73,7 +66,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                Mission mission = missionsNotifier.missionsList[index];
-
                 for (var a in mission.resultados) {
                   if (a["aluno"] == _userID) {
                     resultados = a;
@@ -92,6 +84,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                 else if (mission.type == 'Video')
                   _imagem = 'assets/images/video.png';
                 else if (mission.type == 'Quiz')
+                  _imagem = 'assets/images/quiz.png';
+                else if (mission.type == 'Questionario')
                   _imagem = 'assets/images/quiz.png';
                 else if (mission.type == 'Activity')
                   _imagem = 'assets/images/atividade.png';
@@ -157,6 +151,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                               color: Colors.green[300],
                                               tooltip: 'Repetir a missão',
                                               onPressed: () {
+                                                missionsNotifier.currentMission = mission;
                                                 setState(() {
                                                   _navegarParaMissao(
                                                       context, mission);
@@ -170,6 +165,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                               color: parseColor("#320a5c"),
                                               tooltip: 'Passar para a missão',
                                               onPressed: () {
+                                                missionsNotifier.currentMission = mission;
                                                 setState(() {
                                                   _navegarParaMissao(
                                                       context, mission);
@@ -228,6 +224,16 @@ class _AllMissionsTabletLandscapeState
   }
 }
 
+
+
+
+
+
+
+
+
+
+
 ///// MOBILE PORTRAIT
 ///
 ///
@@ -275,8 +281,6 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
       print('refresh');
       getMissions(missionsNotifier, missoes, _userID);
     }
-
- 
 
     return new Scaffold(
         key: _scaffoldKey,

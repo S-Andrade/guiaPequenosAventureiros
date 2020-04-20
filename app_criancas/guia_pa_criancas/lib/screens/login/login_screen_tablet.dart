@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../auth.dart';
 import '../home_screen.dart';
 
@@ -22,16 +24,14 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
 
+  bool isLoggedIn = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
 
   @override
   void initState() {
+    autoLogIn();
     super.initState();
-    Auth().getUser().then((user){
-      if(user!=null) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
-      }
-    });
   }
   @override
   void dispose() {
@@ -167,7 +167,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                           onTap: () {
                             print("------PASS-----");
                             print(myControllerPass.text);
-                            Auth().signIn(context,myControllerEmail.text,myControllerPass.text);
+                            loginUser();
                           },
                           child: Container(
                             width: 460,
@@ -199,6 +199,41 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
               ),
             )));
   }
+  //se já tiver feito login uma vez
+  void autoLogIn() async {
+    print('fiz já o logiiiiiiiiiiiiiiiiiinnnnnnnnnnnnnnnnnnnnn');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userId = prefs.getString('username');
+    final String password = prefs.getString('password');
+    if (userId != null) {
+      AuthResult result;
+      result = await auth.signInWithEmailAndPassword(email:userId, password: password);
+      FirebaseUser user = result.user;
+      setState((){
+        email = userId;
+        pass = password;
+        isLoggedIn = true;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
+      });
+      return;
+    }
+  }
+  
+  //inicia a primeira vez
+  Future<void> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', myControllerEmail.text);
+    prefs.setString('password', myControllerPass.text);
+    Auth().signIn(context, myControllerEmail.text, myControllerPass.text);
+    setState((){
+      email = myControllerEmail.text;
+      pass = myControllerPass.text;
+      print(email);
+      print(pass);
+    });
+    myControllerEmail.clear();
+    myControllerPass.clear();
+  }
 
 }
 
@@ -223,16 +258,14 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
 
   final myControllerPass = TextEditingController();
   final myControllerEmail = TextEditingController();
+
+  bool isLoggedIn = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   
 @override
   void initState() {
+    autoLogIn();
     super.initState();
-    Auth().getUser().then((user){
-      if(user!=null) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
-      }
-    });
   }
 
   @override
@@ -246,8 +279,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        
+        key: _scaffoldKey,   
         backgroundColor: Colors.yellow[600],
         body: Form(
             key: _formKey,
@@ -369,7 +401,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                           onTap: () {
                             print("-----EMAIL------");
                             print(myControllerEmail.text);
-                             Auth().signIn(context,myControllerEmail.text,myControllerPass.text);
+                             loginUser();
                           },
                           child: Container(
                             width: 460,
@@ -401,20 +433,46 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
               ),
             )));
   }
+  //se já tiver feito login uma vez
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userId = prefs.getString('username');
+    final String password = prefs.getString('password');
+    if (userId != null) {
+      setState(() async {
+        email = userId;
+        pass = password;
+        isLoggedIn = true;
+        AuthResult result;
+        result = await auth.signInWithEmailAndPassword(email:email.trim(), password: pass);
+        FirebaseUser user = result.user;
+        isLoggedIn=true;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
+      });
+      return;
+    }
+  }
+  
+  //inicia a primeira vez
+  Future<void> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', myControllerEmail.text);
+    prefs.setString('password', myControllerPass.text);
+    setState((){
+      email = myControllerEmail.text;
+      pass = myControllerPass.text;
+      print(email);
+      print(pass);
+      Auth().signIn(context, email, pass);
+    });
+    myControllerEmail.clear();
+    myControllerPass.clear();
+  }
 
 }
 
 
-
-
-
-
-
-
 // MOBILE PORTRAIT
-
-
-
 class LoginMobilePortrait extends StatefulWidget {
   @override
   _LoginMobilePortraitState createState() => _LoginMobilePortraitState();
@@ -428,16 +486,13 @@ class _LoginMobilePortraitState extends State<LoginMobilePortrait> {
 
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
+  bool isLoggedIn = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
+    autoLogIn();
     super.initState();
-    Auth().getUser().then((user){
-      if(user!=null) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
-      }
-    });
   }
   
   @override
@@ -574,7 +629,7 @@ class _LoginMobilePortraitState extends State<LoginMobilePortrait> {
                           onTap: () {
                             print("------PASS-----");
                             print(myControllerPass.text);
-                            Auth().signIn(context,myControllerEmail.text,myControllerPass.text);
+                            loginUser();
                           },
                           child: Container(
                             width: 300,
@@ -606,5 +661,40 @@ class _LoginMobilePortraitState extends State<LoginMobilePortrait> {
               ),
             )));
   }
+  //se já tiver feito login uma vez
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userId = prefs.getString('username');
+    final String password = prefs.getString('password');
 
+    if (userId != null) {
+      setState(() async {
+        email = userId;
+        pass = password;
+        isLoggedIn = true;
+        AuthResult result;
+        result = await auth.signInWithEmailAndPassword(email:email.trim(), password: pass);
+        FirebaseUser user = result.user;
+        isLoggedIn=true;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
+      });
+      return;
+    }
+  }
+  
+  //inicia a primeira vez
+  Future<void> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', myControllerEmail.text);
+    prefs.setString('password', myControllerPass.text);
+    setState((){
+      email = myControllerEmail.text;
+      pass = myControllerPass.text;
+      print(email);
+      print(pass);
+      Auth().signIn(context, email, pass);
+    });
+    myControllerEmail.clear();
+    myControllerPass.clear();
+  }
 }

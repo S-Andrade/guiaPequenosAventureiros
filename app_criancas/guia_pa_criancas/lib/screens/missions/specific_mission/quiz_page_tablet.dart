@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:app_criancas/models/mission.dart';
 import 'package:flutter/material.dart';
 import '../../../notifier/missions_notifier.dart';
-import '../all_missions/all_missions_screen.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
+import '../all_missions/all_missions_screen.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -62,7 +62,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   void dispose() {
     print('dispose');
     WidgetsBinding.instance.removeObserver(this);
-
     super.dispose();
   }
 
@@ -187,7 +186,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                             setState(() {
                               print(score);
                               missionsNotifier.completed = false;
-                              _done = false;
                               missionNotifier.allQuestions = allQuestions;
                               missionNotifier.currentScore = score;
                               _loadButton();
@@ -251,6 +249,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                       updateMissionQuizQuestionDone(question);
                       updateMissionQuizQuestionSuccess(question);
                     });
+                    Navigator.pop(context);
                     _loadButton();
                   });
                 },
@@ -301,7 +300,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   }
 
   void _loadButton() {
-    Timer(Duration(milliseconds: 3000), () {
       updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
       updateMissionCounterInFirestore(
           missionNotifier.currentMission, _userID, _counter);
@@ -312,13 +310,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       _timeVisited = _timeVisited + _timeSpentOnThisScreen;
       updateMissionTimeAndCounterVisitedInFirestore(
           mission, _userID, _timeVisited, _counterVisited);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return new AllMissionsScreen(missionNotifier.missionsList);
-        }),
-      );
-    });
+      Navigator.pop(context);
+      Navigator.pop(context);
   }
 
   List<Widget> _listAnswers() {

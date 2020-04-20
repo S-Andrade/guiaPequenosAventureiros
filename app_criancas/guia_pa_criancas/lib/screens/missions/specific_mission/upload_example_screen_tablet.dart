@@ -2,9 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../models/mission.dart';
-import '../../../notifier/missions_notifier.dart';
 import '../../../services/missions_api.dart';
-import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 
 class UploadExampleScreenTabletPortrait extends StatefulWidget {
@@ -38,8 +36,6 @@ class _UploadExampleScreenTabletPortraitState
 
   @override
   void initState() {
-    MissionsNotifier missionNotifier =
-        Provider.of<MissionsNotifier>(context, listen: false);
     super.initState();
   }
 
