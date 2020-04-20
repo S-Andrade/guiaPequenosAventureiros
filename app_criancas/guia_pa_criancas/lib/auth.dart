@@ -6,13 +6,13 @@ class Auth {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   //psicologo
-  //Future<String> signUp(String email, String password) async {
-  //  AuthResult result = await auth.createUserWithEmailAndPassword(
-  //      email: email, password: password);
-  //  FirebaseUser user = result.user;
-  //  print(user.uid);
-  //  return user.uid;
-  //}
+  Future<String> signUp(String email, String password) async {
+    AuthResult result = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+    print(user.uid);
+    return user.uid;
+  }
 
   //usado no 1º login
   Future<void> signIn(
