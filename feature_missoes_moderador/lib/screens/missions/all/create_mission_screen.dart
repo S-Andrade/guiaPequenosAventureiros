@@ -2,6 +2,7 @@ import 'package:feature_missoes_moderador/api/missions_api.dart';
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/choose_mission_sreen.dart';
+import 'package:feature_missoes_moderador/screens/missions/results/results_one_user.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -254,7 +255,8 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                       )),
                                 ))),
                 ),
-              
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
               IconButton(
                 icon: Icon(FontAwesomeIcons.plus),
                 iconSize: 50,
@@ -266,6 +268,18 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                   });
                 },
               ),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.addressBook),
+                iconSize: 50,
+                color: parseColor("#320a5c"),
+                tooltip: 'Passar para a missão',
+                onPressed: () {
+                  setState(() {
+                    _navegarParaSensores(context);
+                  });
+                },
+              ),
+              ]),
             ],
           ),
         ));
@@ -282,6 +296,13 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ChooseMissionScreen()),
+    );
+  }
+
+    _navegarParaSensores(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>(StatisticsScreen())),
     );
   }
 

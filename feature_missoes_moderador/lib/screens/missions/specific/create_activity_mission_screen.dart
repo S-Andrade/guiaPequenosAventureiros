@@ -57,7 +57,8 @@ class _CreateActivityMissionScreenState
     
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      
+      body: SingleChildScrollView(child:Container(
         child: Container(
           child: Row(
             children: <Widget>[
@@ -405,7 +406,7 @@ class _CreateActivityMissionScreenState
             ],
           ),
         ),
-      ),
+      ),),
     );
   }
 

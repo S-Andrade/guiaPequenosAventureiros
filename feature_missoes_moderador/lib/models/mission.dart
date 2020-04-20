@@ -10,6 +10,7 @@ class Mission {
   String linkVideo;
   String linkImage;
   String linkAudio;
+  List resultados;
  
   
   Mission();
@@ -25,6 +26,7 @@ class Mission {
     linkVideo=data['linkVideo'];
     linkImage=data['linkImage'];
     linkAudio=data['linkAudio'];
+    resultados=data['resultados'];
   }
   
   Map<String, dynamic> toMap() {
@@ -39,6 +41,7 @@ class Mission {
       'linkImage':linkImage,
       'linkAudio':linkAudio,
       'reload':reload,
+      'resultados':resultados,
     };
   }
   
