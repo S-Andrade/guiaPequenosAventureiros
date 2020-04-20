@@ -264,10 +264,7 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
     _done = false;
     MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
-
     getMissions(missionsNotifier, missoes, _userID);
-
-
     super.initState();
   }
 
