@@ -556,7 +556,6 @@ class _UserDataState extends State<UserData> {
                   }
                 }
               }
-          
               cancel() {
                 if (currentStep > 0) {
                   goTo(currentStep - 1);

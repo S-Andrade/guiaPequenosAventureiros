@@ -1,9 +1,9 @@
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import './screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'notifier/missions_notifier.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() => runApp(MultiProvider(
   providers: [
@@ -23,7 +23,10 @@ class MyApp extends StatefulWidget {
 
 class _MyHomePageState extends State<MyApp> {
 
-  @override
+FirebaseAnalytics analytics = FirebaseAnalytics();
+
+
+ @override
   Widget build(BuildContext context) {
     //criar users na base de dados
     //Auth().signUp('gan01@cucu.pt','password');
@@ -35,12 +38,10 @@ class _MyHomePageState extends State<MyApp> {
         accentColor: Color(0xFF64FFDA),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-      supportedLocales: [const Locale('pt', 'BR')],
       home: LoginScreen(),
+      navigatorObservers: [
+    FirebaseAnalyticsObserver(analytics: analytics),
+  ],
     );
   }
 }

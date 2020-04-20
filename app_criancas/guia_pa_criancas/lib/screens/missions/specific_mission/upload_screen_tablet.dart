@@ -9,7 +9,7 @@ import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
-
+import '../../../auth.dart';
 
 class UploadImageScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -34,12 +34,27 @@ class _UploadImageScreenTabletPortraitState
   bool _loaded;
   var image;
   int _state = 0;
+  
+    String _userID;
+    Map resultados;
+    bool _done;
 
   @override
   void initState() {
     MissionsNotifier missionNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     _loaded = false;
+    Auth().getUser().then((user) {
+                  setState(() {
+                    _userID = user.email;
+                    for (var a in mission.resultados) {
+                      if (a["aluno"] == _userID) {
+                        resultados = a;
+                        _done = resultados["done"];
+                      }
+                    }
+                  });
+                });
     super.initState();
   }
 
@@ -107,7 +122,7 @@ class _UploadImageScreenTabletPortraitState
               child: Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   new Builder(
-                builder: (BuildContext) => mission.done ?
+                builder: (BuildContext) => _done ?
                   Center(
                     child: MaterialButton(
                       height: 90,
@@ -189,7 +204,7 @@ class _UploadImageScreenTabletPortraitState
 
 
   Widget setButton() {
-    if (mission.done == false) {
+    if (_done == false) {
       if (_state == 0) {
         return new Text(
           "Carregar",
@@ -216,7 +231,7 @@ class _UploadImageScreenTabletPortraitState
   }
 
   void _loadButton() {
-    if (mission.done == true) {
+    if (_done == true) {
       print('back');
       Timer(Duration(milliseconds: 500), () {
         
@@ -234,7 +249,7 @@ class _UploadImageScreenTabletPortraitState
     if (image != null) {
       _image = image;
       addUploadedImageToFirebaseStorage(_image, _titulo);
-      updateMissionDoneInFirestore(mission);
+      updateMissionDoneInFirestore(mission,_userID);
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
-import 'package:app_criancas/widgets/color_parser.dart';
+import 'package:app_criancas/services/missions_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,118 +14,97 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   int currentStep = 0;
   List<Step> steps = [];
   List allQuestions;
-  Step step;
-  double resposta;
+  double resposta = 0;
   List allAnswers;
+  String feedback = '';
 
   @override
   Widget build(BuildContext context) {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     allQuestions = missionsNotifier.currentMission.content.questions;
-    allAnswers =
-        missionsNotifier.currentMission.content.question[currentStep].answers;
-    
+    allAnswers = [];
+    steps = [];
     bool complete = false;
+    currentPage = 1;
 
     goTo(int step) {
+      print(step);
       setState(() => currentStep = step);
     }
+
     next() {
       currentStep + 1 != steps.length
           ? goTo(currentStep + 1)
-          : setState(() => complete = true);
+          : setState(() {
+              complete = true;
+            });
+    }
+
+    cancel() {
+      if (currentStep > 0) {
+        goTo(currentStep - 1);
+      }
     }
 
     allQuestions.forEach((question) {
-      step = Step(
+      print(question.question);
+      allAnswers = question.answers;
+      steps.add(Step(
           title: Text(currentPage.toString()),
-          isActive: true,
-          state: StepState.indexed,
-          content: new Column(
-            children: <Widget>[
-              Positioned(
-                top: 340,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    height: 430,
-                    width: 530,
-                    color: parseColor('#320a5c'),
-                    child: Column(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30, right: 30, bottom: 30, top: 100),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Flexible(
-                              child: Text(
-                                allQuestions[currentStep].question,
-                                style: TextStyle(
-                                    fontSize: 50,
-                                    color: Colors.white,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 4),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 820,
-                child: Slider(
-                  value: resposta,
-                  onChanged: (novaresposta) {
-                    setState(() {
-                      resposta = novaresposta;
-                    });
-                  },
-                  divisions: allAnswers.length,
-                  label: allAnswers[resposta.toInt()],
-                ),
-              )
-            ],
-          ));
-      steps.add(step);
+          content: new Column(children: <Widget>[
+            Text(
+              question.question,
+              style: TextStyle(fontSize: 20),
+            ),
+            Padding(padding: EdgeInsets.all(20)),
+            Text(feedback, style: TextStyle(fontSize: 25)),
+            Slider(
+                value: resposta,
+                min: 0,
+                max: allAnswers.length.toDouble(),
+                onChanged: (novaresposta) {
+                  setState(() {
+                    resposta = novaresposta;
+                    if (resposta >= 0 && resposta < 1) {
+                      feedback = allAnswers[0];
+                    } else if (resposta >= 1 && resposta < 2) {
+                      feedback = allAnswers[1];
+                    } else if (resposta >= 2 && resposta < 3) {
+                      feedback = allAnswers[2];
+                    } else if (resposta >= 3 && resposta < 4) {
+                      feedback = allAnswers[3];
+                    } else if (resposta >= 1 && resposta < 5) {
+                      feedback = allAnswers[4];
+                    }
+                    missionsNotifier
+                        .currentMission
+                        .content
+                        .questions[allQuestions.indexOf(question)]
+                        .respostaEscolhida = feedback;
+                  });
+                },
+                label: feedback)
+          ])));
+      updateAnswerQuestion(question);
+      currentPage++;
     });
-    return new WillPopScope(
+
+    return new Scaffold(
+      body: new WillPopScope(
         onWillPop: () async => false,
-        child: new Scaffold(
-            body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+        child: Column(children: <Widget>[
+          Expanded(
+            child: Stepper(
+              steps: steps,
+              type: StepperType.vertical,
+              currentStep: currentStep,
+              onStepContinue: next,
+              onStepTapped: (step) => goTo(step),
+              onStepCancel: cancel,
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                  top: 110,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Stepper(
-                          type: StepperType.horizontal,
-                          steps: steps,
-                          currentStep: currentStep,
-                          onStepContinue: next,
-                          onStepTapped: (step) => goTo(step),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )));
+        ]),
+      ),
+    );
   }
 }

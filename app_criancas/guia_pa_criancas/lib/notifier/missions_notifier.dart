@@ -19,8 +19,6 @@ class MissionsNotifier with ChangeNotifier{
 
   bool get completed => _completed;
   int get currentScore => _currentScore; 
-  
-  
 
   Mission get currentMission => _currentMission;
   Quiz get missionContent => _missionContent;
