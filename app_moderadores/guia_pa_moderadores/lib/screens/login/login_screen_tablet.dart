@@ -183,10 +183,11 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
       try {
         print(_email);
         print(_password);
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password);
+        final FirebaseAuth auth = FirebaseAuth.instance;
+        AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password);
+        FirebaseUser user = result.user;
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
       } catch (e) {
         print('falha' + e.message);
       }
@@ -376,10 +377,11 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
       try {
         print(_email);
         print(_password);
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password);
+        final FirebaseAuth auth = FirebaseAuth.instance;
+        AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password);
+        FirebaseUser user = result.user;
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
       } catch (e) {
         print('falha' + e.message);
       }
