@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';
@@ -55,23 +54,23 @@ class _AventuraListState extends State<AventuraList> {
   }
 
   Future<void> getAventuras(BuildContext context) async{
-    print("aventura");
+    //print("aventura");
     //while(aventura != null){
       getAllAventuras(context);
     //}
-    print(aventura);
+    //print(aventura);
 
-    print("turma");
+    //print("turma");
     //while(turma != null){
       getAllTurmas(context);
     //}
-    print(turma);
+    //print(turma);
 
-    print("escola");
+    //print("escola");
     //while(escola != null){
       getAllEscolas(context);
     //}
-    print(escola);
+    //print(escola);
 
     await getTurma();
 
@@ -80,17 +79,15 @@ class _AventuraListState extends State<AventuraList> {
     await getAvent();
     
   }
-
-
   Future<void> getAllAventuras(BuildContext context) async{aventura = Provider.of<List<Aventura>>(context);}
   Future<void> getAllTurmas(BuildContext context) async{turma = Provider.of<List<Turma>>(context);}
   Future<void> getAllEscolas(BuildContext context) async{escola = Provider.of<List<Escola>>(context);}
   Future<void> getTurma() async{
     if(turma != null){
       for (Turma t in turma){
-        print(t.id);
-        print(t.alunos);
-        print(user.email);
+        //print(t.id);
+        //print(t.alunos);
+        //print(user.email);
         if(t.alunos.contains(user.email)){
           turmaIn = t;
         }

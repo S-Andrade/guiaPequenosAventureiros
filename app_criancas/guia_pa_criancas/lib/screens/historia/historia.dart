@@ -1,5 +1,3 @@
-
-
 class Historia {
 
   final String id;

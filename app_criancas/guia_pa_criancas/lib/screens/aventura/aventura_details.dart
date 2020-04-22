@@ -9,7 +9,6 @@ class AventuraDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(aventura);
     return Scaffold(
       appBar: AppBar(
         title: Text(aventura.nome)
@@ -30,6 +29,5 @@ class ShowHistoriaDetails extends StatelessWidget {
     return Scaffold(
         body: HistoriaDetails(id: idHistoria)
     );
-      
   }
 }
