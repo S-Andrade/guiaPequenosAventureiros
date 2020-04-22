@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 import 'historia.dart';
 import 'historia_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../widgets/color_loader.dart';
+
+
 
 class HistoriaDetails extends StatelessWidget {
 
-  final String id;
+  String id ="";
   HistoriaDetails({ this.id });
   Historia historia = Historia();
-
+  bool flag = false;
 
    @override
   Widget build(context) {
     return FutureBuilder<void>(
       future: getHistoria(),
       builder: (context, AsyncSnapshot<void> snapshot) {
-        return HistoriaTile(historia: historia);
+        if(!flag){
+          //inserir loader
+          return ColorLoader();
+        }else{
+          return HistoriaTile(historia: historia);
+        }
       }
     );
   }
@@ -30,6 +38,7 @@ class HistoriaDetails extends StatelessWidget {
           capitulos: datasnapshot.data['capitulos'],
           capa: datasnapshot.data['capa'].toString()
         );
+         flag = true;
       }
       else{
         print("No such historia");

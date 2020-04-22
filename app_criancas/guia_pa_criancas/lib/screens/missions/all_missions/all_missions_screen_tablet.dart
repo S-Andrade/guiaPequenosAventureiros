@@ -9,7 +9,6 @@ import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 
 ///////// VISTA TABLET PORTRAIT
-
 class AllMissionsTabletPortrait extends StatefulWidget {
   List missoes;
   AllMissionsTabletPortrait(this.missoes);
@@ -203,7 +202,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 }
 
 ///////// VISTA TABLET LANDSCAPE
-
 class AllMissionsTabletLandscape extends StatefulWidget {
   @override
   _AllMissionsTabletLandscapeState createState() =>
