@@ -262,50 +262,7 @@ addUploadedImageToFirebaseStorage(String titulo, String descricao,File localFile
 
 
 
-createActivityInFirestore(String _description,File localFile) async {
 
-  
-
-  String url;
-
-  if (localFile != null) {
-    var fileExtension = path.extension(localFile.path);
-
-    var uuid = Uuid().v4();
-
-    final StorageReference firebaseStorageRef = FirebaseStorage.instance
-        .ref()
-        .child('mission/moderadores/uploaded_images/$uuid$fileExtension');
-
-    await firebaseStorageRef
-        .putFile(localFile)
-        .onComplete
-        .catchError((onError) {
-      print(onError);
-      return false;
-    });
-
-    String url = await firebaseStorageRef.getDownloadURL();
-
-    
-  }
-
-  Activity a = new Activity();
-
-  CollectionReference aRef = Firestore.instance.collection('activity');
-  
-  
-    
-    a.linkImage = url;
-    a.id = (getActivitiesLargerId()+1).toString();
-    a.description=_description;
-  
-
-  DocumentReference documentRef = aRef.document(a.id);
-
-  await documentRef.setData(a.toMap());
-
-}
 
 
 

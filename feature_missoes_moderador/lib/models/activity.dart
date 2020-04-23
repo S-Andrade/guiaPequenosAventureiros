@@ -5,23 +5,25 @@ class Activity {
   String description;
   
 
-  Activity([String id,String linkImage,String description]) {
+  Activity([String id,String description,String linkImage]) {
     this.id=id;
-    this.linkImage=linkImage;
     this.description=description;
+    this.linkImage=linkImage;
   }
+
+  
   
   Activity.fromMap(Map<String,dynamic> data) {
     id=data['id'];
-    linkImage=data['linkImage'];
     description=data['description'];
+    linkImage=data['linkImage'];
   }
   
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'linkImage':linkImage,
       'description':description,
+      'linkImage':linkImage,
     };
   }
   
