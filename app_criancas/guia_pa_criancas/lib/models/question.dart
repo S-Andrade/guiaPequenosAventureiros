@@ -7,10 +7,11 @@ class Question{
   List wrongAnswers;
   bool multipleChoice;
   List allAnswers = [];
-  bool done;
-  bool success;
+  bool done = false;
+  bool success = false;
   List answers = [];
-  String respostaEscolhida = "";
+  List resultados;
+  String respostaEscolhida;
 
   Question();
 
@@ -20,10 +21,8 @@ class Question{
     correctAnswer = data['correct_answer'];
     wrongAnswers = data['wrong_answers'];
     multipleChoice = data['multiple_choice'];
-    done = data['done'];
-    success = data['success'];
     answers = data['answers'];
-    respostaEscolhida = data['respostaEscolhida'];
+    resultados = data['resultados'];
   }
 
   List sortedListAnswers (){

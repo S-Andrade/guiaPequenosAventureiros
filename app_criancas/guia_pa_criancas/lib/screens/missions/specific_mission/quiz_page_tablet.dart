@@ -1,4 +1,4 @@
-import 'dart:async';
+
 import 'package:app_criancas/models/mission.dart';
 import 'package:flutter/material.dart';
 import '../../../notifier/missions_notifier.dart';
@@ -6,7 +6,6 @@ import '../../../services/missions_api.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
-import '../all_missions/all_missions_screen.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -246,8 +245,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                     allQuestions.forEach((question) {
                       question.done = false;
                       question.success = false;
-                      updateMissionQuizQuestionDone(question);
-                      updateMissionQuizQuestionSuccess(question);
+                      updateMissionQuizQuestionTDone(question);
+                      updateMissionQuizQuestionTSuccess(question);
                     });
                     Navigator.pop(context);
                     _loadButton();
@@ -272,8 +271,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                     allQuestions.forEach((question) {
                       question.done = false;
                       question.success = false;
-                      updateMissionQuizQuestionDone(question);
-                      updateMissionQuizQuestionSuccess(question);
+                      updateMissionQuizQuestionTDone(question);
+                      updateMissionQuizQuestionTSuccess(question);
                     });
                     updateMissionCounterInFirestore(
                         missionNotifier.currentMission, _userID, _counter);
@@ -303,7 +302,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
       updateMissionCounterInFirestore(
           missionNotifier.currentMission, _userID, _counter);
-      updateMissionQuizResultInFirestore(missionNotifier.currentMission);
+      updateMissionQuizResultInFirestore(missionNotifier.currentMission, _userID, missionNotifier.currentScore);
       _counterVisited = _counterVisited + 1;
       _end = DateTime.now();
       _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
@@ -334,16 +333,16 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 }
                 missionNotifier.currentScore = score;
                 allQuestions[nQuestion].done = true;
-                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
+                updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = true;
                 score = ((score * 100) / allQuestions.length).round();
                 missionNotifier.currentMission.content.result = score;
                 createDialog(context);
               } else {
                 allQuestions[nQuestion].done = true;
-                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
+                updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = false;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
                 createDialogQuestion(context);
               }
             } else {
@@ -353,15 +352,15 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 }
                 missionNotifier.currentScore = score;
                 allQuestions[nQuestion].done = true;
-                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
+                updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = true;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
                 nQuestion++;
               } else {
                 allQuestions[nQuestion].done = true;
-                updateMissionQuizQuestionDone(allQuestions[nQuestion]);
+                updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = false;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion]);
+                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
                 createDialogQuestion(context);
               }
             }
@@ -396,7 +395,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               missionNotifier.completed = true;
               nQuestion = allQuestions.indexOf(question);
               question.done = false;
-              updateMissionQuizQuestionDone(question);
+              updateMissionQuizQuestionDone(question, _userID);
             });
           },
           child: new Text((allQuestions.indexOf(question) + 1).toString(),
@@ -414,7 +413,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               missionNotifier.completed = true;
               nQuestion = allQuestions.indexOf(question);
               question.done = false;
-              updateMissionQuizQuestionDone(question);
+              updateMissionQuizQuestionDone(question, _userID);
             });
           },
           child: new Text((allQuestions.indexOf(question) + 1).toString(),
@@ -432,7 +431,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               missionNotifier.completed = true;
               nQuestion = allQuestions.indexOf(question);
               question.done = false;
-              updateMissionQuizQuestionDone(question);
+              updateMissionQuizQuestionDone(question, _userID);
             });
           },
           child: new Text((allQuestions.indexOf(question) + 1).toString(),
@@ -450,7 +449,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               missionNotifier.completed = true;
               nQuestion = allQuestions.indexOf(question);
               question.done = false;
-              updateMissionQuizQuestionDone(question);
+              updateMissionQuizQuestionDone(question, _userID);
             });
           },
           child: new Text((allQuestions.indexOf(question) + 1).toString(),
@@ -489,7 +488,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                       createDialog(context);
                     } else {
                       nQuestion++;
-                      updateMissionQuizQuestionDone(allQuestions[nQuestion]);
+                      updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                     }
                   });
                 },

@@ -101,7 +101,6 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
         _missionListNotDone.add(mission);
       }
       else{
-        print('feito');
         _missionListDone.add(mission);
       }
       _missionListFinal = _missionListNotDone + _missionListDone;
@@ -332,17 +331,49 @@ updateMissionCounterInFirestore(Mission mission, String id, int counter) async {
       .updateData({'resultados': mission.resultados});
 }
 
-updateMissionQuizResultInFirestore(Mission mission) async {
-  DocumentReference missionRef = mission.content.id;
-  await missionRef.updateData({'result': mission.content.result});
+updateMissionQuizResultInFirestore(Mission mission, String id,int result) async {
+  Map<String, dynamic> mapa;
+  mission.content.resultados.forEach((element) {
+    mapa = element;
+    if (mapa["aluno"] == id) {
+      mapa["result"] = result;
+    }
+  });
+
+  await mission.content.id
+      .updateData({'resultados': mission.content.resultados});
 }
 
-updateMissionQuizQuestionDone(Question question) async {
+updateMissionQuizQuestionDone(Question question, String id) async {
+  CollectionReference questionRef = Firestore.instance.collection('question');
+  Map<String, dynamic> mapa;
+ question.resultados.forEach((element) {
+    mapa = element;
+    if (mapa["aluno"] == id) {
+      mapa["done"] = question.done;
+    }
+  });
+  await questionRef.document(question.id).updateData({'resultados': question.resultados});
+}
+
+updateMissionQuizQuestionSuccess(Question question, String id) async {
+  CollectionReference questionRef = Firestore.instance.collection('question');
+Map<String, dynamic> mapa;
+ question.resultados.forEach((element) {
+    mapa = element;
+    if (mapa["aluno"] == id) {
+      mapa["success"] = question.success;
+    }
+  });
+  await questionRef.document(question.id).updateData({'resultados': question.resultados});
+}
+
+updateMissionQuizQuestionTDone(Question question) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
   await questionRef.document(question.id).updateData({'done': question.done});
 }
 
-updateMissionQuizQuestionSuccess(Question question) async {
+updateMissionQuizQuestionTSuccess(Question question) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
   await questionRef
       .document(question.id)
@@ -390,9 +421,14 @@ saveMissionMovementAndLightDataInFirestore(
       .updateData({'resultados': mission.resultados});
 }
 
-updateAnswerQuestion(Question question) async {
+updateAnswerQuestion(Question question, String id) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
-  await questionRef
-      .document(question.id)
-      .updateData({'respostaEscolhida': question.respostaEscolhida});
+  Map<String, dynamic> mapa;
+  question.resultados.forEach((element) {
+    mapa = element;
+    if (mapa["aluno"] == id) {
+      mapa["respostaEscolhida"] = question.respostaEscolhida;
+    }
+  });
+  await questionRef.document(question.id).updateData({'resultados': question.resultados});
 }
