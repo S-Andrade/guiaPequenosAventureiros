@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../auth.dart';
+
 class QuestionarioPage extends StatefulWidget {
   @override
   _QuestionarioPageState createState() => _QuestionarioPageState();
@@ -17,6 +19,16 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   double resposta = 0;
   List allAnswers;
   String feedback = '';
+  String _userID = "";
+
+  @override
+  void initState() {
+    Auth().getUser().then((user) {
+      setState(() {
+        _userID = user.email;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +40,21 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     currentPage = 1;
 
     goTo(int step) {
-      print(step);
-      setState(() => currentStep = step);
+      setState(() {
+        currentStep = step;
+        resposta = 0;
+        feedback = "";
+      });
     }
 
     next() {
+      updateAnswerQuestion(allQuestions[currentStep], _userID);
       currentStep + 1 != steps.length
           ? goTo(currentStep + 1)
           : setState(() {
               complete = true;
+              Navigator.pop(context);
+              Navigator.pop(context);
             });
     }
 
@@ -47,7 +65,6 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     }
 
     allQuestions.forEach((question) {
-      print(question.question);
       allAnswers = question.answers;
       steps.add(Step(
           title: Text(currentPage.toString()),
@@ -81,11 +98,11 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
                         .content
                         .questions[allQuestions.indexOf(question)]
                         .respostaEscolhida = feedback;
+                    question.respostaEscolhida = feedback;
                   });
                 },
                 label: feedback)
           ])));
-      updateAnswerQuestion(question);
       currentPage++;
     });
 
