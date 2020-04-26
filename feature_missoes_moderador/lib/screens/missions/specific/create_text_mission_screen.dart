@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import 'package:feature_missoes_moderador/api/missions_api.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +10,14 @@ import 'package:flutter/material.dart';
 class CreateTextMissionScreen extends StatelessWidget {
   String _titulo;
   String _conteudo;
+
+  String aventuraId;
+  Capitulo capitulo;
+
+  CreateTextMissionScreen(this.capitulo, this.aventuraId);
+
   final _text = TextEditingController();
   final _text2 = TextEditingController();
-  
-
-  @override
-  void dispose() {
-    _text.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +183,6 @@ class CreateTextMissionScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5.0),
                                 color: Colors.purple[50],
                               ),
-                              
                               child: TextField(
                                 controller: _text,
                                 onChanged: (value) {
@@ -228,9 +229,10 @@ class CreateTextMissionScreen extends StatelessWidget {
                         FlatButton(
                           color: Colors.purple[100],
                           onPressed: () {
-                            if(_text.text.length>0 && _text2.text.length>0) show_confirmar(context, _titulo, _conteudo);
-                            else show_error(context);
-                            
+                            if (_text.text.length > 0 && _text2.text.length > 0)
+                              showConfirmar(context, _titulo, _conteudo);
+                            else
+                              showError(context);
                           },
                           child: Text(
                             "Submeter missão",
@@ -254,78 +256,88 @@ class CreateTextMissionScreen extends StatelessWidget {
     );
   }
 
-  show_error(BuildContext context) 
-{ 
+  showError(BuildContext context) {
     // configura o button
- 
 
-  // configura o  AlertDialog
-  AlertDialog alerta = AlertDialog(
-    title: Text("Por favor preencha todos os campos!",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
-    
-    
-  );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text(
+        "Por favor preencha todos os campos!",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+    );
 
-  // exibe o dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alerta;
-    },
-    
-  );
-  Timer(Duration(seconds: 1), () {
-    Navigator.pop(context);
-});
-}
+    // exibe o dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(context, rootNavigator: true).pop();
+    });
+  }
 
-  show_confirmar(BuildContext context, String titulo, String conteudo) {
+  showConfirmar(BuildContext context, String titulo, String conteudo) {
     Widget cancelaButton = FlatButton(
-      child: Text("Cancelar",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      child: Text(
+        "Cancelar",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
     Widget continuaButton = FlatButton(
-      child: Text("Sim",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      child: Text(
+        "Sim",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       onPressed: () {
-        createMissionTextInFirestore(titulo, conteudo);
-        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => CreateMissionScreen()));
+        createMissionTextInFirestore(titulo, conteudo, aventuraId, capitulo.id);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) => TabBarMissions(
+                capitulo: capitulo, aventuraId: aventuraId)));
       },
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmação",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
-      content: Text("Tem a certeza que pretende submeter?",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      title: Text(
+        "Confirmação",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+      content: Text(
+        "Tem a certeza que pretende submeter?",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       actions: [
         cancelaButton,
         continuaButton,
@@ -335,6 +347,7 @@ class CreateTextMissionScreen extends StatelessWidget {
     //exibe o diálogo
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },

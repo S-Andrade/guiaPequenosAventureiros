@@ -1,6 +1,6 @@
 
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
-import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
+import './screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,10 +22,9 @@ class MyApp extends StatefulWidget {
 
 class _MyHomePageState extends State<MyApp> {
 
-  @override
+ 
+   @override
   Widget build(BuildContext context) {
-
-    
     
     return MaterialApp(
       title: 'Guia de Pequenos Aventureiros',
@@ -35,7 +34,7 @@ class _MyHomePageState extends State<MyApp> {
         accentColor: Color(0xFF64FFDA),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      home: CreateMissionScreen(),
+      home: LoginScreen(),
     );
   }
 }

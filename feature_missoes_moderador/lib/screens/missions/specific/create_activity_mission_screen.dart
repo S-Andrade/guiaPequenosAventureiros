@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
-import 'package:feature_missoes_moderador/api/missions_api.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,23 +10,30 @@ import 'package:feature_missoes_moderador/models/activity.dart';
 import 'dart:io';
 
 class CreateActivityMissionScreen extends StatefulWidget {
-  CreateActivityMissionScreen();
+  
+  String aventuraId;
+  Capitulo capitulo;
+
+  CreateActivityMissionScreen(this.capitulo,this.aventuraId);
 
   @override
   _CreateActivityMissionScreenState createState() =>
-      _CreateActivityMissionScreenState();
+      _CreateActivityMissionScreenState(this.capitulo,this.aventuraId);
 }
 
 class _CreateActivityMissionScreenState
     extends State<CreateActivityMissionScreen> {
-  _CreateActivityMissionScreenState();
+  _CreateActivityMissionScreenState(this.capitulo,this.aventuraId);
 
+
+  String aventuraId;
+  Capitulo capitulo;
   String _titulo;
   final _formKey = GlobalKey<FormState>();
   final _text = TextEditingController();
   final _text2 = TextEditingController();
 
-  List<Activity> activities = [];
+  List<Activity> activities;
   NetworkImage _image;
   File _imageFile;
   var image;
@@ -48,12 +56,14 @@ class _CreateActivityMissionScreenState
   @override
   void initState() {
     super.initState();
+    activities=[];
     _imageExists = false;
     _loaded = false;
   }
 
   @override
   void dispose() {
+    super.dispose();
     _text.dispose();
   }
 
@@ -361,7 +371,7 @@ class _CreateActivityMissionScreenState
                                           onPressed: () async {
                                             if (_imageFile != null &&
                                                 _description != null) {
-                                                  print("ali");
+                                                
                                               String link =
                                                   await uploadImageToFirebaseStorage(
                                                       _imageFile);
@@ -400,13 +410,14 @@ class _CreateActivityMissionScreenState
 
                                               showDialog(
                                                 context: context,
+                                                barrierDismissible: false,
                                                 builder:
                                                     (BuildContext context) {
                                                   return alerta;
                                                 },
                                               );
-                                              Timer(Duration(seconds: 1), () {
-                                                Navigator.pop(context);
+                                              Timer(Duration(seconds: 2), () {
+                                                Navigator.of(context, rootNavigator: true).pop();
                                               });
                                             }
                                           },
@@ -433,11 +444,12 @@ class _CreateActivityMissionScreenState
                           ),
                           FlatButton(
                             color: Colors.purple[100],
-                            onPressed: () {
-                              if (_text.text.length > 0)
-                                show_confirmar(context, _titulo, activities);
+                            onPressed: () async {
+                              print(activities.length.toString());
+                              if (_text.text.length > 0 && activities.length!=0)
+                                showConfirmar(context, _titulo, activities);
                               else
-                                show_error(context);
+                                await showError();
                             },
                             child: Text(
                               "Submeter missão",
@@ -462,13 +474,10 @@ class _CreateActivityMissionScreenState
     );
   }
 
-  show_error(BuildContext context) {
-    // configura o button
-
-    // configura o  AlertDialog
+  showError() async{
     AlertDialog alerta = AlertDialog(
       title: Text(
-        "Por favor preencha todos os campos!",
+        "Falta inserir um título ou criar, pelo menos, uma atividade!",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -479,18 +488,19 @@ class _CreateActivityMissionScreenState
     );
 
     // exibe o dialog
-    showDialog(
+  showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alerta;
       },
     );
-    Timer(Duration(seconds: 1), () {
-      Navigator.pop(context);
+    Timer(Duration(seconds: 2), () async {
+      Navigator.of(context, rootNavigator: true).pop();
     });
   }
 
-  show_confirmar(
+  showConfirmar(
       BuildContext context, String titulo, List<Activity> activities) {
     Widget cancelaButton = FlatButton(
       child: Text(
@@ -503,7 +513,7 @@ class _CreateActivityMissionScreenState
             fontSize: 30),
       ),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
@@ -518,9 +528,9 @@ class _CreateActivityMissionScreenState
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionActivityInFirestore(titulo, activities);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => CreateMissionScreen()));
+        createMissionActivityInFirestore(titulo, activities,aventuraId,capitulo.id);
+        Navigator.of(context,rootNavigator:true).push(
+            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventuraId:aventuraId)));
       },
     );
 
@@ -552,6 +562,7 @@ class _CreateActivityMissionScreenState
     //exibe o diálogo
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },

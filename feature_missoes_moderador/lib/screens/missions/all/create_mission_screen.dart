@@ -1,53 +1,94 @@
-import 'package:feature_missoes_moderador/api/missions_api.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/choose_mission_sreen.dart';
-import 'package:feature_missoes_moderador/screens/missions/results/results_one_user.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-
 class CreateMissionScreen extends StatefulWidget {
-  CreateMissionScreen();
+  
+  Capitulo capitulo;
+ String aventuraId;
+
+  CreateMissionScreen({this.capitulo,this.aventuraId});
 
   @override
-  _CreateMissionScreenState createState() => _CreateMissionScreenState();
+  _CreateMissionScreenState createState() =>
+      _CreateMissionScreenState(capitulo: capitulo,aventuraId:aventuraId);
 }
 
 class _CreateMissionScreenState extends State<CreateMissionScreen> {
+  
+  String aventuraId;
   bool _missoes;
+  Capitulo capitulo;
+  List<Mission> missions;
 
-  _CreateMissionScreenState();
+
+  _CreateMissionScreenState({this.capitulo,this.aventuraId});
 
   @override
   void initState() {
-    MissionsNotifier missionsNotifier =
+
+    
+    
+     MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
-    getMissions(missionsNotifier);
+    getMissions(missionsNotifier,capitulo.missoes);
+
     super.initState();
+
+  }
+
+  _getCurrentCapitulo(capituloId) async {
+    DocumentReference documentReference =
+        Firestore.instance.collection("capitulo").document(capituloId);
+    await documentReference.get().then((datasnapshot) async {
+      if (datasnapshot.exists) {
+        setState(() {
+           capitulo = new Capitulo(
+            id: datasnapshot.data['id'] ?? '',
+            bloqueado: datasnapshot.data['bloqueado'] ?? null,
+            missoes: datasnapshot.data['missoes'] ?? []);
+
+        });
+       
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    
+
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     String _imagem;
 
     Future<void> _refreshList() async {
-      print('refresh');
-      getMissions(missionsNotifier);
+      print("refresh");
+   _getCurrentCapitulo(capitulo.id).then((dynamic) => {
+       getMissions(missionsNotifier,capitulo.missoes)
+    
+    });
     }
 
-    if (missionsNotifier.missionsList.length != 0) {
-      _missoes = true;
+    
+    if (missionsNotifier.missionsList != []) {
+      setState(() {
+        _missoes = true;
+      });
     } else {
-      _missoes = false;
+      setState(() {
+        _missoes = false;
+      });
     }
+  
 
     return Scaffold(
         key: _scaffoldKey,
@@ -62,30 +103,30 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 30.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
                   "Missões",
                   style: TextStyle(
-                      fontSize: 45, fontFamily: 'Amatic SC', letterSpacing: 4),
+                      fontSize: 25, fontFamily: 'Amatic SC', letterSpacing: 4, fontWeight: FontWeight.w900),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Container(
-                  height: 470,
-                  width: 700,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: parseColor("#320a5c"),
-                          blurRadius: 10.0,
-                        )
-                      ]),
-                  child: new RefreshIndicator(
-                      onRefresh: _refreshList,
-                      child: new Builder(
+                    height: 470,
+                    width: 700,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: parseColor("#320a5c"),
+                            blurRadius: 10.0,
+                          )
+                        ]),
+                    child: new RefreshIndicator(
+                        onRefresh: _refreshList,
+                        child: new Builder(
                           builder: (BuildContext) => _missoes
                               ? new ListView.separated(
                                   itemBuilder: (context, int index) {
@@ -108,6 +149,8 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                       _imagem = 'assets/images/upload.png';
                                     else if (mission.type == 'Image')
                                       _imagem = 'assets/images/image.png';
+                                    else if (mission.type == 'Questionario')
+                                      _imagem = 'assets/images/quiz.png';
 
                                     return Stack(children: [
                                       Padding(
@@ -230,56 +273,45 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                         height: 30, color: Colors.black12);
                                   },
                                 )
-                              : 
-                                   Container(
-                                      height: 470,
-                                      width: 700,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: parseColor("#320a5c"),
-                                              blurRadius: 10.0,
-                                            )
-                                          ]),
-                                      child: Center(
-                                        child: new Text(
-                                          "Ainda não há missões configuradas",
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontFamily: 'Amatic SC',
-                                              letterSpacing: 4),
-                                        ),
-                                      )),
-                                ))),
-                ),
-              Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              IconButton(
-                icon: Icon(FontAwesomeIcons.plus),
-                iconSize: 50,
-                color: parseColor("#320a5c"),
-                tooltip: 'Passar para a missão',
-                onPressed: () {
-                  setState(() {
-                    _navegarParaEscolherMissao(context);
-                  });
-                },
+                              : Container(
+                                  height: 470,
+                                  width: 700,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: parseColor("#320a5c"),
+                                          blurRadius: 10.0,
+                                        )
+                                      ]),
+                                  child: Center(
+                                    child: new Text(
+                                      "Ainda não há missões configuradas",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: 'Amatic SC',
+                                          letterSpacing: 4),
+                                    ),
+                                  )),
+                        ))),
               ),
-              IconButton(
-                icon: Icon(FontAwesomeIcons.addressBook),
-                iconSize: 50,
-                color: parseColor("#320a5c"),
-                tooltip: 'Passar para a missão',
-                onPressed: () {
-                  setState(() {
-                    _navegarParaSensores(context);
-                  });
-                },
-              ),
-              ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.plus),
+                      iconSize: 50,
+                      color: parseColor("#320a5c"),
+                      tooltip: 'Passar para a missão',
+                      onPressed: () {
+                        setState(() {
+                          _navegarParaEscolherMissao(context);
+                        });
+                      },
+                    ),
+                    
+                  ]),
             ],
           ),
         ));
@@ -295,16 +327,11 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
   _navegarParaEscolherMissao(BuildContext context) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChooseMissionScreen()),
+      MaterialPageRoute(builder: (context) => ChooseMissionScreen(aventuraId:aventuraId,capitulo:capitulo)),
     );
   }
 
-    _navegarParaSensores(BuildContext context) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>(StatisticsScreen())),
-    );
-  }
+ 
 
   _remover(Mission mission) {
     Widget cancelaButton = FlatButton(
@@ -333,11 +360,9 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
             fontSize: 30),
       ),
       onPressed: () {
-        deleteMissionInFirestore(mission);
-         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => CreateMissionScreen()));
+        deleteMissionInFirestore(mission,capitulo.id);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => CreateMissionScreen()));
       },
     );
 
@@ -375,36 +400,31 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
     );
   }
 
-
-
-  pedir_refresh(BuildContext context) 
-{ 
+  pedir_refresh(BuildContext context) {
     // configura o button
- 
 
-  // configura o  AlertDialog
-  AlertDialog alerta = AlertDialog(
-    title: Text("Para ver as alterações feitas dê refresh!",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
-    
-    
-  );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text(
+        "Para ver as alterações feitas dê refresh!",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+    );
 
-  // exibe o dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alerta;
-    },
-    
-  );
-  Timer(Duration(seconds: 2), () {
-    Navigator.pop(context);
-});
-}
-
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
+    Timer(Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
+  }
 }

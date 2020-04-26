@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:feature_missoes_moderador/api/missions_api.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
@@ -8,34 +10,36 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateVideoMissionScreen extends StatefulWidget {
- 
+  String aventuraId;
+  Capitulo capitulo;
 
-  CreateVideoMissionScreen();
+  CreateVideoMissionScreen(this.capitulo, this.aventuraId);
 
   @override
   _CreateVideoMissionScreenState createState() =>
-      _CreateVideoMissionScreenState();
+      _CreateVideoMissionScreenState(this.capitulo, this.aventuraId);
 }
 
-class _CreateVideoMissionScreenState
-    extends State<CreateVideoMissionScreen> {
- 
-  _CreateVideoMissionScreenState();
+class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
+  _CreateVideoMissionScreenState(this.capitulo, this.aventuraId);
 
+  String aventuraId;
+  Capitulo capitulo;
   String _titulo;
   String _descricao;
+
   final _text = TextEditingController();
   final _text2 = TextEditingController();
   bool _loaded;
   var video;
   File _video;
-  
+
   Future getVideo() async {
     video = await ImagePicker.pickVideo(source: ImageSource.gallery);
-        if (video != null)
+    if (video != null)
       setState(() {
         _loaded = true;
-        _video=video;
+        _video = video;
       });
   }
 
@@ -44,7 +48,6 @@ class _CreateVideoMissionScreenState
     _loaded = false;
     super.initState();
   }
-  
 
   @override
   void dispose() {
@@ -53,9 +56,6 @@ class _CreateVideoMissionScreenState
 
   @override
   Widget build(BuildContext context) {
-
-   
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -218,7 +218,6 @@ class _CreateVideoMissionScreenState
                                 borderRadius: BorderRadius.circular(5.0),
                                 color: Colors.purple[50],
                               ),
-                              
                               child: TextField(
                                 controller: _text,
                                 onChanged: (value) {
@@ -252,37 +251,34 @@ class _CreateVideoMissionScreenState
                     ),
                     SizedBox(height: 50.0),
                     Row(children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MaterialButton(
-                        height: 50,
-                        minWidth: 70,
-                        color: parseColor('#320a5c'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0)),
-                        child: Text(
-                          'Escolher video',
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontFamily: 'Amatic SC',
-                              color: Colors.white,
-                              letterSpacing: 4),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MaterialButton(
+                          height: 50,
+                          minWidth: 70,
+                          color: parseColor('#320a5c'),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20.0)),
+                          child: Text(
+                            'Escolher video',
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontFamily: 'Amatic SC',
+                                color: Colors.white,
+                                letterSpacing: 4),
+                          ),
+                          onPressed: getVideo,
                         ),
-                        onPressed: getVideo,
                       ),
-                    ),
-                    Builder(
-                      builder: (BuildContext) => _loaded
-                          ? new Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: Colors.green,
-                              size: 50.0,
-                            )
-                          : Container()),
-                
-                
+                      Builder(
+                          builder: (BuildContext) => _loaded
+                              ? new Icon(
+                                  FontAwesomeIcons.checkCircle,
+                                  color: Colors.green,
+                                  size: 50.0,
+                                )
+                              : Container()),
                     ]),
-                    
                     SizedBox(
                       height: 70.0,
                     ),
@@ -297,9 +293,12 @@ class _CreateVideoMissionScreenState
                         FlatButton(
                           color: Colors.purple[100],
                           onPressed: () {
-                            if(_text.text.length>0 && _text2.text.length>0 && _video!=null) show_confirmar(context, _titulo, _descricao);
-                            else show_error(context);
-                            
+                            if (_text.text.length > 0 &&
+                                _text2.text.length > 0 &&
+                                _video != null)
+                              showConfirmar(context, _titulo, _descricao);
+                            else
+                              showError(context);
                           },
                           child: Text(
                             "Submeter missão",
@@ -323,78 +322,89 @@ class _CreateVideoMissionScreenState
     );
   }
 
-  show_error(BuildContext context) 
-{ 
+  showError(BuildContext context) {
     // configura o button
- 
 
-  // configura o  AlertDialog
-  AlertDialog alerta = AlertDialog(
-    title: Text("Por favor preencha todos os campos!",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
-    
-    
-  );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text(
+        "Por favor preencha todos os campos!",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+    );
 
-  // exibe o dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alerta;
-    },
-    
-  );
-  Timer(Duration(seconds: 1), () {
-    Navigator.pop(context);
-});
-}
+    // exibe o dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(context, rootNavigator: true).pop();
+    });
+  }
 
-  show_confirmar(BuildContext context, String titulo, String conteudo) {
+  showConfirmar(BuildContext context, String titulo, String conteudo) {
     Widget cancelaButton = FlatButton(
-      child: Text("Cancelar",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      child: Text(
+        "Cancelar",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
     Widget continuaButton = FlatButton(
-      child: Text("Sim",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      child: Text(
+        "Sim",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       onPressed: () {
-        addUploadedVideoToFirebaseStorage(_titulo,_descricao,_video);
-        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => CreateMissionScreen()));
+        addUploadedVideoToFirebaseStorage(
+            _titulo, _descricao, _video, aventuraId, capitulo.id);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) => TabBarMissions(
+                capitulo: capitulo, aventuraId: aventuraId)));
       },
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Confirmação",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
-      content: Text("Tem a certeza que pretende submeter?",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Amatic SC',
-                                    letterSpacing: 2,
-                                    fontSize: 30),),
+      title: Text(
+        "Confirmação",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+      content: Text(
+        "Tem a certeza que pretende submeter?",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
       actions: [
         cancelaButton,
         continuaButton,
@@ -404,6 +414,7 @@ class _CreateVideoMissionScreenState
     //exibe o diálogo
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },
