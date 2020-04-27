@@ -1,6 +1,5 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
-import 'package:app_criancas/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +18,9 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   List allQuestions;
   double resposta = 0;
   List allAnswers;
-  String feedback;
+  String feedback = "";
   String _userID = "";
+  bool complete = false;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
       setState(() {
         MissionsNotifier missionsNotifier =
             Provider.of<MissionsNotifier>(context, listen: false);
-        currentStep= missionsNotifier.currentPage;
+        currentStep = missionsNotifier.currentPage;
         _userID = user.email;
       });
     });
@@ -38,36 +38,42 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   Widget build(BuildContext context) {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     allQuestions = missionsNotifier.currentMission.content.questions;
+    allQuestions[currentStep].resultados.forEach((aluno) {
+      if (aluno['aluno'] == _userID) {
+        if (aluno['respostaEscolhida'] != null) {
+          feedback = aluno['respostaEscolhida'];
+        }
+        if (aluno['respostaNumerica'] != null) {
+          resposta = aluno['respostaNumerica'].toDouble();
+        }
+      }
+    });
     allAnswers = [];
     steps = [];
-    bool complete = false;
     currentPage = 1;
 
     goTo(int step) {
       setState(() {
         currentStep = step;
-        allQuestions[currentStep].resultados.forEach((aluno) {
-          if (aluno['aluno'] == _userID) {
-            feedback = aluno['respostaEscolhida'];
-            resposta = aluno['respostaNumerica'].toDouble();
-          }
-        });
       });
     }
 
     next() {
-        if (feedback != "") {
-          updateAnswerQuestion(allQuestions[currentStep], _userID);
-          currentStep + 1 != steps.length
-              ? goTo(currentStep + 1)
-              : setState(() {
-                  complete = true;
-                  //Navigator.pop(context);
-                  //Navigator.pop(context);
-                });
-        } else {
-          return null;
-        }
+      if (feedback != "") {
+        updateAnswerQuestion(allQuestions[currentStep], _userID);
+        currentStep + 1 != steps.length
+            ? goTo(currentStep + 1)
+            : setState(() {
+                complete = true;
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return new AlertDialog(
+                          content: new Text(
+                              "Parabéns chegaste à última questão! Clica em entregar para submeter :)"));
+                    });
+              });
+      }
     }
 
     cancel() {
@@ -114,7 +120,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
                     question.respostaNumerica = resposta;
                   });
                 },
-                label: feedback)
+                label: feedback),
           ])));
       currentPage++;
     });
@@ -147,6 +153,25 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
             onStepCancel: cancel,
           ),
         ),
+        FlatButton(
+            child: new Text(
+              'Entregar',
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () {
+              if (complete) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return new AlertDialog(
+                          content: new Text(
+                              "Tens de preencher todas as questões antes de submeter :)"));
+                    });
+              }
+            }),
       ]),
     );
   }
