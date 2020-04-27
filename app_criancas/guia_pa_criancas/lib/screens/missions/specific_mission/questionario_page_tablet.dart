@@ -1,5 +1,6 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
+import 'package:app_criancas/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +19,16 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   List allQuestions;
   double resposta = 0;
   List allAnswers;
-  String feedback = '';
+  String feedback;
   String _userID = "";
 
   @override
   void initState() {
     Auth().getUser().then((user) {
       setState(() {
+        MissionsNotifier missionsNotifier =
+            Provider.of<MissionsNotifier>(context, listen: false);
+        currentStep= missionsNotifier.currentPage;
         _userID = user.email;
       });
     });
@@ -42,20 +46,28 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     goTo(int step) {
       setState(() {
         currentStep = step;
-        resposta = 0;
-        feedback = "";
+        allQuestions[currentStep].resultados.forEach((aluno) {
+          if (aluno['aluno'] == _userID) {
+            feedback = aluno['respostaEscolhida'];
+            resposta = aluno['respostaNumerica'].toDouble();
+          }
+        });
       });
     }
 
     next() {
-      updateAnswerQuestion(allQuestions[currentStep], _userID);
-      currentStep + 1 != steps.length
-          ? goTo(currentStep + 1)
-          : setState(() {
-              complete = true;
-              Navigator.pop(context);
-              Navigator.pop(context);
-            });
+        if (feedback != "") {
+          updateAnswerQuestion(allQuestions[currentStep], _userID);
+          currentStep + 1 != steps.length
+              ? goTo(currentStep + 1)
+              : setState(() {
+                  complete = true;
+                  //Navigator.pop(context);
+                  //Navigator.pop(context);
+                });
+        } else {
+          return null;
+        }
     }
 
     cancel() {
@@ -99,6 +111,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
                         .questions[allQuestions.indexOf(question)]
                         .respostaEscolhida = feedback;
                     question.respostaEscolhida = feedback;
+                    question.respostaNumerica = resposta;
                   });
                 },
                 label: feedback)
@@ -106,22 +119,35 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
       currentPage++;
     });
 
+    _close() {
+      setState(() {
+        missionsNotifier.currentPage = currentStep;
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
+    }
+
     return new Scaffold(
-      body: new WillPopScope(
-        onWillPop: () async => false,
-        child: Column(children: <Widget>[
-          Expanded(
-            child: Stepper(
-              steps: steps,
-              type: StepperType.vertical,
-              currentStep: currentStep,
-              onStepContinue: next,
-              onStepTapped: (step) => goTo(step),
-              onStepCancel: cancel,
-            ),
-          ),
-        ]),
+      appBar: AppBar(
+        leading: new FlatButton(
+          child: Icon(Icons.close),
+          onPressed: () {
+            _close();
+          },
+        ),
       ),
+      body: Column(children: <Widget>[
+        Expanded(
+          child: Stepper(
+            steps: steps,
+            type: StepperType.vertical,
+            currentStep: currentStep,
+            onStepContinue: next,
+            onStepTapped: (step) => goTo(step),
+            onStepCancel: cancel,
+          ),
+        ),
+      ]),
     );
   }
 }
