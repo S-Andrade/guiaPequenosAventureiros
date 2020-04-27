@@ -18,14 +18,30 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   List allQuestions;
   double resposta = 0;
   List allAnswers;
-  String feedback = '';
+  String feedback = "Nunca";
   String _userID = "";
+  bool complete = false;
 
   @override
   void initState() {
     Auth().getUser().then((user) {
       setState(() {
+        MissionsNotifier missionsNotifier =
+            Provider.of<MissionsNotifier>(context, listen: false);
         _userID = user.email;
+        currentStep = missionsNotifier.currentPage;
+        allQuestions[currentStep].resultados.forEach((aluno) {
+          if (aluno['aluno'] == _userID) {
+            if (aluno['respostaEscolhida'] != null) {
+              feedback = aluno['respostaEscolhida'];
+            }
+            if (aluno['respostaNumerica'] != null) {
+              resposta = aluno['respostaNumerica'].toDouble();
+            }
+          }
+        });
+        print(resposta);
+        print(feedback);
       });
     });
   }
@@ -36,26 +52,42 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     allQuestions = missionsNotifier.currentMission.content.questions;
     allAnswers = [];
     steps = [];
-    bool complete = false;
     currentPage = 1;
 
     goTo(int step) {
       setState(() {
         currentStep = step;
-        resposta = 0;
-        feedback = "";
+        allQuestions[currentStep].resultados.forEach((aluno) {
+          if (aluno['aluno'] == _userID) {
+            if (aluno['respostaEscolhida'] != null) {
+              feedback = aluno['respostaEscolhida'];
+            }
+            if (aluno['respostaNumerica'] != null) {
+              resposta = aluno['respostaNumerica'].toDouble();
+            }
+          }
+        });
+        print(resposta);
+        print(feedback);
       });
     }
 
     next() {
-      updateAnswerQuestion(allQuestions[currentStep], _userID);
-      currentStep + 1 != steps.length
-          ? goTo(currentStep + 1)
-          : setState(() {
-              complete = true;
-              Navigator.pop(context);
-              Navigator.pop(context);
-            });
+      if (feedback != "") {
+        updateAnswerQuestion(allQuestions[currentStep], _userID);
+        currentStep + 1 != steps.length
+            ? goTo(currentStep + 1)
+            : setState(() {
+                complete = true;
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return new AlertDialog(
+                          content: new Text(
+                              "Parabéns chegaste à última questão! Clica em entregar para submeter :)"));
+                    });
+              });
+      }
     }
 
     cancel() {
@@ -99,29 +131,63 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
                         .questions[allQuestions.indexOf(question)]
                         .respostaEscolhida = feedback;
                     question.respostaEscolhida = feedback;
+                    question.respostaNumerica = resposta;
                   });
                 },
-                label: feedback)
+                label: feedback),
           ])));
       currentPage++;
     });
 
+    _close() {
+      setState(() {
+        missionsNotifier.currentPage = currentStep;
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
+    }
+
     return new Scaffold(
-      body: new WillPopScope(
-        onWillPop: () async => false,
-        child: Column(children: <Widget>[
-          Expanded(
-            child: Stepper(
-              steps: steps,
-              type: StepperType.vertical,
-              currentStep: currentStep,
-              onStepContinue: next,
-              onStepTapped: (step) => goTo(step),
-              onStepCancel: cancel,
-            ),
-          ),
-        ]),
+      appBar: AppBar(
+        leading: new FlatButton(
+          child: Icon(Icons.close),
+          onPressed: () {
+            _close();
+          },
+        ),
       ),
+      body: Column(children: <Widget>[
+        Expanded(
+          child: Stepper(
+            steps: steps,
+            type: StepperType.vertical,
+            currentStep: currentStep,
+            onStepContinue: next,
+            onStepTapped: (step) => goTo(step),
+            onStepCancel: cancel,
+          ),
+        ),
+        FlatButton(
+            child: new Text(
+              'Entregar',
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () {
+              if (complete) {
+                updateMissionCounterInFirestore(missionNotifier.currentMission, _userID, 1);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return new AlertDialog(
+                          content: new Text(
+                              "Tens de preencher todas as questões antes de submeter :)"));
+                    });
+              }
+            }),
+      ]),
     );
   }
 }

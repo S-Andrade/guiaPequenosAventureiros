@@ -12,13 +12,16 @@ class MissionsNotifier with ChangeNotifier{
   dynamic _missionContent;
   bool _completed;
   int _currentScore;
+  int _currentPage = 0;
   List<Question> _allQuestions;
+
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
   UnmodifiableListView<Question> get allQuestions => UnmodifiableListView(_allQuestions);
 
   bool get completed => _completed;
   int get currentScore => _currentScore; 
+  int get currentPage => _currentPage; 
 
   Mission get currentMission => _currentMission;
   Quiz get missionContent => _missionContent;
@@ -49,6 +52,11 @@ class MissionsNotifier with ChangeNotifier{
   }
   set currentScore(int score){
     _currentScore = score;
+    notifyListeners();
+  }
+
+  set currentPage(int page){
+    _currentPage = page;
     notifyListeners();
   }
 

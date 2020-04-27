@@ -63,6 +63,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
     if (flag) {
       return new Scaffold(
+          appBar: new AppBar(title: new Text('Missões')),
           key: _scaffoldKey,
           body: Container(
             decoration: BoxDecoration(

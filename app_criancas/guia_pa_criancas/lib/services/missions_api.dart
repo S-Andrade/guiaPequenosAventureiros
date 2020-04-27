@@ -428,6 +428,7 @@ updateAnswerQuestion(Question question, String id) async {
     mapa = element;
     if (mapa["aluno"] == id) {
       mapa["respostaEscolhida"] = question.respostaEscolhida;
+      mapa["respostaNumerica"] = question.respostaNumerica;
     }
   });
   await questionRef.document(question.id).updateData({'resultados': question.resultados});

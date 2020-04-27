@@ -12,6 +12,7 @@ class Question{
   List answers = [];
   List resultados;
   String respostaEscolhida;
+  double respostaNumerica;
 
   Question();
 
