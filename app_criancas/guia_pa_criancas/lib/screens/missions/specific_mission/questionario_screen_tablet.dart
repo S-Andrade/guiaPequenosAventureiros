@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 
 import 'questionario_page_tablet.dart';
 
-class QuestionarioScreen extends StatefulWidget{
+class QuestionarioScreen extends StatefulWidget {
   final Mission mission;
   QuestionarioScreen(this.mission);
   @override
-  _QuestionarioScreenState createState() =>_QuestionarioScreenState(mission);
+  _QuestionarioScreenState createState() => _QuestionarioScreenState(mission);
 }
 
-class _QuestionarioScreenState extends State<QuestionarioScreen>{
+class _QuestionarioScreenState extends State<QuestionarioScreen> {
   Mission mission;
   _QuestionarioScreenState(this.mission);
 
@@ -20,10 +20,13 @@ class _QuestionarioScreenState extends State<QuestionarioScreen>{
   void initState() {
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: new Text('Questionário'),
+      ),
       body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(

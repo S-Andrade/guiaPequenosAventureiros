@@ -25,6 +25,7 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: new Text('Quiz'),),
       body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(

@@ -18,7 +18,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   List allQuestions;
   double resposta = 0;
   List allAnswers;
-  String feedback = "";
+  String feedback = "Nunca";
   String _userID = "";
   bool complete = false;
 
@@ -28,8 +28,20 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
       setState(() {
         MissionsNotifier missionsNotifier =
             Provider.of<MissionsNotifier>(context, listen: false);
-        currentStep = missionsNotifier.currentPage;
         _userID = user.email;
+        currentStep = missionsNotifier.currentPage;
+        allQuestions[currentStep].resultados.forEach((aluno) {
+          if (aluno['aluno'] == _userID) {
+            if (aluno['respostaEscolhida'] != null) {
+              feedback = aluno['respostaEscolhida'];
+            }
+            if (aluno['respostaNumerica'] != null) {
+              resposta = aluno['respostaNumerica'].toDouble();
+            }
+          }
+        });
+        print(resposta);
+        print(feedback);
       });
     });
   }
@@ -38,16 +50,6 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   Widget build(BuildContext context) {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     allQuestions = missionsNotifier.currentMission.content.questions;
-    allQuestions[currentStep].resultados.forEach((aluno) {
-      if (aluno['aluno'] == _userID) {
-        if (aluno['respostaEscolhida'] != null) {
-          feedback = aluno['respostaEscolhida'];
-        }
-        if (aluno['respostaNumerica'] != null) {
-          resposta = aluno['respostaNumerica'].toDouble();
-        }
-      }
-    });
     allAnswers = [];
     steps = [];
     currentPage = 1;
@@ -55,6 +57,18 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     goTo(int step) {
       setState(() {
         currentStep = step;
+        allQuestions[currentStep].resultados.forEach((aluno) {
+          if (aluno['aluno'] == _userID) {
+            if (aluno['respostaEscolhida'] != null) {
+              feedback = aluno['respostaEscolhida'];
+            }
+            if (aluno['respostaNumerica'] != null) {
+              resposta = aluno['respostaNumerica'].toDouble();
+            }
+          }
+        });
+        print(resposta);
+        print(feedback);
       });
     }
 
