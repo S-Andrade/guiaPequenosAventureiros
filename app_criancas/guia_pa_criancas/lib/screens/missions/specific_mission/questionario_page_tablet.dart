@@ -174,6 +174,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
             ),
             onPressed: () {
               if (complete) {
+                updateMissionCounterInFirestore(missionNotifier.currentMission, _userID, 1);
                 Navigator.pop(context);
                 Navigator.pop(context);
               } else {
