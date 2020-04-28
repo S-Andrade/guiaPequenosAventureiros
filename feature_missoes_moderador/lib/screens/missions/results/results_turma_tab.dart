@@ -1,36 +1,42 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
-import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
-import 'package:feature_missoes_moderador/screens/missions/results/results_dashboard_turmas.dart';
+import 'package:feature_missoes_moderador/screens/turma/turma.dart';
+import 'package:feature_missoes_moderador/screens/missions/results/alunos_turma.dart';
+import 'package:feature_missoes_moderador/screens/missions/results/missions_turma.dart';
 import 'package:flutter/material.dart';
 
-class TabBarMissions extends StatefulWidget {
-  String aventuraId;
-  Capitulo capitulo;
+class ResultsTurmaTab extends StatefulWidget {
 
-  TabBarMissions({this.capitulo, this.aventuraId});
+  List<Mission> missions;
+  List<String> alunos;
+  Turma turma;
+
+  ResultsTurmaTab({this.missions,this.alunos,this.turma});
 
   @override
-  _TabBarMissionsState createState() =>
-      _TabBarMissionsState(capitulo: capitulo, aventuraId: aventuraId);
+  _ResultsTurmaTabState createState() =>
+      _ResultsTurmaTabState(missions:missions,alunos:alunos,turma:turma);
 }
 
-class _TabBarMissionsState extends State<TabBarMissions>
+class _ResultsTurmaTabState extends State<ResultsTurmaTab>
     with SingleTickerProviderStateMixin {
-  String aventuraId;
-  Capitulo capitulo;
+  List<Mission> missions;
+  List<String> alunos;
   TabController _tabController;
+  Turma turma;
 
-  _TabBarMissionsState({this.capitulo, this.aventuraId});
+  _ResultsTurmaTabState({this.missions,this.alunos,this.turma});
 
   @override
   void initState() {
+   
     super.initState();
-    _tabController = TabController(vsync: this, length: 2);
-    _tabController.addListener(_handleTabChange);
+    /*_tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabChange);*/
   }
 
-  Future<void> _handleTabChange() async {
+  /*Future<void> _handleTabChange() async {
     await _getCurrentCapitulo(capitulo.id);
   }
 
@@ -47,7 +53,9 @@ class _TabBarMissionsState extends State<TabBarMissions>
         });
       }
     });
-  }
+    }
+    */
+  
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +77,7 @@ class _TabBarMissionsState extends State<TabBarMissions>
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Resultados",
+                        "Por missão",
                         style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.w900,
@@ -82,7 +90,7 @@ class _TabBarMissionsState extends State<TabBarMissions>
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Missões",
+                        "Por aluno",
                         style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.w900,
@@ -96,9 +104,9 @@ class _TabBarMissionsState extends State<TabBarMissions>
           body: TabBarView(
             controller: _tabController,
             children: [
-              ResultsDashboardTurmasScreen(aventuraId: this.aventuraId, capitulo: this.capitulo),
-              CreateMissionScreen(
-                  aventuraId: this.aventuraId, capitulo: this.capitulo),
+              ResultsTurmaByMission(missions:this.missions,alunos:this.alunos,turma:this.turma),
+              ResultsTurmaByAlunos(alunos:alunos),
+              
               
             ],
           ),

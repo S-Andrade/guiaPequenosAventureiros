@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/models/questionario.dart';
 import 'package:feature_missoes_moderador/models/quiz.dart';
+import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import '../notifier/missions_notifier.dart';
@@ -155,7 +156,8 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
-    'linkImage': FieldValue.delete()
+    'linkImage': FieldValue.delete(),
+    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -218,7 +220,8 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
-    'linkImage': FieldValue.delete()
+    'linkImage': FieldValue.delete(),
+    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -264,6 +267,7 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
+
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -309,6 +313,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
+    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -353,6 +358,7 @@ createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
+    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -377,6 +383,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mission.resultados = [];
     mission.content = descricao;
     mission.type = 'UploadImage';
+    
   }
 
   alunos.forEach((element) {
@@ -386,6 +393,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mapa['counterVisited'] = 0;
     mapa['done'] = false;
     mapa['timeVisited'] = 0;
+    mapa['linkUploaded']="";
     mission.resultados.add(mapa);
   });
 
@@ -581,8 +589,9 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
   DocumentReference documentRef = missionRef.document(mission.id);
+  print("missiooon"+mission.id);
 
-  CollectionReference capituloRef = Firestore.instance.collection('mission');
+  CollectionReference capituloRef = Firestore.instance.collection('capitulo');
   DocumentReference documentRef2 = capituloRef.document(capituloId);
 
   var capituloDoc = [];
@@ -594,6 +603,71 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
   await documentRef.delete();
 }
+
+// RETORNA UMA LISTA DE IDS DE TURMAS ASSOCIADAS A UM CAPITULO
+
+getTurmas(String aventuraId) async {
+  List<dynamic> escolas = [];
+  List<dynamic> turmas = [];
+  List<dynamic> listaTurmas = [];
+  List<Turma> finalTurmas = [];
+
+  List<dynamic> turmasAll = [];
+
+  await Firestore.instance
+      .collection('aventura')
+      .where('id', isEqualTo: aventuraId)
+      .getDocuments()
+      .then((doc) {
+    escolas = doc.documents[0]['escolas'];
+  });
+
+  for (var id_escola in escolas) {
+    List<dynamic> turmasDoc = await Firestore.instance
+        .collection('escola')
+        .where('id', isEqualTo: id_escola)
+        .getDocuments()
+        .then((doc) {
+      turmas = doc.documents[0]['turmas'];
+    });
+
+    for (var turmaId in turmas) {
+      listaTurmas.add(turmaId);
+    }
+  }
+  return listaTurmas;
+}
+
+/*
+getTurma(String turmaId) async {
+
+ DocumentReference documentReference =
+          Firestore.instance.collection("turma").document(turmaId);
+           
+      await documentReference.get().then((datasnapshot) {
+        
+        if (datasnapshot.exists) {
+          setState(() {
+         turma = new Turma(
+              id: datasnapshot.data['id'] ?? '',
+              nAlunos: datasnapshot.data['nAlunos'] ?? null,
+              file: datasnapshot.data['file'] ?? '',
+              professor: datasnapshot.data['professor'] ?? '',
+              alunos: datasnapshot.data['alunos'] ?? []);
+            
+       });
+        }
+        
+      });
+
+      
+     
+      
+
+  
+
+}
+*/
 
 // RETORNA UMA LISTA DE ALUNOS DE TODAS AS TURMAS ASSOCIADAS À ESCOLA QUE ESTÁ ASSOCIADADA A UMA DADA AVENTURA
 
@@ -637,6 +711,75 @@ getAlunos(String aventuraId) async {
   }
 
   return listaAlunos;
+}
+
+// RETORNA ALUNOS DE UMA TURMA
+
+getAlunosForTurma(String turmaId) async {
+  List<dynamic> alunos = [];
+  await Firestore.instance
+      .collection('turma')
+      .where('id', isEqualTo: turmaId)
+      .getDocuments()
+      .then((doc) {
+    alunos = doc.documents[0]['alunos'];
+  });
+
+  return List<String>.from(alunos);
+}
+
+// RETORNA MISSOES DE UM CERTO CAPITULO
+
+getMissionsForCapitulo(String capituloId) async {
+
+  List<dynamic> missions = [];
+  Mission mission;
+  List<dynamic> missionsIds=[];
+
+  await Firestore.instance
+      .collection('capitulo')
+      .where('id', isEqualTo: capituloId)
+      .getDocuments()
+      .then((doc) {
+    missions = doc.documents[0]['missoes'];
+  });
+
+  for (var missao in missions) {
+    await missao.get().then((missionSnapchot) {
+      if (missionSnapchot.exists) {
+      mission = Mission.fromMap(missionSnapchot.data);
+      
+      }
+      else{
+        print("no data");
+        mission=null;
+      }
+      missionsIds.add(mission);
+    });
+  }
+
+  return List<Mission>.from(missionsIds);
+}
+
+
+// RETORNA QUANTAS MISSÕES DE UMA CERTA LISTA DE MISSÕES, JÁ FEZ UMA CERTA TURMA ( COM UM CERTO Nº DE ALUNOS )
+
+int getDonesForTurma(List<String> alunos,List<Mission> missions) {
+
+  int missionsDone=0;
+  
+  for(var mission in missions){
+    for(var aluno in alunos){
+      for(var campo in mission.resultados){
+        if(campo['aluno']==aluno){
+          if(campo['done']==true) missionsDone++;
+          break;
+        }
+      }
+    }
+  }
+
+  return missionsDone;
 }
 
 // RETORNA O ID MAIS ALTO DE TODAS AS MISSOES NO FIRESTORE

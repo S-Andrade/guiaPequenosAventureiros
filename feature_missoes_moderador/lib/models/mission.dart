@@ -9,6 +9,7 @@ class Mission {
   String linkAudio;
   List resultados;
  
+ 
   
   Mission();
   
@@ -21,6 +22,7 @@ class Mission {
     linkImage=data['linkImage'];
     linkAudio=data['linkAudio'];
     resultados=data['resultados'];
+    
   }
   
   Map<String, dynamic> toMap() {
@@ -33,6 +35,7 @@ class Mission {
       'linkImage':linkImage,
       'linkAudio':linkAudio,
       'resultados':resultados,
+      
     };
   }
   

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
@@ -36,11 +37,9 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
   void initState() {
 
     
-    
      MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     getMissions(missionsNotifier,capitulo.missoes);
-
     super.initState();
 
   }
@@ -334,6 +333,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
  
 
   _remover(Mission mission) {
+    print("AAAAAAAA:"+mission.id);
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -361,8 +361,9 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
       ),
       onPressed: () {
         deleteMissionInFirestore(mission,capitulo.id);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => CreateMissionScreen()));
+       Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) => TabBarMissions(
+                capitulo: capitulo, aventuraId: aventuraId)));
       },
     );
 
