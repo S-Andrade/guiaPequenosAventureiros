@@ -11,28 +11,28 @@ import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
 
-class UploadImageScreenTabletPortrait extends StatefulWidget {
+class UploadVideoScreenTabletPortrait extends StatefulWidget {
   Mission mission;
 
-  UploadImageScreenTabletPortrait(this.mission);
+  UploadVideoScreenTabletPortrait(this.mission);
 
   @override
-  _UploadImageScreenTabletPortraitState createState() =>
-      _UploadImageScreenTabletPortraitState(mission);
+  _UploadVideoScreenTabletPortraitState createState() =>
+      _UploadVideoScreenTabletPortraitState(mission);
 }
 
-class _UploadImageScreenTabletPortraitState
-    extends State<UploadImageScreenTabletPortrait> {
+class _UploadVideoScreenTabletPortraitState
+    extends State<UploadVideoScreenTabletPortrait> {
   Mission mission;
 
-  _UploadImageScreenTabletPortraitState(this.mission);
+  _UploadVideoScreenTabletPortraitState(this.mission);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  File _image;
+  File _video;
   String _titulo;
   bool _loaded;
-  var image;
+  var video;
   int _state = 0;
   
     String _userID;
@@ -58,11 +58,10 @@ class _UploadImageScreenTabletPortraitState
     super.initState();
   }
 
-  Future getImage() async {
-    image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+  Future getVideo() async {
+    video = await ImagePicker.pickVideo(source: ImageSource.gallery);
 
-    if (image != null)
+    if (video != null)
       setState(() {
         _loaded = true;
       });
@@ -70,12 +69,12 @@ class _UploadImageScreenTabletPortraitState
 
   @override
   Widget build(BuildContext context) {
-    _titulo = 'upload_foto_crianca_' + mission.id;
+    _titulo = 'upload_video_crianca_' + mission.id;
 
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Upload Foto Example'),
+          title: Text('Upload Video Example'),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -131,7 +130,7 @@ class _UploadImageScreenTabletPortraitState
                       shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(20.0)),
                       child: Text(
-                        'Foto já carregada',
+                        'Vídeo já carregado',
                         style: TextStyle(
                             fontSize: 45,
                             fontFamily: 'Amatic SC',
@@ -150,14 +149,14 @@ class _UploadImageScreenTabletPortraitState
                       shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(20.0)),
                       child: Text(
-                        'Escolher foto',
+                        'Escolher vídeo',
                         style: TextStyle(
                             fontSize: 45,
                             fontFamily: 'Amatic SC',
                             color: Colors.white,
                             letterSpacing: 4),
                       ),
-                      onPressed: getImage,
+                      onPressed: getVideo,
                     ),
                   )),
                 
@@ -219,7 +218,7 @@ class _UploadImageScreenTabletPortraitState
         return ColorLoader();
     } else {
       return new Text(
-        "foto já carregada",
+        "Vídeo já carregado",
         style: const TextStyle(
           fontFamily: 'Amatic SC',
           letterSpacing: 4,
@@ -245,11 +244,15 @@ class _UploadImageScreenTabletPortraitState
     }
   }
 
-  _upload() {
-    if (image != null) {
-      _image = image;
-      addUploadedImageToFirebaseStorage(_image, _titulo);
-      updateMissionDoneInFirestore(mission,_userID);
-    }
+  _upload() async {
+   
+    if (video != null) {
+      _video = video;
+      addUploadedVideoToFirebaseStorage(_video, _titulo).then((value)=>{
+updateMissionDoneWithLinkInFirestore(mission,_userID,value)
+      });}
+      
+      
+    
   }
 }

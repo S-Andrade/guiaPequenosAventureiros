@@ -303,7 +303,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       updateMissionCounterInFirestore(
           missionNotifier.currentMission, _userID, _counter);
       updateMissionQuizResultInFirestore(missionNotifier.currentMission, _userID, missionNotifier.currentScore);
-      _counterVisited = _counterVisited + 1;
+      
       _end = DateTime.now();
       _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
       _timeVisited = _timeVisited + _timeSpentOnThisScreen;

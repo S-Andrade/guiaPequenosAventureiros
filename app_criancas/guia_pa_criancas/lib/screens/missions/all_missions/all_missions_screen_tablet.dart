@@ -32,6 +32,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
   @override
   void initState() {
+   
     Auth().getUser().then((user) {
       _userID = user.email;
     });
@@ -100,7 +101,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     _imagem = 'assets/images/quiz.png';
                   else if (mission.type == 'Activity')
                     _imagem = 'assets/images/atividade.png';
-                  else if (mission.type == 'UploadExample')
+                  else if (mission.type == 'UploadVideo')
                     _imagem = 'assets/images/upload.png';
                   else if (mission.type == 'UploadImage')
                     _imagem = 'assets/images/upload.png';
@@ -261,6 +262,7 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
 
   @override
   void initState() {
+   
     Auth().getUser().then((user) {
       _userID = user.email;
     });
@@ -318,12 +320,14 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
                   _imagem = 'assets/images/quiz.png';
                 else if (mission.type == 'Activity')
                   _imagem = 'assets/images/atividade.png';
-                else if (mission.type == 'UploadExample')
-                  _imagem = 'assets/images/upload.png';
                 else if (mission.type == 'UploadImage')
+                  _imagem = 'assets/images/upload.png';
+                else if (mission.type == 'UploadVideo')
                   _imagem = 'assets/images/upload.png';
                 else if (mission.type == 'Image')
                   _imagem = 'assets/images/image.png';
+                   else if (mission.type == 'Questionario')
+                    _imagem = 'assets/images/quiz.png';
 
                 return Stack(children: [
                   Padding(

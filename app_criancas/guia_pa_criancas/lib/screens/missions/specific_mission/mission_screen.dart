@@ -8,8 +8,8 @@ import '../specific_mission/audio_screen_tablet.dart';
 import '../specific_mission/image_screen_tablet.dart';
 import '../specific_mission/quiz_screen_tablet.dart';
 import '../specific_mission/text_screen_tablet.dart';
-import '../specific_mission/upload_example_screen_tablet.dart';
-import '../specific_mission/upload_screen_tablet.dart';
+import '../specific_mission/upload_video_screen_tablet.dart';
+import '../specific_mission/upload_image_screen_tablet.dart';
 import '../specific_mission/video_screen_tablet.dart';
 
 
@@ -49,6 +49,9 @@ class MissionScreen extends StatelessWidget {
     } 
     else if (mission.type == 'Questionario') {
       return ScreenTypeLayout(
+        mobile: OrientationLayout(
+          portrait: QuestionarioScreen(mission),
+        ),
         tablet: OrientationLayout(
           portrait: QuestionarioScreen(mission),
         ),
@@ -92,10 +95,10 @@ class MissionScreen extends StatelessWidget {
       );
     }
     
-    else if (mission.type == 'UploadExample') {
+    else if (mission.type == 'UploadVideo') {
       return ScreenTypeLayout(
         tablet: OrientationLayout(
-          portrait: UploadExampleScreenTabletPortrait(mission),
+          portrait: UploadVideoScreenTabletPortrait(mission),
         ),
         //mobile:OrientationLayout(portrait: UploadExampleScreenMobilePortrait(mission),)
       );

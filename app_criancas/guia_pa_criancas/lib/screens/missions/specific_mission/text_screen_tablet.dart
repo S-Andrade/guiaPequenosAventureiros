@@ -6,8 +6,7 @@ import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
-import 'package:light/light.dart';
-import 'package:sensors/sensors.dart';
+
 
 
 class TextScreenTabletPortrait extends StatefulWidget {
@@ -21,10 +20,8 @@ class TextScreenTabletPortrait extends StatefulWidget {
 }
 
 class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
-    with WidgetsBindingObserver {
+     {
   Mission mission;
-  List<double> _movementData = List();
-  List<int> _lightData = List();
   int _state = 0;
   DateTime _start;
   DateTime _end;
@@ -37,18 +34,12 @@ class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
   String _userID;
   Map resultados;
   bool _done;
-  Light _light;
-  StreamSubscription _subscription;
-   List<StreamSubscription<dynamic>> _streamSubscriptions =
-      <StreamSubscription<dynamic>>[];
+
 
   _TextScreenTabletPortraitState(this.mission);
 
   @override
   void initState() {
-    
-     super.initState();
-
     Auth().getUser().then((user) {
       setState(() {
         _userID = user.email;
@@ -63,63 +54,25 @@ class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
       });
     });
 
-    WidgetsBinding.instance.addObserver(this);
-
+    
     _start = DateTime.now();
-
-   
-
-    _streamSubscriptions
-        .add(
-      
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        _movementData.add(event.x);
-      });
-    }
-    )
-        );
     
+     super.initState();
 
-    initPlatformState();
     
- 
-   
   }
 
 
   
-  Future<void> initPlatformState() async {
-    startListening();
-  }
-
-  void startListening() {
-    _light = new Light();
-    try {
-      _subscription = _light.lightSensorStream.listen(onData);
-    } on LightException catch (exception) {
-      print(exception);
-    }
-  }
-
-  void onData(int luxValue) async {
-    _lightData.add(luxValue);
-    print(luxValue);
-  }
-
-   void stopListening() {
-    _subscription.cancel();
-  }
+  
 
   @override
   void dispose() {
     print('dispose');
-    WidgetsBinding.instance.removeObserver(this);
+    
     super.dispose();
-       for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
-    stopListening();
+      
+   
 
   }
 
@@ -281,12 +234,7 @@ class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
     } else {
       Timer(Duration(milliseconds: 3000), () {
       updateMissionDoneInFirestore(mission, _userID);
-        saveMissionMovementAndLightDataInFirestore(
-            mission, _userID, _movementData, _lightData);
-            for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
-    stopListening();
+
         Navigator.pop(context);
       });
     }
@@ -306,7 +254,7 @@ class TextScreenMobilePortrait extends StatefulWidget {
 }
 
 class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
-    with WidgetsBindingObserver {
+     {
   Mission mission;
   int _state = 0;
   DateTime _start;
@@ -320,12 +268,8 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
   String _userID;
   Map resultados;
   bool _done;
-  List<double> _movementData = List();
-  List<int> _lightData = List();
-   Light _light;
-  StreamSubscription _subscription;
-   List<StreamSubscription<dynamic>> _streamSubscriptions =
-      <StreamSubscription<dynamic>>[];
+
+  
 
   _TextScreenMobilePortraitState(this.mission);
 
@@ -345,25 +289,14 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
       });
     });
 
-    WidgetsBinding.instance.addObserver(this);
-
+    
     _start = DateTime.now();
 
     super.initState();
 
-    _streamSubscriptions
-        .add(
       
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        _movementData.add(event.x);
-      });
-    }
-    )
-        );
-    
 
-    initPlatformState();
+  
     
       
  
@@ -372,37 +305,13 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
 
 
   
-  Future<void> initPlatformState() async {
-    startListening();
-  }
-
-  void startListening() {
-    _light = new Light();
-    try {
-      _subscription = _light.lightSensorStream.listen(onData);
-    } on LightException catch (exception) {
-      print(exception);
-    }
-  }
-
-  void onData(int luxValue) async {
-    _lightData.add(luxValue);
-    print(luxValue);
-  }
-
-   void stopListening() {
-    _subscription.cancel();
-  }
-
+  
   @override
   void dispose() {
     print('dispose');
-    WidgetsBinding.instance.removeObserver(this);
+  
     super.dispose();
-      for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
-    stopListening();
+    
   }
 
   AppLifecycleState state;
@@ -562,12 +471,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
       Timer(Duration(milliseconds: 3000), () {
        
         updateMissionDoneInFirestore(mission, _userID);
-        saveMissionMovementAndLightDataInFirestore(
-            mission, _userID, _movementData, _lightData);
-            for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
-    stopListening();
+       
         Navigator.pop(context);
       });
     }

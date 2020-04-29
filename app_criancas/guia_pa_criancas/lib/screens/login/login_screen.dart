@@ -11,7 +11,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      tablet: OrientationLayout(
+      mobile: OrientationLayout(
+        portrait: LoginTabletPortrait(),
+        landscape: LoginTabletPortrait(),
+      ),
+       tablet: OrientationLayout(
         portrait: LoginTabletPortrait(),
         landscape: LoginTabletPortrait(),
       ),

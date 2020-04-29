@@ -110,54 +110,6 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
 }
 
 
-/*
-getMissionsLargerId() {
-  List<Mission> _missionList = missionNotifier.missionsList;
-
-  int _largerId = 0;
-
-  for (Mission m in _missionList) {
-    int _idNumber = int.parse(m.id);
-    if (_idNumber > _largerId) {
-      _largerId = _idNumber;
-    }
-  }
-
-  return _largerId;
-}
-
-*/
-
-//////// CRIAR UMA NOVA MISSAO DO TIPO IMAGEM COM A IMAGEM QUE SE FEZ UPLOAD PARA
-/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER;
-/// SE OS UPLOADS FUNCIONAM, ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
-/// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
-
-/*
-createMissionImageInFirestore(String imageUrl, String titulo) async {
-
-  // TO BE CHANGED; HOW TO STORE AND PRESENT THE IMAGE UPLOADED BY CHILDREN?
-
-  Mission mission = new Mission();
-
-  CollectionReference missionRef = Firestore.instance.collection('mission');
-
-  if (imageUrl != null) {
-    mission.linkImage = imageUrl;
-    mission.id = (getMissionsLargerId() + 1).toString();
-    mission.title = titulo;
-    mission.counter = 0;
-    mission.done = false;
-    mission.type = 'Image';
-  }
-
-  DocumentReference documentRef = missionRef.document(mission.id);
-
-  await documentRef.setData(mission.toMap());
-}
-
-*/
-
 /////// UPLOAD DE UMA IMAGEM PARA O FIREBASE STORAGE
 
 addUploadedImageToFirebaseStorage(File localFile, titulo) async {
@@ -181,35 +133,10 @@ addUploadedImageToFirebaseStorage(File localFile, titulo) async {
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    
+    return url;
   }
 }
 
-//////// CRIAR UMA NOVA MISSAO DO TIPO VIDEO COM O VIDEO QUE SE FEZ UPLOAD PARA
-/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER
-/// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
-/// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
-
-/*
-createMissionVideoInFirestore(String videoUrl, String titulo) async {
-  Mission mission = new Mission();
-
-  CollectionReference missionRef = Firestore.instance.collection('mission');
-
-  if (videoUrl != null) {
-    mission.linkVideo = videoUrl;
-    mission.id = (getMissionsLargerId() + 1).toString();
-    mission.title = titulo;
-    mission.counter = 0;
-    mission.done = false;
-    mission.type = 'Video';
-  }
-
-  DocumentReference documentRef = missionRef.document(mission.id);
-
-  await documentRef.setData(mission.toMap());
-}
-*/
 /////// UPLOAD DE UM VIDEO PARA O FIREBASE STORAGE
 
 addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
@@ -220,7 +147,7 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
 
     final StorageReference firebaseStorageRef = FirebaseStorage.instance
         .ref()
-        .child('mission/uploaded_videos/$uuid$fileExtension');
+        .child('mission/uploaded_videos_children/$uuid$fileExtension');
 
     await firebaseStorageRef
         .putFile(localFile)
@@ -231,36 +158,11 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
     });
 
     String url = await firebaseStorageRef.getDownloadURL();
-
+  return url;
    
   }
 }
 
-//////// CRIAR UMA NOVA MISSAO DO TIPO AUDIO COM O AUDIO QUE SE FEZ UPLOAD PARA
-/// O FIREBASE STORAGE ( SERVE APENAS DE EXEMPLO PARA VER
-/// SE OS UPLOADS FUNCIONAM; ESTA FUNÇÃO SERÁ APENAS NECESSÁRIA NA PARTE DOS MODERADORES,
-/// POIS AS CRIANÇAS NÃO CRIAM MISSÕES, APENAS AS VIZUALIZAM E "RESOLVEM")
-
-/*
-createMissionAudioInFirestore(String audioUrl, String titulo) async {
-  Mission mission = new Mission();
-
-  CollectionReference missionRef = Firestore.instance.collection('mission');
-
-  if (audioUrl != null) {
-    mission.linkAudio = audioUrl;
-    mission.id = (getMissionsLargerId() + 1).toString();
-    mission.title = titulo;
-    mission.counter = 0;
-    mission.done = false;
-    mission.type = 'Audio';
-  }
-
-  DocumentReference documentRef = missionRef.document(mission.id);
-
-  await documentRef.setData(mission.toMap());
-}
-*/
 
 /////// UPLOAD DE UM AUDIO PARA O FIREBASE STORAGE
 
@@ -288,12 +190,10 @@ addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
   }
 }
 
-//////// ATUALIZAR UMA DADA MISSÃO COM UM DADO CAMPO
-//// NO CASO DAS CRIANÇAS, SERIA NECESSÁRIO ATUALIZAR OS CAMPOS DE :
-/// - DONE (SE A MISSÃO FOI FEITA OU NÃO)
-/// - RESULTADOS : ?  ( TO DO )
+//////// ATUALIZAR A MISSÃO COM DONE ( FEITA )
 
 updateMissionDoneInFirestore(Mission mission, String id) async {
+  
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -312,7 +212,35 @@ updateMissionDoneInFirestore(Mission mission, String id) async {
       .updateData({'resultados': mission.resultados});
 }
 
+
+
+// UPDATE DO DONE COM LINK DO FICHEIRO UPLOADED ( APENAS PARA MISSAO DE UPLOAD IMAGEM OU VIDEO )
+
+updateMissionDoneWithLinkInFirestore(Mission mission, String id, String url) async {
+  
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["done"] = true;
+      mapa["linkUploaded"]=url;
+    }
+  });
+  mission.reload = true;
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
+}
+
+
+
 //para saber o número de tentativas
+
 updateMissionCounterInFirestore(Mission mission, String id, int counter) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 

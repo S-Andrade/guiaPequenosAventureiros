@@ -148,7 +148,7 @@ class _UserDataState extends State<UserData> {
             ),
             Row(
               children: <Widget>[
-                Text('Frequentaste pré-escola/jardim de infância:'),
+                Flexible(child: Text('Frequentaste pré-escola/jardim de infância:')),
                 Padding(padding: EdgeInsets.all(20)),
                 Radio(
                     value: true,
