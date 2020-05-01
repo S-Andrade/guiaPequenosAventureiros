@@ -28,19 +28,12 @@ class _EscolaCreate extends State<EscolaCreate> {
   
   final _formKey = GlobalKey<FormState>();
 
-  final myControllerNome = TextEditingController();
   
   List<Escola> listEscolas;
+  String nome;
  
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myControllerNome.dispose();
-   
-    super.dispose();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     
@@ -60,13 +53,12 @@ class _EscolaCreate extends State<EscolaCreate> {
               child: Column(
                 children: <Widget>[
                       TextFormField(
-                        controller: myControllerNome,
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome da Escola não inserido';
                             }
                           },
-                         
+                          onSaved: (input) => nome = input,
                           decoration: InputDecoration(
                             hintText: 'Nome da Escola   '
                           )),
@@ -114,31 +106,35 @@ class _EscolaCreate extends State<EscolaCreate> {
     await getListEscolas(context);
     print(listEscolas);
 
+     if(_formKey.currentState.validate()){
+        _formKey.currentState.save();
+         
+        if (listEscolas != null){
+          //create escola
+          List ids_e = [];
+          for (Escola e in listEscolas){
+            ids_e.add(int.parse(e.id));
+          }
+          ids_e.sort();
+          var id_escola = (ids_e.last + 1).toString();
+        
+          DatabaseService().updateEscolaData(id_escola, nome, []); 
 
+          //update aventura
+
+          List escolas = [];
+          escolas = aventura.escolas;
+          escolas.add(id_escola);
     
-    if (listEscolas != null){
-      //create escola
-      List ids_e = [];
-      for (Escola e in listEscolas){
-        ids_e.add(int.parse(e.id));
+
+          DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
+
+          //back to homepage
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
+
+        }
       }
-      ids_e.sort();
-      var id_escola = (ids_e.last + 1).toString();
-      DatabaseService().updateEscolaData(id_escola, myControllerNome.text, []); 
-
-      //update aventura
-
-      List escolas = [];
-      escolas = aventura.escolas;
-      escolas.add(id_escola);
- 
-
-      DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
-
-      //back to homepage
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
-
-    }
+   
     
   }
 

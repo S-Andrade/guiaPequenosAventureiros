@@ -32,22 +32,16 @@ class _TurmaCreate extends State<TurmaCreate> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final myControllerNome = TextEditingController();
-  final myControllerNAlunos = TextEditingController();
-  final myControllerProfessor = TextEditingController();
+ 
   
   List<Turma> listTurmas;
+
+  String nome;
+  String nAlunos;
+  String professor;
  
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myControllerNome.dispose();
-    myControllerProfessor.dispose();
-    myControllerNAlunos.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     
@@ -67,35 +61,32 @@ class _TurmaCreate extends State<TurmaCreate> {
               child: Column(
                 children: <Widget>[
                       TextFormField(
-                        controller: myControllerNome,
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome da Turma não inserido';
                             }
                           },
-                         
+                          onSaved: (input) => nome = input,
                           decoration: InputDecoration(
                             hintText: 'Nome da Turma   '
                           )),
                           TextFormField(
-                        controller: myControllerNAlunos,
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Numero de alunos não inserido';
                             }
                           },
-                         
+                          onSaved: (input) => nAlunos = input,
                           decoration: InputDecoration(
                             hintText: 'Numero de alunos   '
                           )),
                           TextFormField(
-                        controller: myControllerProfessor,
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome do professor não inserido';
                             }
                           },
-                         
+                          onSaved: (input) => professor = input,
                           decoration: InputDecoration(
                             hintText: 'Nome do professor  '
                           )),
@@ -138,9 +129,10 @@ class _TurmaCreate extends State<TurmaCreate> {
 
   Future<void> create(BuildContext context) async {
 
-    print("Entrei!!");
+     if(_formKey.currentState.validate()){
+        _formKey.currentState.save();
 
-    await getListTurmas(context);
+         await getListTurmas(context);
     print(listTurmas);
 
     List alunos = [];
@@ -148,7 +140,7 @@ class _TurmaCreate extends State<TurmaCreate> {
 
     if (listTurmas != null){
       //gerar alunos
-      var in_escolas =  escola.nome.substring(0,3).toLowerCase().trim()+ myControllerNome.text ;
+      var in_escolas =  escola.nome.substring(0,3).toLowerCase().trim()+ nome ;
       var letras_escola = in_escolas+ "@";
 
 
@@ -161,7 +153,7 @@ class _TurmaCreate extends State<TurmaCreate> {
       File file = await new File('$p/$file_name');
       
       print(letras_escola);
-      for (int i = 1; i <= int.parse(myControllerNAlunos.text); i++ ){
+      for (int i = 1; i <= int.parse(nAlunos); i++ ){
         var numero = '';
         if (i <= 9){
            numero = i.toString().padLeft(2,'0');
@@ -213,7 +205,7 @@ class _TurmaCreate extends State<TurmaCreate> {
       var id_turma = (ids_t.last + 1).toString();
 
       //create turma
-      DatabaseService().updateTurmaData(id_turma, myControllerNome.text, myControllerProfessor.text, int.parse(myControllerNAlunos.text), alunos, turmas_path);
+      DatabaseService().updateTurmaData(id_turma, nome, professor, int.parse(nAlunos), alunos, turmas_path);
 
 
       //gerar alunos
@@ -228,6 +220,10 @@ class _TurmaCreate extends State<TurmaCreate> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaDetails(escola: escola)));
 
     }
+
+     }
+
+   
     
   }
 
