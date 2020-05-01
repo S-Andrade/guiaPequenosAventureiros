@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:guia_pa_moderadores/services/database.dart';
 import 'turma_details.dart';
 import 'turma.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../escola/escola.dart';
+import '../escola/escola_details.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../widgets/color_loader.dart';
+
+
+
 
 
 class TurmaTile extends StatelessWidget {
 
   String turma;
-  TurmaTile({ this.turma });
+  Escola escola;
+  TurmaTile({ this.turma, this.escola });
 
   Turma turmafinal;
+  bool flag = false;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
             future: getTurma(),
             builder: (context, AsyncSnapshot<void> snapshot) {
-              return Padding(
+
+              if(!flag){
+                          return ColorLoader();
+              }else{
+                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: GestureDetector(
                     onTap: () {
@@ -27,11 +41,12 @@ class TurmaTile extends StatelessWidget {
                       
                       child: ListTile(
                         title: Text(turmafinal.nome),
-                        trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){deleteTurma();}),
+                        trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){deleteTurma(context);}),
                       ),
                     ),
                   ),
                 );
+              }
             }
     );
   }
@@ -48,15 +63,40 @@ class TurmaTile extends StatelessWidget {
           alunos: datasnapshot.data['alunos'] ?? [],
           file: datasnapshot.data['file'].toString() ?? '',
         );
+        flag=true;
       }
       else{
-        print("No such historia");
+        print("No such Turma");
       }
     });
   }
 
-  Future<void> deleteTurma() async  {
+  Future<void> deleteTurma(BuildContext context) async  {
+    DocumentReference documentReference = Firestore.instance.collection("turma").document(turmafinal.id);
+    await documentReference.delete();
+
+
+    List turmas = escola.turmas;
+    turmas.remove(turmafinal.id);
+    DatabaseService().updateEscolaData(escola.id, escola.nome, turmas);
+
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child(turmafinal.file);
+
+        await firebaseStorageRef.delete();
+
+    //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    for(String id_aluno in turmafinal.alunos){
+      DocumentReference documentReference = Firestore.instance.collection("aluno").document(id_aluno);
+      await documentReference.delete();
+
+              ///AuthResult result = await _firebaseAuth.
+    }
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaDetails(escola: escola)));
     print(turmafinal.alunos);
+
   }
  
 }

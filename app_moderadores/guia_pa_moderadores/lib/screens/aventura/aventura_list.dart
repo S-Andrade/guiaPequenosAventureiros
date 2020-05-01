@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';

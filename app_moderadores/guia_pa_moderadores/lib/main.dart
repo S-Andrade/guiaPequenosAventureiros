@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import './screens/login/login_screen.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 void main() => runApp(MyApp());
@@ -13,6 +16,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyApp> {
+
+
+    @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  DateTime backbuttonpressedTime;
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    DateTime currentTime = DateTime.now();
+    bool backButton = backbuttonpressedTime == null ||
+        currentTime.difference(backbuttonpressedTime) > Duration(seconds: 4);
+    if (backButton) {
+      print('aqui');
+      backbuttonpressedTime = currentTime;
+      Fluttertoast.showToast(
+          msg: "Clica duas vezes para sair da aplicação",
+          backgroundColor: Colors.black,
+          textColor: Colors.white);
+      return true;
+    }
+    else{
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      return false;
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

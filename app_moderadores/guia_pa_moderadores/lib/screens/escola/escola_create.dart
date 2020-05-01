@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:guia_pa_moderadores/screens/home_screen.dart';
 import '../../services/database.dart';
 import 'package:provider/provider.dart';
-import '../historia/historia.dart';
 import '../aventura/aventura.dart';
 import 'escola.dart';
 import '../aventura/aventura_details.dart';
@@ -57,6 +54,7 @@ class _EscolaCreate extends State<EscolaCreate> {
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
+            appBar: new AppBar(title: new Text("Criar Escola")),
              body:Form(
               key: _formKey,
               child: Column(

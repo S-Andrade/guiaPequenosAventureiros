@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,19 +6,14 @@ import '../../services/database.dart';
 import 'package:provider/provider.dart';
 import '../historia/historia.dart';
 import 'aventura.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 import '../historia/historia_create.dart';
 import 'package:flutter/cupertino.dart';
 import '../turma/turma.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../services/password_generator.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import '../escola/escola.dart';
 
@@ -311,7 +304,7 @@ class _AventuraCreate extends State<AventuraCreate> {
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
               appBar: AppBar(
-                    title: Text('Create an account'),
+                    title: Text('Criar aventura'),
                   ),
                   body: Column(children: <Widget>[
                     Expanded(

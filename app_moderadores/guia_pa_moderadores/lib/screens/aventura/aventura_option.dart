@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'aventura.dart';
 import 'aventura_details.dart';
-import '../capitulo/capitulo_list.dart';
+import 'aventura_capitulo.dart';
 
 class AventuraOption extends StatefulWidget {
 
@@ -19,12 +19,8 @@ class _AventuraOption extends State<AventuraOption> {
 
   @override
   Widget build(BuildContext context) {
-        return MaterialApp(
-          title: 'Guia dos Aventureiros',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-          ),
-          home: Scaffold(
+        return  Scaffold(
+            appBar: new AppBar(title: new Text("Guia de Pequenos Aventureiros")),
             body: Column(
               children: <Widget>[
                  new RaisedButton(
@@ -36,14 +32,13 @@ class _AventuraOption extends State<AventuraOption> {
                 ),
                 new RaisedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CapituloList(aventura: aventura)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));
                   },
                   child: Text("Capitulos"),
                   color: Colors.red,
                 ),
               ],
               )
-          )
           );
   }
 }

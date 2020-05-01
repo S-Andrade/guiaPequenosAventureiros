@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../aventura/aventura.dart';
 import 'capitulo_tile.dart';
 import '../historia/historia.dart';
+import '../../widgets/color_loader.dart';
+
 
 class CapituloList extends StatefulWidget {
 
@@ -19,6 +21,7 @@ class _CapituloList extends State<CapituloList> {
   _CapituloList({this.aventura});
   
   List capitulos;
+  bool flag = false;
 
 
   @override
@@ -26,12 +29,16 @@ class _CapituloList extends State<CapituloList> {
     return FutureBuilder<void>(
             future: getHistoria(),
             builder: (context, AsyncSnapshot<void> snapshot) {
+              if(!flag){
+                          return ColorLoader();
+              }else{
               return ListView.builder(
                 itemCount: capitulos.length,
                 itemBuilder: (context,index) {
                   return CapituloTile(capitulo_id: capitulos[index]);
                 }
               );
+              }
             }
       ); 
   }
@@ -47,6 +54,7 @@ class _CapituloList extends State<CapituloList> {
           capitulos: datasnapshot.data['capitulos'] ?? [],
           capa: datasnapshot.data['capa'] ?? '',
         );
+        flag = true;
       }
       else{
         print("No such historia");

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../services/database.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +61,7 @@ class _TurmaCreate extends State<TurmaCreate> {
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
+            appBar: new AppBar(title: new Text("Criar turmas")),
              body:Form(
               key: _formKey,
               child: Column(

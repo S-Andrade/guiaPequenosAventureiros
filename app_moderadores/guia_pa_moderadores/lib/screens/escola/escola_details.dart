@@ -21,7 +21,8 @@ class _EscolaDetails extends State<EscolaDetails> {
   Widget build(BuildContext context) {
     
      return  new Scaffold(
-            body: TurmaList(turmas: escola.turmas),
+            appBar: new AppBar(title: new Text("Turmas")),
+            body: TurmaList(escola:escola),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => TurmaCreate(escola: escola)));

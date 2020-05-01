@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:guia_pa_moderadores/screens/aventura/aventura_details.dart';
 import 'escola_details.dart';
 import 'escola.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../aventura/aventura.dart';
+import 'package:guia_pa_moderadores/services/database.dart';
+import '../turma/turma.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../widgets/color_loader.dart';
+
+
 
 
 class EscolaTile extends StatelessWidget {
 
-  final String escola;
-  EscolaTile({ this.escola });
+  String escola;
+  Aventura aventura;
+  EscolaTile({ this.escola, this.aventura });
 
   Escola escolafinal;
+  bool flag = false;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
             future: getEscola(),
             builder: (context, AsyncSnapshot<void> snapshot) {
+
+              if(!flag){
+                          return ColorLoader();
+              }else{
               return Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: GestureDetector(
@@ -27,10 +41,12 @@ class EscolaTile extends StatelessWidget {
                       
                       child: ListTile(
                         title: Text(escolafinal.nome),
+                        trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){deleteEscola(context);}),
                       ),
                     ),
                   ),
                 );
+              }
             }
     );
   }
@@ -44,11 +60,61 @@ class EscolaTile extends StatelessWidget {
           nome: datasnapshot.data['nome'].toString() ?? '',
           turmas: datasnapshot.data['turmas'] ?? []
         );
+        flag = true;
       }
       else{
-        print("No such historia");
+        print("No such escola");
       }
     });
+  }
+
+  Future<void> deleteEscola(BuildContext context) async  {
+    DocumentReference documentReference = Firestore.instance.collection("escola").document(escolafinal.id);
+    await documentReference.delete();
+
+    List escolas = aventura.escolas;
+    escolas.remove(escolafinal.id);
+    DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
+
+    for(String id_turma in  escolafinal.turmas){
+      Turma turma;
+      DocumentReference documentReference = Firestore.instance.collection("turma").document(id_turma);
+      await documentReference.get().then((datasnapshot) async {
+        if (datasnapshot.exists) {
+          turma = Turma(
+            id: datasnapshot.data['id'].toString() ?? '',
+            nome:datasnapshot.data['nome'].toString() ?? '',
+            professor: datasnapshot.data['professor'].toString() ?? '',
+            nAlunos: datasnapshot.data['nAlunos'] ?? 0,
+            alunos: datasnapshot.data['alunos'] ?? [],
+            file: datasnapshot.data['file'].toString() ?? '',
+          );
+        }
+        else{
+          print("No such Turma");
+        }
+      });
+      await documentReference.delete();
+      
+       final StorageReference firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child(turma.file);
+
+        await firebaseStorageRef.delete();
+
+
+      //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+      for(String id_aluno in turma.alunos){
+        DocumentReference documentReference = Firestore.instance.collection("aluno").document(id_aluno);
+        await documentReference.delete();
+        ///AuthResult result = await _firebaseAuth.
+      }
+
+
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura:aventura)));
+    
+
   }
 
 }

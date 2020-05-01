@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'capitulo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'capitulo_details.dart';
+import '../../widgets/color_loader.dart';
 
 
 class CapituloTile extends StatelessWidget {
@@ -10,12 +11,17 @@ class CapituloTile extends StatelessWidget {
   CapituloTile({ this.capitulo_id });
 
   Capitulo capitulo;
+  bool flag = false;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
             future: getCapitulo(),
             builder: (context, AsyncSnapshot<void> snapshot) {
+              if(!flag){
+                          return ColorLoader();
+              }else{
+
               return  Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: GestureDetector(
@@ -30,7 +36,8 @@ class CapituloTile extends StatelessWidget {
                     ),
                   ),
                 ),
-              ); 
+              );
+              } 
             });    
   }
 
@@ -44,9 +51,10 @@ class CapituloTile extends StatelessWidget {
         bloqueado: datasnapshot.data['bloqueado'] ?? null,
         missoes: datasnapshot.data['missoes'] ?? []
       );
+      flag = true;
       }
       else{
-        print("No such historia");
+        print("No such capitulo");
       }
     });
   }
