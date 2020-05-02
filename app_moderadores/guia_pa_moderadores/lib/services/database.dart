@@ -171,7 +171,7 @@ class DatabaseService {
     });
   }*/
 
-  void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai) {
+  void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai, String turma, String escola) {
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
   alunoCollection.document(id).setData({
     'idadeAluno': idade,
@@ -194,6 +194,8 @@ class DatabaseService {
     'nacionalidadePai': nacionalidadePai,
     'habilitacoesMae': habilitacoesMae,
     'habilitacoesPai': habilitacoesPai,
+    'turma': turma,
+    'escola': escola
   });
 
 }

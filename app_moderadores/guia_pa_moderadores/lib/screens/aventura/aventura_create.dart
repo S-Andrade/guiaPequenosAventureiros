@@ -375,10 +375,29 @@ class _AventuraCreate extends State<AventuraCreate> {
       List list_Turmas_id = [];
       print(escolas[i]);
 
+      List ids_e = [];
+        for (Escola e in listEscolas){
+          ids_e.add(int.parse(e.id));
+        }
+        ids_e.sort();
+        var id_escola = (ids_e.last + 1).toString();
+
       for (List turma in turmas[i]){
             print(turma);
         await getListTurmas(context);
         print(listTurmas);
+
+        //id turma
+        List ids_t = [];
+            for (Turma t in listTurmas){
+              int d = int.parse(t.id, onError: (e) => null);
+              if (d != null){
+                ids_t.add(int.parse(t.id));
+              }
+              
+            }
+            ids_t.sort();
+            var id_turma = (ids_t.last + 1).toString();
 
         List alunos = [];
         final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -409,7 +428,7 @@ class _AventuraCreate extends State<AventuraCreate> {
               String id_aluno = letras_escola + numero_aluno;
               alunos.add(id_aluno);
             
-              DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai");
+              DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai",id_turma,id_escola);
 
               var password = generatePassword(true, true, true, false, 10);
               print(id_aluno + " -> " + password);
@@ -437,16 +456,7 @@ class _AventuraCreate extends State<AventuraCreate> {
 
 
 
-            List ids_t = [];
-            for (Turma t in listTurmas){
-              int d = int.parse(t.id, onError: (e) => null);
-              if (d != null){
-                ids_t.add(int.parse(t.id));
-              }
-              
-            }
-            ids_t.sort();
-            var id_turma = (ids_t.last + 1).toString();
+            
 
             //create turma
             DatabaseService().updateTurmaData(id_turma, turma[0], turma[2], int.parse(turma[1]), alunos, turmas_path);
@@ -467,12 +477,7 @@ class _AventuraCreate extends State<AventuraCreate> {
       if (listEscolas != null){
         print("escoola");
         //create escola
-        List ids_e = [];
-        for (Escola e in listEscolas){
-          ids_e.add(int.parse(e.id));
-        }
-        ids_e.sort();
-        var id_escola = (ids_e.last + 1).toString();
+        
         DatabaseService().updateEscolaData(id_escola, escolas[i], list_Turmas_id);
         
           list_Escolas_id.add(id_escola);

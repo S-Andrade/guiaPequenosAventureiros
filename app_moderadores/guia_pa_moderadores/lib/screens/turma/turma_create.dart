@@ -135,6 +135,21 @@ class _TurmaCreate extends State<TurmaCreate> {
          await getListTurmas(context);
     print(listTurmas);
 
+
+
+      //id turma
+      List ids_t = [];
+      for (Turma t in listTurmas){
+        int d = int.parse(t.id, onError: (e) => null);
+        if (d != null){
+          ids_t.add(int.parse(t.id));
+        }
+        
+      }
+      ids_t.sort();
+      var id_turma = (ids_t.last + 1).toString();
+
+
     List alunos = [];
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -165,7 +180,7 @@ class _TurmaCreate extends State<TurmaCreate> {
         String id_aluno = letras_escola + numero_aluno;
         alunos.add(id_aluno);
        
-        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai");
+        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai", id_turma,escola.id);
 
         var password = generatePassword(true, true, true, false, 10);
         print(id_aluno + " -> " + password);
@@ -193,16 +208,6 @@ class _TurmaCreate extends State<TurmaCreate> {
 
 
 
-      List ids_t = [];
-      for (Turma t in listTurmas){
-        int d = int.parse(t.id, onError: (e) => null);
-        if (d != null){
-          ids_t.add(int.parse(t.id));
-        }
-        
-      }
-      ids_t.sort();
-      var id_turma = (ids_t.last + 1).toString();
 
       //create turma
       DatabaseService().updateTurmaData(id_turma, nome, professor, int.parse(nAlunos), alunos, turmas_path);
