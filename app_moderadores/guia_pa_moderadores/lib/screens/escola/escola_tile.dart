@@ -8,6 +8,10 @@ import 'package:guia_pa_moderadores/services/database.dart';
 import '../turma/turma.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../widgets/color_loader.dart';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+
 
 
 
@@ -100,21 +104,46 @@ class EscolaTile extends StatelessWidget {
           .ref()
           .child(turma.file);
 
-        await firebaseStorageRef.delete();
+            var url =  await firebaseStorageRef.getDownloadURL();
 
+        
+         await deleteUser(url);
 
-      //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+      
+
       for(String id_aluno in turma.alunos){
         DocumentReference documentReference = Firestore.instance.collection("aluno").document(id_aluno);
         await documentReference.delete();
-        ///AuthResult result = await _firebaseAuth.
       }
 
+      await firebaseStorageRef.delete();
 
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura:aventura)));
     
 
   }
+  
 
+  Future<void> deleteUser(String url) async{
+    new HttpClient().getUrl(Uri.parse(url))
+    .then((HttpClientRequest request) => request.close())
+    .then((HttpClientResponse response) {
+      
+      response.transform(new Utf8Decoder()).listen((contents) async{
+        List lista = contents.split("\n");
+        final FirebaseAuth auth = FirebaseAuth.instance;
+        for (String crianca in lista){
+          if(crianca != ""){
+            List a = crianca.split(" -> ");
+            print(a);
+             AuthResult result = await auth.signInWithEmailAndPassword(email: a[0].trim(), password: a[1].trim());
+              FirebaseUser user = await auth.currentUser();
+              user.delete();
+          }
+        }
+        
+      });
+    });
+  }
 }

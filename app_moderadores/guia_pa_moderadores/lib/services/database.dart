@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../screens/moderador/moderador.dart';
 import '../screens/aventura/aventura.dart';
 import '../screens/capitulo/capitulo.dart';
 import '../screens/turma/turma.dart';
@@ -196,4 +197,28 @@ class DatabaseService {
   });
 
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
+//Moderador
+
+  final CollectionReference moderadorCollection = Firestore.instance.collection('moderador');
+
+  Future<void> updateModeradorData(String id) async {
+    return await turmaCollection.document(id).setData({
+      'id': id,
+    });
+  }
+
+  List<Moderador> _moderadorListFRomSnapshot(QuerySnapshot snapshot){
+    return snapshot.documents.map((doc){
+      return Moderador(
+        id: doc.data['id'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<Moderador>> get moderador {
+    return moderadorCollection.snapshots().map(_moderadorListFRomSnapshot);
+  }
+
 }

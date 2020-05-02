@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../home_screen.dart';
 import 'package:guia_pa_moderadores/widgets/app drawer/app_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:provider/provider.dart';
+import '../moderador/moderador.dart';
+import '../../services/database.dart';
 
 
 ///////// VISTA TABLET PORTRAIT 
@@ -18,10 +20,22 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   String _email, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    List<Moderador> listModerador;
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<Moderador>>.value(value: DatabaseService().moderador),
+       
+      ],
+      child: Builder(
+        builder: (BuildContext context) { 
+          return FutureBuilder<void>(
+            future: getListModerador(context),
+            builder: (context, AsyncSnapshot<void> snapshot) {
+          return  Scaffold(
       key:_scaffoldKey,
       drawer: AppDrawer(),
         backgroundColor: Colors.white,
@@ -129,6 +143,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                     }
                                   },
                                   onSaved: (input) => _password = input,
+                                  obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: 'Password   ',
                                     
@@ -143,7 +158,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                         GestureDetector(
                           onTap: () {
                             print('login');
-                            autenticar();
+                            autenticar(context);
                           },
                           child: Container(
                             width: 460,
@@ -174,25 +189,74 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                 ],
               ),
             )));
-  }
+          
+          
+          
+          });
+          
+          
+          
+          
+          
+         
+          
+    }));}
+    
 
-  Future<void> autenticar() async {
+  Future<void> autenticar(BuildContext context) async {
     final formState = _formKey.currentState;
+    await getListModerador(context);
+
     if (formState.validate()) {
       formState.save();
       try {
+        print(listModerador);
         print(_email);
         print(_password);
-        final FirebaseAuth auth = FirebaseAuth.instance;
-        AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password);
-        FirebaseUser user = result.user;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        bool flag = false;
+        for(Moderador m in listModerador){
+          if(m.id == _email){
+            flag = true;
+          }
+        }
+
+        if(flag){
+          final FirebaseAuth auth = FirebaseAuth.instance;
+          AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
+          FirebaseUser user = result.user;
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        }else{
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema na autenticação"),
+                content: new Text("Email não está correto!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+        }
+
+        
       } catch (e) {
         print('falha' + e.message);
       }
     }
   }
+
+  Future<void> getListModerador(BuildContext context) async{
+      listModerador = Provider.of<List<Moderador>>(context, listen: false);
+    }
 }
 
 
@@ -212,10 +276,21 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
   String _email, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Moderador> listModerador;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  MultiProvider(
+      providers: [
+        StreamProvider<List<Moderador>>.value(value: DatabaseService().moderador),
+       
+      ],
+      child: Builder(
+        builder: (BuildContext context) { 
+          return  FutureBuilder<void>(
+            future: getListModerador(context),
+            builder: (context, AsyncSnapshot<void> snapshot) {
+          return  Scaffold(
       key:_scaffoldKey,
       drawer: AppDrawer(),
         backgroundColor: Colors.white,
@@ -323,6 +398,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                                     }
                                   },
                                   onSaved: (input) => _password = input,
+                                  obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: 'Password   ',
                                     
@@ -337,7 +413,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                         GestureDetector(
                           onTap: () {
                             print('login');
-                            autenticar();
+                            autenticar(context);
                           },
                           child: Container(
                             width: 460,
@@ -368,23 +444,75 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                 ],
               ),
             )));
-  }
-
-  Future<void> autenticar() async {
+          
+          
+          });
+          
+          
+          
+          
+         
+          
+      
+      
+      
+      }));}
+    
+    
+    
+   Future<void> autenticar(BuildContext context) async {
     final formState = _formKey.currentState;
+    await getListModerador(context);
+
     if (formState.validate()) {
       formState.save();
       try {
+        print(listModerador);
         print(_email);
         print(_password);
-        final FirebaseAuth auth = FirebaseAuth.instance;
-        AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password);
-        FirebaseUser user = result.user;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        bool flag = false;
+        for(Moderador m in listModerador){
+          if(m.id == _email){
+            flag = true;
+          }
+        }
+
+        if(flag){
+          final FirebaseAuth auth = FirebaseAuth.instance;
+          AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
+          FirebaseUser user = result.user;
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        }else{
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema na autenticação"),
+                content: new Text("Email não está correto!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+        }
+
+        
       } catch (e) {
         print('falha' + e.message);
       }
     }
   }
+
+  Future<void> getListModerador(BuildContext context) async{
+      listModerador = Provider.of<List<Moderador>>(context, listen: false);
+    }
+
 }

@@ -7,6 +7,10 @@ import '../escola/escola.dart';
 import '../escola/escola_details.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../widgets/color_loader.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 
@@ -72,7 +76,10 @@ class TurmaTile extends StatelessWidget {
   }
 
   Future<void> deleteTurma(BuildContext context) async  {
-    DocumentReference documentReference = Firestore.instance.collection("turma").document(turmafinal.id);
+
+
+   
+   DocumentReference documentReference = Firestore.instance.collection("turma").document(turmafinal.id);
     await documentReference.delete();
 
 
@@ -84,19 +91,44 @@ class TurmaTile extends StatelessWidget {
           .ref()
           .child(turmafinal.file);
 
-        await firebaseStorageRef.delete();
+    var url =  await firebaseStorageRef.getDownloadURL();
+    
+    await deleteUser(url);
 
-    //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+   
+    
     for(String id_aluno in turmafinal.alunos){
       DocumentReference documentReference = Firestore.instance.collection("aluno").document(id_aluno);
       await documentReference.delete();
-
-              ///AuthResult result = await _firebaseAuth.
     }
+
+     await firebaseStorageRef.delete();
 
     Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaDetails(escola: escola)));
     print(turmafinal.alunos);
 
   }
  
+
+  Future<void> deleteUser(String url) async{
+    new HttpClient().getUrl(Uri.parse(url))
+    .then((HttpClientRequest request) => request.close())
+    .then((HttpClientResponse response) {
+      
+      response.transform(new Utf8Decoder()).listen((contents) async{
+        List lista = contents.split("\n");
+        final FirebaseAuth auth = FirebaseAuth.instance;
+        for (String crianca in lista){
+          if(crianca != ""){
+            List a = crianca.split(" -> ");
+            print(a);
+             AuthResult result = await auth.signInWithEmailAndPassword(email: a[0].trim(), password: a[1].trim());
+              FirebaseUser user = await auth.currentUser();
+              user.delete();
+          }
+        }
+        
+      });
+    });
+  }
 }
