@@ -41,6 +41,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
         backgroundColor: Colors.white,
         body: Form(
             key: _formKey,
+            child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Stack(
@@ -188,7 +189,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                   )
                 ],
               ),
-            )));
+            ))));
           
           
           
@@ -233,7 +234,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
               // retorna um objeto do tipo Dialog
               return AlertDialog(
                 title: new Text("Problema na autenticação"),
-                content: new Text("Email não está correto!"),
+                content: new Text("Email ou password não está correto!"),
                 actions: <Widget>[
                   // define os botões na base do dialogo
                   new FlatButton(
@@ -249,7 +250,25 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
         
       } catch (e) {
-        print('falha' + e.message);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema na autenticação"),
+                content: new Text("Email ou password não está correto!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
       }
     }
   }
@@ -296,6 +315,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
         backgroundColor: Colors.white,
         body: Form(
             key: _formKey,
+            child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Stack(
@@ -443,7 +463,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                   )
                 ],
               ),
-            )));
+            ))));
           
           
           });

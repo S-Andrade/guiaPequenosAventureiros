@@ -37,14 +37,14 @@ class _AventuraCreate extends State<AventuraCreate> {
   _AventuraCreate({this.user});
 
   
-  final _formKey = GlobalKey<FormState>();
+    final _formKey = GlobalKey<FormState>();
     final _formKeyAventura = GlobalKey<FormState>();
     final _formKeyHistoria = GlobalKey<FormState>();
 
 
   
 
-
+  List<Widget> lista_principal = [];
 
   List<Historia> listHistorias;
   List<Aventura> listAventura;
@@ -63,19 +63,19 @@ class _AventuraCreate extends State<AventuraCreate> {
   String _turma;
   String _nAlunos;
   String _professor;
-  int counter_escolas = 0;
   List<List<int>> posicoes =[];
   int posicoes_counter = 0;
   int escola_counter = 0;
   String _aventura_nome;
   String _aventura_local;
+  int counter_principal = 0;
 
-  
-
+ 
  
   @override
   Widget build(BuildContext context) {
    
+    
     List<Step> steps =[
       Step(
         title: const Text('Dados da Aventura'),
@@ -262,8 +262,26 @@ class _AventuraCreate extends State<AventuraCreate> {
             },
           );
         }
-        else{
-          //create(context);
+        else if (total_esperado == total_inserido){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Pronto a criar"),
+                content: new Text("Está pronto para criar uma nova aventura!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         }
       }
 
@@ -283,10 +301,14 @@ class _AventuraCreate extends State<AventuraCreate> {
           listOfFields = [];
           escolas = [];
           turmas = [];
+          counter = 0;
+          posicoes_counter = 0;
+          escola_counter = 0;
         });
       }
     }
     
+
 
 
 
@@ -306,8 +328,9 @@ class _AventuraCreate extends State<AventuraCreate> {
               appBar: AppBar(
                     title: Text('Criar aventura'),
                   ),
-                  body: Column(children: <Widget>[
-                    Expanded(
+                  body: Column(
+                    children: <Widget>[
+                        Expanded(
                       child: Stepper(
                         steps: steps,
                         currentStep: currentStep,
@@ -316,7 +339,6 @@ class _AventuraCreate extends State<AventuraCreate> {
                         onStepCancel: cancel,
                       ),
                     ),
-
                     GestureDetector(
                                 onTap: () {
                                   print('create');
@@ -345,8 +367,8 @@ class _AventuraCreate extends State<AventuraCreate> {
                                   )),
                                 ),
                               )
-
-                  ]));
+                    ]
+                  ));
 
 
 
@@ -369,7 +391,30 @@ class _AventuraCreate extends State<AventuraCreate> {
     print(escolas);
     print(turmas);
 
-    List list_Escolas_id = [];
+    if(_aventura_nome  == null || _aventura_local == null || dropdownValue == "Historia" || escolas.length == 0 || turmas.length == 0){
+
+       showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema a criar aventura"),
+                content: new Text("Tem de prencher todos os campos!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+    }else{
+       List list_Escolas_id = [];
 
     for (int i = 0; i < escolas.length; i++){
       List list_Turmas_id = [];
@@ -517,6 +562,7 @@ class _AventuraCreate extends State<AventuraCreate> {
       //back to homepage
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
     }
+    }
      
    }
       
@@ -601,24 +647,28 @@ class _AventuraCreate extends State<AventuraCreate> {
     }
 
 
+  nAlunosValidator(String input){
+   
+  }
 
    void addNewFieldTurma(int counter){
         final _formKeyTurma = GlobalKey<FormState>();
         //print(counter);
+        int pos_turma = 0;
         int pos = 0;
         for (int i = 0 ; i < posicoes_counter; i++){
-           print(posicoes[i]);
+           //print(posicoes[i]);
           pos += posicoes[i].length;
           if (i == counter){
-            
+            pos_turma = posicoes[i].length - 1;
             posicoes[i].add(1);
             break;
           }
         }
-        print(posicoes);
+        //print(posicoes);
         print("pos " + pos.toString());
         print("len " + listOfFields.length.toString());
-
+        print("pos_turma " + pos_turma.toString());
 
         if(pos > listOfFields.length){
           print("add");
@@ -643,13 +693,16 @@ class _AventuraCreate extends State<AventuraCreate> {
               ),
               TextFormField(
               validator: (input) {
-                if (input.isEmpty) {
-                  return 'Numero de alunos não inserido';
-                }
+                 if (input.isEmpty) {
+                      return 'Numero de alunos não inserido';
+                    }
+                    if(int.tryParse(input) == null) {
+                      return 'Inserir numero inteiro';
+                    }
               },
               onSaved: (input) => _nAlunos = input,
               decoration: InputDecoration(
-                  hintText: 'Niumero de alunos   ',
+                  hintText: 'Numero de alunos   ',
               )
               ),
               TextFormField(
@@ -668,7 +721,7 @@ class _AventuraCreate extends State<AventuraCreate> {
 
               ,
                 
-              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter);}),
+              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter, pos_turma);}),
               
           ]
           )
@@ -698,13 +751,16 @@ class _AventuraCreate extends State<AventuraCreate> {
               ),
               TextFormField(
               validator: (input) {
-                if (input.isEmpty) {
-                  return 'Numero de alunos não inserido';
-                }
+                 if (input.isEmpty) {
+                      return 'Numero de alunos não inserido';
+                    }
+                    if(int.tryParse(input) == null) {
+                      return 'Inserir numero inteiro';
+                    }
               },
               onSaved: (input) => _nAlunos = input,
               decoration: InputDecoration(
-                  hintText: 'Niumero de alunos   ',
+                  hintText: 'Numero de alunos   ',
               )
               ),
               TextFormField(
@@ -723,7 +779,7 @@ class _AventuraCreate extends State<AventuraCreate> {
 
               ,
                 
-              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter);}),
+              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter,pos_turma);}),
               
           ]
           ));
@@ -740,7 +796,7 @@ class _AventuraCreate extends State<AventuraCreate> {
       }
 
      
-    void addTurma(GlobalKey<FormState> _formKeyTurma, int counter) async {
+    void addTurma(GlobalKey<FormState> _formKeyTurma, int counter, int pos_turma) async {
       if(turmas.length == counter){
         if(_formKeyTurma.currentState.validate()){
           _formKeyTurma.currentState.save();
@@ -751,7 +807,11 @@ class _AventuraCreate extends State<AventuraCreate> {
         if(_formKeyTurma.currentState.validate()){
         _formKeyTurma.currentState.save();
         setState(() {
-        turmas[counter].add([_turma,_nAlunos,_professor]);
+          if (turmas[counter].asMap().containsKey(pos_turma)){
+            turmas[counter][pos_turma] = [_turma,_nAlunos,_professor];
+          }else{
+            turmas[counter].add([_turma,_nAlunos,_professor]);
+          }
         });
       }
       }

@@ -30,7 +30,7 @@ class _AventuraListState extends State<AventuraList> {
               return ListView.builder(
                 itemCount: aventuras.length,
                 itemBuilder: (context,index) {
-                  return AventuraTile(aventura: aventuras[index]);
+                  return AventuraTile(user:user, aventura: aventuras[index]);
                 }
               );
             }
