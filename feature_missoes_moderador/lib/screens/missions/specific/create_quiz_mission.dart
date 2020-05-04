@@ -1,9 +1,13 @@
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/models/quiz.dart';
+import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateQuizMissionScreen extends StatefulWidget {
   String aventuraId;
@@ -22,11 +26,6 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   String _titulo;
   List _perguntas;
   final _text = TextEditingController();
-  final _textQuestion = TextEditingController();
-  final _textAns1 = TextEditingController();
-  final _textAns2 = TextEditingController();
-  final _textAns3 = TextEditingController();
-  final _textAnsCorrect = TextEditingController();
 
   _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
 
@@ -39,6 +38,13 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (missionNotifier.currentQuestion != null ) {
+      if( !_perguntas.contains(missionNotifier.currentQuestion))
+      {
+        print('aqui lolllllllllllll');
+        _perguntas.add(missionNotifier.currentQuestion);
+      }
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -237,6 +243,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                     setState(() {
                                                       _perguntas
                                                           .removeAt(index);
+                                                    missionNotifier.currentQuestion = null;
                                                     });
                                                   },
                                                 ),
@@ -252,9 +259,15 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                         },
                                         itemCount: _perguntas.length)),
                                 FlatButton(
-                                  child: Icon(FontAwesomeIcons.plusCircle),
+                                  child: Icon(FontAwesomeIcons.plus),
                                   onPressed: () {
-                                    createQuestion(context);
+                                    //setState(() {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateQuestion()));
+                                   // });
                                   },
                                 )
                               ])))
@@ -265,20 +278,5 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
         ),
       ),
     );
-  }
-
-  createQuestion(BuildContext context) {
-    //showDialog(context: context,
-    //builder: (context){
-    //  return AlertDialog(
-      setState(() {
-        Question q = new Question();
-      q.question = 'ccccc?';
-      _perguntas.add(q);
-
-        
-      });
-     //);
-    //});
   }
 }

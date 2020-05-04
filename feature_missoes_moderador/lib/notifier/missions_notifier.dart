@@ -12,7 +12,8 @@ List<Mission> _missionsList = [];
   dynamic _missionContent;
   bool _completed;
   int _currentScore;
-  List<Question> _allQuestions;
+  List<Question> _allQuestions = [];
+  Question _currentQuestion;
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
   UnmodifiableListView<Question> get allQuestions => UnmodifiableListView(_allQuestions);
@@ -20,6 +21,7 @@ List<Mission> _missionsList = [];
   bool get completed => _completed;
   int get currentScore => _currentScore; 
 
+  Question get currentQuestion => _currentQuestion;
   Mission get currentMission => _currentMission;
   Quiz get missionContent => _missionContent;
 
@@ -35,6 +37,11 @@ List<Mission> _missionsList = [];
 
   set currentMission(Mission mission) {
     _currentMission = mission;
+    notifyListeners();
+  }
+
+  set currentQuestion(Question question) {
+    _currentQuestion = question;
     notifyListeners();
   }
 
