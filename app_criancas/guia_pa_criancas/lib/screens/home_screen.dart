@@ -4,11 +4,9 @@ import 'aventura/aventura.dart';
 import '../services/database.dart';
 import 'package:provider/provider.dart';
 import 'aventura/aventura_list.dart';
-
-
+import 'companheiro/companheiro_appwide.dart';
 
 class HomeScreen extends StatefulWidget {
-
   final FirebaseUser user;
   HomeScreen({this.user});
 
@@ -17,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-
   final FirebaseUser user;
   _HomeScreen({this.user});
 
@@ -36,18 +33,34 @@ class _HomeScreen extends State<HomeScreen> {
     return MaterialApp(
       title: 'Guia dos Aventureiros',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primarySwatch: Colors.blue,
       ),
-     home: StreamProvider<List<Aventura>>.value(
-      value : DatabaseService().aventura,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Guia dos pequenos Aventureiros")
+      home: StreamProvider<List<Aventura>>.value(
+        value: DatabaseService().aventura,
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 1.0],
+            colors: [
+              Color(0xFF62D7A2),
+              Color(0xFF00C9C9),
+            ],
+          )),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("As tuas Aventuras")),
+            body: Stack(children: <Widget>[
+              AventuraList(user: user),
+              CompanheiroAppwide(),
+            ]),
+          ),
         ),
-        body: AventuraList(user: user),
       ),
-      
-    ),
     );
   }
 }

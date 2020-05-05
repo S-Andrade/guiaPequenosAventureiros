@@ -748,22 +748,51 @@ class _UserDataState extends State<UserData> {
           child: Theme(
               data: ThemeData(primaryColor: Color(0xFF8a46c6)),
               child: SingleChildScrollView(
-                child: Expanded(
+                child: Container(
                   child: Column(children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Uma pequena ajuda antes de começar',
+                        'Olá,\n',
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 32,
-                              color: Color(0xFF100043),
-                            )),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 32,
+                          color: Color(0xFF100043),
+                        )),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Convidamos a preencher este questionário com o objetivo de avaliarmos a progressão do projeto e o seu impacto na vida escolar dos alunos e alunas de quarto ano.\nSe surgirem dúvidas estamos aqui para esclarecer. É muito importante que responda a todas as perguntas.',
+                        textAlign: TextAlign.justify,
+
+                        style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 18,
+                          color: Color(0xFF100043),
+                        )),
                       ),
                     ),
                     FractionallySizedBox(
                         widthFactor: 0.6, child: SvgPicture.asset(userDataImg)),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Convidamos a preencher este questionário com o objetivo de avaliarmos a progressão do projeto e o seu impacto na vida escolar dos alunos e alunas de quarto ano.\nSe surgirem dúvidas estamos aqui para esclarecer. É muito importante que responda a todas as perguntas.',
+                        textAlign: TextAlign.justify,
+
+                        style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 18,
+                          color: Color(0xFF100043),
+                        )),
+                      ),
+                    ),
                     Text(''),
                     Container(
                       child: Stepper(
