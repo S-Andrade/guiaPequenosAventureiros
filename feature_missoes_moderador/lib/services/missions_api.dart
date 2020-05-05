@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:feature_missoes_moderador/models/aluno.dart';
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/models/questionario.dart';
 import 'package:feature_missoes_moderador/models/quiz.dart';
@@ -157,7 +158,6 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -221,7 +221,6 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -267,7 +266,6 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
-
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -313,7 +311,6 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -358,7 +355,6 @@ createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -383,7 +379,6 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mission.resultados = [];
     mission.content = descricao;
     mission.type = 'UploadImage';
-    
   }
 
   alunos.forEach((element) {
@@ -393,7 +388,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mapa['counterVisited'] = 0;
     mapa['done'] = false;
     mapa['timeVisited'] = 0;
-    mapa['linkUploaded']="";
+    mapa['linkUploaded'] = "";
     mission.resultados.add(mapa);
   });
 
@@ -589,7 +584,7 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
   DocumentReference documentRef = missionRef.document(mission.id);
-  print("missiooon"+mission.id);
+  print("missiooon" + mission.id);
 
   CollectionReference capituloRef = Firestore.instance.collection('capitulo');
   DocumentReference documentRef2 = capituloRef.document(capituloId);
@@ -637,37 +632,6 @@ getTurmas(String aventuraId) async {
   }
   return listaTurmas;
 }
-
-/*
-getTurma(String turmaId) async {
-
- DocumentReference documentReference =
-          Firestore.instance.collection("turma").document(turmaId);
-           
-      await documentReference.get().then((datasnapshot) {
-        
-        if (datasnapshot.exists) {
-          setState(() {
-         turma = new Turma(
-              id: datasnapshot.data['id'] ?? '',
-              nAlunos: datasnapshot.data['nAlunos'] ?? null,
-              file: datasnapshot.data['file'] ?? '',
-              professor: datasnapshot.data['professor'] ?? '',
-              alunos: datasnapshot.data['alunos'] ?? []);
-            
-       });
-        }
-        
-      });
-
-      
-     
-      
-
-  
-
-}
-*/
 
 // RETORNA UMA LISTA DE ALUNOS DE TODAS AS TURMAS ASSOCIADAS À ESCOLA QUE ESTÁ ASSOCIADADA A UMA DADA AVENTURA
 
@@ -731,10 +695,9 @@ getAlunosForTurma(String turmaId) async {
 // RETORNA MISSOES DE UM CERTO CAPITULO
 
 getMissionsForCapitulo(String capituloId) async {
-
   List<dynamic> missions = [];
   Mission mission;
-  List<dynamic> missionsIds=[];
+  List<dynamic> missionsIds = [];
 
   await Firestore.instance
       .collection('capitulo')
@@ -747,12 +710,10 @@ getMissionsForCapitulo(String capituloId) async {
   for (var missao in missions) {
     await missao.get().then((missionSnapchot) {
       if (missionSnapchot.exists) {
-      mission = Mission.fromMap(missionSnapchot.data);
-      
-      }
-      else{
+        mission = Mission.fromMap(missionSnapchot.data);
+      } else {
         print("no data");
-        mission=null;
+        mission = null;
       }
       missionsIds.add(mission);
     });
@@ -761,18 +722,16 @@ getMissionsForCapitulo(String capituloId) async {
   return List<Mission>.from(missionsIds);
 }
 
-
 // RETORNA QUANTAS MISSÕES DE UMA CERTA LISTA DE MISSÕES, JÁ FEZ UMA CERTA TURMA ( COM UM CERTO Nº DE ALUNOS )
 
-int getDonesForTurma(List<String> alunos,List<Mission> missions) {
+int getDonesForTurma(List<String> alunos, List<Mission> missions) {
+  int missionsDone = 0;
 
-  int missionsDone=0;
-  
-  for(var mission in missions){
-    for(var aluno in alunos){
-      for(var campo in mission.resultados){
-        if(campo['aluno']==aluno){
-          if(campo['done']==true) missionsDone++;
+  for (var mission in missions) {
+    for (var aluno in alunos) {
+      for (var campo in mission.resultados) {
+        if (campo['aluno'] == aluno) {
+          if (campo['done'] == true) missionsDone++;
           break;
         }
       }
@@ -802,3 +761,221 @@ getMissionsLargerId() async {
 
   return _largerId;
 }
+
+// RETORNA UMA INSTÂNCIA DO QUIZ DE UMA DADA MISSÃO DO TIPO QUIZ
+
+getQuiz(content) async {
+  DocumentReference quizReference = content;
+
+  Quiz quiz;
+
+  await quizReference.get().then((quizSnapshot) {
+    if (quizSnapshot.exists) {
+      quiz = Quiz.fromMap(quizSnapshot.data);
+    } else
+      print("bad");
+  });
+
+  return quiz;
+}
+
+// RETORNA UMA LISTA DE INSTÃNCIA DE PERGUNTAS DE UM QUESTIONARIO
+
+getPerguntasDoQuestionario(content) async {
+  DocumentReference questionarioReference = content;
+
+  Questionario questionario;
+
+  await questionarioReference.get().then((questionarioSnapshot) {
+    if (questionarioSnapshot.exists) {
+      questionario = Questionario.fromMap(questionarioSnapshot.data);
+    } else
+      print("bad");
+  });
+
+  List<Question> perguntas = [];
+  for (var p in questionario.questions) {
+    DocumentReference questionReference = p;
+    Question pergunta;
+    await questionReference.get().then((questionSnapshot) {
+      if (questionSnapshot.exists) {
+        pergunta = Question.fromMap(questionSnapshot.data);
+      } else
+        print("bad");
+    });
+    perguntas.add(pergunta);
+  }
+  perguntas.sort((a, b) => a.id.compareTo(b.id));
+
+  return perguntas;
+}
+
+// RETORNA INSTANCIA DE UM ALUNO PELO ID
+
+getAlunoById(alunoId) async {
+  Aluno aluno;
+  CollectionReference alunoRef = Firestore.instance.collection('aluno');
+
+  DocumentReference documentRef = alunoRef.document(alunoId);
+  await documentRef.get().then((alunoSnapchot) {
+    if (alunoSnapchot.exists) {
+      aluno = Aluno.fromMap(alunoSnapchot.data);
+    } else {
+      print("no data");
+      aluno = null;
+    }
+  });
+  print(aluno.id);
+  return aluno;
+}
+
+// RETORNA UM MAPA, COM CAPITULOS E QUANTAS MISSOES UM CERTO ALUNOO JÁ FEZ NESSE CAPITULO
+
+getDoneByCapitulo(alunoId, turmaId, escolaId) async {
+  String historiaId;
+  List<dynamic> capitulosId = [];
+  List<dynamic> missoesDoc = [];
+  List<int> capitulos_sorted = [];
+  List<dynamic> finalList = [];
+  String aventuraNome;
+
+  Map<int, Map> mapa = {};
+  List<dynamic> contents = [];
+  double dones;
+  int id = 0;
+  List<dynamic> uploads=[];
+
+  await Firestore.instance
+      .collection('aventura')
+      .where('escolas', arrayContains: escolaId)
+      .getDocuments()
+      .then((doc) {
+        aventuraNome=doc.documents[0]['nome'];
+    historiaId = doc.documents[0]['historia'];
+  });
+
+  await Firestore.instance
+      .collection('historia')
+      .where('id', isEqualTo: historiaId)
+      .getDocuments()
+      .then((doc) {
+    capitulosId = doc.documents[0]['capitulos'];
+  });
+
+  for (var capituloId in capitulosId) {
+    capitulos_sorted.add(int.parse(capituloId));
+  }
+
+  capitulos_sorted.sort();
+
+  for (var capituloId in capitulos_sorted) {
+    List<dynamic> allMissoes = [];
+    dones = 0.0;
+    List<dynamic> resultados = [];
+    List<dynamic> allResultados = [];
+    Map<String, double> totalAndDones = {};
+
+    await Firestore.instance
+        .collection('capitulo')
+        .where('id', isEqualTo: capituloId.toString())
+        .getDocuments()
+        .then((doc) {
+      missoesDoc = doc.documents[0]['missoes'];
+    });
+    for (var mission in missoesDoc) allMissoes.add(mission.documentID);
+
+    for (var missionId in allMissoes) {
+      await Firestore.instance
+          .collection('mission')
+          .where('id', isEqualTo: missionId)
+          .getDocuments()
+          .then((doc) {
+        resultados = doc.documents[0]['resultados'];
+        if (doc.documents[0]['type'] == 'Questionario') contents.add(doc.documents[0]['content']);
+        if (doc.documents[0]['type'] == 'UploadImage' || doc.documents[0]['type'] == 'UploadVideo') {
+          for(var a in doc.documents[0]['resultados']){
+            if (a['aluno']==alunoId) {
+              if(a['linkUploaded']!=""){
+              uploads.add(a['linkUploaded']);
+              break;
+              }
+            }
+          }
+        }
+      });
+      for (var result in resultados) {
+        allResultados.add(result);
+      }
+    }
+
+    for (var r in allResultados) {
+      if (r['aluno'] == alunoId) if (r['done'] == true) dones++;
+    }
+    totalAndDones["total"] = allMissoes.length.toDouble();
+    totalAndDones["dones"] = dones;
+
+    mapa[id] = totalAndDones;
+    id++;
+  }
+
+  finalList.add(mapa);
+  finalList.add(contents);
+  finalList.add(uploads);
+  finalList.add(aventuraNome);
+
+  return finalList;
+}
+
+
+// RETORNA DADOS PARA A VIZUALIZAÇÃO DA TABELA DO QUESTIONÁRIO DE UM ALUNO
+
+getQuestionarioRespostas(perguntas, alunoId,perguntaRespostas) {
+  
+List lista=[];
+  Map<String, String> counterResposta = {};
+  int i = 0;
+  for (var pergunta in perguntas) {
+    for (var campo in pergunta.resultados) {
+      if (campo['aluno'] == alunoId) {
+        counterResposta["resposta" + i.toString()] = campo['respostaEscolhida'];
+
+        break;
+      }
+    }
+
+    if (perguntaRespostas.containsKey(pergunta.question))
+      perguntaRespostas[pergunta.question]
+          .add(counterResposta["resposta" + i.toString()]);
+    else {
+      perguntaRespostas[pergunta.question] = [];
+      perguntaRespostas[pergunta.question]
+          .add(counterResposta["resposta" + i.toString()]);
+    }
+    i++;
+    
+  }
+
+  return perguntaRespostas;
+
+}
+
+
+
+// RETORNA NOME DA ESCOLA PELO SEU ID
+
+getEscolaNome(String escolaId) async {
+  String nome;
+  await Firestore.instance
+      .collection('escola')
+      .where('id', isEqualTo: escolaId)
+      .getDocuments()
+      .then((doc) {
+    nome = doc.documents[0]['nome'];
+  });
+
+  return nome;
+}
+
+
+
+

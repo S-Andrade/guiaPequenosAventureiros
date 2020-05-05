@@ -1,9 +1,10 @@
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
+import 'package:feature_missoes_moderador/widgets/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:pie_chart/pie_chart.dart';
+
+
+import '../../../widgets/color_parser.dart';
 
 class ResultsByMissionUploadForTurma extends StatefulWidget {
   Mission mission;
@@ -18,7 +19,8 @@ class ResultsByMissionUploadForTurma extends StatefulWidget {
           mission: this.mission, alunos: this.alunos, turma: this.turma);
 }
 
-class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadForTurma> {
+class _ResultsByMissionUploadForTurmaState
+    extends State<ResultsByMissionUploadForTurma> {
   Mission mission;
   List<String> alunos;
   Turma turma;
@@ -33,8 +35,11 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
     results = {};
 
     for (var aluno in alunos) {
+   
       for (var campo in mission.resultados) {
+        print(campo['aluno']);
         if (campo['aluno'] == aluno) {
+          
           setState(() {
             results[aluno] = campo;
           });
@@ -42,14 +47,13 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
         }
       }
     }
-
-    
-    }
-  
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      appBar: new AppBar(title: new Text('Upload Results Por Turma')),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -80,7 +84,7 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
                 color: Colors.white,
                 child: Row(children: [
                   Text(
-                    '       Aluno               Missão feita      Tempo passado na missão      Nº de vezes que entrou     Foto/Vídeo Uploaded',
+                    '       Aluno               Missão feita          Foto/Vídeo Uploaded',
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Amatic SC',
@@ -148,41 +152,7 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
                                             width: 130,
                                             color: Colors.red[300])),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40.0),
-                            child: CircularPercentIndicator(
-                              radius: 130.0,
-                              animation: true,
-                              animationDuration: 2000,
-                              lineWidth: 20.0,
-                              startAngle: 45.0,
-                              percent:
-                                  (results[alunos[index]]['timeVisited'] / 60)
-                                          .round() /
-                                      60,
-                              center: new Text(
-                                ((results[alunos[index]]['timeVisited'] / 60)
-                                            .round())
-                                        .toString() +
-                                    " min",
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25.0),
-                              ),
-                              circularStrokeCap: CircularStrokeCap.butt,
-                              backgroundColor: Colors.grey[200],
-                              progressColor: Colors.indigoAccent,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 60.0),
-                            child: Text(
-                                "Entrou " +
-                                    results[alunos[index]]["counterVisited"]
-                                        .toString() +
-                                    " vezes",
-                                style: const TextStyle(fontSize: 20.0)),
-                          ),
+                         
                           Padding(
                             padding: const EdgeInsets.only(left: 60.0),
                             child: new Builder(
@@ -202,8 +172,11 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
                                               textColor: Colors.black,
                                               padding: EdgeInsets.all(8.0),
                                               onPressed: () {
-                                                showImageOrVideo(context,
-                                                    results[alunos[index]]['linkUploaded'],mission);
+                                                showImageOrVideo(
+                                                    context,
+                                                    results[alunos[index]]
+                                                        ['linkUploaded'],
+                                                    mission);
                                               },
                                               child: Padding(
                                                 padding:
@@ -219,7 +192,6 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
                                           )
                                         : Container()),
                           ),
-              
                         ]))
                   ]),
                 );
@@ -235,8 +207,10 @@ class _ResultsByMissionUploadForTurmaState extends State<ResultsByMissionUploadF
     );
   }
 
-  showImageOrVideo(BuildContext context,link,mission) {
-print(link);
+  showImageOrVideo(BuildContext context, link, mission) {
+
+
+         
     Widget continuaButton = FlatButton(
       child: Text(
         "Ok",
@@ -248,6 +222,7 @@ print(link);
             fontSize: 30),
       ),
       onPressed: () {
+        
         Navigator.of(context, rootNavigator: true).pop();
       },
     );
@@ -267,37 +242,82 @@ print(link);
         child: Container(
           width: 700,
           height: 400,
-          child:
-            Container(
-              height: 230,
-              width: 700,
-              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image(
-                              image:  NetworkImage(link),
-                              fit: BoxFit.contain,
-                            ),
-              
+          child: Container(
+            height: 230,
+            width: 700,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image(
+                image: NetworkImage(link),
+                fit: BoxFit.contain,
+              ),
             ),
-          
+          ),
         ),
-      ),),
+      ),
       actions: [
         continuaButton,
       ],
     );
-  
+
+    AlertDialog alertVideo = AlertDialog(
+      title: Text(
+        "Video uploaded pelo aluno",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+      content: Padding(
+        padding: const EdgeInsets.only(left:20.0,top:10,right: 20,bottom:0),
+        child: Container(
+          width: 700,
+          height: 450,
+          child: Stack(children: [
+            Positioned(
+              top: 5,
+              left: 100,
+              child: Container(
+                width: 500,
+                height: 370,
+                decoration: BoxDecoration(
+                    color: parseColor("#320a5c"),
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: parseColor("#320a5c"),
+                        blurRadius: 10.0,
+                      )
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: ChewieDemo(
+                                                      link: link),
+                ),
+              ),
+            ),
+         
+     
+          ]),
+        ),
+      ),
+      actions: [
+        continuaButton,
+      ],
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        if(mission.type=='UploadImage') {
-         
+        if (mission.type == 'UploadImage') {
           return alertImage;
+        } else {
+
+          return alertVideo;
         }
-        else return alertImage;
       },
     );
   }
-
-  
 }

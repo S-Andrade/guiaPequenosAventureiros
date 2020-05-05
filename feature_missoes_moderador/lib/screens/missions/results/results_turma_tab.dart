@@ -61,8 +61,9 @@ class _ResultsTurmaTabState extends State<ResultsTurmaTab>
   Widget build(BuildContext context) {
     
 
-    return MaterialApp(
-      home: DefaultTabController(
+    return Scaffold(
+       
+      body: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(

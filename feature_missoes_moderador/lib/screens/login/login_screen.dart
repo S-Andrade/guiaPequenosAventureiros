@@ -15,6 +15,9 @@ class LoginScreen extends StatelessWidget {
         portrait: LoginTabletPortrait(),
         landscape: LoginTabletLandscape(),
       ),
+      desktop: OrientationLayout(
+        portrait: LoginTabletPortrait(),
+        landscape:LoginTabletPortrait(),)
     );
   }
 }

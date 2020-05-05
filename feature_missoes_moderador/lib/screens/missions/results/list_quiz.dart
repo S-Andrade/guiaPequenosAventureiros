@@ -1,35 +1,39 @@
 import 'package:feature_missoes_moderador/models/mission.dart';
+import 'package:feature_missoes_moderador/models/quiz.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
+import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
-class ResultsByMissionNormalForTurma extends StatefulWidget {
+class ResultsByMissionQuizForTurma extends StatefulWidget {
   Mission mission;
   List<String> alunos;
   Turma turma;
 
-  ResultsByMissionNormalForTurma({this.mission, this.alunos, this.turma});
+  ResultsByMissionQuizForTurma({this.mission, this.alunos, this.turma});
 
   @override
-  _ResultsByMissionNormalForTurmaState createState() =>
-      _ResultsByMissionNormalForTurmaState(
+  _ResultsByMissionQuizForTurmaState createState() =>
+      _ResultsByMissionQuizForTurmaState(
           mission: this.mission, alunos: this.alunos, turma: this.turma);
 }
 
-class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalForTurma> {
+class _ResultsByMissionQuizForTurmaState extends State<ResultsByMissionQuizForTurma> {
   Mission mission;
   List<String> alunos;
   Turma turma;
   Map results;
+  Map quizResults;
+  Quiz quiz;
 
-  _ResultsByMissionNormalForTurmaState({this.mission, this.alunos, this.turma});
+  _ResultsByMissionQuizForTurmaState({this.mission, this.alunos, this.turma});
 
   @override
   void initState() {
     super.initState();
     results = {};
-
+    quizResults={};
     for (var aluno in alunos) {
       for (var campo in mission.resultados) {
         if (campo['aluno'] == aluno) {
@@ -40,12 +44,41 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
         }
       }
     }
+    
+      getQuiz(mission.content).then((value)=> {
+        setState((){
+          quiz=value;
+          for (var aluno in alunos) {
+        
+      for (var campo in value.resultados) {
+        if (campo['aluno'] == aluno) {
+         
+            quizResults[aluno] = campo['result'];
+         
+          break;
+        }
+      }
+    }
+          
+        })
+      });
+
+      
+      
+      
+    
+    
+    
   }
+
 
   @override
   Widget build(BuildContext context) {
+    if(quizResults.length!=0){
+
+    
     return Scaffold(
-      appBar: new AppBar(title: new Text('Normal Results Por Turma')),
+      appBar: new AppBar(title: new Text('Quiz Results Por Turma')),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -76,7 +109,7 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
                 color: Colors.white,
                 child: Row(children: [
                   Text(
-                    '       Aluno               Missão feita      Tempo passado na missão      Nº de vezes que entrou   ',
+                    '       Aluno               Missão feita      Tempo passado na missão      Nº de vezes que entrou                Último score ',
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Amatic SC',
@@ -179,6 +212,15 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
                                     " vezes",
                                 style: const TextStyle(fontSize: 20.0)),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 150.0),
+                            child: Text(
+                                "Acertou "+
+                                    quizResults[alunos[index]]
+                                        .toString() +" / "+quiz.questions.length.toString(),
+                                   
+                                style: const TextStyle(fontSize: 20.0)),
+                          ),
                          
                           
                         ]))
@@ -195,4 +237,7 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
       ),
     );
   }
+  else return Container();
+  }
+  
 }
