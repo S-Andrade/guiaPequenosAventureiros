@@ -1,6 +1,7 @@
-
 import 'dart:async';
-import 'package:feature_missoes_moderador/models/question.dart';
+
+import 'package:feature_missoes_moderador/models/questionario.dart';
+import 'package:feature_missoes_moderador/models/quiz.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
@@ -9,25 +10,25 @@ import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CreateQuizMissionScreen extends StatefulWidget {
+class CreateQuestionarioMissionScreen extends StatefulWidget {
   String aventuraId;
   Capitulo capitulo;
-  CreateQuizMissionScreen(this.capitulo, this.aventuraId);
+  CreateQuestionarioMissionScreen(this.capitulo, this.aventuraId);
 
   @override
-  _CreateQuizMissionScreenState createState() =>
-      _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
+  _CreateQuestionarioMissionScreenState createState() =>
+      _CreateQuestionarioMissionScreenState(this.capitulo, this.aventuraId);
 }
 
-class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
+class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMissionScreen> {
   Capitulo capitulo;
   String aventuraId;
+  Questionario _questionario;
   String _titulo;
   List _perguntas;
-  List<Question> perguntas;
   final _text = TextEditingController();
 
-  _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
+  _CreateQuestionarioMissionScreenState(this.capitulo, this.aventuraId);
 
   @override
   void initState() {
@@ -41,10 +42,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
     if (missionNotifier.currentQuestion != null ) {
       if( !_perguntas.contains(missionNotifier.currentQuestion))
       {
-        print('aqui lolllllllllllll');
-        print(missionNotifier.currentQuestion.wrongAnswers.toString());
         _perguntas.add(missionNotifier.currentQuestion);
-        //perguntas.add(missionNotifier.currentQuestion);
       }
     }
     return Scaffold(
@@ -87,7 +85,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Nesta secção, poderão ser criadas as questões para o novo Quiz.",
+                              "Nesta secção, poderão ser criadas as questões para o Questionario.",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -263,17 +261,15 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                 FlatButton(
                                   child: Icon(FontAwesomeIcons.plus),
                                   onPressed: () {
-                                    //setState(() {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CreateQuestion()));
-                                   // });
                                   },
                                 )
                               ]))),
-                              SizedBox(
+                   SizedBox(
                         height: 40.0,
                       ),
                       Row(
@@ -405,3 +401,4 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
     );
   }
 }
+

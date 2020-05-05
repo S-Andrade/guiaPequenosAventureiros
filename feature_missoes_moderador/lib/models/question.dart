@@ -31,4 +31,14 @@ class Question{
     return allAnswers;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+    'id': id,
+    'question' :question,
+    'correct_answer' : correctAnswer,
+    'wrong_answers' : wrongAnswers,
+    'multiple_choice' : multipleChoice,
+    };
+  }
+
 }

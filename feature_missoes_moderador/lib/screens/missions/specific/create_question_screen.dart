@@ -11,21 +11,25 @@ class CreateQuestion extends StatefulWidget {
   _CreateQuestionState createState() => _CreateQuestionState();
 }
 
-List _respostasErradas;
 
 class _CreateQuestionState extends State<CreateQuestion> {
   List<RowAnswer> widgetsAns = [];
   final _textQuestion = TextEditingController();
-  final _textAnsCorrect = TextEditingController();
+  final _textAnsCorrect = TextEditingController(); 
   Question q = new Question();
   @override
   void initState() {
+    _respostasErradas = [];
+    _errada = null;
     super.initState();
   }
 
   addAnsRow() {
     setState(() {
       widgetsAns.add(new RowAnswer());
+      if(_errada!=null){
+        _respostasErradas.add(_errada);
+      }
     });
   }
 
@@ -175,9 +179,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
                     child: Icon(FontAwesomeIcons.plus),
                     onPressed: () {
                       addAnsRow();
-                      setState(() {
-                        q.wrongAnswers = _respostasErradas;
-                      });
                     })
               ]),
               Row(
@@ -195,15 +196,17 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   addQuestionToQuiz() {
     missionNotifier.currentQuestion = q;
+    _respostasErradas.add(_errada);
+    q.wrongAnswers = _respostasErradas;
+    _respostasErradas = [];
     Navigator.pop(context);
   }
 }
-
+List _respostasErradas;
+String _errada;
 class RowAnswer extends StatelessWidget {
-  TextEditingController _textAns1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    _textAns1.clear();
     return Row(
       children: <Widget>[
         Container(
@@ -214,10 +217,9 @@ class RowAnswer extends StatelessWidget {
             color: Colors.purple[50],
           ),
           child: TextField(
-            controller: _textAns1,
             onChanged: (value) {
-              _respostasErradas.add(value);
-              print(_respostasErradas.toString());
+              print(value);
+              _errada =value;
             },
             maxLength: 50,
             maxLengthEnforced: true,

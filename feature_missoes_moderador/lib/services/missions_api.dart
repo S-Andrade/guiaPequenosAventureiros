@@ -113,6 +113,7 @@ Future<List<Mission>> getAllMissionsInDatabase() async {
   return _missionList;
 }
 
+
 /*
 
  CRIAÇÃO DE MISSÕES 
@@ -157,16 +158,82 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
 }
 
+//CRIAR MISSÃO QUIZ
+//CRIA AS PERGUNTAS
+//CRIA UM QUIZ
+//ASSOCIA A UMA MISSÃO
+//ASSOCIA AO CAPITULO 
+createMissionQuiz(String titulo, List questoes, String aventuraId, String capituloId) async {
+  List<dynamic> documentosQuestao = new List<dynamic>();
+  CollectionReference questionRef = Firestore.instance.collection('question');
+
+  var rng = new Random();
+
+  for (Question q in questoes) {
+    int index = (questoes.indexOf(q)) + 1;
+    q.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
+
+    DocumentReference documentRef = questionRef.document(q.id);
+
+    await documentRef.setData(q.toMap());
+
+    documentosQuestao.add(documentRef);
+  }
+
+  CollectionReference quizRef = Firestore.instance.collection('quiz');
+
+  Quiz quiz = new Quiz();
+  quiz.questions = documentosQuestao;
+  quiz.resultados = [];
+  
+  List<dynamic> alunos;
+  alunos = await getAlunos(aventuraId);
+  alunos.forEach((element) {
+    Map<String, dynamic> mapa = {};
+    mapa['aluno'] = element;
+    mapa['result'] = 0;
+    quiz.resultados.add(mapa);
+  });
+
+  DocumentReference quizDocRef = await quizRef.add(quiz.toMap());
+
+  Mission mission = new Mission();
+  int _largerId;
+  _largerId = await getMissionsLargerId();
+
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  mission.id = (_largerId + 1).toString();
+  mission.title = titulo;
+  mission.type = 'Quiz';
+  mission.content = quizDocRef;
+  mission.resultados = [];
+
+  alunos.forEach((element) {
+    Map<String, dynamic> mapa = {};
+    mapa['aluno'] = element;
+    mapa['counter'] = 0;
+    mapa['counterVisited'] = 0;
+    mapa['done'] = false;
+    mapa['timeVisited'] = 0;
+    mission.resultados.add(mapa);
+  });
+
+  DocumentReference documentRef = missionRef.document(mission.id);
+  await documentRef.setData(mission.toMap());
+
+  attachMissionToCapitulo(documentRef, capituloId);
+
+}
+
 // CRIAÇÃO DE UMA MISSÃO ATIVIDADE
 // PRIMEIRO CRIA SE OS DOCUMENTOS PARA CADA ATIVIDADE
 // DEPOIS CRIA-SE A MISSÃO COM A LISTA DOS DOCUMENTOS DE ATIVIDADE
-
 createMissionActivityInFirestore(String titulo, List<Activity> activities,
     String aventuraId, String capituloId) async {
   CollectionReference activityRef = Firestore.instance.collection('activity');
@@ -177,13 +244,9 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
 
   for (Activity activity in activities) {
     int index = (activities.indexOf(activity)) + 1;
-
     activity.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
-
     DocumentReference documentRef = activityRef.document(activity.id);
-
     await documentRef.setData(activity.toMap());
-
     documentos.add(documentRef);
   }
 
@@ -221,7 +284,6 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -267,7 +329,6 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkVideo': FieldValue.delete(),
-
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -313,7 +374,6 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkAudio': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -358,7 +418,6 @@ createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
   documentRef.updateData({
     'linkVideo': FieldValue.delete(),
     'linkImage': FieldValue.delete(),
-    
   });
 
   attachMissionToCapitulo(documentRef, capituloId);
@@ -383,7 +442,6 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mission.resultados = [];
     mission.content = descricao;
     mission.type = 'UploadImage';
-    
   }
 
   alunos.forEach((element) {
@@ -393,7 +451,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mapa['counterVisited'] = 0;
     mapa['done'] = false;
     mapa['timeVisited'] = 0;
-    mapa['linkUploaded']="";
+    mapa['linkUploaded'] = "";
     mission.resultados.add(mapa);
   });
 
@@ -589,7 +647,7 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
   DocumentReference documentRef = missionRef.document(mission.id);
-  print("missiooon"+mission.id);
+  print("missiooon" + mission.id);
 
   CollectionReference capituloRef = Firestore.instance.collection('capitulo');
   DocumentReference documentRef2 = capituloRef.document(capituloId);
@@ -731,10 +789,9 @@ getAlunosForTurma(String turmaId) async {
 // RETORNA MISSOES DE UM CERTO CAPITULO
 
 getMissionsForCapitulo(String capituloId) async {
-
   List<dynamic> missions = [];
   Mission mission;
-  List<dynamic> missionsIds=[];
+  List<dynamic> missionsIds = [];
 
   await Firestore.instance
       .collection('capitulo')
@@ -747,12 +804,10 @@ getMissionsForCapitulo(String capituloId) async {
   for (var missao in missions) {
     await missao.get().then((missionSnapchot) {
       if (missionSnapchot.exists) {
-      mission = Mission.fromMap(missionSnapchot.data);
-      
-      }
-      else{
+        mission = Mission.fromMap(missionSnapchot.data);
+      } else {
         print("no data");
-        mission=null;
+        mission = null;
       }
       missionsIds.add(mission);
     });
@@ -761,18 +816,16 @@ getMissionsForCapitulo(String capituloId) async {
   return List<Mission>.from(missionsIds);
 }
 
-
 // RETORNA QUANTAS MISSÕES DE UMA CERTA LISTA DE MISSÕES, JÁ FEZ UMA CERTA TURMA ( COM UM CERTO Nº DE ALUNOS )
 
-int getDonesForTurma(List<String> alunos,List<Mission> missions) {
+int getDonesForTurma(List<String> alunos, List<Mission> missions) {
+  int missionsDone = 0;
 
-  int missionsDone=0;
-  
-  for(var mission in missions){
-    for(var aluno in alunos){
-      for(var campo in mission.resultados){
-        if(campo['aluno']==aluno){
-          if(campo['done']==true) missionsDone++;
+  for (var mission in missions) {
+    for (var aluno in alunos) {
+      for (var campo in mission.resultados) {
+        if (campo['aluno'] == aluno) {
+          if (campo['done'] == true) missionsDone++;
           break;
         }
       }
