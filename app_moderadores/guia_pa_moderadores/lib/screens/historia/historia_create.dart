@@ -20,18 +20,12 @@ class _HistoriaCreate extends State<HistoriaCreate> {
   
   final _formKey = GlobalKey<FormState>();
 
-  final myControllerTitulo = TextEditingController();
+  String titulo;
   
   List<Historia> listHistoria;
-   var image;
+  var image;
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myControllerTitulo.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     
@@ -45,35 +39,104 @@ class _HistoriaCreate extends State<HistoriaCreate> {
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
+            appBar: new AppBar(title: new Text("Criar Historia")),
              body:Form(
               key: _formKey,
+              child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                      TextFormField(
-                        controller: myControllerTitulo,
+                     Center(
+                      child: Container(
+                        width: 600,
+                      //  height: 300,
+                        padding: const EdgeInsets.only(top: 50),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Titulo da historia não inserido';
                             }
                           },
-                         
-                          decoration: InputDecoration(
-                            hintText: 'Titulo da historia   '
-                          )),
-                          RaisedButton(
-                                child: Text('IMAGEM'),
-                                onPressed: getImage,
+                          onSaved: (input) => titulo = input,
+                          decoration: new InputDecoration(
+                            labelText: "Titulo da historia",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+
+                    Center(
+                    child: Container(
+                    padding: const EdgeInsets.only(left: 300, top: 50, bottom: 50),
+                    child: Row(children: <Widget>[
+                      Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.lightBlueAccent),
+                                      borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Builder(
+                          builder: (BuildContext context) {
+                            if(image != null){
+                              return Image(
+                                image: FileImage(image),
+                                width: 300,
+                                height: 300,
+                              );
+                            }else{
+                              return Icon(Icons.image);
+                            }
+                          }
+                        ),
+                      ),
+                       GestureDetector(  
+                                                         
+                                onTap: () {
+                                 getImage(context);
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 4.0,
+                                        )
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                    'Imagem',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 26.0,
+                                        letterSpacing: 3,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Amatic SC'),
+                                  )),
+                                ),
                               ),
+                    ]))),
+                          
                           GestureDetector(
                                 onTap: () {
                                   print('create');
                                   certificar(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -85,6 +148,7 @@ class _HistoriaCreate extends State<HistoriaCreate> {
                                       child: Text(
                                     'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
@@ -94,16 +158,19 @@ class _HistoriaCreate extends State<HistoriaCreate> {
                               )
                 ]
             )
-            
+             )
           ));
             }); 
         }
        ));
   }
 
-  Future getImage() async {
-    image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+  Future getImage(BuildContext context) async {
+    var a = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    setState(() {
+          image = a;
+    });
+    //_formKey.currentState.save();
     print(image);
   }
 
@@ -137,11 +204,29 @@ class _HistoriaCreate extends State<HistoriaCreate> {
       });
 
           
-      DatabaseService().updateHistoriaData(id_historia, myControllerTitulo.text, [], image_path);
+      DatabaseService().updateHistoriaData(id_historia, titulo, [], image_path);
       print("crei uma historia");
 
     }else{
-      print("prencher todos os campos");
+      showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Imagem"),
+                content: new Text("Tem de inserir uma imagem!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
     }
 
 
@@ -154,28 +239,44 @@ class _HistoriaCreate extends State<HistoriaCreate> {
   }
 
   Future<void> certificar(BuildContext context) async{
-    await getListHistorias(context);
-    print(listHistoria);
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      await getListHistorias(context);
+      print(listHistoria);
 
-    bool cert = true;
-    if (listHistoria != null){
-      if(myControllerTitulo.text != null){
-        for (Historia h in listHistoria){
-          if(h.titulo == myControllerTitulo.text){
-            cert=false;
+      bool cert = true;
+      if (listHistoria != null){
+        
+          for (Historia h in listHistoria){
+            if(h.titulo == titulo){
+              cert=false;
+            }
           }
-        }
 
-        if (cert){
-        create(context);
-        }else{
-          print("Historia já existe");
-        }
-      
-      }else{
-        print("no titulo");
+          if (cert){
+            create(context);
+          }else{
+            showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Historia"),
+                content: new Text("Historia já!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          }  
       }
-     
     }
 
   }

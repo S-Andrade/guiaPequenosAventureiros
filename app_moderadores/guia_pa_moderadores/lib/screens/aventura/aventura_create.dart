@@ -69,6 +69,7 @@ class _AventuraCreate extends State<AventuraCreate> {
   String _aventura_nome;
   String _aventura_local;
   int counter_principal = 0;
+  List flags_escolas = [];
 
  
  
@@ -94,8 +95,13 @@ class _AventuraCreate extends State<AventuraCreate> {
                             }
                           },
                          
-                          decoration: InputDecoration(
-                            hintText: 'Nome da Aventura   '
+                          decoration: new InputDecoration(
+                            
+                            labelText: "Nome da aventura",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
                           ),
                           onSaved: (input) => _aventura_nome = input,
                       ),
@@ -106,8 +112,12 @@ class _AventuraCreate extends State<AventuraCreate> {
                             }
                           },
                          
-                          decoration: InputDecoration(
-                            hintText: 'Local   '
+                          decoration: new InputDecoration(
+                            labelText: "Local",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
                           ),
                           onSaved: (input) => _aventura_local = input,
                           ),
@@ -130,7 +140,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                           iconSize: 24,
                           elevation: 16,
                           style: TextStyle(
-                            color: Colors.deepPurple
+                            color: Colors.blue
                           ),
                           validator: (value){
                              if (value == "Historia") {
@@ -154,21 +164,72 @@ class _AventuraCreate extends State<AventuraCreate> {
                         ),
           ])),
               
-                
-              IconButton(icon: Icon(Icons.add), onPressed: (){addHistoria();}),
+                GestureDetector(
+                                onTap: () {
+                                  addHistoria();
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 4.0,
+                                        )
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                      'Criar Historia',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 26.0,
+                                        letterSpacing: 3,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Amatic SC'),
+                                  )),
+                                ),
+                              ),
               ])
       ),
       Step(
-        title: const Text('Dados da Historia'),
+        title: const Text('Dados dos participantes'),
         isActive: true,
         state: StepState.indexed,
         content: Column(
           children: <Widget>[
-            RaisedButton( onPressed : (){
-            addNewFieldEscola(); 
-            }, child: Text("Adicionar Escola")
-            )
-          ,Column(children: listOfFields)
+            GestureDetector(
+                                onTap: () {
+                              addNewFieldEscola(); 
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 4.0,
+                                        )
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                      'Adicionar escola',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 26.0,
+                                        letterSpacing: 3,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Amatic SC'),
+                                  )),
+                                ),
+                              ),
+            
+          Column(children: listOfFields)
           ]
           
         )
@@ -332,6 +393,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                     children: <Widget>[
                         Expanded(
                       child: Stepper(
+                        
                         steps: steps,
                         currentStep: currentStep,
                         onStepContinue: next,
@@ -339,16 +401,18 @@ class _AventuraCreate extends State<AventuraCreate> {
                         onStepCancel: cancel,
                       ),
                     ),
-                    GestureDetector(
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: GestureDetector(
                                 onTap: () {
                                   print('create');
                                   create(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -358,15 +422,18 @@ class _AventuraCreate extends State<AventuraCreate> {
                                       ]),
                                   child: Center(
                                       child: Text(
-                                    'Criar',
+                                      'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Amatic SC'),
                                   )),
                                 ),
-                              )
+                              ),
+                    )
+                    
                     ]
                   ));
 
@@ -542,9 +609,11 @@ class _AventuraCreate extends State<AventuraCreate> {
     if (listHistorias != null && listAventura !=null){
       //get id historia
       String id_historia = "";
+      String capa_historia = "";
       for(Historia h in listHistorias){
         if (h.titulo == dropdownValue){
           id_historia = h.id;
+          capa_historia = h.capa;
         }
       }
 
@@ -556,7 +625,7 @@ class _AventuraCreate extends State<AventuraCreate> {
         }
         ids_a.sort();
         var id_aventura = (ids_a.last + 1).toString();
-        DatabaseService().updateAventuraData(id_aventura, id_historia, Timestamp.now(), _aventura_local, list_Escolas_id, user.email, _aventura_nome);
+        DatabaseService().updateAventuraData(id_aventura, id_historia, Timestamp.now(), _aventura_local, list_Escolas_id, user.email, _aventura_nome, capa_historia);
         print("Criei uma Aventura!");
 
       //back to homepage
@@ -591,35 +660,70 @@ class _AventuraCreate extends State<AventuraCreate> {
         //String escola;
         int counter = escola_counter;
         escola_counter++;
+
+        
+        //flags_escolas.add(false);
         setState((){
         listOfFields.add(
           Column(
-            children: <Widget> [
-            Form(
-          key: _formKeyEscola,
-          child:
-            TextFormField(
-              validator: (input) {
-                if (input.isEmpty) {
-                  return 'Escola não inserida';
-                }
-              },
-              onSaved: (input) => _escola = input,
-              decoration: InputDecoration(
-                  hintText: 'Escola   ',
-              )
-              )),
-                
-              IconButton(icon: Icon(Icons.check), onPressed: (){addEscola(_formKeyEscola, counter);}),
-
-              RaisedButton( onPressed : (){
-                addNewFieldTurma(counter); 
-                }, 
-                child: Text("Adicionar turma")
-              )          
-                
-          ]
-          )
+            children: <Widget>[
+              Form(
+              key: _formKeyEscola,
+              child:
+                TextFormField(
+                  validator: (input) {
+                    if (input.isEmpty) {
+                      return 'Escola não inserida';
+                    }
+                  },
+                  onSaved: (input) => _escola = input,
+                   decoration: new InputDecoration(
+                            labelText: "Escola",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                  )),
+              IconButton(
+                icon: Icon(Icons.check),
+               // color: flags_escolas[counter] ? Colors.blue : null, 
+                onPressed: (){
+                  addEscola(_formKeyEscola, counter);
+                 // setState(() {
+                  //  flags_escolas[counter] = true;
+                  //});
+                }),
+              GestureDetector(
+                                onTap: () {
+                              addNewFieldTurma(counter); 
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 4.0,
+                                        )
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                      'Adicionar Turma',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 26.0,
+                                        letterSpacing: 3,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Amatic SC'),
+                                  )),
+                                ),
+                              ),
+            
+          ],)
         );
         });
         posicoes.add([0]);
@@ -647,9 +751,7 @@ class _AventuraCreate extends State<AventuraCreate> {
     }
 
 
-  nAlunosValidator(String input){
-   
-  }
+  
 
    void addNewFieldTurma(int counter){
         final _formKeyTurma = GlobalKey<FormState>();
@@ -679,7 +781,10 @@ class _AventuraCreate extends State<AventuraCreate> {
             children: <Widget> [
             Form(
           key: _formKeyTurma,
-          child: Column(children: <Widget>[
+          child: Container(
+            padding: const EdgeInsets.only(left: 100),
+            child: 
+            Column(children: <Widget>[
             TextFormField(
               validator: (input) {
                 if (input.isEmpty) {
@@ -687,9 +792,14 @@ class _AventuraCreate extends State<AventuraCreate> {
                 }
               },
               onSaved: (input) => _turma = input,
-              decoration: InputDecoration(
-                  hintText: 'Turma   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Turma",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+              
               ),
               TextFormField(
               validator: (input) {
@@ -701,9 +811,13 @@ class _AventuraCreate extends State<AventuraCreate> {
                     }
               },
               onSaved: (input) => _nAlunos = input,
-              decoration: InputDecoration(
-                  hintText: 'Numero de alunos   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Numero de alunos",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
               ),
               TextFormField(
               validator: (input) {
@@ -712,16 +826,20 @@ class _AventuraCreate extends State<AventuraCreate> {
                 }
               },
               onSaved: (input) => _professor = input,
-              decoration: InputDecoration(
-                  hintText: 'Professor   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Professor",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
               ),
           ],)
-          )          
-
-              ,
+          
+          )
+          ),
                 
-              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter, pos_turma);}),
+          IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter, pos_turma);}),
               
           ]
           )
@@ -733,11 +851,14 @@ class _AventuraCreate extends State<AventuraCreate> {
           setState((){
         
         listOfFields.insert( pos,
-           Column(
+             Column(
             children: <Widget> [
             Form(
           key: _formKeyTurma,
-          child: Column(children: <Widget>[
+          child: Container(
+            padding: const EdgeInsets.only(left: 100),
+            child: 
+            Column(children: <Widget>[
             TextFormField(
               validator: (input) {
                 if (input.isEmpty) {
@@ -745,9 +866,14 @@ class _AventuraCreate extends State<AventuraCreate> {
                 }
               },
               onSaved: (input) => _turma = input,
-              decoration: InputDecoration(
-                  hintText: 'Turma   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Turma",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+              
               ),
               TextFormField(
               validator: (input) {
@@ -759,9 +885,13 @@ class _AventuraCreate extends State<AventuraCreate> {
                     }
               },
               onSaved: (input) => _nAlunos = input,
-              decoration: InputDecoration(
-                  hintText: 'Numero de alunos   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Numero de alunos",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
               ),
               TextFormField(
               validator: (input) {
@@ -770,16 +900,20 @@ class _AventuraCreate extends State<AventuraCreate> {
                 }
               },
               onSaved: (input) => _professor = input,
-              decoration: InputDecoration(
-                  hintText: 'Professor   ',
-              )
+               decoration: new InputDecoration(
+                            labelText: "Professor",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
               ),
           ],)
-          )          
-
-              ,
+          
+          )
+          ),
                 
-              IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter,pos_turma);}),
+          IconButton(icon: Icon(Icons.check), onPressed: (){addTurma(_formKeyTurma, counter, pos_turma);}),
               
           ]
           ));

@@ -27,7 +27,7 @@ class _AventuraDetails extends State<AventuraDetails> {
                  Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaCreate(aventura: aventura)));
               },
               child: Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blue,
             ),
           );
   }

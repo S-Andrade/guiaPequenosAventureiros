@@ -226,16 +226,18 @@ class _AventuraEdit extends State<AventuraEdit> {
                       ),
                     ),
 
-                    GestureDetector(
+                     Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: GestureDetector(
                                 onTap: () {
-                                  print('Editar');
+                                  print('edit');
                                   edit(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -245,15 +247,17 @@ class _AventuraEdit extends State<AventuraEdit> {
                                       ]),
                                   child: Center(
                                       child: Text(
-                                    'Editar',
+                                      'Editar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Amatic SC'),
                                   )),
                                 ),
-                              )
+                              ),
+                    )
 
                   ]));
 
@@ -338,7 +342,7 @@ class _AventuraEdit extends State<AventuraEdit> {
 
 
         //edit AVENTURA
-          DatabaseService().updateAventuraData(aventura.id, id_historia, Timestamp.now(), _aventura_local, aventura.escolas, user.email, _aventura_nome);
+          DatabaseService().updateAventuraData(aventura.id, id_historia, Timestamp.now(), _aventura_local, aventura.escolas, user.email, _aventura_nome, aventura.capa);
           print("Editei uma Aventura!");
 
         //back to homepage

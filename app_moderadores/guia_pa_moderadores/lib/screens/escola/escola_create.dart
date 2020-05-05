@@ -50,28 +50,46 @@ class _EscolaCreate extends State<EscolaCreate> {
             appBar: new AppBar(title: new Text("Criar Escola")),
              body:Form(
               key: _formKey,
+              child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                      TextFormField(
+
+                    Center(
+                      child: Container(
+                        width: 600,
+                        height: 300,
+                        padding: const EdgeInsets.only(top: 150),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome da Escola não inserido';
                             }
                           },
                           onSaved: (input) => nome = input,
-                          decoration: InputDecoration(
-                            hintText: 'Nome da Escola   '
-                          )),
+                          decoration: new InputDecoration(
+                            labelText: "Nome da escola",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
                           GestureDetector(
+                            
                                 onTap: () {
                                   print('create');
                                   create(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -83,6 +101,7 @@ class _EscolaCreate extends State<EscolaCreate> {
                                       child: Text(
                                     'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
@@ -91,7 +110,7 @@ class _EscolaCreate extends State<EscolaCreate> {
                                 ),
                               )
                 ]
-            )
+             ))
             
           ));
             }); 
@@ -127,7 +146,7 @@ class _EscolaCreate extends State<EscolaCreate> {
           escolas.add(id_escola);
     
 
-          DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
+          DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome, aventura.capa);
 
           //back to homepage
           Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));

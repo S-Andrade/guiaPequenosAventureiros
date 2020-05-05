@@ -78,7 +78,7 @@ class EscolaTile extends StatelessWidget {
 
     List escolas = aventura.escolas;
     escolas.remove(escolafinal.id);
-    DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
+    DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome, aventura.capa);
 
     for(String id_turma in  escolafinal.turmas){
       Turma turma;

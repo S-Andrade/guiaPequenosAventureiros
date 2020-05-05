@@ -13,7 +13,7 @@ class DatabaseService {
 
   final CollectionReference aventuraCollection = Firestore.instance.collection('aventura');
 
-  Future<void> updateAventuraData(String id , String historia, Timestamp data, String local ,List escolas, String moderador, String nome) async {
+  Future<void> updateAventuraData(String id , String historia, Timestamp data, String local ,List escolas, String moderador, String nome, String capa) async {
     return await aventuraCollection.document(id).setData({
       'id' : id,
       'historia' : historia,
@@ -22,6 +22,7 @@ class DatabaseService {
       'escolas' : escolas,
       'moderador' : moderador,
       'nome' : nome,
+      'capa' : capa
     });
   }
 
@@ -34,7 +35,8 @@ class DatabaseService {
         local: doc.data['local'] ?? '',
         escolas: doc.data['escolas'] ?? [],
         moderador: doc.data['moderador'] ?? '',
-        nome: doc.data['nome'] ?? ''
+        nome: doc.data['nome'] ?? '',
+        capa: doc.data['capa'] ?? ''
       );
     }).toList();
   }
@@ -174,6 +176,7 @@ class DatabaseService {
   void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai, String turma, String escola) {
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
   alunoCollection.document(id).setData({
+    'id': id,
     'idadeAluno': idade,
     'generoAluno': genero,
     'dataNascimentoAluno': dateTime,

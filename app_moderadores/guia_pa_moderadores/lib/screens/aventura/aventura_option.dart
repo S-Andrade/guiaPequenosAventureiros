@@ -23,20 +23,71 @@ class _AventuraOption extends State<AventuraOption> {
             appBar: new AppBar(title: new Text("Guia de Pequenos Aventureiros")),
             body: Column(
               children: <Widget>[
-                 new RaisedButton(
-                  onPressed: (){
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
-                  },
-                  child: Text("Participantes"),
-                  color: Colors.green,
+                Padding(
+                  padding: const EdgeInsets.only(top: 200), 
+                  child: Center(
+                    child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
+                          },
+                          child: Container(
+                            width: 460,
+                            height: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4.0,
+                                  )
+                                ]),
+                            child: Center(
+                                child: Text(
+                              'Participantes',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  letterSpacing: 3,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Amatic SC'),
+                            )),
+                          ),
+                  ),
+                  )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 100), 
+                  child: Center(
+                  child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));
+                          },
+                          child: Container(
+                            width: 460,
+                            height: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4.0,
+                                  )
+                                ]),
+                            child: Center(
+                                child: Text(
+                              'Capitulos',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  letterSpacing: 3,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Amatic SC'),
+                            )),
+                          ),
+                        ),
                 ),
-                new RaisedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));
-                  },
-                  child: Text("Capitulos"),
-                  color: Colors.red,
-                ),
+                  ),
               ],
               )
           );

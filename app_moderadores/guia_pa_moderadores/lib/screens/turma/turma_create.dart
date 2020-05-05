@@ -58,48 +58,95 @@ class _TurmaCreate extends State<TurmaCreate> {
             appBar: new AppBar(title: new Text("Criar turmas")),
              body:Form(
               key: _formKey,
+              child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                      TextFormField(
+                    Center(
+                      child: Container(
+                        width: 600,
+                        //height: 300,
+                        padding: const EdgeInsets.only(top: 100),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
-                              return 'Nome da Turma não inserido';
+                              return 'Nome da turma não inserido';
                             }
                           },
                           onSaved: (input) => nome = input,
-                          decoration: InputDecoration(
-                            hintText: 'Nome da Turma   '
-                          )),
-                          TextFormField(
+                          decoration: new InputDecoration(
+                            labelText: "Nome da turma",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                    Center(
+                      child: Container(
+                        width: 600,
+                        //height: 300,
+                        padding: const EdgeInsets.only(top: 50),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Numero de alunos não inserido';
                             }
                           },
                           onSaved: (input) => nAlunos = input,
-                          decoration: InputDecoration(
-                            hintText: 'Numero de alunos   '
-                          )),
-                          TextFormField(
+                          decoration: new InputDecoration(
+                            labelText: "Numero de alunos",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                    Center(
+                      child: Container(
+                        width: 600,
+                      //  height: 300,
+                        padding: const EdgeInsets.only(top: 50, bottom: 100),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome do professor não inserido';
                             }
                           },
                           onSaved: (input) => professor = input,
-                          decoration: InputDecoration(
-                            hintText: 'Nome do professor  '
-                          )),
-                          GestureDetector(
+                          decoration: new InputDecoration(
+                            labelText: "Nome do professor",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                           GestureDetector(
+                            
                                 onTap: () {
                                   print('create');
                                   create(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -111,6 +158,7 @@ class _TurmaCreate extends State<TurmaCreate> {
                                       child: Text(
                                     'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
@@ -120,7 +168,7 @@ class _TurmaCreate extends State<TurmaCreate> {
                               )
                 ]
             )
-            
+             )
           ));
             }); 
         }

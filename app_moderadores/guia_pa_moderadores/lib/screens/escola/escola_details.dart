@@ -28,7 +28,7 @@ class _EscolaDetails extends State<EscolaDetails> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => TurmaCreate(escola: escola)));
               },
               child: Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blue,
             ),
           );
   }
