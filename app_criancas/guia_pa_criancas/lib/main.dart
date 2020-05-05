@@ -3,6 +3,7 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,13 @@ class _MyHomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate, // if it's a RTL language
+      ],
+      supportedLocales: [
+        const Locale('pt', 'PT'), // include country code too
+      ],
       title: 'Guia de Pequenos Aventureiros',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
