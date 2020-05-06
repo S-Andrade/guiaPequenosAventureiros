@@ -7,8 +7,10 @@ import '../../widgets/color_loader.dart';
 
 class CapituloTile extends StatelessWidget {
 
-  String capitulo_id;
-  CapituloTile({ this.capitulo_id });
+String capituloId;
+  String aventuraId;
+
+  CapituloTile({ this.capituloId,this.aventuraId });
 
   Capitulo capitulo;
   bool flag = false;
@@ -26,7 +28,7 @@ class CapituloTile extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CapituloDetails(capitulo: capitulo)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CapituloDetails(capitulo: capitulo,aventuraId:aventuraId)));
                   } ,
                   child:Card(
                     margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
@@ -43,7 +45,7 @@ class CapituloTile extends StatelessWidget {
 
 
   Future<void> getCapitulo() async{
-     DocumentReference documentReference = Firestore.instance.collection("capitulo").document(capitulo_id); 
+     DocumentReference documentReference = Firestore.instance.collection("capitulo").document(capituloId); 
       await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         capitulo = Capitulo(

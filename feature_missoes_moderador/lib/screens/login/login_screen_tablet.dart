@@ -211,9 +211,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
     if (formState.validate()) {
       formState.save();
       try {
-        print(listModerador);
-        print(_email);
-        print(_password);
+       
         bool flag = false;
         for(Moderador m in listModerador){
           if(m.id == _email){
