@@ -2,6 +2,7 @@ import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_activity_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_audio_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_image_mission_screen.dart';
+import 'package:feature_missoes_moderador/screens/missions/specific/create_questionario_mission.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_quiz_mission.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_text_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_video_mission_screen.dart';
@@ -321,7 +322,7 @@ class ChooseMissionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CreateTextMissionScreen(this.capitulo,this.aventuraId)));
+                              builder: (_) => CreateQuestionarioMissionScreen(this.capitulo,this.aventuraId)));
                     },
                     child: Container(
                       height: 200,

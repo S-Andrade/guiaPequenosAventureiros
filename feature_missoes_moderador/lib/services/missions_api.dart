@@ -113,7 +113,6 @@ Future<List<Mission>> getAllMissionsInDatabase() async {
   return _missionList;
 }
 
-
 /*
 
  CRIAÇÃO DE MISSÕES 
@@ -162,13 +161,13 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
 
   attachMissionToCapitulo(documentRef, capituloId);
 }
-
 //CRIAR MISSÃO QUIZ
 //CRIA AS PERGUNTAS
 //CRIA UM QUIZ
 //ASSOCIA A UMA MISSÃO
-//ASSOCIA AO CAPITULO 
-createMissionQuiz(String titulo, List questoes, String aventuraId, String capituloId) async {
+//ASSOCIA AO CAPITULO
+createMissionQuiz(
+    String titulo, List questoes, String aventuraId, String capituloId) async {
   List<dynamic> documentosQuestao = new List<dynamic>();
   CollectionReference questionRef = Firestore.instance.collection('question');
 
@@ -177,12 +176,15 @@ createMissionQuiz(String titulo, List questoes, String aventuraId, String capitu
   for (Question q in questoes) {
     int index = (questoes.indexOf(q)) + 1;
     q.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
+    q.multipleChoice = true;
 
     DocumentReference documentRef = questionRef.document(q.id);
 
     await documentRef.setData(q.toMap());
 
     documentosQuestao.add(documentRef);
+     documentRef.updateData({
+    'resultados': FieldValue.delete(),});
   }
 
   CollectionReference quizRef = Firestore.instance.collection('quiz');
@@ -190,7 +192,7 @@ createMissionQuiz(String titulo, List questoes, String aventuraId, String capitu
   Quiz quiz = new Quiz();
   quiz.questions = documentosQuestao;
   quiz.resultados = [];
-  
+
   List<dynamic> alunos;
   alunos = await getAlunos(aventuraId);
   alunos.forEach((element) {
@@ -226,10 +228,87 @@ createMissionQuiz(String titulo, List questoes, String aventuraId, String capitu
 
   DocumentReference documentRef = missionRef.document(mission.id);
   await documentRef.setData(mission.toMap());
+  documentRef.updateData({
+    'linkAudio': FieldValue.delete(),
+    'linkVideo': FieldValue.delete(),
+    'linkImage': FieldValue.delete(),
+  });
 
   attachMissionToCapitulo(documentRef, capituloId);
-
 }
+
+//CRIAR MISSÃO QUESTIONARIO
+//CRIA AS PERGUNTAS
+//CRIA UM QUESTIONARIO
+//ASSOCIA A UMA MISSÃO
+//ASSOCIA AO CAPITULO
+createMissionQuestinario(
+    String titulo, List questoes, String aventuraId, String capituloId) async {
+  List<dynamic> documentosQuestao = new List<dynamic>();
+  CollectionReference questionRef = Firestore.instance.collection('question');
+
+  var rng = new Random();
+  List<dynamic> alunos;
+  alunos = await getAlunos(aventuraId);
+  for (Question q in questoes) {
+    int index = (questoes.indexOf(q)) + 1;
+    q.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
+    q.multipleChoice = false;
+
+    alunos.forEach((element) {
+      Map<String, dynamic> mapa = {};
+      mapa['aluno'] = element;
+      mapa['respostaEscolhida'] = "";
+      mapa['respostaNumerica'] = 0;
+      q.resultados.add(mapa);
+    });
+
+    DocumentReference documentRef = questionRef.document(q.id);
+    await documentRef.setData(q.toMap());
+    documentosQuestao.add(documentRef);
+    
+  }
+
+  CollectionReference questionarioRef = Firestore.instance.collection('questionario');
+
+  Questionario questionario = new Questionario();
+  questionario.questions = documentosQuestao;
+
+  DocumentReference qDocRef = await questionarioRef.add(questionario.toMap());
+
+  Mission mission = new Mission();
+  int _largerId;
+  _largerId = await getMissionsLargerId();
+
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  mission.id = (_largerId + 1).toString();
+  mission.title = titulo;
+  mission.type = 'Questionario';
+  mission.content = qDocRef;
+  mission.resultados = [];
+
+  alunos.forEach((element) {
+    Map<String, dynamic> mapa = {};
+    mapa['aluno'] = element;
+    mapa['counter'] = 0;
+    mapa['counterVisited'] = 0;
+    mapa['done'] = false;
+    mapa['timeVisited'] = 0;
+    mission.resultados.add(mapa);
+  });
+
+  DocumentReference documentRef = missionRef.document(mission.id);
+  await documentRef.setData(mission.toMap());
+
+  documentRef.updateData({
+    'linkAudio': FieldValue.delete(),
+    'linkVideo': FieldValue.delete(),
+    'linkImage': FieldValue.delete(),
+  });
+  attachMissionToCapitulo(documentRef, capituloId);
+}
+
 
 // CRIAÇÃO DE UMA MISSÃO ATIVIDADE
 // PRIMEIRO CRIA SE OS DOCUMENTOS PARA CADA ATIVIDADE

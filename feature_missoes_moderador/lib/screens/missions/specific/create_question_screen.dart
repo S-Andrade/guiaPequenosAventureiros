@@ -1,16 +1,15 @@
 import 'package:feature_missoes_moderador/models/question.dart';
-import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class CreateQuestion extends StatefulWidget {
   @override
   _CreateQuestionState createState() => _CreateQuestionState();
 }
 
+Map<RowAnswer,String> respostas = new Map();
 
 class _CreateQuestionState extends State<CreateQuestion> {
   List<RowAnswer> widgetsAns = [];
@@ -20,14 +19,16 @@ class _CreateQuestionState extends State<CreateQuestion> {
   @override
   void initState() {
     _respostasErradas = [];
-    _errada = null;
+    _errada = '';
     super.initState();
   }
 
   addAnsRow() {
     setState(() {
-      widgetsAns.add(new RowAnswer());
-      if(_errada!=null){
+      Widget newR = new RowAnswer();
+      widgetsAns.add(newR);
+      if(!_respostasErradas.contains(_errada) && _errada!=''){
+        print(_errada);
         _respostasErradas.add(_errada);
       }
     });
@@ -196,15 +197,17 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   addQuestionToQuiz() {
     missionNotifier.currentQuestion = q;
-    _respostasErradas.add(_errada);
     q.wrongAnswers = _respostasErradas;
     _respostasErradas = [];
     Navigator.pop(context);
   }
 }
+
+TextEditingController _textAnsWrong;
 List _respostasErradas;
 String _errada;
 class RowAnswer extends StatelessWidget {
+  final _textAnsWrong = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -217,9 +220,10 @@ class RowAnswer extends StatelessWidget {
             color: Colors.purple[50],
           ),
           child: TextField(
-            onChanged: (value) {
+            controller: _textAnsWrong,
+            onChanged: (value){
               print(value);
-              _errada =value;
+              _errada = value;
             },
             maxLength: 50,
             maxLengthEnforced: true,

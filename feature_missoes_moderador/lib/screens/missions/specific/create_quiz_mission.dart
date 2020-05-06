@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
@@ -23,8 +22,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   Capitulo capitulo;
   String aventuraId;
   String _titulo;
-  List _perguntas;
-  List<Question> perguntas;
+  List _perguntas =[];
   final _text = TextEditingController();
 
   _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
@@ -286,7 +284,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           ),
                           FlatButton(
                             color: Colors.purple[100],
-                            onPressed: () async {
+                            onPressed: () async { 
+                              missionNotifier.currentQuestion = null;
                               if (_text.text.length > 0 && _perguntas.length!=0)
                                 showConfirmar(context, _titulo, _perguntas);
                               else

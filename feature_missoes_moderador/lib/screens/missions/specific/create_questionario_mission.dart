@@ -362,7 +362,7 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionQuiz(titulo, questions ,aventuraId,capitulo.id);
+        createMissionQuestinario(titulo, questions ,aventuraId,capitulo.id);
         Navigator.of(context,rootNavigator:true).push(
             MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventuraId:aventuraId)));
       },
