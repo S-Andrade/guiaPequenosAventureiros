@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'escola_tile.dart';
+import '../aventura/aventura.dart';
+
 
 class EscolaList extends StatefulWidget {
 
-  List escolas;
-  EscolaList({this.escolas});
+  Aventura aventura;
+  EscolaList({this.aventura});
 
   @override
-  _EscolaList createState() => _EscolaList(escolas: escolas);
+  _EscolaList createState() => _EscolaList(aventura: aventura);
 }
 
 class _EscolaList extends State<EscolaList> {
 
-  List escolas;
-  _EscolaList({this.escolas});
+  Aventura aventura;
+  _EscolaList({this.aventura});
 
   @override
   Widget build(BuildContext context) {
         return  ListView.builder(
-                itemCount: escolas.length,
+                itemCount: aventura.escolas.length,
                 itemBuilder: (context,index) {
-                  return EscolaTile(escola: escolas[index]);
+                  return EscolaTile(escola: aventura.escolas[index], aventura:aventura);
                 }
               );
   }

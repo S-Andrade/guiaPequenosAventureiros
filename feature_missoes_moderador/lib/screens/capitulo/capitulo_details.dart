@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'capitulo.dart';
-import 'package:feature_missoes_moderador/screens/tab/tab.dart';
-
+import '../misson/mission_list.dart';
 
 class CapituloDetails extends StatefulWidget {
 
   Capitulo capitulo;
-  String aventuraId;
-
-  CapituloDetails({this.capitulo,this.aventuraId});
+  CapituloDetails({this.capitulo});
 
   @override
-  _CapituloDetails createState() => _CapituloDetails(capitulo: capitulo,aventuraId:aventuraId);
+  _CapituloDetails createState() => _CapituloDetails(capitulo: capitulo);
 }
 
 class _CapituloDetails extends State<CapituloDetails> {
 
-  String aventuraId;
   Capitulo capitulo;
-  _CapituloDetails({this.capitulo,this.aventuraId});
+  _CapituloDetails({this.capitulo});
 
   @override
   Widget build(BuildContext context) {
         return  new Scaffold(
-            body: TabBarMissions(capitulo:capitulo,aventuraId:aventuraId),
+            body: MissionList(capitulo: capitulo),
         );
             
   }

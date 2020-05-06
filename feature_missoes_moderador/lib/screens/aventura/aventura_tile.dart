@@ -1,11 +1,15 @@
 import 'aventura.dart';
 import 'package:flutter/material.dart';
 import 'aventura_option.dart';
+import 'aventura_edit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class AventuraTile extends StatelessWidget {
 
   final Aventura aventura;
-  AventuraTile({ this.aventura });
+  final FirebaseUser user;
+  AventuraTile({ this.user, this.aventura });
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,9 @@ class AventuraTile extends StatelessWidget {
           child: ListTile(
             title: Text(aventura.nome),
             subtitle: Text(aventura.moderador),
+            trailing: IconButton(icon: Icon(Icons.edit), onPressed: (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraEdit(user: user , aventura: aventura)));
+            }),
           ),
         ),
       ),

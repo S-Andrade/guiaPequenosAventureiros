@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';
@@ -31,7 +30,7 @@ class _AventuraListState extends State<AventuraList> {
               return ListView.builder(
                 itemCount: aventuras.length,
                 itemBuilder: (context,index) {
-                  return AventuraTile(aventura: aventuras[index]);
+                  return AventuraTile(user:user, aventura: aventuras[index]);
                 }
               );
             }

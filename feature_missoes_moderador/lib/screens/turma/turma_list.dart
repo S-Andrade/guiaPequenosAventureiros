@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'turma_tile.dart';
+import '../escola/escola.dart';
 
 class TurmaList extends StatefulWidget {
 
-  List turmas;
-  TurmaList({this.turmas});
+  Escola escola;
+  TurmaList({this.escola});
 
   @override
-  _TurmaList createState() => _TurmaList(turmas: turmas);
+  _TurmaList createState() => _TurmaList(escola: escola);
 }
 
 class _TurmaList extends State<TurmaList> {
 
-  List turmas;
-  _TurmaList({this.turmas});
+  
+  Escola escola;
+  _TurmaList({this.escola});
 
   @override
   Widget build(BuildContext context) {
         return  ListView.builder(
-                itemCount: turmas.length,
+                itemCount: escola.turmas.length,
                 itemBuilder: (context,index) {
-                  return TurmaTile(turma: turmas[index]);
+                  return TurmaTile(turma: escola.turmas[index], escola: escola);
                 }
               );
   }

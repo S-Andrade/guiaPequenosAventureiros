@@ -72,8 +72,8 @@ class _ColorLoaderState extends State<ColorLoader> with TickerProviderStateMixin
             child: CustomPaint(
               painter: Arc1Painter(widget.color1),
               child: Container(
-                width: 350.0,
-                height: 350.0,
+                width: 50.0,
+                height: 50.0,
               ),
             ),
           ), new RotationTransition(
@@ -81,8 +81,8 @@ class _ColorLoaderState extends State<ColorLoader> with TickerProviderStateMixin
             child: CustomPaint(
               painter: Arc2Painter(widget.color2),
               child: Container(
-                width: 350.0,
-                height: 350.0,
+                width: 50.0,
+                height: 50.0,
               ),
             ),
           ), new RotationTransition(
@@ -90,8 +90,8 @@ class _ColorLoaderState extends State<ColorLoader> with TickerProviderStateMixin
             child: CustomPaint(
               painter: Arc3Painter(widget.color3),
               child: Container(
-                width: 350.0,
-                height: 350.0,
+                width: 50.0,
+                height: 50.0,
               ),
             ),
           )
