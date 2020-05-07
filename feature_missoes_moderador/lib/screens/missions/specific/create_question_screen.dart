@@ -9,17 +9,15 @@ class CreateQuestion extends StatefulWidget {
   _CreateQuestionState createState() => _CreateQuestionState();
 }
 
-Map<RowAnswer,String> respostas = new Map();
-
 class _CreateQuestionState extends State<CreateQuestion> {
-  List<RowAnswer> widgetsAns = [];
+  List<RowAnswer> widgetsAns;
   final _textQuestion = TextEditingController();
   final _textAnsCorrect = TextEditingController(); 
   Question q = new Question();
   @override
   void initState() {
     _respostasErradas = [];
-    _errada = '';
+    widgetsAns = [];
     super.initState();
   }
 
@@ -27,10 +25,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
     setState(() {
       Widget newR = new RowAnswer();
       widgetsAns.add(newR);
-      if(!_respostasErradas.contains(_errada) && _errada!=''){
-        print(_errada);
-        _respostasErradas.add(_errada);
-      }
     });
   }
 
@@ -197,17 +191,20 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   addQuestionToQuiz() {
     missionNotifier.currentQuestion = q;
+    for (RowAnswer r in widgetsAns){
+      _respostasErradas.add(r._textAnsWrong.text);
+    }
     q.wrongAnswers = _respostasErradas;
     _respostasErradas = [];
     Navigator.pop(context);
   }
 }
 
-TextEditingController _textAnsWrong;
+
 List _respostasErradas;
-String _errada;
 class RowAnswer extends StatelessWidget {
   final _textAnsWrong = TextEditingController();
+  String _resposta;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -223,7 +220,7 @@ class RowAnswer extends StatelessWidget {
             controller: _textAnsWrong,
             onChanged: (value){
               print(value);
-              _errada = value;
+              _resposta = value;
             },
             maxLength: 50,
             maxLengthEnforced: true,
