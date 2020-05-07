@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:feature_missoes_moderador/services/database.dart';
-import 'turma_details.dart';
 import 'turma.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../escola/escola.dart';
@@ -10,21 +9,38 @@ import '../../widgets/color_loader.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
 
 
 
 
 
-
-class TurmaTile extends StatelessWidget {
-
+class TurmaTile extends StatefulWidget{
   String turma;
   Escola escola;
   TurmaTile({ this.turma, this.escola });
 
+  
+  @override
+  _TurmaTile createState() => _TurmaTile(turma: turma, escola: escola);
+  
+}
+
+
+class _TurmaTile extends State<TurmaTile> {
+
+  String turma;
+  Escola escola;
+  _TurmaTile({ this.turma, this.escola });
+
   Turma turmafinal;
   bool flag = false;
 
+  
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
@@ -36,22 +52,27 @@ class TurmaTile extends StatelessWidget {
               }else{
                  return Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TurmaDetails(turma: turmafinal)));
-                    } ,
                     child:Card(
                       margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
                       
                       child: ListTile(
                         title: Text(turmafinal.nome),
-                        trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){deleteTurma(context);}),
+                        trailing: Wrap(
+                            spacing: 12, // space between two icons
+                            children: <Widget>[
+                              IconButton(icon: Icon(Icons.file_download), onPressed: (){downloadFile();}), // icon-1
+                              IconButton(icon: Icon(Icons.delete), onPressed: (){deleteTurma(context);}), // icon-2
+                            ],
+                          ),
+                                                
+                        
+                        
                       ),
                     ),
-                  ),
-                );
-              }
+                 );
+              
             }
+        }
     );
   }
 
@@ -131,4 +152,47 @@ class TurmaTile extends StatelessWidget {
       });
     });
   }
+
+  void downloadFile() async{
+
+    
+   
+      final StorageReference firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child(turmafinal.file);
+
+      var url =  await firebaseStorageRef.getDownloadURL();
+      
+      bool ready = await _checkPermission();
+      if(ready){
+        Directory directory = await DownloadsPathProvider.downloadsDirectory;
+
+        await FlutterDownloader.initialize(debug: true);
+        final taskId = await FlutterDownloader.enqueue(
+          url: url,
+          fileName: '${turmafinal.nome}.txt',
+          savedDir: directory.path.toString(),
+          showNotification: true, // show download progress in status bar (for Android)
+          openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+        );
+      }
+    
+     
+  }
+
+  Future<bool> _checkPermission() async {
+    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+    if (permission != PermissionStatus.granted) {
+        Map<PermissionGroup, PermissionStatus> permissions =
+            await PermissionHandler()
+                .requestPermissions([PermissionGroup.storage]);
+        if (permissions[PermissionGroup.storage] == PermissionStatus.granted) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    return false;
+  }
+
 }

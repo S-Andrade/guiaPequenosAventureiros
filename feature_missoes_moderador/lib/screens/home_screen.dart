@@ -27,7 +27,7 @@ class _HomeScreen extends State<HomeScreen> {
     return MaterialApp(
       title: 'Guia dos Aventureiros',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
      home: StreamProvider<List<Aventura>>.value(
       value : DatabaseService().aventura,
@@ -42,7 +42,7 @@ class _HomeScreen extends State<HomeScreen> {
                  Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCreate(user:user)));
               },
               child: Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blue,
             ),
           )
       ),

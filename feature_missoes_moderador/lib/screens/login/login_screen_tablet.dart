@@ -210,7 +210,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
     if (formState.validate()) {
       formState.save();
-      try {
+      
        
         bool flag = false;
         for(Moderador m in listModerador){
@@ -220,11 +220,34 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
         }
 
         if(flag){
+          try {
           final FirebaseAuth auth = FirebaseAuth.instance;
           AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
           FirebaseUser user = result.user;
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+
+          } catch (e) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema na autenticação"),
+                content: new Text("Email ou password não está correto!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
         }else{
           showDialog(
             context: context,
@@ -247,27 +270,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
         }
 
         
-      } catch (e) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              // retorna um objeto do tipo Dialog
-              return AlertDialog(
-                title: new Text("Problema na autenticação"),
-                content: new Text("Email ou password não está correto!"),
-                actions: <Widget>[
-                  // define os botões na base do dialogo
-                  new FlatButton(
-                    child: new Text("Fechar"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-      }
+      
     }
   }
 
@@ -484,10 +487,8 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
 
     if (formState.validate()) {
       formState.save();
-      try {
-        print(listModerador);
-        print(_email);
-        print(_password);
+      
+       
         bool flag = false;
         for(Moderador m in listModerador){
           if(m.id == _email){
@@ -496,11 +497,34 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
         }
 
         if(flag){
+          try {
           final FirebaseAuth auth = FirebaseAuth.instance;
           AuthResult result = await auth.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
           FirebaseUser user = result.user;
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+
+          } catch (e) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Problema na autenticação"),
+                content: new Text("Email ou password não está correto!"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
         }else{
           showDialog(
             context: context,
@@ -508,7 +532,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
               // retorna um objeto do tipo Dialog
               return AlertDialog(
                 title: new Text("Problema na autenticação"),
-                content: new Text("Email não está correto!"),
+                content: new Text("Email ou password não está correto!"),
                 actions: <Widget>[
                   // define os botões na base do dialogo
                   new FlatButton(
@@ -523,11 +547,10 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
         }
 
         
-      } catch (e) {
-        print('falha' + e.message);
-      }
+      
     }
   }
+
 
   Future<void> getListModerador(BuildContext context) async{
       listModerador = Provider.of<List<Moderador>>(context, listen: false);
