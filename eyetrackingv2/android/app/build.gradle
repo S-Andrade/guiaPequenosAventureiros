@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.eyetracking"
+        applicationId "com.guia.aventureiros"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
@@ -67,3 +67,5 @@ dependencies {
     api 'com.google.firebase:firebase-ml-vision-face-model:17.0.2'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

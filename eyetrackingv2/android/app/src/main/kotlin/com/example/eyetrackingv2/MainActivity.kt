@@ -1,4 +1,4 @@
-package com.example.eyetracking
+package com.example.eyetrackingv2
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
