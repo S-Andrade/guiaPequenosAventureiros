@@ -20,10 +20,11 @@ class _DisplayPictureScreen extends State<DisplayPictureScreen>{
   _DisplayPictureScreen({Key key, this.imagePath});
 
   bool isLoading = true;
-  List<List<double>> olhinhos =  [];
+  List<List> olhinhos =  [];
   int carinhas = 0 ;
   List<List<double>> cabeca = [];
   List nariz = [];
+  bool ver = false;
   @override
   void initState(){
     super.initState();
@@ -42,7 +43,8 @@ class _DisplayPictureScreen extends State<DisplayPictureScreen>{
                 Text(carinhas.toString()),
                 Text(olhinhos.toString()),
                 Text(cabeca.toString()),
-                Text(nariz.toString())
+                Text(nariz.toString()),
+                Text(ver.toString())
               ],) 
             );
  
@@ -65,21 +67,46 @@ class _DisplayPictureScreen extends State<DisplayPictureScreen>{
     });
 
     for (Face face in faces) {
-        List<double> olhos = [];
-        olhos.add(face.leftEyeOpenProbability);
-        olhos.add(face.rightEyeOpenProbability);
+       
+        List olhos = [];
+        var olhoesquerdo = face.getLandmark(FaceLandmarkType.leftEye).position;
+        double olhoesquerdox = olhoesquerdo.dx;
+        double olhoesquerdoy = olhoesquerdo.dy;
+        var olhodireito = face.getLandmark(FaceLandmarkType.rightEye).position;
+        double olhodireitox = olhodireito.dx;
+        double olhodireitoy = olhodireito.dy;
+
+        olhos.add(olhoesquerdo);
+        olhos.add(olhodireito);
 
         List<double> cabecorra = []; 
-        cabecorra.add(face.headEulerAngleY);
-        cabecorra.add(face.headEulerAngleZ);
+        double cabecay = face.headEulerAngleY;
+        double cabecaz = face.headEulerAngleZ;
+        cabecorra.add(cabecay);
+        cabecorra.add(cabecaz);
 
-        var focinho = face.getLandmark(FaceLandmarkType.noseBase);
+        var focinho = face.getLandmark(FaceLandmarkType.noseBase).position;
+        double narizx = focinho.dx;
+        double narizy = focinho.dy;
 
         setState(() {  
           olhinhos.add(olhos);
           cabeca.add(cabecorra);
-          nariz.add(focinho.position);
+          nariz.add(focinho);
         });
+
+        if((-20 <= olhoesquerdox && olhoesquerdox <= 500) 
+          && (0 <= olhoesquerdoy && olhoesquerdoy <= 650)
+          && (50 <= olhodireitox && olhodireitox <= 700)
+          && (0 <= olhodireitoy && olhodireitoy <= 650)
+          && (-50 <= cabecay && cabecay <= 50)
+          && (-100 <= cabecaz && cabecaz <= 100)
+          && (0 <= narizx && narizx <= 700)
+          && (0 <= narizy && narizy <= 700)){
+          ver = true;
+        }
+
+
     }
 
     faceDetector.close();

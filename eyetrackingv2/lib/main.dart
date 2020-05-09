@@ -1,7 +1,8 @@
+import 'package:eyetrackingv2/Timing.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:camera/camera.dart';
-import 'TakePictureScreen.dart';
+//import 'TakePictureScreen.dart';
 
 
 
@@ -37,7 +38,7 @@ class _MyHomePageState extends State<MyApp> {
 
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: TakePictureScreen(
+      home: Timing(
         // Pass the appropriate camera to the TakePictureScreen widget.
         camera: cameras.last,
       ),
