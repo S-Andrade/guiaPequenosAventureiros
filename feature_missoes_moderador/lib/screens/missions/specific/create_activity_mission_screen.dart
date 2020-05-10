@@ -224,8 +224,7 @@ class _CreateActivityMissionScreenState
                                 width: 700,
                                 child:ListView(
                                   children:
-                                      List.generate(activities.length, (index) {
-                                       
+                                      List.generate(activities.length, (index) { 
                                     return Column(children: [
                                       Row(
                                         children: <Widget>[
@@ -233,6 +232,7 @@ class _CreateActivityMissionScreenState
                                             icon: Icon(FontAwesomeIcons.star),
                                             iconSize: 10,
                                             color: parseColor("#320a5c"),
+                                            onPressed: null,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(10.0),

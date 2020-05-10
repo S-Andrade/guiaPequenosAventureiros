@@ -39,8 +39,6 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
     if (missionNotifier.currentQuestion != null ) {
       if( !_perguntas.contains(missionNotifier.currentQuestion))
       {
-        print('aqui lolllllllllllll');
-        print(missionNotifier.currentQuestion.wrongAnswers.toString());
         _perguntas.add(missionNotifier.currentQuestion);
         //perguntas.add(missionNotifier.currentQuestion);
       }
@@ -208,6 +206,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                       .question),
                                                   iconSize: 10,
                                                   color: parseColor("#320a5c"),
+                                                  onPressed: null,
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.all(

@@ -4,32 +4,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CreateQuestion extends StatefulWidget {
+class CreateQuestionarioQuestion extends StatefulWidget {
   @override
-  _CreateQuestionState createState() => _CreateQuestionState();
+  _CreateQuestionarioQuestionState createState() => _CreateQuestionarioQuestionState();
 }
 
-class _CreateQuestionState extends State<CreateQuestion> {
+List _respostas;
+
+class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion> {
   List<RowAnswer> widgetsAns;
   final _textQuestion = TextEditingController();
-  final _textAnsCorrect = TextEditingController(); 
+  final _numeroRespotas = TextEditingController();
+  String valorMax;
+  int max;
   Question q = new Question();
+
   @override
   void initState() {
-    _respostasErradas = [];
+    _respostas = [];
     widgetsAns = [];
     super.initState();
   }
 
-  addAnsRow() {
+  Future <void> addAnsRow(int max) {
     setState(() {
-      Widget newR = new RowAnswer();
-      widgetsAns.add(newR);
+      for (int r = 0; r < max; r++) {
+        Widget newR = new RowAnswer(r);
+        widgetsAns.add(newR);
+      }
     });
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(
+      'entreiiiiii'
+    );
     return Scaffold(
       body: Form(
         child: Builder(
@@ -95,7 +106,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   Container(
                     width: 100.0,
                     child: Text(
-                      "Resposta Correta",
+                      "Número de respostas",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Colors.black,
@@ -116,9 +127,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
                       color: Colors.purple[50],
                     ),
                     child: TextField(
-                      controller: _textAnsCorrect,
+                      controller: _numeroRespotas,
                       onChanged: (value) {
-                        q.correctAnswer = value;
+                        print('vaolue');
+                        valorMax = value;
+                        max = int.parse(value);
                       },
                       maxLength: 50,
                       maxLengthEnforced: true,
@@ -137,11 +150,22 @@ class _CreateQuestionState extends State<CreateQuestion> {
                           ),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        hintText: "Resposta Correta ",
+                        hintText: "valor máximo: ex. 5",
                         fillColor: Colors.blue[50],
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 40.0,
+                  ),
+                  FlatButton(
+                    child: Icon(
+                      FontAwesomeIcons.checkSquare,
+                    ),
+                    onPressed:(){
+                      addAnsRow(max);
+                    }
+                  )
                 ],
               ),
               Row(
@@ -149,7 +173,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   Container(
                     width: 100.0,
                     child: Text(
-                      "Respostas Erradas",
+                      "Respostas",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Colors.black,
@@ -169,17 +193,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   )
                 ],
               ),
-              Row(children: <Widget>[
-                FlatButton(
-                    child: Icon(FontAwesomeIcons.plus),
-                    onPressed: () {
-                      addAnsRow();
-                    })
-              ]),
               Row(
                 children: <Widget>[
                   FlatButton(
-                      child: Text('Submeter'), onPressed: addQuestionToQuiz)
+                      child: Text('Submeter'),
+                      onPressed: addQuestionToQuestionario)
                 ],
               )
             ]));
@@ -189,25 +207,47 @@ class _CreateQuestionState extends State<CreateQuestion> {
     );
   }
 
-  addQuestionToQuiz() {
+  addQuestionToQuestionario() {
     missionNotifier.currentQuestion = q;
-    for (RowAnswer r in widgetsAns){
-      _respostasErradas.add(r._textAnsWrong.text);
+    for (RowAnswer r in widgetsAns) {
+      _respostas.add(r._textAnsWrong.text);
     }
-    q.wrongAnswers = _respostasErradas;
-    _respostasErradas = [];
+    q.answers = _respostas;
+    _respostas = [];
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
 
-List _respostasErradas;
 class RowAnswer extends StatelessWidget {
   final _textAnsWrong = TextEditingController();
   String _resposta;
+  String text;
+  int numero;
+  RowAnswer(int r){
+    this.numero =r;
+  }
   @override
   Widget build(BuildContext context) {
+    String text = this.numero.toString()+'-'+(this.numero+1).toString();
     return Row(
       children: <Widget>[
+        Container(
+          width: 100.0,
+          child: Text(
+            text,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Amatic SC',
+                letterSpacing: 2,
+                fontSize: 30),
+          ),
+        ),
+        SizedBox(
+          width: 40.0,
+        ),
         Container(
           width: MediaQuery.of(context).size.width / 3.7,
           height: 50,
@@ -217,8 +257,7 @@ class RowAnswer extends StatelessWidget {
           ),
           child: TextField(
             controller: _textAnsWrong,
-            onChanged: (value){
-              print(value);
+            onChanged: (value) {
               _resposta = value;
             },
             maxLength: 50,
@@ -238,7 +277,7 @@ class RowAnswer extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(5.0),
               ),
-              hintText: "Resposta Errada",
+              hintText: "Resposta",
               fillColor: Colors.blue[50],
             ),
           ),

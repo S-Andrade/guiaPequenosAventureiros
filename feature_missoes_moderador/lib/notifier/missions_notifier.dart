@@ -5,9 +5,8 @@ import 'package:feature_missoes_moderador/models/quiz.dart';
 import '../models/mission.dart';
 import 'package:flutter/cupertino.dart';
 
-class MissionsNotifier with ChangeNotifier{
-
-List<Mission> _missionsList = [];
+class MissionsNotifier with ChangeNotifier {
+  List<Mission> _missionsList = [];
   Mission _currentMission;
   dynamic _missionContent;
   bool _completed;
@@ -15,11 +14,13 @@ List<Mission> _missionsList = [];
   List<Question> _allQuestions = [];
   Question _currentQuestion;
 
-  UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
-  UnmodifiableListView<Question> get allQuestions => UnmodifiableListView(_allQuestions);
+  UnmodifiableListView<Mission> get missionsList =>
+      UnmodifiableListView(_missionsList);
+  UnmodifiableListView<Question> get allQuestions =>
+      UnmodifiableListView(_allQuestions);
 
   bool get completed => _completed;
-  int get currentScore => _currentScore; 
+  int get currentScore => _currentScore;
 
   Question get currentQuestion => _currentQuestion;
   Mission get currentMission => _currentMission;
@@ -45,16 +46,17 @@ List<Mission> _missionsList = [];
     notifyListeners();
   }
 
-  set missionContent(dynamic content){
+  set missionContent(dynamic content) {
     _missionContent = content;
     notifyListeners();
   }
 
-  set completed(bool completed){
-    _completed =completed;
+  set completed(bool completed) {
+    _completed = completed;
     notifyListeners();
   }
-  set currentScore(int score){
+
+  set currentScore(int score) {
     _currentScore = score;
     notifyListeners();
   }

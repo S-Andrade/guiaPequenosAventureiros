@@ -9,7 +9,7 @@ class Question{
   bool success;
   List answers = [];
   String respostaEscolhida = "";
-  List resultados;
+  List resultados = [];
 
   Question();
 
@@ -41,6 +41,8 @@ class Question{
     'wrong_answers' : wrongAnswers,
     'multiple_choice' : multipleChoice,
     'resultados': resultados,
+    'respostaEscolhida': respostaEscolhida,
+    'answers': answers,
     };
   }
 

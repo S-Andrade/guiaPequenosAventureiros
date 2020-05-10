@@ -1,14 +1,12 @@
 import 'dart:async';
-
 import 'package:feature_missoes_moderador/models/questionario.dart';
-import 'package:feature_missoes_moderador/models/quiz.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
-import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'create_questionario_question_screen.dart';
 
 class CreateQuestionarioMissionScreen extends StatefulWidget {
   String aventuraId;
@@ -20,7 +18,8 @@ class CreateQuestionarioMissionScreen extends StatefulWidget {
       _CreateQuestionarioMissionScreenState(this.capitulo, this.aventuraId);
 }
 
-class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMissionScreen> {
+class _CreateQuestionarioMissionScreenState
+    extends State<CreateQuestionarioMissionScreen> {
   Capitulo capitulo;
   String aventuraId;
   Questionario _questionario;
@@ -39,9 +38,8 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
 
   @override
   Widget build(BuildContext context) {
-    if (missionNotifier.currentQuestion != null ) {
-      if( !_perguntas.contains(missionNotifier.currentQuestion))
-      {
+    if (missionNotifier.currentQuestion != null) {
+      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
       }
     }
@@ -69,7 +67,7 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Criar um Quiz",
+                              "Criar um Questionario",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
@@ -208,6 +206,7 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                                                       .question),
                                                   iconSize: 10,
                                                   color: parseColor("#320a5c"),
+                                                  onPressed: null,
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.all(
@@ -243,7 +242,9 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                                                     setState(() {
                                                       _perguntas
                                                           .removeAt(index);
-                                                    missionNotifier.currentQuestion = null;
+                                                      missionNotifier
+                                                              .currentQuestion =
+                                                          null;
                                                     });
                                                   },
                                                 ),
@@ -259,17 +260,38 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                                         },
                                         itemCount: _perguntas.length)),
                                 FlatButton(
-                                  child: Icon(FontAwesomeIcons.plus),
-                                  onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateQuestion()));
-                                  },
-                                )
+                                    child: Icon(FontAwesomeIcons.plus),
+                                    onPressed: () {
+                                      //pop up
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Nova Questão'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: Text('Nova'),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CreateQuestionarioQuestion()));
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text(
+                                                    'De outro Questionário'),
+                                                onPressed: null,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    })
                               ]))),
-                   SizedBox(
+                      SizedBox(
                         height: 40.0,
                       ),
                       Row(
@@ -283,7 +305,9 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                           FlatButton(
                             color: Colors.purple[100],
                             onPressed: () async {
-                              if (_text.text.length > 0 && _perguntas.length!=0)
+                              missionNotifier.currentQuestion = null;
+                              if (_text.text.length > 0 &&
+                                  _perguntas.length != 0)
                                 showConfirmar(context, _titulo, _perguntas);
                               else
                                 await showError();
@@ -301,7 +325,6 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
                         ],
                       ),
                     ])),
-
               ],
             ),
           ),
@@ -309,7 +332,8 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
       ),
     );
   }
-  showError() async{
+
+  showError() async {
     AlertDialog alerta = AlertDialog(
       title: Text(
         "Falta inserir um título ou criar, pelo menos, uma questão!",
@@ -334,8 +358,7 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
     });
   }
 
-  showConfirmar(
-      BuildContext context, String titulo, List questions) {
+  showConfirmar(BuildContext context, String titulo, List questions) {
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -362,9 +385,11 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionQuestinario(titulo, questions ,aventuraId,capitulo.id);
-        Navigator.of(context,rootNavigator:true).push(
-            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventuraId:aventuraId)));
+        print(questions);
+        createMissionQuestinario(titulo, questions, aventuraId, capitulo.id);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) =>
+                TabBarMissions(capitulo: capitulo, aventuraId: aventuraId)));
       },
     );
 
@@ -401,4 +426,3 @@ class _CreateQuestionarioMissionScreenState extends State<CreateQuestionarioMiss
     );
   }
 }
-
