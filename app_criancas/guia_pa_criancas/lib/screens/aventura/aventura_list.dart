@@ -21,7 +21,7 @@ class _AventuraListState extends State<AventuraList> {
   final FirebaseUser user;
   _AventuraListState({this.user});
 
-  PageController _controller = PageController(viewportFraction: 0.9);
+  PageController _controller = PageController(viewportFraction: 0.80);
 
   List<Aventura> aventura ;
   List<Turma> turma;
@@ -43,6 +43,7 @@ class _AventuraListState extends State<AventuraList> {
             future: getAventuras(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
               return PageView.builder(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   controller: _controller,
                   pageSnapping: true,

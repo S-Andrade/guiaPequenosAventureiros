@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../auth.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
@@ -32,7 +33,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
   @override
   void initState() {
-   
     Auth().getUser().then((user) {
       _userID = user.email;
     });
@@ -48,8 +48,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     double _completada;
     String _imagem;
-    flag =false;
-
+    flag = false;
 
     if (missoes.length == missionsNotifier.missionsList.length) {
       setState(() {
@@ -114,7 +113,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
                             key: UniqueKey(),
-                            height: 160,
+//                            height: 160,
                             decoration: BoxDecoration(
                                 image: new DecorationImage(
                                   image: ExactAssetImage(_imagem),
@@ -137,18 +136,52 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                   padding: const EdgeInsets.only(top: 30),
                                   child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Center(
-                                          child: Text(
-                                            mission.title,
-                                            style: TextStyle(
-                                                fontSize: 45,
-                                                fontFamily: 'Amatic SC',
-                                                letterSpacing: 4),
-                                            textAlign: TextAlign.center,
+                                        Text(
+                                          mission.title,
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 22,
+                                                color: Colors.black),
                                           ),
+                                          textAlign: TextAlign.left,
                                         ),
+                                        new Builder(
+                                          builder: (BuildContext context) => _done
+                                              ? IconButton(
+                                            icon:
+                                            Icon(FontAwesomeIcons.redo),
+                                            iconSize: 50,
+                                            color: Colors.green[300],
+                                            tooltip: 'Repetir a missão',
+                                            onPressed: () {
+                                              missionsNotifier
+                                                  .currentMission = mission;
+                                              setState(() {
+                                                _navegarParaMissao(
+                                                    context, mission);
+                                              });
+                                            },
+                                          )
+                                              : IconButton(
+                                            icon: Icon(FontAwesomeIcons
+                                                .arrowRight),
+                                            iconSize: 50,
+                                            color: parseColor("#320a5c"),
+                                            tooltip: 'Passar para a missão',
+                                            onPressed: () {
+                                              missionsNotifier
+                                                  .currentMission = mission;
+                                              setState(() {
+                                                _navegarParaMissao(
+                                                    context, mission);
+                                              });
+                                            },
+                                          ),
+                                        )
+
                                       ]),
                                 ),
                                 Padding(
@@ -156,39 +189,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      new Builder(
-                                        builder: (BuildContext context) => _done
-                                            ? IconButton(
-                                                icon:
-                                                    Icon(FontAwesomeIcons.redo),
-                                                iconSize: 50,
-                                                color: Colors.green[300],
-                                                tooltip: 'Repetir a missão',
-                                                onPressed: () {
-                                                  missionsNotifier
-                                                      .currentMission = mission;
-                                                  setState(() {
-                                                    _navegarParaMissao(
-                                                        context, mission);
-                                                  });
-                                                },
-                                              )
-                                            : IconButton(
-                                                icon: Icon(FontAwesomeIcons
-                                                    .arrowRight),
-                                                iconSize: 50,
-                                                color: parseColor("#320a5c"),
-                                                tooltip: 'Passar para a missão',
-                                                onPressed: () {
-                                                  missionsNotifier
-                                                      .currentMission = mission;
-                                                  setState(() {
-                                                    _navegarParaMissao(
-                                                        context, mission);
-                                                  });
-                                                },
-                                              ),
-                                      )
                                     ],
                                   ),
                                 ),
@@ -262,7 +262,6 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
 
   @override
   void initState() {
-   
     Auth().getUser().then((user) {
       _userID = user.email;
     });
@@ -326,8 +325,8 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
                   _imagem = 'assets/images/upload.png';
                 else if (mission.type == 'Image')
                   _imagem = 'assets/images/image.png';
-                   else if (mission.type == 'Questionario')
-                    _imagem = 'assets/images/quiz.png';
+                else if (mission.type == 'Questionario')
+                  _imagem = 'assets/images/quiz.png';
 
                 return Stack(children: [
                   Padding(
@@ -347,7 +346,6 @@ class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
                             borderRadius: BorderRadius.circular(20.0),
                             boxShadow: [
                               BoxShadow(
-                                color: parseColor("#320a5c"),
                                 blurRadius: 10.0,
                               )
                             ]),

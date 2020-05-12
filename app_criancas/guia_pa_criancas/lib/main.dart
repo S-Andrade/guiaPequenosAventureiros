@@ -48,8 +48,7 @@ class _MyHomePageState extends State<MyApp> {
           backgroundColor: Colors.black,
           textColor: Colors.white);
       return true;
-    }
-    else{
+    } else {
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       return false;
     }
@@ -57,6 +56,9 @@ class _MyHomePageState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

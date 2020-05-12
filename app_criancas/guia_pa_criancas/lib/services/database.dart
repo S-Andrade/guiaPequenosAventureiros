@@ -5,6 +5,7 @@ import '../screens/turma/turma.dart';
 import '../screens/escola/escola.dart';
 
 class DatabaseService {
+
   //----------------------------------------------------------------------------------------------------------------------------------------------------------
   //Aventura
 
@@ -12,7 +13,7 @@ class DatabaseService {
       Firestore.instance.collection('aventura');
 
   Future<void> updateAventuraData(String id, String historia, Timestamp data,
-      String local, List escolas, String moderador, String nome) async {
+      String local, List escolas, String moderador, String nome, String capa) async {
     return await aventuraCollection.document(id).setData({
       'id': id,
       'historia': historia,
@@ -21,6 +22,7 @@ class DatabaseService {
       'escolas': escolas,
       'moderador': moderador,
       'nome': nome,
+      'capa': capa,
     });
   }
 
@@ -33,7 +35,8 @@ class DatabaseService {
           local: doc.data['local'] ?? '',
           escolas: doc.data['escolas'] ?? [],
           moderador: doc.data['moderador'] ?? '',
-          nome: doc.data['nome'] ?? '');
+          nome: doc.data['nome'] ?? '',
+          capa: doc.data['capa'] ?? '');
     }).toList();
   }
 
