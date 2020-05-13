@@ -20,7 +20,6 @@ class ActivityScreenTabletPortrait extends StatefulWidget {
 
 class _ActivityScreenTabletPortraitState
     extends State<ActivityScreenTabletPortrait> with WidgetsBindingObserver {
-
   Mission mission;
   int _state = 0;
   double padValue = 0;
@@ -35,35 +34,35 @@ class _ActivityScreenTabletPortraitState
   int _totalPaused;
   DateTime _start;
   DateTime _end;
+  bool _imageExists;
 
   _ActivityScreenTabletPortraitState(this.mission);
 
   @override
   void initState() {
+    _imageExists = false;
     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                        _counterVisited=resultados["counterVisited"];
-                        _timeVisited=resultados["timeVisited"];
-                      }
-                    }
-                  });
-                });
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+            _counterVisited = resultados["counterVisited"];
+            _timeVisited = resultados["timeVisited"];
+          }
+        }
+      });
+    });
 
     WidgetsBinding.instance.addObserver(this);
-   
-    _start=DateTime.now();
+
+    _start = DateTime.now();
     super.initState();
   }
 
-
   @override
   void dispose() {
-    
     print('dispose');
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -73,35 +72,31 @@ class _ActivityScreenTabletPortraitState
 
   @override
   void deactivate() {
-     _counterVisited=_counterVisited+1;
-    _end=DateTime.now();
-    _timeSpentOnThisScreen=_end.difference(_start).inSeconds;
-    _timeVisited=_timeVisited+_timeSpentOnThisScreen;
-    updateMissionTimeAndCounterVisitedInFirestore(mission,_userID,_timeVisited,_counterVisited);
+    _counterVisited = _counterVisited + 1;
+    _end = DateTime.now();
+    _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
+    _timeVisited = _timeVisited + _timeSpentOnThisScreen;
+    updateMissionTimeAndCounterVisitedInFirestore(
+        mission, _userID, _timeVisited, _counterVisited);
     super.deactivate();
-    
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state==AppLifecycleState.paused){
-      _paused=DateTime.now();
+    if (state == AppLifecycleState.paused) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
+      _returned = DateTime.now();
+    }
 
-    }
-    else if(state==AppLifecycleState.resumed){
-      _returned=DateTime.now();
-    }
-    
-    _totalPaused=_returned.difference(_paused).inSeconds;
-    _timeVisited=_timeVisited-_totalPaused;
-    
+    _totalPaused = _returned.difference(_paused).inSeconds;
+    _timeVisited = _timeVisited - _totalPaused;
   }
 
   @override
   Widget build(BuildContext context) {
     List<Activity> activities = mission.content;
-    NetworkImage _image;
-
+  
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -132,8 +127,8 @@ class _ActivityScreenTabletPortraitState
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: List.generate(activities.length, (index) {
-                if (activities[index].linkImage != null)
-                  _image = new NetworkImage(activities[index].linkImage);
+        
+              
                 return Column(children: [
                   Row(
                     children: <Widget>[
@@ -145,7 +140,7 @@ class _ActivityScreenTabletPortraitState
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
-                            width: 370,
+                            width: (activities[index].linkImage!=null) ? 370:600,
                             child: Row(children: [
                               Flexible(
                                 child: Text(
@@ -160,17 +155,24 @@ class _ActivityScreenTabletPortraitState
                               ),
                             ])),
                       ),
-                      Container(
-                        width: 300.0,
-                        height: 300.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.0),
-                          image: DecorationImage(
-                            image: _image,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
+                       Container(
+                                  width: (activities[index].linkImage!=null) ? 300.0:10,
+                                  height: (activities[index].linkImage!=null) ? 300.0:10,
+                                  decoration: (activities[index].linkImage!=null) ? BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    
+                                    image: DecorationImage(
+                                      
+                                      image:new NetworkImage(activities[index].linkImage),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                  :
+                                  BoxDecoration(
+                                   color:Colors.grey,
+                                  )
+                       ),
+                       
                     ],
                   ),
                 ]);

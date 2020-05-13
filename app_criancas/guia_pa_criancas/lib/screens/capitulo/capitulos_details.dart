@@ -18,6 +18,7 @@ class CapitulosDetails extends StatelessWidget {
     return StreamProvider<List<Capitulo>>.value(
       value : DatabaseService().capitulo,
       child: Scaffold( 
+  
         body: CapituloList(capitulos: capitulos)
       )
     );
