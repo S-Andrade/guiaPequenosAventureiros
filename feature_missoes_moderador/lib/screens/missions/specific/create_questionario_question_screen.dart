@@ -38,9 +38,7 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
 
   @override
   Widget build(BuildContext context) {
-    print(
-      'entreiiiiii'
-    );
+    
     return Scaffold(
       body: Form(
         child: Builder(
@@ -129,7 +127,6 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
                     child: TextField(
                       controller: _numeroRespotas,
                       onChanged: (value) {
-                        print('vaolue');
                         valorMax = value;
                         max = int.parse(value);
                       },
@@ -229,7 +226,7 @@ class RowAnswer extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    String text = this.numero.toString()+'-'+(this.numero+1).toString();
+    String text =(this.numero+1).toString();
     return Row(
       children: <Widget>[
         Container(
