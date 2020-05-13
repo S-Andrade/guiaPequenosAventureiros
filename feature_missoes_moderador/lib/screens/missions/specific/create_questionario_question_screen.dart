@@ -6,12 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CreateQuestionarioQuestion extends StatefulWidget {
   @override
-  _CreateQuestionarioQuestionState createState() => _CreateQuestionarioQuestionState();
+  _CreateQuestionarioQuestionState createState() =>
+      _CreateQuestionarioQuestionState();
 }
 
 List _respostas;
 
-class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion> {
+class _CreateQuestionarioQuestionState
+    extends State<CreateQuestionarioQuestion> {
   List<RowAnswer> widgetsAns;
   final _textQuestion = TextEditingController();
   final _numeroRespotas = TextEditingController();
@@ -26,7 +28,7 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
     super.initState();
   }
 
-  Future <void> addAnsRow(int max) {
+  Future<void> addAnsRow(int max) {
     setState(() {
       for (int r = 0; r < max; r++) {
         Widget newR = new RowAnswer(r);
@@ -38,7 +40,6 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Form(
         child: Builder(
@@ -156,13 +157,12 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
                     width: 40.0,
                   ),
                   FlatButton(
-                    child: Icon(
-                      FontAwesomeIcons.checkSquare,
-                    ),
-                    onPressed:(){
-                      addAnsRow(max);
-                    }
-                  )
+                      child: Icon(
+                        FontAwesomeIcons.checkSquare,
+                      ),
+                      onPressed: () {
+                        addAnsRow(max);
+                      })
                 ],
               ),
               Row(
@@ -205,14 +205,36 @@ class _CreateQuestionarioQuestionState extends State<CreateQuestionarioQuestion>
   }
 
   addQuestionToQuestionario() {
-    missionNotifier.currentQuestion = q;
-    for (RowAnswer r in widgetsAns) {
-      _respostas.add(r._textAnsWrong.text);
+    if (widgetsAns.isNotEmpty &&
+        q.question.length > 0) {
+      missionNotifier.currentQuestion = q;
+      for (RowAnswer r in widgetsAns) {
+        if (r._textAnsWrong.text.length > 0) {
+          _respostas.add(r._textAnsWrong.text);
+        }
+      }
+      q.answers = _respostas;
+      _respostas = [];
+      Navigator.pop(context);
+      Navigator.pop(context);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Preencha todos os campos",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Amatic SC',
+                  letterSpacing: 2,
+                  fontSize: 30),
+            ),
+          );
+        },
+      );
     }
-    q.answers = _respostas;
-    _respostas = [];
-    Navigator.pop(context);
-    Navigator.pop(context);
   }
 }
 
@@ -221,12 +243,12 @@ class RowAnswer extends StatelessWidget {
   String _resposta;
   String text;
   int numero;
-  RowAnswer(int r){
-    this.numero =r;
+  RowAnswer(int r) {
+    this.numero = r;
   }
   @override
   Widget build(BuildContext context) {
-    String text =(this.numero+1).toString();
+    String text = (this.numero + 1).toString();
     return Row(
       children: <Widget>[
         Container(

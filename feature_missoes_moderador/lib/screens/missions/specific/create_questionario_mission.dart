@@ -27,7 +27,7 @@ class _CreateQuestionarioMissionScreenState
   Questionario _questionario;
   String _titulo;
   List<Question> _perguntas;
-  List<Question> selectedQ =[];
+  List<Question> selectedQ = [];
 
   final _text = TextEditingController();
 
@@ -45,12 +45,11 @@ class _CreateQuestionarioMissionScreenState
     if (missionNotifier.currentQuestion != null) {
       if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
-
       }
     }
-    if(selectedQ.isNotEmpty){
-      selectedQ.forEach((f){
-         _perguntas.add(f);
+    if (selectedQ.isNotEmpty) {
+      selectedQ.forEach((f) {
+        _perguntas.add(f);
       });
     }
     return Scaffold(
@@ -298,9 +297,16 @@ class _CreateQuestionarioMissionScreenState
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              QuestionarioQuestionExist(selectedQ)));
+                                                              QuestionarioQuestionExist(
+                                                                  selectedQ)));
                                                 },
                                               ),
+                                              FlatButton(
+                                                child: Text('Sair'),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              )
                                             ],
                                           );
                                         },

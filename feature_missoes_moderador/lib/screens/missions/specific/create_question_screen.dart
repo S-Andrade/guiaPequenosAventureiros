@@ -12,7 +12,7 @@ class CreateQuestion extends StatefulWidget {
 class _CreateQuestionState extends State<CreateQuestion> {
   List<RowAnswer> widgetsAns;
   final _textQuestion = TextEditingController();
-  final _textAnsCorrect = TextEditingController(); 
+  final _textAnsCorrect = TextEditingController();
   Question q = new Question();
   @override
   void initState() {
@@ -190,17 +190,41 @@ class _CreateQuestionState extends State<CreateQuestion> {
   }
 
   addQuestionToQuiz() {
-    missionNotifier.currentQuestion = q;
-    for (RowAnswer r in widgetsAns){
-      _respostasErradas.add(r._textAnsWrong.text);
+    if (widgetsAns.isNotEmpty &&
+        q.correctAnswer.length > 0 &&
+        q.question.length > 0) {
+      missionNotifier.currentQuestion = q;
+      for (RowAnswer r in widgetsAns) {
+        if(r._textAnsWrong.text.length>0){
+          _respostasErradas.add(r._textAnsWrong.text);
+        }
+      }
+      q.wrongAnswers = _respostasErradas;
+      _respostasErradas = [];
+      Navigator.pop(context);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Preencha todos os campos",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Amatic SC',
+                  letterSpacing: 2,
+                  fontSize: 30),
+            ),
+          );
+        },
+      );
     }
-    q.wrongAnswers = _respostasErradas;
-    _respostasErradas = [];
-    Navigator.pop(context);
   }
 }
 
 List _respostasErradas;
+
 class RowAnswer extends StatelessWidget {
   final _textAnsWrong = TextEditingController();
   String _resposta;
@@ -217,7 +241,7 @@ class RowAnswer extends StatelessWidget {
           ),
           child: TextField(
             controller: _textAnsWrong,
-            onChanged: (value){
+            onChanged: (value) {
               print(value);
               _resposta = value;
             },
