@@ -101,13 +101,17 @@ getMissions(MissionsNotifier missionsNotifier, List missions) async {
 //GET PERGUNTAS DOS QUESTIONARIOS(MULTIPLECHOICE=FALSE)
 getQuestions(MissionsNotifier missionsNotifier) async {
   List<Question> _qList = [];
+  List perguntas = [];
   QuerySnapshot result =
       await Firestore.instance.collection('question').getDocuments();
   List<DocumentSnapshot> documents = result.documents;
    documents.forEach((element) {
     Question question = Question.fromMap(element.data);
     if (question.multipleChoice == false){
-      _qList.add(question);
+      if(!perguntas.contains(question.question)){
+        perguntas.add(question.question);
+        _qList.add(question);
+      }
     }
   });
   missionsNotifier.allQuestions=_qList;

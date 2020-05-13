@@ -12,12 +12,15 @@ class MissionsNotifier with ChangeNotifier {
   bool _completed;
   int _currentScore;
   List<Question> _allQuestions = [];
+  List<Question> _selectedQuestion = [];
   Question _currentQuestion;
 
   UnmodifiableListView<Mission> get missionsList =>
       UnmodifiableListView(_missionsList);
   UnmodifiableListView<Question> get allQuestions =>
       UnmodifiableListView(_allQuestions);
+  UnmodifiableListView<Question> get selectedQuestions =>
+      UnmodifiableListView(_selectedQuestion);
 
   bool get completed => _completed;
   int get currentScore => _currentScore;
@@ -33,6 +36,11 @@ class MissionsNotifier with ChangeNotifier {
 
   set allQuestions(List<Question> list) {
     _allQuestions = list;
+    notifyListeners();
+  }
+
+  set selectedQuestions(List<Question> list) {
+    _selectedQuestion = list;
     notifyListeners();
   }
 

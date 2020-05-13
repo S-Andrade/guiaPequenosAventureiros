@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/models/questionario.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
@@ -7,6 +8,7 @@ import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'create_questionario_question_screen.dart';
+import 'exist_question.dart';
 
 class CreateQuestionarioMissionScreen extends StatefulWidget {
   String aventuraId;
@@ -24,7 +26,9 @@ class _CreateQuestionarioMissionScreenState
   String aventuraId;
   Questionario _questionario;
   String _titulo;
-  List _perguntas;
+  List<Question> _perguntas;
+  List<Question> selectedQ =[];
+
   final _text = TextEditingController();
 
   _CreateQuestionarioMissionScreenState(this.capitulo, this.aventuraId);
@@ -41,7 +45,13 @@ class _CreateQuestionarioMissionScreenState
     if (missionNotifier.currentQuestion != null) {
       if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
+
       }
+    }
+    if(selectedQ.isNotEmpty){
+      selectedQ.forEach((f){
+         _perguntas.add(f);
+      });
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -283,7 +293,13 @@ class _CreateQuestionarioMissionScreenState
                                               FlatButton(
                                                 child: Text(
                                                     'De outro Questionário'),
-                                                onPressed: null,
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              QuestionarioQuestionExist(selectedQ)));
+                                                },
                                               ),
                                             ],
                                           );
