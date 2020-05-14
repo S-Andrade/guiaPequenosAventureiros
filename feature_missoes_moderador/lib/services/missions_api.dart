@@ -275,6 +275,7 @@ createMissionQuestinario(
   List<dynamic> alunos;
   alunos = await getAlunos(aventuraId);
   List res = [];
+  print(questoes.length);
   for (Question q in questoes) {
     print(q.question);
     int index = (questoes.indexOf(q)) + 1;
