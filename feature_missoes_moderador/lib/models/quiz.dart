@@ -4,18 +4,21 @@ class Quiz{
   List resultados;
   List questions;
   DocumentReference id;
+ 
 
   Quiz();
 
   Quiz.fromMap(Map<String, dynamic> data){
     resultados = data['resultados'];
     questions = data['questions'];
+    resultados = data['resultados'];
   }
 
    Map<String, dynamic> toMap() {
     return {
       'resultados':resultados,
       'questions':questions,
+ 
     };
   }
 
