@@ -129,7 +129,7 @@ class _HistoriaCreate extends State<HistoriaCreate> {
                           
                           GestureDetector(
                                 onTap: () {
-                                  print('create');
+                                
                                   certificar(context);
                                 },
                                 child: Container(
@@ -171,12 +171,12 @@ class _HistoriaCreate extends State<HistoriaCreate> {
           image = a;
     });
     //_formKey.currentState.save();
-    print(image);
+  
   }
 
   Future<void> create(BuildContext context) async {
 
-    print("Entrei!!");   
+ 
     if (image != null){
       List ids_h = [];
       for (Historia h in listHistoria){
@@ -184,7 +184,7 @@ class _HistoriaCreate extends State<HistoriaCreate> {
       }
       ids_h.sort();
       var id_historia = (ids_h.last + 1).toString();
-      print(id_historia);
+   
 
       var fileExtension = path.extension(image.path);
 
@@ -199,13 +199,14 @@ class _HistoriaCreate extends State<HistoriaCreate> {
           .putFile(image)
           .onComplete
           .catchError((onError) {
-        print(onError);
+      
+      
         return false;
       });
 
           
       DatabaseService().updateHistoriaData(id_historia, titulo, [], image_path);
-      print("crei uma historia");
+   
 
     }else{
       showDialog(
@@ -242,7 +243,7 @@ class _HistoriaCreate extends State<HistoriaCreate> {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       await getListHistorias(context);
-      print(listHistoria);
+   
 
       bool cert = true;
       if (listHistoria != null){
@@ -283,7 +284,7 @@ class _HistoriaCreate extends State<HistoriaCreate> {
 
   Future<void> getLists(BuildContext context) async{
     await getListHistorias(context);
-    print(listHistoria);
+
     
   }
   Future<void> getListHistorias(BuildContext context) async{

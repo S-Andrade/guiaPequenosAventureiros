@@ -6,12 +6,13 @@ import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateTextMissionScreen extends StatelessWidget {
   String _titulo;
   String _conteudo;
 
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   CreateTextMissionScreen(this.capitulo, this.aventuraId);
@@ -312,10 +313,10 @@ class CreateTextMissionScreen extends StatelessWidget {
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionTextInFirestore(titulo, conteudo, aventuraId, capitulo.id);
+        createMissionTextInFirestore(titulo, conteudo, aventuraId.id, capitulo.id);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventuraId: aventuraId)));
+                capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

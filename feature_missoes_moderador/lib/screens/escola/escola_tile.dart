@@ -136,7 +136,7 @@ class EscolaTile extends StatelessWidget {
         for (String crianca in lista){
           if(crianca != ""){
             List a = crianca.split(" -> ");
-            print(a);
+          
              AuthResult result = await auth.signInWithEmailAndPassword(email: a[0].trim(), password: a[1].trim());
               FirebaseUser user = await auth.currentUser();
               user.delete();

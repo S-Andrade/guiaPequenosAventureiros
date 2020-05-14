@@ -40,14 +40,12 @@ class _AventuraListState extends State<AventuraList> {
   Future<void> getAventuras(BuildContext context) async{
     aventuras = [];
     aventura = Provider.of<List<Aventura>>(context);
-    print(aventura);
+
     for (Aventura a in aventura){
       if(a.moderador == user.email){
-        print(a.moderador);
-        print(user.email);
         aventuras.add(a);
       }
     }
-    print(aventuras);
+ 
   }
 }

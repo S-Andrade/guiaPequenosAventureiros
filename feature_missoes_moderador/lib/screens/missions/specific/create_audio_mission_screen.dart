@@ -9,9 +9,10 @@ import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateAudioMissionScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   CreateAudioMissionScreen(this.capitulo, this.aventuraId);
@@ -24,7 +25,7 @@ class CreateAudioMissionScreen extends StatefulWidget {
 class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
   _CreateAudioMissionScreenState(this.capitulo, this.aventuraId);
 
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   String _titulo;
   String _descricao;
@@ -379,10 +380,10 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
       ),
       onPressed: () {
         addUploadedAudioToFirebaseStorage(
-            _titulo, _descricao, _audio, aventuraId, capitulo.id);
+            _titulo, _descricao, _audio, aventuraId.id, capitulo.id);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventuraId: aventuraId)));
+                capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

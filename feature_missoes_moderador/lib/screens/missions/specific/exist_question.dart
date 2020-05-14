@@ -34,10 +34,10 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
 
   @override
   Widget build(BuildContext context) {
-    print(selectedQ.toString());
+  
     MissionsNotifier missionNotifier =
         Provider.of<MissionsNotifier>(context);
-    print(selected.toString());
+   
     List<Question> questions = missionNotifier.allQuestions;
     selectedQ.forEach((f){
       selected.add(f.question);

@@ -120,10 +120,10 @@ class _EscolaCreate extends State<EscolaCreate> {
 
   Future<void> create(BuildContext context) async {
 
-    print("Entrei!!");
+
 
     await getListEscolas(context);
-    print(listEscolas);
+  
 
      if(_formKey.currentState.validate()){
         _formKey.currentState.save();
@@ -161,7 +161,7 @@ class _EscolaCreate extends State<EscolaCreate> {
 
     Future<void> getLists(BuildContext context) async{
       await getListEscolas(context);
-      print(listEscolas);
+  
       
     }
     Future<void> getListEscolas(BuildContext context) async{

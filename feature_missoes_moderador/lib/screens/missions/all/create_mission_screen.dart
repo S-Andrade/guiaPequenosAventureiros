@@ -10,38 +10,37 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateMissionScreen extends StatefulWidget {
-  
   Capitulo capitulo;
- String aventuraId;
+  Aventura aventura;
 
-  CreateMissionScreen({this.capitulo,this.aventuraId});
+  CreateMissionScreen({this.capitulo, this.aventura});
 
   @override
   _CreateMissionScreenState createState() =>
-      _CreateMissionScreenState(capitulo: capitulo,aventuraId:aventuraId);
+      _CreateMissionScreenState(capitulo: capitulo, aventura: aventura);
 }
 
 class _CreateMissionScreenState extends State<CreateMissionScreen> {
-  
-  String aventuraId;
-  bool _missoes;
+  Aventura aventura;
+ 
   Capitulo capitulo;
   List<Mission> missions;
 
-
-  _CreateMissionScreenState({this.capitulo,this.aventuraId});
+  _CreateMissionScreenState({this.capitulo, this.aventura});
 
   @override
   void initState() {
-
-    
-     MissionsNotifier missionsNotifier =
-        Provider.of<MissionsNotifier>(context, listen: false);
-    getMissions(missionsNotifier,capitulo.missoes);
     super.initState();
-
+    if (capitulo.missoes.length != 0) {
+      MissionsNotifier missionsNotifier =
+          Provider.of<MissionsNotifier>(context, listen: false);
+      getMissions(missionsNotifier, capitulo.missoes);
+     
+    } else
+     print("vazio");
   }
 
   _getCurrentCapitulo(capituloId) async {
@@ -50,44 +49,28 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
     await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         setState(() {
-           capitulo = new Capitulo(
-            id: datasnapshot.data['id'] ?? '',
-            bloqueado: datasnapshot.data['bloqueado'] ?? null,
-            missoes: datasnapshot.data['missoes'] ?? []);
-
+          capitulo = new Capitulo(
+              id: datasnapshot.data['id'] ?? '',
+              bloqueado: datasnapshot.data['bloqueado'] ?? null,
+              missoes: datasnapshot.data['missoes'] ?? []);
         });
-       
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+    MissionsNotifier missionsNotifier;
+    missionsNotifier = Provider.of<MissionsNotifier>(context);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     String _imagem;
 
     Future<void> _refreshList() async {
       print("refresh");
-   _getCurrentCapitulo(capitulo.id).then((dynamic) => {
-       getMissions(missionsNotifier,capitulo.missoes)
-    
-    });
+      _getCurrentCapitulo(capitulo.id)
+          .then((dynamic) => {getMissions(missionsNotifier, capitulo.missoes)});
     }
-
-    
-    if (missionsNotifier.missionsList != []) {
-      setState(() {
-        _missoes = true;
-      });
-    } else {
-      setState(() {
-        _missoes = false;
-      });
-    }
-  
 
     return Scaffold(
         key: _scaffoldKey,
@@ -106,12 +89,16 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                 child: Text(
                   "Missões",
                   style: TextStyle(
-                      fontSize: 25, fontFamily: 'Amatic SC', letterSpacing: 4, fontWeight: FontWeight.w900),
+                      fontSize: 25,
+                      fontFamily: 'Amatic SC',
+                      letterSpacing: 4,
+                      fontWeight: FontWeight.w900),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Container(
+                child:  new RefreshIndicator(
+                        onRefresh: _refreshList, child:Container(
                     height: 470,
                     width: 700,
                     decoration: BoxDecoration(
@@ -123,10 +110,9 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                             blurRadius: 10.0,
                           )
                         ]),
-                    child: new RefreshIndicator(
-                        onRefresh: _refreshList,
+                   
                         child: new Builder(
-                          builder: (BuildContext) => _missoes
+                          builder: (BuildContext) => (capitulo.missoes.length != 0)
                               ? new ListView.separated(
                                   itemBuilder: (context, int index) {
                                     Mission mission =
@@ -272,27 +258,30 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                         height: 30, color: Colors.black12);
                                   },
                                 )
-                              : Container(
-                                  height: 470,
-                                  width: 700,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: parseColor("#320a5c"),
-                                          blurRadius: 10.0,
-                                        )
-                                      ]),
-                                  child: Center(
-                                    child: new Text(
-                                      "Ainda não há missões configuradas",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontFamily: 'Amatic SC',
-                                          letterSpacing: 4),
-                                    ),
-                                  )),
+                              :   ListView(
+                                                              children:[ Container(
+                                      height: 470,
+                                      width: 700,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: parseColor("#320a5c"),
+                                              blurRadius: 10.0,
+                                            )
+                                          ]),
+                                      child: Center(
+                                        child: new Text(
+                                          "Ainda não há missões configuradas",
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontFamily: 'Amatic SC',
+                                              letterSpacing: 4),
+                                        ),
+                                      )),]
+                              ),
+                              
                         ))),
               ),
               Row(
@@ -309,7 +298,6 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                         });
                       },
                     ),
-                    
                   ]),
             ],
           ),
@@ -326,14 +314,14 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
   _navegarParaEscolherMissao(BuildContext context) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChooseMissionScreen(aventuraId:aventuraId,capitulo:capitulo)),
+      MaterialPageRoute(
+          builder: (context) =>
+              ChooseMissionScreen(aventura: aventura, capitulo: capitulo)),
     );
   }
 
- 
-
   _remover(Mission mission) {
-    print("AAAAAAAA:"+mission.id);
+    print("a remover missao");
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -344,28 +332,28 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
             letterSpacing: 2,
             fontSize: 30),
       ),
-      onPressed: () {
+      onPressed: () async {
         Navigator.pop(context);
       },
     );
 
     Widget continuaButton = FlatButton(
-      child: Text(
-        "Sim",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
-      ),
-      onPressed: () {
-        deleteMissionInFirestore(mission,capitulo.id);
-       Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventuraId: aventuraId)));
-      },
-    );
+        child: Text(
+          "Sim",
+          style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Amatic SC',
+              letterSpacing: 2,
+              fontSize: 30),
+        ),
+        onPressed: () async {
+          await deleteMissionInFirestore(mission, capitulo.id);
+          await _getCurrentCapitulo(capitulo.id);
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+              builder: (_) =>
+                  TabBarMissions(capitulo: this.capitulo, aventura: aventura)));
+        });
 
     AlertDialog alert = AlertDialog(
       title: Text(

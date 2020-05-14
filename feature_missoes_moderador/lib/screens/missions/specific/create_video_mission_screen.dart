@@ -8,9 +8,10 @@ import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateVideoMissionScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   CreateVideoMissionScreen(this.capitulo, this.aventuraId);
@@ -23,7 +24,7 @@ class CreateVideoMissionScreen extends StatefulWidget {
 class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
   _CreateVideoMissionScreenState(this.capitulo, this.aventuraId);
 
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   String _titulo;
   String _descricao;
@@ -379,10 +380,10 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
       ),
       onPressed: () {
         addUploadedVideoToFirebaseStorage(
-            _titulo, _descricao, _video, aventuraId, capitulo.id);
+            _titulo, _descricao, _video, aventuraId.id, capitulo.id);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventuraId: aventuraId)));
+                capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

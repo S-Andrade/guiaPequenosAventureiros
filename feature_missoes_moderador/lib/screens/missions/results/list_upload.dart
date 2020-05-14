@@ -37,7 +37,7 @@ class _ResultsByMissionUploadForTurmaState
     for (var aluno in alunos) {
    
       for (var campo in mission.resultados) {
-        print(campo['aluno']);
+     
         if (campo['aluno'] == aluno) {
           
           setState(() {

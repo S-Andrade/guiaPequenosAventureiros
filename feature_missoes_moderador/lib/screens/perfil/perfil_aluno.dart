@@ -114,7 +114,7 @@ setState((){
               
             _questExists=false; });
             if (uploaded.length != 0) {
-             print(uploaded);
+           
               return Scaffold(
                   appBar: new AppBar(backgroundColor: Colors.indigoAccent,title: new Text('Perfil do aluno')),
                   body: RefreshIndicator(
@@ -721,7 +721,7 @@ setState((){
                                           setState(() {
                                             _video = false;
                                           });
-                                          print(uploaded.length);
+                                       
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               left: 40.0,

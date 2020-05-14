@@ -133,6 +133,21 @@ Future<List<Mission>> getAllMissionsInDatabase() async {
   return _missionList;
 }
 
+
+
+Future<List<Activity>> getAllActivitiesInDatabase() async {
+  List<Activity> _aList = [];
+
+  final QuerySnapshot result =
+      await Firestore.instance.collection('activity').getDocuments();
+  final List<DocumentSnapshot> documents = result.documents;
+  documents.forEach((element) {
+    Activity a = Activity.fromMap(element.data);
+    _aList.add(a);
+  });
+  return _aList;
+}
+
 /*
 
  CRIAÇÃO DE MISSÕES 
@@ -352,14 +367,15 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
 
   List<dynamic> documentos = new List<dynamic>();
 
-  var rng = new Random();
-
+  int _largerIdAct = await getActivitiesLargerId();
+  int index=1;
   for (Activity activity in activities) {
-    int index = (activities.indexOf(activity)) + 1;
-    activity.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
+    
+    activity.id = (_largerIdAct + index).toString();
     DocumentReference documentRef = activityRef.document(activity.id);
     await documentRef.setData(activity.toMap());
     documentos.add(documentRef);
+    index++;
   }
 
   Mission mission = new Mission();
@@ -937,6 +953,27 @@ getMissionsLargerId() async {
   return _largerId;
 }
 
+
+getActivitiesLargerId() async {
+  List<Activity> _aList = [];
+
+  _aList = await getAllActivitiesInDatabase();
+
+  int _largerId = 0;
+
+  if(_aList.length!=0){
+  for (Activity a in _aList) {
+    int _idNumber = int.parse(a.id);
+    if (_idNumber > _largerId) {
+      _largerId = _idNumber;
+    }
+  }
+  }
+
+  
+print(_largerId);
+  return _largerId;
+}
 // RETORNA UMA INSTÂNCIA DO QUIZ DE UMA DADA MISSÃO DO TIPO QUIZ
 
 getQuiz(content) async {
