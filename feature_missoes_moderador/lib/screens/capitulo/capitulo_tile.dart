@@ -2,45 +2,44 @@ import 'package:flutter/material.dart';
 import 'capitulo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'capitulo_details.dart';
+import '../../widgets/color_loader.dart';
 
 
 class CapituloTile extends StatelessWidget {
 
-  String capituloId;
+String capituloId;
   String aventuraId;
 
   CapituloTile({ this.capituloId,this.aventuraId });
 
   Capitulo capitulo;
+  bool flag = false;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      
             future: getCapitulo(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return  Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CapituloDetails(capitulo: capitulo,aventuraId:aventuraId)));
-                    } ,
-                    child:Card(
-                      margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                      
-                      child: ListTile(
-                        title: Text(capitulo.id),
-                      ),
+            builder: (context, AsyncSnapshot<void> snapshot) {
+              if(!flag){
+                          return ColorLoader();
+              }else{
+
+              return  Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CapituloDetails(capitulo: capitulo,aventuraId:aventuraId)));
+                  } ,
+                  child:Card(
+                    margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                    
+                    child: ListTile(
+                      title: Text(capitulo.id),
                     ),
                   ),
-                ); 
-                break;
-              default:
-              print("erro");
-                return Container();
-              }
+                ),
+              );
+              } 
             });    
   }
 
@@ -54,9 +53,10 @@ class CapituloTile extends StatelessWidget {
         bloqueado: datasnapshot.data['bloqueado'] ?? null,
         missoes: datasnapshot.data['missoes'] ?? []
       );
+      flag = true;
       }
       else{
-        print("No such historia");
+        print("No such capitulo");
       }
     });
   }

@@ -1,7 +1,7 @@
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:flutter/material.dart';
 import 'capitulo.dart';
-import 'package:feature_missoes_moderador/screens/tab/tab.dart';
-
+import '../misson/mission_list.dart';
 
 class CapituloDetails extends StatefulWidget {
 

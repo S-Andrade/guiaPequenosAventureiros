@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import '../../services/database.dart';
 import 'package:provider/provider.dart';
 import '../aventura/aventura.dart';
@@ -29,19 +28,12 @@ class _EscolaCreate extends State<EscolaCreate> {
   
   final _formKey = GlobalKey<FormState>();
 
-  final myControllerNome = TextEditingController();
   
   List<Escola> listEscolas;
+  String nome;
  
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myControllerNome.dispose();
-   
-    super.dispose();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     
@@ -55,31 +47,49 @@ class _EscolaCreate extends State<EscolaCreate> {
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
+            appBar: new AppBar(title: new Text("Criar Escola")),
              body:Form(
               key: _formKey,
+              child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                      TextFormField(
-                        controller: myControllerNome,
+
+                    Center(
+                      child: Container(
+                        width: 600,
+                        height: 300,
+                        padding: const EdgeInsets.only(top: 150),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome da Escola não inserido';
                             }
                           },
-                         
-                          decoration: InputDecoration(
-                            hintText: 'Nome da Escola   '
-                          )),
+                          onSaved: (input) => nome = input,
+                          decoration: new InputDecoration(
+                            labelText: "Nome da escola",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
                           GestureDetector(
+                            
                                 onTap: () {
                                   print('create');
                                   create(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -91,6 +101,7 @@ class _EscolaCreate extends State<EscolaCreate> {
                                       child: Text(
                                     'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
@@ -99,7 +110,7 @@ class _EscolaCreate extends State<EscolaCreate> {
                                 ),
                               )
                 ]
-            )
+             ))
             
           ));
             }); 
@@ -114,31 +125,35 @@ class _EscolaCreate extends State<EscolaCreate> {
     await getListEscolas(context);
     print(listEscolas);
 
+     if(_formKey.currentState.validate()){
+        _formKey.currentState.save();
+         
+        if (listEscolas != null){
+          //create escola
+          List ids_e = [];
+          for (Escola e in listEscolas){
+            ids_e.add(int.parse(e.id));
+          }
+          ids_e.sort();
+          var id_escola = (ids_e.last + 1).toString();
+        
+          DatabaseService().updateEscolaData(id_escola, nome, []); 
 
+          //update aventura
+
+          List escolas = [];
+          escolas = aventura.escolas;
+          escolas.add(id_escola);
     
-    if (listEscolas != null){
-      //create escola
-      List ids_e = [];
-      for (Escola e in listEscolas){
-        ids_e.add(int.parse(e.id));
+
+          DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome, aventura.capa);
+
+          //back to homepage
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
+
+        }
       }
-      ids_e.sort();
-      var id_escola = (ids_e.last + 1).toString();
-      DatabaseService().updateEscolaData(id_escola, myControllerNome.text, []); 
-
-      //update aventura
-
-      List escolas = [];
-      escolas = aventura.escolas;
-      escolas.add(id_escola);
- 
-
-      DatabaseService().updateAventuraData(aventura.id, aventura.historia, aventura.data, aventura.local, escolas, aventura.moderador, aventura.nome);
-
-      //back to homepage
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
-
-    }
+   
     
   }
 

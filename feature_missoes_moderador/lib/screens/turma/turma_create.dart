@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../services/database.dart';
 import 'package:provider/provider.dart';
@@ -33,22 +32,16 @@ class _TurmaCreate extends State<TurmaCreate> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final myControllerNome = TextEditingController();
-  final myControllerNAlunos = TextEditingController();
-  final myControllerProfessor = TextEditingController();
+ 
   
   List<Turma> listTurmas;
+
+  String nome;
+  String nAlunos;
+  String professor;
  
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myControllerNome.dispose();
-    myControllerProfessor.dispose();
-    myControllerNAlunos.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     
@@ -62,53 +55,98 @@ class _TurmaCreate extends State<TurmaCreate> {
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
           return Scaffold(
+            appBar: new AppBar(title: new Text("Criar turmas")),
              body:Form(
               key: _formKey,
+              child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                      TextFormField(
-                        controller: myControllerNome,
+                    Center(
+                      child: Container(
+                        width: 600,
+                        //height: 300,
+                        padding: const EdgeInsets.only(top: 100),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
-                              return 'Nome da Turma não inserido';
+                              return 'Nome da turma não inserido';
                             }
                           },
-                         
-                          decoration: InputDecoration(
-                            hintText: 'Nome da Turma   '
-                          )),
-                          TextFormField(
-                        controller: myControllerNAlunos,
+                          onSaved: (input) => nome = input,
+                          decoration: new InputDecoration(
+                            labelText: "Nome da turma",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                    Center(
+                      child: Container(
+                        width: 600,
+                        //height: 300,
+                        padding: const EdgeInsets.only(top: 50),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Numero de alunos não inserido';
                             }
                           },
-                         
-                          decoration: InputDecoration(
-                            hintText: 'Numero de alunos   '
-                          )),
-                          TextFormField(
-                        controller: myControllerProfessor,
+                          onSaved: (input) => nAlunos = input,
+                          decoration: new InputDecoration(
+                            labelText: "Numero de alunos",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                    Center(
+                      child: Container(
+                        width: 600,
+                      //  height: 300,
+                        padding: const EdgeInsets.only(top: 50, bottom: 100),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
+                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome do professor não inserido';
                             }
                           },
-                         
-                          decoration: InputDecoration(
-                            hintText: 'Nome do professor  '
-                          )),
-                          GestureDetector(
+                          onSaved: (input) => professor = input,
+                          decoration: new InputDecoration(
+                            labelText: "Nome do professor",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                          ),
+                                  )
+                    )
+                    ),
+                           GestureDetector(
+                            
                                 onTap: () {
                                   print('create');
                                   create(context);
                                 },
                                 child: Container(
-                                  width: 460,
-                                  height: 120,
+                                  width: 300,
+                                  height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[600],
+                                      color: Colors.blue,
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -120,6 +158,7 @@ class _TurmaCreate extends State<TurmaCreate> {
                                       child: Text(
                                     'Criar',
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
@@ -129,7 +168,7 @@ class _TurmaCreate extends State<TurmaCreate> {
                               )
                 ]
             )
-            
+             )
           ));
             }); 
         }
@@ -138,17 +177,33 @@ class _TurmaCreate extends State<TurmaCreate> {
 
   Future<void> create(BuildContext context) async {
 
-    print("Entrei!!");
+     if(_formKey.currentState.validate()){
+        _formKey.currentState.save();
 
-    await getListTurmas(context);
+         await getListTurmas(context);
     print(listTurmas);
+
+
+
+      //id turma
+      List ids_t = [];
+      for (Turma t in listTurmas){
+        int d = int.parse(t.id, onError: (e) => null);
+        if (d != null){
+          ids_t.add(int.parse(t.id));
+        }
+        
+      }
+      ids_t.sort();
+      var id_turma = (ids_t.last + 1).toString();
+
 
     List alunos = [];
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
     if (listTurmas != null){
       //gerar alunos
-      var in_escolas =  escola.nome.substring(0,3).toLowerCase().trim()+ myControllerNome.text ;
+      var in_escolas =  escola.nome.substring(0,3).toLowerCase().trim()+ nome ;
       var letras_escola = in_escolas+ "@";
 
 
@@ -161,7 +216,7 @@ class _TurmaCreate extends State<TurmaCreate> {
       File file = await new File('$p/$file_name');
       
       print(letras_escola);
-      for (int i = 1; i <= int.parse(myControllerNAlunos.text); i++ ){
+      for (int i = 1; i <= int.parse(nAlunos); i++ ){
         var numero = '';
         if (i <= 9){
            numero = i.toString().padLeft(2,'0');
@@ -173,7 +228,7 @@ class _TurmaCreate extends State<TurmaCreate> {
         String id_aluno = letras_escola + numero_aluno;
         alunos.add(id_aluno);
        
-        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai");
+        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai", id_turma,escola.id);
 
         var password = generatePassword(true, true, true, false, 10);
         print(id_aluno + " -> " + password);
@@ -201,19 +256,9 @@ class _TurmaCreate extends State<TurmaCreate> {
 
 
 
-      List ids_t = [];
-      for (Turma t in listTurmas){
-        int d = int.parse(t.id, onError: (e) => null);
-        if (d != null){
-          ids_t.add(int.parse(t.id));
-        }
-        
-      }
-      ids_t.sort();
-      var id_turma = (ids_t.last + 1).toString();
 
       //create turma
-      DatabaseService().updateTurmaData(id_turma, myControllerNome.text, myControllerProfessor.text, int.parse(myControllerNAlunos.text), alunos, turmas_path);
+      DatabaseService().updateTurmaData(id_turma, nome, professor, int.parse(nAlunos), alunos, turmas_path);
 
 
       //gerar alunos
@@ -228,6 +273,10 @@ class _TurmaCreate extends State<TurmaCreate> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaDetails(escola: escola)));
 
     }
+
+     }
+
+   
     
   }
 

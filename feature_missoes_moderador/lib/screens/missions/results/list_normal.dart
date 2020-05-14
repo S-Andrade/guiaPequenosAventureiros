@@ -1,9 +1,8 @@
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:pie_chart/pie_chart.dart';
+
 
 class ResultsByMissionNormalForTurma extends StatefulWidget {
   Mission mission;
@@ -46,6 +45,7 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(title: new Text('Normal Results Por Turma')),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -76,7 +76,7 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
                 color: Colors.white,
                 child: Row(children: [
                   Text(
-                    '       Aluno               Missão feita      Tempo passado na missão      Nº de vezes que entrou     Movimento     Luz ambiental',
+                    '       Aluno               Missão feita      Tempo passado na missão      Nº de vezes que entrou   ',
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Amatic SC',
@@ -171,7 +171,7 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 60.0),
+                            padding: const EdgeInsets.only(left: 150.0),
                             child: Text(
                                 "Entrou " +
                                     results[alunos[index]]["counterVisited"]
@@ -179,76 +179,8 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
                                     " vezes",
                                 style: const TextStyle(fontSize: 20.0)),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 60.0),
-                            child: new Builder(
-                                builder: (BuildContext) =>
-                                    results[alunos[index]]['done']
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: FlatButton(
-                                              shape: new RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          18.0),
-                                                  side: BorderSide(
-                                                      color: Colors.indigo,
-                                                      width: 5)),
-                                              color: Colors.white,
-                                              textColor: Colors.black,
-                                              padding: EdgeInsets.all(8.0),
-                                              onPressed: () {
-                                                showGraficoMovimento(context,
-                                                    results[alunos[index]]);
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Ver gráfico".toUpperCase(),
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container()),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: new Builder(
-                                builder: (BuildContext) =>
-                                    results[alunos[index]]['done']
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: FlatButton(
-                                              shape: new RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          18.0),
-                                                  side: BorderSide(
-                                                      color: Colors.indigo,
-                                                      width: 5)),
-                                              color: Colors.white,
-                                              textColor: Colors.black,
-                                              padding: EdgeInsets.all(8.0),
-                                              onPressed: () {showGraficoLuz(context,
-                                                    results[alunos[index]]);},
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Ver gráfico".toUpperCase(),
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container()),
-                          ),
+                         
+                          
                         ]))
                   ]),
                 );
@@ -261,170 +193,6 @@ class _ResultsByMissionNormalForTurmaState extends State<ResultsByMissionNormalF
           ),
         ]),
       ),
-    );
-  }
-
-  showGraficoMovimento(BuildContext context, graficos) {
-    Widget continuaButton = FlatButton(
-      child: Text(
-        "Ok",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
-      ),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Gráfico de movimento ao realizar a missão",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
-      ),
-      content: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          width: 700,
-          height: 400,
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Text(
-                "Picos acentuados assinalam momento em que o aluno moveu demasiado o dispositivo...",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Amatic SC',
-                    letterSpacing: 2,
-                    fontSize: 30),
-              ),
-            ),
-            Container(
-              height: 230,
-              width: 700,
-              child: new Sparkline(
-                lineWidth: 6.0,
-                lineGradient: new LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.red[800], Colors.red[200]],
-                ),
-                data: graficos["movementData"].cast<double>(),
-              ),
-            ),
-          ]),
-        ),
-      ),
-      actions: [
-        continuaButton,
-      ],
-    );
-
-    //exibe o diálogo
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  showGraficoLuz(BuildContext context, graficos) {
-     Map<String, double> dataMap={};
-       double _muitaLuz=0;
-  double _poucaLuz=0;
-  double _algumaLuz=0;
-  double _nenhumaLuz=0;
-  for(var luz in graficos["lightData"]){
-  if((luz>=0) & (luz<4)) _nenhumaLuz++;
-  else if((luz>=3) & (luz<20)) _poucaLuz++;
-  else if((luz>=20) & (luz<40)) _algumaLuz++;
-  else _muitaLuz++;
-}
-dataMap.putIfAbsent("Muita luz", () => _muitaLuz);
-dataMap.putIfAbsent("Alguma luz", () => _algumaLuz);
-dataMap.putIfAbsent("Pouca luz", () => _poucaLuz);
-dataMap.putIfAbsent("Muito pouca luz", () => _nenhumaLuz);
-    
-
-    Widget continuaButton = FlatButton(
-      child: Text(
-        "Ok",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
-      ),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Gráfico da luz ambiental ao realizar a missão",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
-      ),
-      content: Container(
-        width: 700,
-        height: 400,
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Text(
-              "Valores de luz ambiental durante a realização da missão...",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Amatic SC',
-                  letterSpacing: 2,
-                  fontSize: 30),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top:20.0),
-            child: Container(
-              height: 230,
-              width: 700,
-              child: new PieChart(
-                dataMap: dataMap,
-                animationDuration: Duration(milliseconds: 800),
-                chartLegendSpacing: 32.0,
-                legendStyle: TextStyle(fontSize: 20.0),
-                chartValueStyle: TextStyle(fontSize: 25.0, color: Colors.black),
-                chartRadius: MediaQuery.of(context).size.width / 2.7,
-                showChartValuesInPercentage: true,
-                showChartValues: true,
-              ),
-            ),
-          ),
-        ]),
-      ),
-      actions: [
-        continuaButton,
-      ],
-    );
-
-    //exibe o diálogo
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/screens/missions/results/list_normal.dart';
+import 'package:feature_missoes_moderador/screens/missions/results/list_quiz.dart';
 import 'package:feature_missoes_moderador/screens/missions/results/list_upload.dart';
+import 'package:feature_missoes_moderador/screens/missions/results/list_questionario.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class ResultsTurmaByMission extends StatelessWidget {
   Widget build(BuildContext context) {
 
       return Scaffold(
+        
           body: 
        
         Container(
@@ -51,6 +54,18 @@ class ResultsTurmaByMission extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ResultsByMissionUploadForTurma(mission:this.missions[index],alunos:this.alunos,turma:this.turma)));
+                      }
+                      else if(missions[index].type=='Quiz' ){
+                         Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ResultsByMissionQuizForTurma(mission:this.missions[index],alunos:this.alunos,turma:this.turma)));
+                      }
+                      else if(missions[index].type=='Questionario' ){
+                         Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ResultsByMissionQuestionarioForTurma(mission:this.missions[index],alunos:this.alunos,turma:this.turma)));
                       }
                     },
                                       child: Padding(

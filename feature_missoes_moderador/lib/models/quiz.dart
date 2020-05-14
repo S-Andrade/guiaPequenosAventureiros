@@ -1,23 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Quiz{
-  int result;
+  List resultados;
   List questions;
   DocumentReference id;
-  List resultados;
-
+ 
 
   Quiz();
 
   Quiz.fromMap(Map<String, dynamic> data){
+    resultados = data['resultados'];
     questions = data['questions'];
     resultados = data['resultados'];
   }
 
    Map<String, dynamic> toMap() {
     return {
-      'questions':questions,
       'resultados':resultados,
+      'questions':questions,
+ 
     };
   }
 

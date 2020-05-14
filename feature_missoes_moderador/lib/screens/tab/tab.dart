@@ -53,8 +53,8 @@ class _TabBarMissionsState extends State<TabBarMissions>
   Widget build(BuildContext context) {
     
 
-    return MaterialApp(
-      home: DefaultTabController(
+    return Scaffold(
+      body: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(

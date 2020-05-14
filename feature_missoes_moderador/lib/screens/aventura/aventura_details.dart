@@ -20,13 +20,14 @@ class _AventuraDetails extends State<AventuraDetails> {
   @override
   Widget build(BuildContext context) {
         return  new Scaffold(
-            body: EscolaList(escolas: aventura.escolas),
+            appBar: new AppBar(title: new Text("Escolas")),
+            body: EscolaList(aventura: aventura),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                  Navigator.push(context, MaterialPageRoute(builder: (context) => EscolaCreate(aventura: aventura)));
               },
               child: Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blue,
             ),
           );
   }
