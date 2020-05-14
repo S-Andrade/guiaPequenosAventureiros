@@ -1,3 +1,4 @@
+import 'package:feature_missoes_moderador/screens/participantes/participantes.dart';
 import 'package:flutter/material.dart';
 import 'aventura.dart';
 import 'aventura_details.dart';
@@ -28,7 +29,7 @@ class _AventuraOption extends State<AventuraOption> {
                   child: Center(
                     child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ParticipantesScreen(escolasId:aventura.escolas,aventuraId: aventura.id,)));
                           },
                           child: Container(
                             width: 460,

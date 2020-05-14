@@ -1,5 +1,6 @@
 
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
+import 'package:feature_missoes_moderador/screens/login/login_screen_tablet.dart';
 import './screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyApp> {
         accentColor: Color(0xFF64FFDA),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      home: LoginScreen(),
+      home: LoginTabletPortrait(),
     );
   }
 }

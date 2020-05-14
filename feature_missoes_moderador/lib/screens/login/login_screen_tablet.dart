@@ -10,7 +10,6 @@ import '../../services/database.dart';
 ///////// VISTA TABLET PORTRAIT 
 
 
-
 class LoginTabletPortrait extends StatefulWidget {
   @override
   _LoginTabletPortraitState createState() => _LoginTabletPortraitState();
@@ -283,7 +282,6 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
 
 ///////// VISTA TABLET LANDSCAPE
-
 
 
 
