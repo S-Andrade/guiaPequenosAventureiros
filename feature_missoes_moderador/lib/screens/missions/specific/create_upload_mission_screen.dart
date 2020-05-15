@@ -5,9 +5,10 @@ import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateUploadMissionScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   CreateUploadMissionScreen({this.capitulo, this.aventuraId});
@@ -24,7 +25,7 @@ class _CreateUploadMissionScreenState extends State<CreateUploadMissionScreen> {
   String _titulo;
   String _descricao;
 
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   final _text = TextEditingController();
@@ -419,14 +420,14 @@ class _CreateUploadMissionScreenState extends State<CreateUploadMissionScreen> {
       onPressed: () {
         if (uploadType == "image")
           createMissionUploadImageInFirestore(
-              titulo, _descricao, aventuraId, capitulo.id);
+              titulo, _descricao, aventuraId.id, capitulo.id);
         else if (uploadType == "video")
           createMissionUploadVideoInFirestore(
-              titulo, _descricao, aventuraId, capitulo.id);
+              titulo, _descricao, aventuraId.id, capitulo.id);
 
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventuraId: aventuraId)));
+                capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

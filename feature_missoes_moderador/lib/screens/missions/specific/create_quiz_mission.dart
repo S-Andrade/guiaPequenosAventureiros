@@ -7,9 +7,10 @@ import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateQuizMissionScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   CreateQuizMissionScreen(this.capitulo, this.aventuraId);
 
@@ -20,7 +21,7 @@ class CreateQuizMissionScreen extends StatefulWidget {
 
 class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   Capitulo capitulo;
-  String aventuraId;
+  Aventura aventuraId;
   String _titulo;
   List _perguntas =[];
   final _text = TextEditingController();
@@ -364,9 +365,9 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionQuiz(titulo, questions ,aventuraId,capitulo.id);
+        createMissionQuiz(titulo, questions ,aventuraId.id,capitulo.id);
         Navigator.of(context,rootNavigator:true).push(
-            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventuraId:aventuraId)));
+            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventura:aventuraId)));
       },
     );
 

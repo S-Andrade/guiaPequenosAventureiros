@@ -29,7 +29,7 @@ class _AventuraOption extends State<AventuraOption> {
                   child: Center(
                     child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ParticipantesScreen(escolasId:aventura.escolas,aventuraId: aventura.id,)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
                           },
                           child: Container(
                             width: 460,

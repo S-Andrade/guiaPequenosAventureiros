@@ -3,25 +3,27 @@ import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/results/results_dashboard_turmas.dart';
 import 'package:flutter/material.dart';
+import '../aventura/aventura.dart';
+import '../aventura/aventura_capitulo.dart';
 
 class TabBarMissions extends StatefulWidget {
-  String aventuraId;
+  Aventura aventura;
   Capitulo capitulo;
 
-  TabBarMissions({this.capitulo, this.aventuraId});
+  TabBarMissions({this.capitulo, this.aventura});
 
   @override
   _TabBarMissionsState createState() =>
-      _TabBarMissionsState(capitulo: capitulo, aventuraId: aventuraId);
+      _TabBarMissionsState(capitulo: capitulo, aventura: aventura);
 }
 
 class _TabBarMissionsState extends State<TabBarMissions>
     with SingleTickerProviderStateMixin {
-  String aventuraId;
+  Aventura aventura;
   Capitulo capitulo;
   TabController _tabController;
 
-  _TabBarMissionsState({this.capitulo, this.aventuraId});
+  _TabBarMissionsState({this.capitulo, this.aventura});
 
   @override
   void initState() {
@@ -52,12 +54,25 @@ class _TabBarMissionsState extends State<TabBarMissions>
   @override
   Widget build(BuildContext context) {
     
-
+/*,leading: IconButton(
+            tooltip: 'Previous choice',
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => (this.capitulo,this.aventuraId)));*/
     return Scaffold(
+     
       body: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+            tooltip: 'Previous choice',
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));}),
               bottomOpacity: 1,
               toolbarOpacity: 1,
               elevation: 0,
@@ -96,9 +111,9 @@ class _TabBarMissionsState extends State<TabBarMissions>
           body: TabBarView(
             controller: _tabController,
             children: [
-              ResultsDashboardTurmasScreen(aventuraId: this.aventuraId, capitulo: this.capitulo),
+              ResultsDashboardTurmasScreen(aventuraId: this.aventura.id, capitulo: this.capitulo),
               CreateMissionScreen(
-                  aventuraId: this.aventuraId, capitulo: this.capitulo),
+                  aventura: this.aventura, capitulo: this.capitulo),
               
             ],
           ),

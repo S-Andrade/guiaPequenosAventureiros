@@ -242,7 +242,7 @@ class RowAnswer extends StatelessWidget {
           child: TextField(
             controller: _textAnsWrong,
             onChanged: (value) {
-              print(value);
+           
               _resposta = value;
             },
             maxLength: 50,

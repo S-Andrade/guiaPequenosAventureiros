@@ -154,7 +154,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                           },
                           items: listDropdown
                             .map<DropdownMenuItem<String>>((String value) {
-                              //print(value);
+                             
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -451,12 +451,7 @@ class _AventuraCreate extends State<AventuraCreate> {
   }
   Future<void> create(BuildContext context) async {
     
-    print(_aventura_nome);
-    print(_aventura_local);
-    print(dropdownValue);
-    print(listOfFields);
-    print(escolas);
-    print(turmas);
+   
 
     if(_aventura_nome  == null || _aventura_local == null || dropdownValue == "Historia" || escolas.length == 0 || turmas.length == 0){
 
@@ -485,8 +480,7 @@ class _AventuraCreate extends State<AventuraCreate> {
 
     for (int i = 0; i < escolas.length; i++){
       List list_Turmas_id = [];
-      print(escolas[i]);
-
+     
       List ids_e = [];
         for (Escola e in listEscolas){
           ids_e.add(int.parse(e.id));
@@ -495,9 +489,9 @@ class _AventuraCreate extends State<AventuraCreate> {
         var id_escola = (ids_e.last + 1).toString();
 
       for (List turma in turmas[i]){
-            print(turma);
+           
         await getListTurmas(context);
-        print(listTurmas);
+       
 
         //id turma
         List ids_t = [];
@@ -527,7 +521,6 @@ class _AventuraCreate extends State<AventuraCreate> {
             
             File file = await new File('$p/$file_name');
             
-            print(letras_escola);
             for (int i = 1; i <= int.parse(turma[1]); i++ ){
               var numero = '';
               if (i <= 9){
@@ -543,7 +536,7 @@ class _AventuraCreate extends State<AventuraCreate> {
               DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai",id_turma,id_escola);
 
               var password = generatePassword(true, true, true, false, 10);
-              print(id_aluno + " -> " + password);
+       
               AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(email: id_aluno.trim(), password: password);
               var write = id_aluno + " -> " + password + "\n";
               file.writeAsStringSync(write, mode: FileMode.APPEND);
@@ -582,12 +575,12 @@ class _AventuraCreate extends State<AventuraCreate> {
 
       
       await getListEscolas(context);
-      print(listEscolas);
+   
 
 
       
       if (listEscolas != null){
-        print("escoola");
+      
         //create escola
         
         DatabaseService().updateEscolaData(id_escola, escolas[i], list_Turmas_id);
@@ -601,10 +594,9 @@ class _AventuraCreate extends State<AventuraCreate> {
 
 
     await getListAventura(context);
-    print(listAventura);
+   
     await getListHiostoria(context);
-    print(listHistorias);
-
+    
     
     if (listHistorias != null && listAventura !=null){
       //get id historia
@@ -626,7 +618,7 @@ class _AventuraCreate extends State<AventuraCreate> {
         ids_a.sort();
         var id_aventura = (ids_a.last + 1).toString();
         DatabaseService().updateAventuraData(id_aventura, id_historia, Timestamp.now(), _aventura_local, list_Escolas_id, user.email, _aventura_nome, capa_historia);
-        print("Criei uma Aventura!");
+     
 
       //back to homepage
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
@@ -638,20 +630,20 @@ class _AventuraCreate extends State<AventuraCreate> {
 
     Future<void> getLists(BuildContext context) async{
       await getListAventura(context);
-      //print(listAventura);
+   
       await getListHiostoria(context);
-      //print(listHistorias);
+    
       await getListEscolas(context);
       await getListTurmas(context);
 
       listDropdown = <String>["Historia"];
-      //print(listDropdown); 
+   
       if(listHistorias != null){
         for (Historia h in  listHistorias){                             
           listDropdown.add(h.titulo);
         } 
       }
-      //print(listDropdown);
+   
       
     }
 
@@ -747,7 +739,7 @@ class _AventuraCreate extends State<AventuraCreate> {
       }
       }
       
-      print(escolas);
+    
     }
 
 
@@ -755,11 +747,11 @@ class _AventuraCreate extends State<AventuraCreate> {
 
    void addNewFieldTurma(int counter){
         final _formKeyTurma = GlobalKey<FormState>();
-        //print(counter);
+  
         int pos_turma = 0;
         int pos = 0;
         for (int i = 0 ; i < posicoes_counter; i++){
-           //print(posicoes[i]);
+         
           pos += posicoes[i].length;
           if (i == counter){
             pos_turma = posicoes[i].length - 1;
@@ -767,13 +759,10 @@ class _AventuraCreate extends State<AventuraCreate> {
             break;
           }
         }
-        //print(posicoes);
-        print("pos " + pos.toString());
-        print("len " + listOfFields.length.toString());
-        print("pos_turma " + pos_turma.toString());
-
+      
+   
         if(pos > listOfFields.length){
-          print("add");
+      
           setState((){
         
         listOfFields.add(
@@ -847,7 +836,7 @@ class _AventuraCreate extends State<AventuraCreate> {
 
         });
         }else{
-          print("insert0");
+       
           setState((){
         
         listOfFields.insert( pos,
@@ -950,7 +939,7 @@ class _AventuraCreate extends State<AventuraCreate> {
       }
       }
       
-      print(turmas);
+     
     }
 
 

@@ -157,7 +157,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                         SizedBox(height: 50),
                         GestureDetector(
                           onTap: () {
-                            print('login');
+                          
                             autenticar(context);
                           },
                           child: Container(
@@ -431,7 +431,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                         SizedBox(height: 50),
                         GestureDetector(
                           onTap: () {
-                            print('login');
+                            
                             autenticar(context);
                           },
                           child: Container(

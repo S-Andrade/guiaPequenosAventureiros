@@ -35,7 +35,7 @@ class _CapituloList extends State<CapituloList> {
               return ListView.builder(
                 itemCount: capitulos.length,
                 itemBuilder: (context,index) {
-                  return CapituloTile(capituloId: capitulos[index],aventuraId:aventura.id);
+                  return CapituloTile(capituloId: capitulos[index],aventura:aventura);
                 }
               );
               }

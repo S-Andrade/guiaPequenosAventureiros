@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'create_questionario_question_screen.dart';
 import 'exist_question.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateQuestionarioMissionScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   CreateQuestionarioMissionScreen(this.capitulo, this.aventuraId);
 
@@ -23,7 +24,7 @@ class CreateQuestionarioMissionScreen extends StatefulWidget {
 class _CreateQuestionarioMissionScreenState
     extends State<CreateQuestionarioMissionScreen> {
   Capitulo capitulo;
-  String aventuraId;
+  Aventura aventuraId;
   Questionario _questionario;
   String _titulo;
   List<Question> _perguntas;
@@ -409,11 +410,10 @@ class _CreateQuestionarioMissionScreenState
             fontSize: 30),
       ),
       onPressed: () {
-        print(questions);
-        createMissionQuestinario(titulo, questions, aventuraId, capitulo.id);
+        createMissionQuestinario(titulo, questions, aventuraId.id, capitulo.id);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) =>
-                TabBarMissions(capitulo: capitulo, aventuraId: aventuraId)));
+                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

@@ -125,7 +125,7 @@ class _AventuraEdit extends State<AventuraEdit> {
                           },
                           items: listDropdown
                             .map<DropdownMenuItem<String>>((String value) {
-                              //print(value);
+                          
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -223,7 +223,7 @@ class _AventuraEdit extends State<AventuraEdit> {
                       padding: const EdgeInsets.only(bottom: 50),
                       child: GestureDetector(
                                 onTap: () {
-                                  print('edit');
+                        
                                   edit(context);
                                 },
                                 child: Container(
@@ -269,18 +269,17 @@ class _AventuraEdit extends State<AventuraEdit> {
  
     Future<void> getLists(BuildContext context) async{
       await getListAventura(context);
-      //print(listAventura);
+    
       await getListHiostoria(context);
-      //print(listHistorias);
-     
+  
       listDropdown = <String>["Historia"];
-      //print(listDropdown); 
+ 
       if(listHistorias != null){
         for (Historia h in  listHistorias){                             
           listDropdown.add(h.titulo);
         } 
       }
-      //print(listDropdown);
+   
       
     }
 
@@ -297,9 +296,9 @@ class _AventuraEdit extends State<AventuraEdit> {
     Future<void> edit(BuildContext context) async {
       
       await getListAventura(context);
-      print(listAventura);
+   
       await getListHiostoria(context);
-      print(listHistorias);
+
 
        if(_aventura_nome  == null || _aventura_local == null || dropdownValue == "Historia" ){
 
@@ -336,7 +335,7 @@ class _AventuraEdit extends State<AventuraEdit> {
 
         //edit AVENTURA
           DatabaseService().updateAventuraData(aventura.id, id_historia, Timestamp.now(), _aventura_local, aventura.escolas, user.email, _aventura_nome, aventura.capa);
-          print("Editei uma Aventura!");
+       
 
         //back to homepage
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));

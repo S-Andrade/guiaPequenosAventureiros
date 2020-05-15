@@ -45,7 +45,9 @@ class _ResultsDashboardTurmasScreenState
     percentagens = {};
     missionsList = [];
     alunosTurma = {};
-    getTurmasForThisAventura(aventuraId);
+   
+    if(capitulo.missoes.length!=0) getTurmasForThisAventura(aventuraId);
+    
     super.initState();
   }
 
@@ -121,10 +123,10 @@ class _ResultsDashboardTurmasScreenState
         getTurmasForThisAventura(aventuraId);
       });
     }
-
+if(capitulo.missoes.length!=0) {
     if (turmas.length != 0) {
       if (firstTime == true) {
-        print("first");
+      
         turmas.forEach((element) async {
           double percentagemTurma =
               await getGeralResultsForTurma(this.capitulo, element.id);
@@ -238,6 +240,20 @@ class _ResultsDashboardTurmasScreenState
         return Center(child:ColorLoader(color1: Colors.indigoAccent,color2:Colors.yellowAccent,color3: Colors.deepPurpleAccent,));
     } else {
       return Center(child:ColorLoader(color1: Colors.indigoAccent,color2:Colors.yellowAccent,color3: Colors.deepPurpleAccent,));
-    }
+    } 
+} else return Scaffold(
+            body: RefreshIndicator(
+          onRefresh: _refresh,
+          child: ListView(
+                      children:[ Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/back11.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child:Text("Ainda sem missões")
+                ),])
+          ));
   }
 }

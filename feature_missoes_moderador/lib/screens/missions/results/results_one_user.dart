@@ -60,7 +60,7 @@ for(var b in missoes){
       else i++;
     }
     
-    print((missoes[1].resultados[0]['timeVisited']/60).round()/60);
+    
    
     for (var a in missoes[_indexMission].resultados) {
       

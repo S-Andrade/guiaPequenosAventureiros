@@ -9,17 +9,21 @@ import 'package:feature_missoes_moderador/screens/missions/specific/create_video
 import 'package:feature_missoes_moderador/screens/missions/specific/create_upload_mission_screen.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class ChooseMissionScreen extends StatelessWidget {
 
   Capitulo capitulo;
-  String aventuraId;
+  Aventura aventura;
 
-  ChooseMissionScreen({this.aventuraId,this.capitulo});
+  ChooseMissionScreen({this.aventura,this.capitulo});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(backgroundColor: Colors.indigoAccent,title: new Text('Criar missão')
+          
+          ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -45,7 +49,7 @@ class ChooseMissionScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(35.0),
+              padding: const EdgeInsets.all(0.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -56,7 +60,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateTextMissionScreen(this.capitulo,this.aventuraId)));
+                                builder: (_) => CreateTextMissionScreen(this.capitulo,this.aventura)));
                       },
                       child: Container(
                         height: 200,
@@ -108,7 +112,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateAudioMissionScreen(this.capitulo,this.aventuraId)));
+                                builder: (_) => CreateAudioMissionScreen(this.capitulo,this.aventura)));
                       },
                       child: Container(
                         height: 200,
@@ -160,7 +164,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateUploadMissionScreen(capitulo:this.capitulo,aventuraId:this.aventuraId)));
+                                builder: (_) => CreateUploadMissionScreen(capitulo:this.capitulo,aventuraId:this.aventura)));
                       },
                       child: Container(
                         height: 200,
@@ -212,7 +216,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateActivityMissionScreen(this.capitulo,this.aventuraId)));
+                                builder: (_) => CreateActivityMissionScreen(this.capitulo,this.aventura)));
                       },
                       child: Container(
                         height: 200,
@@ -270,7 +274,7 @@ class ChooseMissionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CreateVideoMissionScreen(this.capitulo,this.aventuraId)));
+                              builder: (_) => CreateVideoMissionScreen(this.capitulo,this.aventura)));
                     },
                     child: Container(
                       height: 200,
@@ -322,7 +326,7 @@ class ChooseMissionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CreateQuestionarioMissionScreen(this.capitulo,this.aventuraId)));
+                              builder: (_) => CreateQuestionarioMissionScreen(this.capitulo,this.aventura)));
                     },
                     child: Container(
                       height: 200,
@@ -374,7 +378,7 @@ class ChooseMissionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CreateImageMissionScreen(this.capitulo,this.aventuraId)));
+                              builder: (_) => CreateImageMissionScreen(this.capitulo,this.aventura)));
                     },
                     child: Container(
                       height: 200,
@@ -426,7 +430,7 @@ class ChooseMissionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CreateQuizMissionScreen(this.capitulo,this.aventuraId)));
+                              builder: (_) => CreateQuizMissionScreen(this.capitulo,this.aventura)));
                     },
                     child: Container(
                       height: 200,

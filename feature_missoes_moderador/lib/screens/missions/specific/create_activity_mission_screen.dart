@@ -8,10 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:feature_missoes_moderador/models/activity.dart';
 import 'dart:io';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
 class CreateActivityMissionScreen extends StatefulWidget {
   
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   CreateActivityMissionScreen(this.capitulo,this.aventuraId);
@@ -26,7 +27,7 @@ class _CreateActivityMissionScreenState
   _CreateActivityMissionScreenState(this.capitulo,this.aventuraId);
 
 
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   String _titulo;
   final _formKey = GlobalKey<FormState>();
@@ -386,7 +387,7 @@ class _CreateActivityMissionScreenState
                                                 _text2.clear();
                                               });
                                             } else if (_description != null && _imageFile==null) {
-                                              print("aqui");
+                                            
                                               Activity a = new Activity(
                                                   "",_description);
 
@@ -445,7 +446,7 @@ class _CreateActivityMissionScreenState
                           FlatButton(
                             color: Colors.purple[100],
                             onPressed: () async {
-                              print(activities.length.toString());
+                       
                               if (_text.text.length > 0 && activities.length!=0)
                                 showConfirmar(context, _titulo, activities);
                               else
@@ -528,9 +529,9 @@ class _CreateActivityMissionScreenState
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionActivityInFirestore(titulo, activities,aventuraId,capitulo.id);
+        createMissionActivityInFirestore(titulo, activities,aventuraId.id,capitulo.id);
         Navigator.of(context,rootNavigator:true).push(
-            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventuraId:aventuraId)));
+            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventura:aventuraId)));
       },
     );
 
