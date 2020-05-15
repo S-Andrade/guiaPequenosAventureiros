@@ -49,7 +49,12 @@ class AventuraTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AventuraDetails(aventura: aventura)));
+                      },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),

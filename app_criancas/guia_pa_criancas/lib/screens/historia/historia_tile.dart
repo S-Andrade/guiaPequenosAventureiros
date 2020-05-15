@@ -25,7 +25,7 @@ class HistoriaTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Image.network(url),
+//                  Image.network(url),
                   Text(historia.titulo),
                   Expanded(
                     child: CapitulosDetails(capitulos: historia.capitulos),

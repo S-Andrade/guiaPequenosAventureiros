@@ -54,12 +54,12 @@ class _HomeScreen extends State<HomeScreen> {
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 28,
+                          fontSize: 24,
                           color: Color(0xFF30246A)),
                     ),
                   ),
                 ),
-                elevation: 0,
+                elevation: 5,
                 backgroundColor: Colors.white,
               ),
               body: Center(
@@ -118,11 +118,11 @@ class _HomeScreen extends State<HomeScreen> {
                       ],
                     ),
                   )),
+                  // Companheiro
                   Positioned(
+//                    top: 10,
 //                    right: 30,
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: CompanheiroAppwide()),
+                    child: CompanheiroAppwide(),
                   ),
                 ]),
               ),

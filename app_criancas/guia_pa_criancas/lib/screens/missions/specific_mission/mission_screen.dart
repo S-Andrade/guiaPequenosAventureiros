@@ -22,30 +22,14 @@ class MissionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (mission.type == 'Video') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: VideoScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: VideoScreenMobilePortrait(mission),)
-      );
+      return VideoScreenTabletPortrait(mission);
     } 
         else if (mission.type == 'Activity') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: ActivityScreenTabletPortrait(mission),
-          
-        ),
-        //mobile:OrientationLayout(portrait: ActivityScreenMobilePortrait(mission),)
-      );
+      return ActivityScreenTabletPortrait(mission);
     } 
 
       else if (mission.type == 'Quiz') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: QuizScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: QuizScreenMobilePortrait(mission),)
-      );
+      return QuizScreenTabletPortrait(mission);
     } 
     else if (mission.type == 'Questionario') {
       return ScreenTypeLayout(
@@ -60,21 +44,11 @@ class MissionScreen extends StatelessWidget {
     } 
     
     else if (mission.type == 'UploadImage') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: UploadImageScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: UploadImageScreenMobilePortrait(mission),)
-      );
+      return UploadImageScreenTabletPortrait(mission);
     } 
 
     else if (mission.type == 'Image') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: ImageScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: ImageScreenMobilePortrait(mission),)
-      );
+      return ImageScreenTabletPortrait(mission);
     }
 
     else if (mission.type == 'Text') {
@@ -87,21 +61,11 @@ class MissionScreen extends StatelessWidget {
     }
 
     else if (mission.type == 'Audio') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: AudioScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: AudioScreenMobilePortrait(mission),)
-      );
+      return AudioScreenTabletPortrait(mission);
     }
     
     else if (mission.type == 'UploadVideo') {
-      return ScreenTypeLayout(
-        tablet: OrientationLayout(
-          portrait: UploadVideoScreenTabletPortrait(mission),
-        ),
-        //mobile:OrientationLayout(portrait: UploadExampleScreenMobilePortrait(mission),)
-      );
+      return UploadVideoScreenTabletPortrait(mission);
     }
 
     

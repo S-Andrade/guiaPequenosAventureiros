@@ -1,7 +1,10 @@
 import 'package:app_criancas/flare/idle_controller.dart';
+import 'package:app_criancas/models/companheiro.dart';
+import 'package:app_criancas/services/companheiro_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import '../../auth.dart';
 
 class CompanheiroAppwide extends StatefulWidget {
   CompanheiroAppwideState createState() => CompanheiroAppwideState();
@@ -9,19 +12,34 @@ class CompanheiroAppwide extends StatefulWidget {
 
 class CompanheiroAppwideState extends State<CompanheiroAppwide> {
   IdleControls _controller;
+  String userID;
+  Companheiro companheiro;
+
+  getComp() async {
+    Companheiro tempCompanheiro = await getCompanheiro(userID);
+    setState(() {
+      companheiro = tempCompanheiro;
+    });
+  }
 
   @override
   initState() {
     _controller = IdleControls();
+    Auth().getUser().then((user) {
+      setState(() {
+        userID = user.email;
+      });
+    });
+    getComp();
     super.initState();
   }
 
-  void _setColour(int selectColour) {
-    setState(() {
-//      _controller.changeShapeColour(selectColour);
-//      _controller.isActive.value = true;
-    });
-  }
+//  void _setColour(int selectColour) {
+//    setState(() {
+////      _controller.changeShapeColour(selectColour);
+////      _controller.isActive.value = true;
+//    });
+//  }
 
 // functions do creator
 //  void _selectEye(int numberEyes) {
@@ -69,17 +87,26 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: 0.3,
-      heightFactor: 0.18,
-      child: GestureDetector(
-        child: FlareActor(
-          "assets/animation/shapes3.flr",
-          animation: "animation",
-          fit: BoxFit.contain,
-          alignment: Alignment.topCenter,
-          controller: _controller,
-          artboard: "square",
+    print('the last printolas');
+    print(companheiro);
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: FractionallySizedBox(
+          widthFactor: 0.3,
+          heightFactor: 0.2,
+          child: GestureDetector(
+            child: Text(''),
+//            FlareActor(
+//              "assets/animation/shapes3.flr",
+//              animation: "animation",
+//              fit: BoxFit.contain,
+//              alignment: Alignment.topCenter,
+//              controller: _controller,
+//              artboard: "square",
+//            ),
+          ),
         ),
       ),
     );
