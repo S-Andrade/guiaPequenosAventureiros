@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/models/question.dart';
-import 'package:feature_missoes_moderador/models/questionario.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
@@ -25,7 +24,6 @@ class _CreateQuestionarioMissionScreenState
     extends State<CreateQuestionarioMissionScreen> {
   Capitulo capitulo;
   Aventura aventuraId;
-  Questionario _questionario;
   String _titulo;
   List<Question> _perguntas;
   List<Question> selectedQ = [];

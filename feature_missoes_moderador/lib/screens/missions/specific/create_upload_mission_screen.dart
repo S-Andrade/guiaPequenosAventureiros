@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
-import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';

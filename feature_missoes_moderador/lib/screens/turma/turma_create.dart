@@ -69,7 +69,6 @@ class _TurmaCreate extends State<TurmaCreate> {
                       child: TextFormField(
                         textAlign: TextAlign.center,
                         style:TextStyle(fontSize: 30,fontFamily: 'Amatic SC',letterSpacing: 4),
-                        
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Nome da turma não inserido';

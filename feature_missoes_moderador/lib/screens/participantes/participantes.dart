@@ -3,7 +3,6 @@ import 'package:feature_missoes_moderador/widgets/capitulos_chart_grouped.dart';
 import 'package:feature_missoes_moderador/widgets/color_loader.dart';
 import 'package:feature_missoes_moderador/screens/perfil/perfil_aluno.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 class ParticipantesScreen extends StatefulWidget {
   List<dynamic> escolasId;

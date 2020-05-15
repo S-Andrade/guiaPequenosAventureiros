@@ -470,7 +470,7 @@ setState((){
                                             height: 350,
                                             width: 630,
                                             child: new Builder(
-                                              builder: (BuildContext) => _small
+                                              builder: (BuildContext context) => _small
                                                   ? Center(
                                                       child: Container(
                                                         height: 400,

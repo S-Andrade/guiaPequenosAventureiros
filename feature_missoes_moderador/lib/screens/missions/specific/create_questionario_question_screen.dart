@@ -240,7 +240,7 @@ class _CreateQuestionarioQuestionState
 
 class RowAnswer extends StatelessWidget {
   final _textAnsWrong = TextEditingController();
-  String _resposta;
+  String _resposta; //é usada sim
   String text;
   int numero;
   RowAnswer(int r) {

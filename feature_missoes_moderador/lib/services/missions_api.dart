@@ -133,8 +133,6 @@ Future<List<Mission>> getAllMissionsInDatabase() async {
   return _missionList;
 }
 
-
-
 Future<List<Activity>> getAllActivitiesInDatabase() async {
   List<Activity> _aList = [];
 
@@ -369,9 +367,8 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
   List<dynamic> documentos = new List<dynamic>();
 
   int _largerIdAct = await getActivitiesLargerId();
-  int index=1;
+  int index = 1;
   for (Activity activity in activities) {
-    
     activity.id = (_largerIdAct + index).toString();
     DocumentReference documentRef = activityRef.document(activity.id);
     await documentRef.setData(activity.toMap());
@@ -765,28 +762,35 @@ attachMissionToCapitulo(dynamic mission, String capituloId) async {
 // REMOVE MISSAO ESPECIFICA E DESASSOCIA DO CAPITULO A QUE PERTENCE
 
 deleteMissionInFirestore(Mission mission, String capituloId) async {
+  List<Question> questions = missionNotifier.allQuestions;
   if (mission.type == "Activity") {
     for (Activity a in mission.content) {
       CollectionReference activityRef =
           Firestore.instance.collection('activity');
-
       await activityRef.document(a.id).delete();
     }
   } else if (mission.type == "Questionario") {
-    DocumentReference questRef = mission.content;
-    await questRef.delete();
-  } else if (mission.type == "Quiz") {
-    DocumentReference quizReference = mission.content;
-    quizReference.get().then((quizSnapshot) {
-      if (quizSnapshot.exists) {
-        Quiz quiz = Quiz.fromMap(quizSnapshot.data);
-        quiz.questions.forEach((questionReference) async {
-          DocumentReference question = questionReference;
-          await question.delete();
-        });
-      }
+    Questionario questionario = mission.content;
+    questionario.questions.forEach((question) {
+      Question q = question;
+      questions.forEach((quest) async {
+        if (quest.question == q.question) {
+          CollectionReference activityRef =
+              Firestore.instance.collection('question');
+          await activityRef.document(q.id).delete();
+        }
+      });
     });
-    await quizReference.delete();
+    await questionario.id.delete();
+  } else if (mission.type == "Quiz") {
+    Quiz quiz = mission.content;
+    quiz.questions.forEach((question) async {
+      Question q = question;
+      CollectionReference activityRef =
+          Firestore.instance.collection('question');
+      await activityRef.document(q.id).delete();
+    });
+    await quiz.id.delete();
   }
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
@@ -969,7 +973,6 @@ getMissionsLargerId() async {
   return _largerId;
 }
 
-
 getActivitiesLargerId() async {
   List<Activity> _aList = [];
 
@@ -977,19 +980,19 @@ getActivitiesLargerId() async {
 
   int _largerId = 0;
 
-  if(_aList.length!=0){
-  for (Activity a in _aList) {
-    int _idNumber = int.parse(a.id);
-    if (_idNumber > _largerId) {
-      _largerId = _idNumber;
+  if (_aList.length != 0) {
+    for (Activity a in _aList) {
+      int _idNumber = int.parse(a.id);
+      if (_idNumber > _largerId) {
+        _largerId = _idNumber;
+      }
     }
   }
-  }
 
-  
-print(_largerId);
+  print(_largerId);
   return _largerId;
 }
+
 // RETORNA UMA INSTÂNCIA DO QUIZ DE UMA DADA MISSÃO DO TIPO QUIZ
 
 getQuiz(content) async {
@@ -1038,35 +1041,31 @@ getPerguntasDoQuestionario(content) async {
   return perguntas;
 }
 
-
-
 getPerguntasDoQuestionarioForAventura(List contents) async {
   List<Question> perguntas = [];
-  for(var content in contents){
-  DocumentReference questionarioReference = content;
+  for (var content in contents) {
+    DocumentReference questionarioReference = content;
 
-  Questionario questionario;
+    Questionario questionario;
 
-  await questionarioReference.get().then((questionarioSnapshot) {
-    if (questionarioSnapshot.exists) {
-      questionario = Questionario.fromMap(questionarioSnapshot.data);
-    } else
-      print("bad");
-  });
-
-  
-  for (var p in questionario.questions) {
-    DocumentReference questionReference = p;
-    Question pergunta;
-    await questionReference.get().then((questionSnapshot) {
-      if (questionSnapshot.exists) {
-        pergunta = Question.fromMap(questionSnapshot.data);
+    await questionarioReference.get().then((questionarioSnapshot) {
+      if (questionarioSnapshot.exists) {
+        questionario = Questionario.fromMap(questionarioSnapshot.data);
       } else
         print("bad");
     });
-    perguntas.add(pergunta);
-  }
-  
+
+    for (var p in questionario.questions) {
+      DocumentReference questionReference = p;
+      Question pergunta;
+      await questionReference.get().then((questionSnapshot) {
+        if (questionSnapshot.exists) {
+          pergunta = Question.fromMap(questionSnapshot.data);
+        } else
+          print("bad");
+      });
+      perguntas.add(pergunta);
+    }
   }
 
   return perguntas;
@@ -1283,17 +1282,11 @@ getDoneByCapituloForEscola(escolaId) async {
   finalList.add(mapa);
   finalList.add(turmas);
   finalList.add(contents);
- 
 
   return finalList;
 }
 
-
-
-
-
-
-getDoneByCapituloForTurma(escolaId,turmas) async {
+getDoneByCapituloForTurma(escolaId, turmas) async {
   String historiaId;
   List<dynamic> capitulosId = [];
   List<dynamic> missoesDoc = [];
@@ -1306,8 +1299,6 @@ getDoneByCapituloForTurma(escolaId,turmas) async {
 
   double dones;
   int id;
-
-  
 
   await Firestore.instance
       .collection('aventura')
@@ -1384,36 +1375,28 @@ getDoneByCapituloForTurma(escolaId,turmas) async {
   return finalList;
 }
 
-
-
-
-getQuestionarioRespostasGeralDaAventura(List perguntas){
-  Map perguntaRespostas={};
-List lista = [];
+getQuestionarioRespostasGeralDaAventura(List perguntas) {
+  Map perguntaRespostas = {};
+  List lista = [];
 
   int i = 0;
   for (var pergunta in perguntas) {
-    List respostas=[];
+    List respostas = [];
     for (var campo in pergunta.resultados) {
-        if(campo['respostaNumerica']!=null) respostas.add(campo['respostaNumerica']);
-     
-     
+      if (campo['respostaNumerica'] != null)
+        respostas.add(campo['respostaNumerica']);
     }
 
     if (perguntaRespostas.containsKey(pergunta.question))
-      perguntaRespostas[pergunta.question]
-          .add(respostas);
+      perguntaRespostas[pergunta.question].add(respostas);
     else {
       perguntaRespostas[pergunta.question] = [];
-      perguntaRespostas[pergunta.question]
-          .add(respostas);
+      perguntaRespostas[pergunta.question].add(respostas);
     }
-  
   }
 
   return perguntaRespostas;
 }
-
 
 // RETORNA DADOS PARA A VIZUALIZAÇÃO DA TABELA DO QUESTIONÁRIO DE UM ALUNO
 
