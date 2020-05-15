@@ -170,7 +170,7 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
   mission.resultados = [];
 
   alunos.forEach((element) {
-    print(element);
+  
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
@@ -281,7 +281,7 @@ createMissionQuiz(
 //ASSOCIA AO CAPITULO
 createMissionQuestinario(
     String titulo, List questoes, String aventuraId, String capituloId) async {
-  print('a criaaaaaarrrrr questionario');
+
   List<dynamic> documentosQuestao = new List<dynamic>();
   CollectionReference questionRef = Firestore.instance.collection('question');
 
@@ -289,9 +289,9 @@ createMissionQuestinario(
   List<dynamic> alunos;
   alunos = await getAlunos(aventuraId);
   List res = [];
-  print(questoes.length);
+
   for (Question q in questoes) {
-    print(q.question);
+   
     int index = (questoes.indexOf(q)) + 1;
     q.id = (rng.nextInt(1000) + rng.nextInt(1000) + index).toString();
     q.multipleChoice = false;
@@ -392,7 +392,7 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
   mission.resultados = [];
 
   alunos.forEach((element) {
-    print(element);
+
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
@@ -438,7 +438,7 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
   }
 
   alunos.forEach((element) {
-    print(element);
+
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
@@ -483,7 +483,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
   }
 
   alunos.forEach((element) {
-    print(element);
+  
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
@@ -657,7 +657,7 @@ addUploadedImageToFirebaseStorage(String titulo, String descricao,
         .putFile(localFile)
         .onComplete
         .catchError((onError) {
-      print(onError);
+    
       return false;
     });
 
@@ -685,7 +685,7 @@ addUploadedAudioToFirebaseStorage(String titulo, String descricao,
         .putFile(localFile)
         .onComplete
         .catchError((onError) {
-      print(onError);
+
       return false;
     });
 
@@ -713,7 +713,7 @@ addUploadedVideoToFirebaseStorage(String titulo, String descricao,
         .putFile(localFile)
         .onComplete
         .catchError((onError) {
-      print(onError);
+
       return false;
     });
 
@@ -736,7 +736,7 @@ uploadImageToFirebaseStorage(File localFile) async {
       .child('mission/moderadores/uploaded_images/$uuid$fileExtension');
 
   await firebaseStorageRef.putFile(localFile).onComplete.catchError((onError) {
-    print(onError);
+ 
     return false;
   });
 
@@ -795,14 +795,14 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
   DocumentReference documentRef = missionRef.document(mission.id);
-  print("missiooon" + mission.id);
+ 
 
   CollectionReference capituloRef = Firestore.instance.collection('capitulo');
   DocumentReference documentRef2 = capituloRef.document(capituloId);
 
   var capituloDoc = [];
   capituloDoc.add(documentRef);
-  print(documentRef.toString());
+
   await documentRef2.updateData({
     "missoes": FieldValue.arrayRemove(capituloDoc),
   });
@@ -869,7 +869,7 @@ getAlunos(String aventuraId) async {
         .then((doc) {
       turmas = doc.documents[0]['turmas'];
     });
-    print("turmas");
+
     for (var turma in turmas) listaTurmas.add(turma);
   }
 
@@ -881,7 +881,7 @@ getAlunos(String aventuraId) async {
         .then((doc) {
       alunos = doc.documents[0]['alunos'];
     });
-    print("alunos");
+
     for (var aluno in alunos) listaAlunos.add(aluno);
   }
 
@@ -923,7 +923,7 @@ getMissionsForCapitulo(String capituloId) async {
       if (missionSnapchot.exists) {
         mission = Mission.fromMap(missionSnapchot.data);
       } else {
-        print("no data");
+
         mission = null;
       }
       missionsIds.add(mission);
@@ -968,7 +968,6 @@ getMissionsLargerId() async {
     }
   }
 
-  print("ID:" + _largerId.toString());
 
   return _largerId;
 }
@@ -989,7 +988,7 @@ getActivitiesLargerId() async {
     }
   }
 
-  print(_largerId);
+
   return _largerId;
 }
 
@@ -1086,7 +1085,7 @@ getAlunoById(alunoId) async {
       aluno = null;
     }
   });
-  print(aluno.id);
+ 
   return aluno;
 }
 
