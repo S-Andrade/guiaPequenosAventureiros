@@ -49,7 +49,9 @@ class _CreateQuestionarioMissionScreenState
     }
     if (selectedQ.isNotEmpty) {
       selectedQ.forEach((f) {
-        _perguntas.add(f);
+        if(!_perguntas.contains(f)){
+          _perguntas.add(f);
+        }
       });
     }
     return Scaffold(
