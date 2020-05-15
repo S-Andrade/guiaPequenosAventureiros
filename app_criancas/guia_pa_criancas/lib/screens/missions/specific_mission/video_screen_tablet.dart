@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_criancas/widgets/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
@@ -24,8 +25,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   _VideoScreenTabletPortraitState(this.mission);
   int _state = 0;
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
+ 
   String _userID;
   Map resultados;
   bool _done;
@@ -41,9 +41,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(mission.linkVideo);
-
-    _initializeVideoPlayerFuture = _controller.initialize();
+  
 
      Auth().getUser().then((user) {
                   setState(() {
@@ -91,7 +89,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void dispose() {
-    _controller.dispose();
+
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -135,43 +133,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                         blurRadius: 10.0,
                       )
                     ]),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FutureBuilder(
-                    future: _initializeVideoPlayerFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
-                ),
+                child: ChewieDemo(
+                                                      link: mission.linkVideo),
               ),
             ),
-            Positioned(
-              top: 750,
-              right: 80,
-              child: FloatingActionButton(
-                backgroundColor: Colors.green[200],
-                onPressed: () {
-                  setState(() {
-                    if (_controller.value.isPlaying) {
-                      _controller.pause();
-                    } else {
-                      _controller.play();
-                    }
-                  });
-                },
-                child: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                ),
-              ),
-            ),
+         
           ]),
           Padding(
             padding: const EdgeInsets.all(70.0),

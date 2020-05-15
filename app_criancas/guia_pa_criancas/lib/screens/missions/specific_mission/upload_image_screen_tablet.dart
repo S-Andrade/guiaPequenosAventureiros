@@ -44,6 +44,7 @@ class _UploadImageScreenTabletPortraitState
     MissionsNotifier missionNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     _loaded = false;
+    _done=false;
     Auth().getUser().then((user) {
                   setState(() {
                     _userID = user.email;
@@ -86,7 +87,7 @@ class _UploadImageScreenTabletPortraitState
           ),
           child: Column(children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 70.0, left: 30),
+              padding: const EdgeInsets.only(top: 40.0, left: 30),
               child: Row(
                 children: <Widget>[
                   Text(
@@ -101,7 +102,7 @@ class _UploadImageScreenTabletPortraitState
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 130.0, left: 35),
+              padding: const EdgeInsets.only(top: 50.0, left: 35),
               child: Row(
                 children: <Widget>[
                   Flexible(
@@ -117,6 +118,18 @@ class _UploadImageScreenTabletPortraitState
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 90.0, left: 35),child:
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [new Builder(
+              
+                      builder: (BuildContext) => _loaded
+                          ? new Container(
+                              height: 300,
+                              width:300,
+                              child: new Image.file(image),
+                            )
+                          : Container()),],),),
             Padding(
               padding: const EdgeInsets.only(top:150.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.center,
