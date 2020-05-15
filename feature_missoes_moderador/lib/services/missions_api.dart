@@ -106,16 +106,16 @@ getQuestions(MissionsNotifier missionsNotifier) async {
   QuerySnapshot result =
       await Firestore.instance.collection('question').getDocuments();
   List<DocumentSnapshot> documents = result.documents;
-   documents.forEach((element) {
+  documents.forEach((element) {
     Question question = Question.fromMap(element.data);
-    if (question.multipleChoice == false){
-      if(!perguntas.contains(question.question)){
+    if (question.multipleChoice == false) {
+      if (!perguntas.contains(question.question)) {
         perguntas.add(question.question);
         _qList.add(question);
       }
     }
   });
-  missionsNotifier.allQuestions=_qList;
+  missionsNotifier.allQuestions = _qList;
 }
 
 // BUSCA TODAS AS MISSÕES EXISTENTES NA BASE DE DADOS, necessário para saber o id mais alto no momento
@@ -772,6 +772,21 @@ deleteMissionInFirestore(Mission mission, String capituloId) async {
 
       await activityRef.document(a.id).delete();
     }
+  } else if (mission.type == "Questionario") {
+    DocumentReference questRef = mission.content;
+    await questRef.delete();
+  } else if (mission.type == "Quiz") {
+    DocumentReference quizReference = mission.content;
+    quizReference.get().then((quizSnapshot) {
+      if (quizSnapshot.exists) {
+        Quiz quiz = Quiz.fromMap(quizSnapshot.data);
+        quiz.questions.forEach((questionReference) async {
+          DocumentReference question = questionReference;
+          await question.delete();
+        });
+      }
+    });
+    await quizReference.delete();
   }
 
   CollectionReference missionRef = Firestore.instance.collection('mission');
