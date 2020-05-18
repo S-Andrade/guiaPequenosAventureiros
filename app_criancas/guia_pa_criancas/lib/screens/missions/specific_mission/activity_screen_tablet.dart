@@ -136,6 +136,7 @@ class _ActivityScreenTabletPortraitState
                         icon: Icon(FontAwesomeIcons.star),
                         iconSize: 40,
                         color: parseColor("#320a5c"),
+                        onPressed: null,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20.0),

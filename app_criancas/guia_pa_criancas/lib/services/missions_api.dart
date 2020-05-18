@@ -12,13 +12,11 @@ import '../models/activity.dart';
 
 // API FIRESTORE AND STORAGE FUNCTIONS FOR MISSIONS PAGE
 
-
-
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
 
 MissionsNotifier missionNotifier;
-getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) async {
-
+getMissions(
+    MissionsNotifier missionsNotifier, List missions, String _userID) async {
   bool done;
   missionNotifier = missionsNotifier;
   List<Mission> _missionListFinal = [];
@@ -49,11 +47,7 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
             missionsNotifier.missionContent = quiz;
           }
         });
-
-      } 
-      
-      else if (mission.type == "Activity") {
-        
+      } else if (mission.type == "Activity") {
         List<Activity> activities = [];
 
         DocumentReference activityReference;
@@ -67,10 +61,8 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
           });
           mission.content = activities;
         }
-
-      }
-      else if(mission.type=='Questionario'){
-      DocumentReference questionarioReference = mission.content;
+      } else if (mission.type == 'Questionario') {
+        DocumentReference questionarioReference = mission.content;
         questionarioReference.get().then((qSnapshot) {
           if (qSnapshot.exists) {
             Questionario questionario = Questionario.fromMap(qSnapshot.data);
@@ -85,22 +77,21 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
                 }
               });
             });
-          questionario.questions =  questions;
-          mission.content = questionario;
-          missionsNotifier.missionContent = questionario;
+            questionario.questions = questions;
+            mission.content = questionario;
+            missionsNotifier.missionContent = questionario;
           }
         });
-    }
-      for(var a in mission.resultados){
-        if(a["aluno"]==_userID){
-          done=a["done"];
+      }
+      for (var a in mission.resultados) {
+        if (a["aluno"] == _userID) {
+          done = a["done"];
         }
       }
-      
-      if (done == false){
+
+      if (done == false) {
         _missionListNotDone.add(mission);
-      }
-      else{
+      } else {
         _missionListDone.add(mission);
       }
       _missionListFinal = _missionListNotDone + _missionListDone;
@@ -109,11 +100,26 @@ getMissions(MissionsNotifier missionsNotifier, List missions, String _userID) as
   });
 }
 
+//get das informações do user
+getUserInfo(String email) async {
+  print(email);
+  DocumentReference user =
+      Firestore.instance.collection('aluno').document(email);
+  bool data = await user.get().then((value) {
+    bool dataSaved;
+    if (value['dataNascimentoAluno'] != null) {
+      dataSaved = true;
+    } else {
+      dataSaved = false;
+    }
+    return dataSaved;
+  });
+  return data;
+}
 
 /////// UPLOAD DE UMA IMAGEM PARA O FIREBASE STORAGE
 
 addUploadedImageToFirebaseStorage(File localFile, titulo) async {
-
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -158,11 +164,9 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
     });
 
     String url = await firebaseStorageRef.getDownloadURL();
-  return url;
-   
+    return url;
   }
 }
-
 
 /////// UPLOAD DE UM AUDIO PARA O FIREBASE STORAGE
 
@@ -185,15 +189,12 @@ addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
     });
 
     String url = await firebaseStorageRef.getDownloadURL();
-
-   
   }
 }
 
 //////// ATUALIZAR A MISSÃO COM DONE ( FEITA )
 
 updateMissionDoneInFirestore(Mission mission, String id) async {
-  
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -211,13 +212,11 @@ updateMissionDoneInFirestore(Mission mission, String id) async {
       .document(mission.id)
       .updateData({'resultados': mission.resultados});
 }
-
-
 
 // UPDATE DO DONE COM LINK DO FICHEIRO UPLOADED ( APENAS PARA MISSAO DE UPLOAD IMAGEM OU VIDEO )
 
-updateMissionDoneWithLinkInFirestore(Mission mission, String id, String url) async {
-  
+updateMissionDoneWithLinkInFirestore(
+    Mission mission, String id, String url) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -227,7 +226,7 @@ updateMissionDoneWithLinkInFirestore(Mission mission, String id, String url) asy
 
     if (mapa["aluno"] == id) {
       mapa["done"] = true;
-      mapa["linkUploaded"]=url;
+      mapa["linkUploaded"] = url;
     }
   });
   mission.reload = true;
@@ -236,8 +235,6 @@ updateMissionDoneWithLinkInFirestore(Mission mission, String id, String url) asy
       .document(mission.id)
       .updateData({'resultados': mission.resultados});
 }
-
-
 
 //para saber o número de tentativas
 
@@ -259,7 +256,8 @@ updateMissionCounterInFirestore(Mission mission, String id, int counter) async {
       .updateData({'resultados': mission.resultados});
 }
 
-updateMissionQuizResultInFirestore(Mission mission, String id,int result) async {
+updateMissionQuizResultInFirestore(
+    Mission mission, String id, int result) async {
   Map<String, dynamic> mapa;
   mission.content.resultados.forEach((element) {
     mapa = element;
@@ -275,25 +273,29 @@ updateMissionQuizResultInFirestore(Mission mission, String id,int result) async 
 updateMissionQuizQuestionDone(Question question, String id) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
   Map<String, dynamic> mapa;
- question.resultados.forEach((element) {
+  question.resultados.forEach((element) {
     mapa = element;
     if (mapa["aluno"] == id) {
       mapa["done"] = question.done;
     }
   });
-  await questionRef.document(question.id).updateData({'resultados': question.resultados});
+  await questionRef
+      .document(question.id)
+      .updateData({'resultados': question.resultados});
 }
 
 updateMissionQuizQuestionSuccess(Question question, String id) async {
   CollectionReference questionRef = Firestore.instance.collection('question');
-Map<String, dynamic> mapa;
- question.resultados.forEach((element) {
+  Map<String, dynamic> mapa;
+  question.resultados.forEach((element) {
     mapa = element;
     if (mapa["aluno"] == id) {
       mapa["success"] = question.success;
     }
   });
-  await questionRef.document(question.id).updateData({'resultados': question.resultados});
+  await questionRef
+      .document(question.id)
+      .updateData({'resultados': question.resultados});
 }
 
 updateMissionQuizQuestionTDone(Question question) async {
@@ -359,5 +361,7 @@ updateAnswerQuestion(Question question, String id) async {
       mapa["respostaNumerica"] = question.respostaNumerica;
     }
   });
-  await questionRef.document(question.id).updateData({'resultados': question.resultados});
+  await questionRef
+      .document(question.id)
+      .updateData({'resultados': question.resultados});
 }
