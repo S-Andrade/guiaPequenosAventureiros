@@ -9,11 +9,20 @@ class ChewieDemo extends StatefulWidget {
 
   ChewieDemo({this.link});
 
-
-
+  _ChewieDemoState _chewieDemoState;
+  
   @override
   State<StatefulWidget> createState() {
-    return _ChewieDemoState(link:this.link);
+    _chewieDemoState = _ChewieDemoState(link:this.link);
+    return _chewieDemoState;
+  }
+
+  void pauseVideo(){
+    _chewieDemoState.pauseVideo();
+  }
+
+  bool isPlaying(){
+    return _chewieDemoState.isPlaying();
   }
 }
 
@@ -85,5 +94,13 @@ class _ChewieDemoState extends State<ChewieDemo> {
         ),
       );
     
+  }
+
+  void pauseVideo(){
+    _chewieController.pause();
+  }
+
+  bool isPlaying(){
+    return _videoPlayerController1.value.isPlaying;
   }
 }

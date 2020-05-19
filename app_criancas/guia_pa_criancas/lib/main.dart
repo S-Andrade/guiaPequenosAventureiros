@@ -10,9 +10,14 @@ import 'package:provider/provider.dart';
 import 'notifier/missions_notifier.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-void main() => runApp(MultiProvider(providers: [
+void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => MissionsNotifier()),
     ], child: MyApp()));
+} 
 
 class MyApp extends StatefulWidget {
   @override
@@ -25,8 +30,7 @@ class _MyHomePageState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    BackButtonInterceptor.add(myInterceptor);
-  }
+    BackButtonInterceptor.add(myInterceptor);  }
 
   @override
   void dispose() {

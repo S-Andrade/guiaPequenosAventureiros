@@ -6,18 +6,23 @@ import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
-import 'package:video_player/video_player.dart';
 import '../../../auth.dart';
+import 'package:camera/camera.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+
 
 class VideoScreenTabletPortrait extends StatefulWidget {
   Mission mission;
 
-  VideoScreenTabletPortrait(this.mission);
+  VideoScreenTabletPortrait({this.mission});
 
   @override
-  _VideoScreenTabletPortraitState createState() =>
-      _VideoScreenTabletPortraitState(mission);
+  _VideoScreenTabletPortraitState createState() => _VideoScreenTabletPortraitState(mission);
 }
+      
 
 class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     with WidgetsBindingObserver {
@@ -37,12 +42,20 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   int _totalPaused;
   DateTime _start;
   DateTime _end;
+  ChewieDemo chewieDemo;
+
+
+  Timer timer;
+  List<bool> resultado = [];
+  CameraController _cameracontroller;
+  Future<void> _initializeControllerFuture;
+  int counter_pause =0;  
 
 
   @override
   void initState() {
   
-
+    chewieDemo =  ChewieDemo(link: mission.linkVideo);
      Auth().getUser().then((user) {
                   setState(() {
                     _userID = user.email;
@@ -60,7 +73,20 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     WidgetsBinding.instance.addObserver(this);
    
     _start=DateTime.now();
+
+     availableCameras().then((cameras){
+        print("OLLLLLLAAAAAAA");
+        CameraDescription camera = cameras.last;
+          _cameracontroller = CameraController(
+          camera,
+          ResolutionPreset.medium,
+          );
+        _initializeControllerFuture = _cameracontroller.initialize();
+        timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
+      }); 
+        
     super.initState();
+    
   }
 
   AppLifecycleState state;
@@ -87,9 +113,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _timeVisited = _timeVisited - _totalPaused;
   }
 
+ 
+
   @override
   void dispose() {
-
+    timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -133,11 +161,9 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                         blurRadius: 10.0,
                       )
                     ]),
-                child: ChewieDemo(
-                                                      link: mission.linkVideo),
+                child: chewieDemo,
               ),
             ),
-         
           ]),
           Padding(
             padding: const EdgeInsets.all(70.0),
@@ -155,6 +181,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0))),
           ),
+          Text(resultado.toString()),
         ]),
       ),
     );
@@ -197,5 +224,105 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
         Navigator.pop(context);
       });
     }
+  }
+
+  void checkForFace() async{
+      try {
+            await _initializeControllerFuture;
+
+            final path = join(
+              (await getTemporaryDirectory()).path,
+              '${DateTime.now()}.png',
+            );
+
+            await _cameracontroller.takePicture(path);
+
+            getResult(path);
+            
+      } catch (e) {
+        print(e);
+      }
+  }
+
+  void getResult(String imagePath) async{
+    final File imageFile = File(imagePath);
+    final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(imageFile);
+    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector(FaceDetectorOptions(
+        mode: FaceDetectorMode.accurate,
+        enableLandmarks: true,
+        enableClassification: true
+        ));
+    final List<Face> faces = await faceDetector.processImage(visionImage);
+   /* print(faces);
+    setState(() {
+      carinhas = faces.length;
+    });*/
+
+    if(faces.length == 0){
+      setState(() {
+        if (chewieDemo.isPlaying()) {
+          chewieDemo.pauseVideo();
+        }
+        resultado.add(false);
+        counter_pause += 1;
+      });
+    }
+
+    for (Face face in faces) {
+       
+        //List olhos = [];
+        var olhoesquerdo = face.getLandmark(FaceLandmarkType.leftEye).position;
+        double olhoesquerdox = olhoesquerdo.dx;
+        double olhoesquerdoy = olhoesquerdo.dy;
+        var olhodireito = face.getLandmark(FaceLandmarkType.rightEye).position;
+        double olhodireitox = olhodireito.dx;
+        double olhodireitoy = olhodireito.dy;
+
+        //olhos.add(olhoesquerdo);
+        //olhos.add(olhodireito);
+
+        //List<double> cabecorra = []; 
+        double cabecay = face.headEulerAngleY;
+        double cabecaz = face.headEulerAngleZ;
+        //cabecorra.add(cabecay);
+        //cabecorra.add(cabecaz);
+
+        var focinho = face.getLandmark(FaceLandmarkType.noseBase).position;
+        double narizx = focinho.dx;
+        double narizy = focinho.dy;
+
+       /* setState(() {  
+          olhinhos.add(olhos);
+          cabeca.add(cabecorra);
+          nariz.add(focinho);
+        });*/
+
+
+        if((-20 <= olhoesquerdox && olhoesquerdox <= 500) 
+          && (0 <= olhoesquerdoy && olhoesquerdoy <= 650)
+          && (50 <= olhodireitox && olhodireitox <= 700)
+          && (0 <= olhodireitoy && olhodireitoy <= 650)
+          && (-50 <= cabecay && cabecay <= 50)
+          && (-100 <= cabecaz && cabecaz <= 100)
+          && (0 <= narizx && narizx <= 700)
+          && (0 <= narizy && narizy <= 700)){
+            setState(() {
+              resultado.add(true); 
+            });
+        }else{
+          setState(() {
+            if (chewieDemo.isPlaying()) {
+              chewieDemo.pauseVideo();
+            }
+            resultado.add(false);
+            counter_pause += 1;
+          });
+        }
+
+    }
+
+    faceDetector.close();
+
+    print(resultado);
   }
 }

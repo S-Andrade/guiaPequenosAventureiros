@@ -24,10 +24,11 @@ class MissionScreen extends StatelessWidget {
     if (mission.type == 'Video') {
       return ScreenTypeLayout(
         tablet: OrientationLayout(
-          portrait: VideoScreenTabletPortrait(mission),
+          portrait: VideoScreenTabletPortrait(mission:mission),
         ),
         //mobile:OrientationLayout(portrait: VideoScreenMobilePortrait(mission),)
       );
+     
     } 
         else if (mission.type == 'Activity') {
       return ScreenTypeLayout(
@@ -106,4 +107,7 @@ class MissionScreen extends StatelessWidget {
 
     
   }
+
+ 
+  
 }
