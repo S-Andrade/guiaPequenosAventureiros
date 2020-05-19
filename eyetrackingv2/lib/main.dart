@@ -11,27 +11,21 @@ Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
   // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
 
 
-  runApp(MyApp(cameras: cameras));
+  runApp(MyApp());
 }
 
 
 class MyApp extends StatefulWidget {
 
-  final List<CameraDescription> cameras;
-  MyApp({this.cameras});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(cameras: cameras);
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyApp> {
 
-
- final List<CameraDescription> cameras;
-  _MyHomePageState({this.cameras});
 
 
   @override
@@ -41,7 +35,6 @@ class _MyHomePageState extends State<MyApp> {
       theme: ThemeData.dark(),
       home: VideoPlayerTiming(
         // Pass the appropriate camera to the TakePictureScreen widget.
-        camera: cameras.last,
       ),
     );
   }

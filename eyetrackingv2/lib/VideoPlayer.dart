@@ -15,13 +15,7 @@ import 'package:flutter/cupertino.dart';
 
 class VideoPlayerTiming extends StatefulWidget {
 
-  final CameraDescription camera;
-
-  const VideoPlayerTiming({
-    Key key,
-    @required this.camera,
-  }) : super(key: key);
-
+  
   @override
   _VideoPlayerTiming createState() => _VideoPlayerTiming();
 }
@@ -44,12 +38,17 @@ class _VideoPlayerTiming extends State<VideoPlayerTiming> {
     _videocontroller = VideoPlayerController.network('https://firebasestorage.googleapis.com/v0/b/guia-pa-bc0b3.appspot.com/o/bed.mp4?alt=media&token=cf7300d4-452f-489f-9083-02583f240701');
     _initializeVideoPlayerFuture = _videocontroller.initialize();
 
-    _cameracontroller = CameraController(
-      widget.camera,
+
+    availableCameras().then((cameras){
+      CameraDescription camera = cameras.last;
+      _cameracontroller = CameraController(
+      camera,
       ResolutionPreset.medium,
     );
     _initializeControllerFuture = _cameracontroller.initialize();
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
+    });
+    
 
 
   }
