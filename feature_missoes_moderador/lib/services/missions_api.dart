@@ -1374,15 +1374,16 @@ getDoneByCapituloForTurma(escolaId, turmas) async {
   return finalList;
 }
 
-getQuestionarioRespostasGeralDaAventura(List perguntas) {
+getQuestionarioRespostasGeralDaAventura(List perguntas,List alunos) {
   Map perguntaRespostas = {};
   List lista = [];
+  print(alunos);
 
   int i = 0;
   for (var pergunta in perguntas) {
     List respostas = [];
     for (var campo in pergunta.resultados) {
-      if (campo['respostaNumerica'] != null)
+      if(alunos.contains(campo['aluno'])) if (campo['respostaNumerica'] != null)
         respostas.add(campo['respostaNumerica']);
     }
 

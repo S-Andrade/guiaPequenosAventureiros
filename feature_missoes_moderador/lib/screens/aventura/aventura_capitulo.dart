@@ -1,3 +1,4 @@
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'aventura.dart';
 import '../capitulo/capitulo_list.dart';
@@ -19,8 +20,15 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
   @override
   Widget build(BuildContext context) {
         return  new Scaffold(
-            appBar: new AppBar(title: new Text("Capitulos")),
-            body: CapituloList(aventura: aventura),
+            appBar: new AppBar(title: new Text("Capítulos de "+aventura.nome),backgroundColor: parseColor("#432F49"),),
+            body: Container(decoration:
+              BoxDecoration(
+              image: DecorationImage(
+          image: AssetImage("assets/images/mais_back.png"),
+          fit: BoxFit.fill,
+          alignment: Alignment.topCenter,
+        ),),
+              child: CapituloList(aventura: aventura)),
           );
   }
 }

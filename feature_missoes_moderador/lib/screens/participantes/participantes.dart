@@ -26,6 +26,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
   List turmasList = [];
   List respostasFinal = [];
   bool _umaVez = true;
+  List todosAlunos=[];
 
   _ParticipantesScreenState({this.escolasId, this.aventuraId});
 
@@ -53,6 +54,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
           getAlunosForTurma(turma).then((value2) {
             setState(() {
               turmasList.add(turma);
+              for(var aluno in value2) todosAlunos.add(aluno);
               alunosPorTurma[turma] = value2;
             });
           });
@@ -67,7 +69,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
         if (value[2].length != 0 && _umaVez == true) {
        
           getPerguntasDoQuestionarioForAventura(value[2]).then((perguntas) {
-            respostas = getQuestionarioRespostasGeralDaAventura(perguntas);
+            respostas = getQuestionarioRespostasGeralDaAventura(perguntas,todosAlunos);
 
             for (var a in respostas.entries) {
               List novaLista = [];
@@ -112,6 +114,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
       if (alunosPorTurma.length != 0) {
         if (mapaTurmas.length != 0) {
           if (respostasFinal.length != 0) {
+           
             return Scaffold(
                 appBar: new AppBar(
                     backgroundColor: Colors.indigoAccent,
