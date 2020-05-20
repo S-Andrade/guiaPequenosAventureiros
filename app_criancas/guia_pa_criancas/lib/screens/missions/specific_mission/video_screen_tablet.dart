@@ -49,7 +49,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   List<bool> resultado = [];
   CameraController _cameracontroller;
   Future<void> _initializeControllerFuture;
-  int counter_pause =0;  
+  int _counterPause;  
 
 
   @override
@@ -65,6 +65,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                         _done = resultados["done"];
                         _counterVisited=resultados["counterVisited"];
                         _timeVisited=resultados["timeVisited"];
+                        _counterPause=resultados["counterPause"];
                       }
                     }
                   });
@@ -75,7 +76,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _start=DateTime.now();
 
      availableCameras().then((cameras){
-        print("OLLLLLLAAAAAAA");
         CameraDescription camera = cameras.last;
           _cameracontroller = CameraController(
           camera,
@@ -84,7 +84,10 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
         _initializeControllerFuture = _cameracontroller.initialize();
         timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
       }); 
-        
+    
+    if(_counterPause == null){
+      _counterPause = 0;
+    }
     super.initState();
     
   }
@@ -98,7 +101,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
     updateMissionTimeAndCounterVisitedInFirestore(
-        mission, _userID, _timeVisited, _counterVisited);
+        mission, _userID, _timeVisited, _counterVisited, _counterPause); 
     super.deactivate();
   }
 
@@ -112,8 +115,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _totalPaused = _returned.difference(_paused).inSeconds;
     _timeVisited = _timeVisited - _totalPaused;
   }
-
- 
 
   @override
   void dispose() {
@@ -262,9 +263,9 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       setState(() {
         if (chewieDemo.isPlaying()) {
           chewieDemo.pauseVideo();
+          _counterPause += 1;
         }
         resultado.add(false);
-        counter_pause += 1;
       });
     }
 
@@ -313,9 +314,9 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           setState(() {
             if (chewieDemo.isPlaying()) {
               chewieDemo.pauseVideo();
+              _counterPause += 1;
             }
             resultado.add(false);
-            counter_pause += 1;
           });
         }
 

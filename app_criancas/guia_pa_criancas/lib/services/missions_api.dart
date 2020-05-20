@@ -309,7 +309,7 @@ updateMissionQuizQuestionTSuccess(Question question) async {
 }
 
 updateMissionTimeAndCounterVisitedInFirestore(
-    Mission mission, String id, int timeVisited, int counterVisited) async {
+  Mission mission, String id, int timeVisited, int counterVisited, int counterPause) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -319,8 +319,8 @@ updateMissionTimeAndCounterVisitedInFirestore(
 
     if (mapa["aluno"] == id) {
       mapa["counterVisited"] = counterVisited;
-
       mapa["timeVisited"] = timeVisited;
+      mapa["counterPause"] = counterPause;
     }
   });
 
