@@ -20,12 +20,12 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
   @override
   Widget build(BuildContext context) {
         return  new Scaffold(
-            appBar: new AppBar(title: new Text("Capítulos de "+aventura.nome),backgroundColor: parseColor("#432F49"),),
+            appBar: new AppBar(title: new Text("Capítulos de "+aventura.nome),backgroundColor: parseColor("#FFCE02"),),
             body: Container(decoration:
               BoxDecoration(
               image: DecorationImage(
-          image: AssetImage("assets/images/mais_back.png"),
-          fit: BoxFit.fill,
+          image: AssetImage("assets/images/15.jpg"),
+          fit: BoxFit.cover,
           alignment: Alignment.topCenter,
         ),),
               child: CapituloList(aventura: aventura)),

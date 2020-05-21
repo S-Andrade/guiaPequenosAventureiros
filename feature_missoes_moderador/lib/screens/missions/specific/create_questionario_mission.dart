@@ -5,6 +5,7 @@ import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'create_questionario_question_screen.dart';
 import 'exist_question.dart';
@@ -63,7 +64,12 @@ class _CreateQuestionarioMissionScreenState
                 Container(
                   width: MediaQuery.of(context).size.width / 2.8,
                   height: MediaQuery.of(context).size.height,
-                  color: parseColor("#320a5c"),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/24.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   child: Padding(
                     padding:
                         EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
@@ -75,11 +81,11 @@ class _CreateQuestionarioMissionScreenState
                             height: 60.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 100.0, bottom: 5.0),
                             child: Text(
                               "Criar um Questionario",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 40,
                                   fontFamily: 'Amatic SC',
@@ -93,9 +99,10 @@ class _CreateQuestionarioMissionScreenState
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Nesta secção, poderão ser criadas as questões para o Questionario.",
+                              "Nesta secção, poderão ser criadas as questões para o Questionário.",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
                                   fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
@@ -106,7 +113,7 @@ class _CreateQuestionarioMissionScreenState
                             height: 100.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
+                            color:parseColor("F4F19C"),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -114,10 +121,10 @@ class _CreateQuestionarioMissionScreenState
                               "Voltar atrás",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+                                  
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
@@ -141,10 +148,10 @@ class _CreateQuestionarioMissionScreenState
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Amatic SC',
+                                     
+                                      fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
-                                      fontSize: 30),
+                                      fontSize: 20),
                                 ),
                               ),
                               SizedBox(
@@ -155,7 +162,7 @@ class _CreateQuestionarioMissionScreenState
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.purple[50],
+                                  color: parseColor("F4F19C"),
                                 ),
                                 child: TextField(
                                   controller: _text,
@@ -166,7 +173,7 @@ class _CreateQuestionarioMissionScreenState
                                   maxLengthEnforced: true,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: 'Amatic SC',
+                                      fontFamily: 'Monteserrat',
                                       letterSpacing: 4,
                                       fontWeight: FontWeight.w900,
                                       fontSize: 20),
@@ -195,12 +202,17 @@ class _CreateQuestionarioMissionScreenState
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: parseColor("#320a5c"),
-                                      blurRadius: 10.0,
-                                    )
-                                  ]),
+                                boxShadow: [
+                                                   BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+            blurRadius: 5.0, // has the effect of softening the shadow
+            spreadRadius: 2.0, // has the effect of extending the shadow
+            offset: Offset(
+              0.0, // horizontal
+              2.5, // vertical
+            ),
+                                        )
+                                                  ]),
                               child: Column(children: [
                                 Container(
                                     height: 300,
@@ -209,56 +221,57 @@ class _CreateQuestionarioMissionScreenState
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Column(children: [
-                                            Row(
-                                              children: <Widget>[
-                                                IconButton(
-                                                  icon: Icon(FontAwesomeIcons
-                                                      .question),
-                                                  iconSize: 10,
-                                                  color: parseColor("#320a5c"),
-                                                  onPressed: null,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Container(
-                                                      width: 170,
-                                                      child: Row(children: [
-                                                        Flexible(
-                                                          child: Text(
-                                                            _perguntas[index]
-                                                                .question,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900,
-                                                                fontFamily:
-                                                                    'Amatic SC',
-                                                                letterSpacing:
-                                                                    2,
-                                                                fontSize: 40),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  IconButton(
+                                                     icon: Icon(FontAwesomeIcons.check),
+                                                iconSize: 20,
+                                                color: Colors.blue,
+                                                onPressed: null,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Container(
+                                                        width: 550,
+                                                        child: Row(children: [
+                                                          Flexible(
+                                                            child: Text(
+                                                              _perguntas[index]
+                                                                  .question,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  
+                                                                  fontFamily:
+                                                                      'Monteserrat',
+                                                                  letterSpacing:
+                                                                      2,
+                                                                  fontSize: 20),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ])),
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      FontAwesomeIcons.trash),
-                                                  iconSize: 10,
-                                                  color: parseColor("#320a5c"),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _perguntas
-                                                          .removeAt(index);
-                                                      missionNotifier
-                                                              .currentQuestion =
-                                                          null;
-                                                    });
-                                                  },
-                                                ),
-                                              ],
+                                                        ])),
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                        FontAwesomeIcons.trash, size: 20,
+                                                  color:Colors.red,),
+                                                    iconSize: 10,
+                                                    color: parseColor("#320a5c"),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        _perguntas
+                                                            .removeAt(index);
+                                                        missionNotifier
+                                                                .currentQuestion =
+                                                            null;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ]);
                                         },
@@ -269,50 +282,119 @@ class _CreateQuestionarioMissionScreenState
                                               color: Colors.black12);
                                         },
                                         itemCount: _perguntas.length)),
-                                FlatButton(
-                                    child: Icon(FontAwesomeIcons.plus),
-                                    onPressed: () {
-                                      //pop up
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Nova Questão'),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                child: Text('Nova'),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CreateQuestionarioQuestion()));
-                                                },
+                                         Container(
+                                  child: Column(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Container(
+                                          width: 700,
+                                          height: 1,
+                                          color: Colors.black),
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Adicione aqui cada questão: ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w900,
+                                                fontFamily: 'Monteserrat',
+                                                color: Colors.black,
+                                                letterSpacing: 2),
+                                          )
+                                        ]),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FlatButton(
+                                      child: Icon(FontAwesomeIcons.plus,color: parseColor("#FFCE02"),
+                                              size: 30),
+                                      onPressed: () {
+                                        final popup = BeautifulPopup(
+  context: context,
+  template: TemplateTerm,
+);  
+                                        popup.show(
+                                              title: Text(""),
+                                              close:Container(),
+                                              content:
+                                              Column(children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom:20.0),
+                                                  child: Center(
+                                                  child: Row(
+                                                                                                      children:[ Flexible(
+                                                                                                        child: Text('Quer criar uma questão nova ou utilizar uma já existente de outro Questionário?',style:TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w900,
+                                                        fontFamily: 'Amatic SC',
+                                                        color: Colors.black,
+                                                        letterSpacing: 2)),
+                                                    ),]
+                                                  ),
                                               ),
-                                              FlatButton(
-                                                child: Text(
-                                                    'De outro Questionário'),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              QuestionarioQuestionExist(
-                                                                  selectedQ)));
-                                                },
+                                                ),
+                                                Padding(
+                                                padding: const EdgeInsets.all(10.0),
+                                                child: FlatButton(
+                                                    child: Text('Nova',style:TextStyle(
+                                                  fontSize: 15,
+                                             
+                                                  fontFamily: 'Monteserrat',
+                                                  color: Colors.black,
+                                                  letterSpacing: 2),),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  CreateQuestionarioQuestion()));
+                                                    },
+                                                  ),
                                               ),
-                                              FlatButton(
-                                                child: Text('Sair'),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    })
+                                                Padding(
+                                                  padding: const EdgeInsets.all(10.0),
+                                                  child: FlatButton(
+                                                    child: Text(
+                                                        'De outro Questionário',style:TextStyle(
+                                                  fontSize: 15,
+                                            
+                                                  fontFamily: 'Monteserrat',
+                                                  color: Colors.black,
+                                                  letterSpacing: 2)),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  QuestionarioQuestionExist(
+                                                                      selectedQ)));
+                                                    },
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(10.0),
+                                                  child: FlatButton(
+                                                    child: Text('Cancelar',style:TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontFamily: 'Monteserrat',
+                                                  color: Colors.red,
+                                                  letterSpacing: 2)),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                )],)
+                                              
+                                            
+                                          
+                                        );
+                                      }),
+                                ) ,
+                                  ]),
+                                ),
                               ]))),
                       SizedBox(
                         height: 40.0,
@@ -326,7 +408,7 @@ class _CreateQuestionarioMissionScreenState
                             width: 20.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
+                            color: parseColor("F4F19C"),
                             onPressed: () async {
                               missionNotifier.currentQuestion = null;
                               if (_text.text.length > 0 &&
@@ -339,10 +421,10 @@ class _CreateQuestionarioMissionScreenState
                               "Submeter missão",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
@@ -357,15 +439,17 @@ class _CreateQuestionarioMissionScreenState
   }
 
   showError() async {
+
+    
     AlertDialog alerta = AlertDialog(
       title: Text(
         "Falta inserir um título ou criar, pelo menos, uma questão!",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+          
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
     );
 
@@ -382,15 +466,20 @@ class _CreateQuestionarioMissionScreenState
   }
 
   showConfirmar(BuildContext context, String titulo, List questions) {
+                           final popup = BeautifulPopup(
+  context: context,
+  template: TemplateBlueRocket,
+);
+
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+          
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -402,10 +491,10 @@ class _CreateQuestionarioMissionScreenState
         "Sim",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+      
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         createMissionQuestinario(titulo, questions, aventuraId.id, capitulo.id);
@@ -415,7 +504,7 @@ class _CreateQuestionarioMissionScreenState
       },
     );
 
-    AlertDialog alert = AlertDialog(
+    popup.show(
       title: Text(
         "Confirmação",
         style: TextStyle(
@@ -429,22 +518,16 @@ class _CreateQuestionarioMissionScreenState
         "Tem a certeza que pretende submeter?",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+           
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       actions: [
         cancelaButton,
         continuaButton,
       ],
     );
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+   
   }
 }

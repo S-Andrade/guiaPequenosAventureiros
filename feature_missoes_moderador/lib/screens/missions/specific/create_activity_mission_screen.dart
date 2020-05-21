@@ -4,11 +4,14 @@ import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:feature_missoes_moderador/models/activity.dart';
 import 'dart:io';
 import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
+
+
 
 class CreateActivityMissionScreen extends StatefulWidget {
   
@@ -80,7 +83,12 @@ class _CreateActivityMissionScreenState
                 Container(
                   width: MediaQuery.of(context).size.width / 2.8,
                   height: MediaQuery.of(context).size.height,
-                  color: parseColor("#320a5c"),
+                  decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/26.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
                   child: Padding(
                     padding:
                         EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
@@ -89,14 +97,14 @@ class _CreateActivityMissionScreenState
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 60.0,
+                            height: 50.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 0.0, bottom: 15.0),
                             child: Text(
                               "Criar uma atividade",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 40,
                                   fontFamily: 'Amatic SC',
@@ -105,14 +113,15 @@ class _CreateActivityMissionScreenState
                             ),
                           ),
                           SizedBox(
-                            height: 40.0,
+                            height: 150.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
                               "Nesta secção, poderão ser criadas as instruções para a realização de uma atividade.",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
                                   fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
@@ -123,7 +132,7 @@ class _CreateActivityMissionScreenState
                             height: 100.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
+                            color:parseColor("F4F19C"),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -131,10 +140,10 @@ class _CreateActivityMissionScreenState
                               "Voltar atrás",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+                                 
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
@@ -144,7 +153,7 @@ class _CreateActivityMissionScreenState
                 ),
                 Container(
                   padding:
-                      EdgeInsets.only(top: 100.0, left: 70.0, bottom: 10.0),
+                      EdgeInsets.only(top: 50.0, left: 70.0, bottom: 30.0),
                   child: Column(
                     children: <Widget>[
                       LayoutBuilder(
@@ -159,10 +168,10 @@ class _CreateActivityMissionScreenState
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Amatic SC',
+                                    
+                                      fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
-                                      fontSize: 30),
+                                      fontSize: 20),
                                 ),
                               ),
                               SizedBox(
@@ -173,18 +182,18 @@ class _CreateActivityMissionScreenState
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.purple[50],
+                                  color: parseColor("F4F19C"),
                                 ),
                                 child: TextField(
                                   controller: _text,
                                   onChanged: (value) {
                                     _titulo = value;
                                   },
-                                  maxLength: 50,
+                                  maxLength: 40,
                                   maxLengthEnforced: true,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: 'Amatic SC',
+                                      fontFamily: 'Monteserrat',
                                       letterSpacing: 4,
                                       fontWeight: FontWeight.w900,
                                       fontSize: 20),
@@ -206,7 +215,7 @@ class _CreateActivityMissionScreenState
                           );
                         },
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 20.0),
                       Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -221,142 +230,169 @@ class _CreateActivityMissionScreenState
                                 ]),
                             child: Column(children: [
                               Container(
-                                height: 300,
+                                height: 370,
                                 width: 700,
                                 child:ListView(
                                   children:
                                       List.generate(activities.length, (index) { 
                                     return Column(children: [
-                                      Row(
-                                        children: <Widget>[
-                                          IconButton(
-                                            icon: Icon(FontAwesomeIcons.star),
-                                            iconSize: 10,
-                                            color: parseColor("#320a5c"),
-                                            onPressed: null,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
-                                                width: 170,
-                                                child: Row(children: [
-                                                  Flexible(
-                                                    child: Text(
-                                                      activities[index]
-                                                          .description,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.w900,
-                                                          fontFamily:
-                                                              'Amatic SC',
-                                                          letterSpacing: 2,
-                                                          fontSize: 40),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(FontAwesomeIcons.check),
+                                              iconSize: 20,
+                                              color: Colors.blue,
+                                              onPressed: null,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(20.0),
+                                              child: Container(
+                                                  width: 400,
+                                                  child: Row(children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        activities[index]
+                                                            .description,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                            fontFamily:
+                                                                'Monteserrat',
+                                                            letterSpacing: 2,
+                                                            fontSize: 20),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ])),
-                                          ),
-                                          new Builder(
-                                              builder: (BuildContext) =>
-                                                  (activities[index].linkImage!=null)
-                                                      ? Container(
-                                                          width: 100.0,
-                                                          height: 100.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100.0),
-                                                            image:
-                                                                DecorationImage(
-                                                              image: NetworkImage(
-                                                                  activities[
-                                                                          index]
-                                                                      .linkImage),
-                                                              fit: BoxFit.fill,
+                                                  ])),
+                                            ),
+                                            new Builder(
+                                                builder: (BuildContext) =>
+                                                    (activities[index].linkImage!=null)
+                                                        ? Container(
+                                                            width: 100.0,
+                                                            height: 100.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100.0),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: NetworkImage(
+                                                                    activities[
+                                                                            index]
+                                                                        .linkImage),
+                                                                fit: BoxFit.fill,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        )
-                                                      : Container()),
-                                          IconButton(
-                                            icon: Icon(FontAwesomeIcons.trash),
-                                            iconSize: 10,
-                                            color: parseColor("#320a5c"),
-                                            onPressed: () {
-                                              setState(() {
-                                                activities.removeAt(index);
-                                              });
-                                            },
-                                          ),
-                                        ],
+                                                          )
+                                                        : Container()),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:10.0),
+                                              child: IconButton(
+                                                icon: Icon(FontAwesomeIcons.trash),
+                                                iconSize: 20,
+                                                color:Colors.red,
+                                                onPressed: () {
+                                                  setState(() {
+                                                    activities.removeAt(index);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ]);
                                   }),
                                 ),
                               ),
                               Container(
-                                child: Row(children: [
+                                child: Column(children:[
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Container(width:400,height:1,color:Colors.black),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:340,top:10,bottom:10),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [Text("Adicione aqui cada instrução: ",style:TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w900,
+                                                      fontFamily: 'Monteserrat',
+                                                      color: Colors.black,
+                                                      letterSpacing: 2),)]),
+                                  ),
+                                Row(children: [
                                   Container(
                                     height: 100,
-                                    width: 600,
+                                    width: 640,
                                     child: Row(
                                       children: <Widget>[
-                                        Container(
-                                          height: 150,
-                                          width: 200,
-                                          child: TextField(
-                                            controller: _text2,
-                                            onChanged: (value) {
-                                              _description = value;
-                                            },
-                                            maxLength: 200,
-                                            maxLengthEnforced: true,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Amatic SC',
-                                                letterSpacing: 4,
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 30),
-                                            maxLines: 7,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.all(10.0),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.blue[50],
+                                        Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Container(
+                                            height: 150,
+                                            width: 250,
+                                            child: TextField(
+                                              controller: _text2,
+                                              onChanged: (value) {
+                                                _description = value;
+                                              },
+                                              maxLength: 170,
+                                              maxLengthEnforced: true,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Monteserrat',
+                                                  letterSpacing: 2,
+                                                 
+                                                  fontSize: 20),
+                                              maxLines: 7,
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.all(10.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.blue[50],
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5.0),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
+                                                hintText: "Descrição",
+                                                fillColor: Colors.blue[50],
                                               ),
-                                              hintText: "Descrição",
-                                              fillColor: Colors.blue[50],
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: MaterialButton(
-                                            height: 50,
-                                            minWidth: 70,
-                                            color: parseColor('#320a5c'),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        20.0)),
-                                            child: Text(
-                                              'Escolher imagem',
-                                              style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontFamily: 'Amatic SC',
-                                                  color: Colors.white,
-                                                  letterSpacing: 4),
+                                        Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Container(
+                                            child: MaterialButton(
+                                              height: 50,
+                                              minWidth: 70,
+                                              color: parseColor("#FFCE02"),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          20.0)),
+                                              child: Text(
+                                                'Escolher imagem',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontFamily: 'Monteserrat',
+                                                    color: Colors.black,
+                                                    letterSpacing: 2),
+                                              ),
+                                              onPressed: getImage,
                                             ),
-                                            onPressed: getImage,
                                           ),
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 18.0),
+                                              const EdgeInsets.only(left: 0.0,right: 20.0),
                                           child: new Builder(
                                               builder: (BuildContext) => _loaded
                                                   ? new Icon(
@@ -368,7 +404,7 @@ class _CreateActivityMissionScreenState
                                                   : Container()),
                                         ),
                                         IconButton(
-                                          icon: Icon(FontAwesomeIcons.plus),
+                                          icon: Icon(FontAwesomeIcons.plusCircle,color: parseColor("#FFCE02")),
                                           onPressed: () async {
                                             if (_imageFile != null &&
                                                 _description != null) {
@@ -401,11 +437,10 @@ class _CreateActivityMissionScreenState
                                                   "Insira, pelo menos, uma descrição!",
                                                   style: TextStyle(
                                                       color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      fontFamily: 'Amatic SC',
+                                                  
+                                                      fontFamily: 'Monteserrat',
                                                       letterSpacing: 2,
-                                                      fontSize: 30),
+                                                      fontSize: 20),
                                                 ),
                                               );
 
@@ -428,12 +463,12 @@ class _CreateActivityMissionScreenState
                                       ],
                                     ),
                                   ),
-                                ]),
+                                ]),])
                               )
                             ]),
                           )),
                       SizedBox(
-                        height: 40.0,
+                        height: 20.0,
                       ),
                       Row(
                         children: <Widget>[
@@ -444,7 +479,7 @@ class _CreateActivityMissionScreenState
                             width: 20.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
+                            color: parseColor("F4F19C"),
                             onPressed: () async {
                        
                               if (_text.text.length > 0 && activities.length!=0)
@@ -456,10 +491,10 @@ class _CreateActivityMissionScreenState
                               "Submeter missão",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+                                  
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
@@ -481,10 +516,10 @@ class _CreateActivityMissionScreenState
         "Falta inserir um título ou criar, pelo menos, uma atividade!",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+         
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
     );
 
@@ -502,16 +537,24 @@ class _CreateActivityMissionScreenState
   }
 
   showConfirmar(
+    
       BuildContext context, String titulo, List<Activity> activities) {
+    
+     final popup = BeautifulPopup(
+  context: context,
+  template: TemplateBlueRocket,
+);
+    
+    
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+  
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -523,10 +566,10 @@ class _CreateActivityMissionScreenState
         "Sim",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+       
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         createMissionActivityInFirestore(titulo, activities,aventuraId.id,capitulo.id);
@@ -535,7 +578,7 @@ class _CreateActivityMissionScreenState
       },
     );
 
-    AlertDialog alert = AlertDialog(
+    popup.show(
       title: Text(
         "Confirmação",
         style: TextStyle(
@@ -549,10 +592,10 @@ class _CreateActivityMissionScreenState
         "Tem a certeza que pretende submeter?",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+       
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       actions: [
         cancelaButton,
@@ -560,13 +603,6 @@ class _CreateActivityMissionScreenState
       ],
     );
 
-    //exibe o diálogo
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+    
   }
 }

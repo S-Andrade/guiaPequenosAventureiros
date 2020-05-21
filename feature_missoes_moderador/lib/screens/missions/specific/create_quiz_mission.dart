@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
@@ -6,6 +5,7 @@ import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
@@ -23,7 +23,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   Capitulo capitulo;
   Aventura aventuraId;
   String _titulo;
-  List _perguntas =[];
+  List _perguntas = [];
   final _text = TextEditingController();
 
   _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
@@ -37,9 +37,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (missionNotifier.currentQuestion != null ) {
-      if( !_perguntas.contains(missionNotifier.currentQuestion))
-      {
+    if (missionNotifier.currentQuestion != null) {
+      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
         //perguntas.add(missionNotifier.currentQuestion);
       }
@@ -54,7 +53,12 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                 Container(
                   width: MediaQuery.of(context).size.width / 2.8,
                   height: MediaQuery.of(context).size.height,
-                  color: parseColor("#320a5c"),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/23.jpg"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                   child: Padding(
                     padding:
                         EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
@@ -70,7 +74,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                             child: Text(
                               "Criar um Quiz",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 40,
                                   fontFamily: 'Amatic SC',
@@ -84,9 +88,10 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Nesta secção, poderão ser criadas as questões para o novo Quiz.",
+                              "Nesta secção, poderão ser criadas as questões para um Quiz que as crianças terão de resolver.",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
                                   fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
@@ -97,7 +102,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                             height: 100.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
+                            color: parseColor("F4F19C"),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -105,10 +110,9 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                               "Voltar atrás",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
@@ -118,7 +122,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                 ),
                 Container(
                     padding:
-                        EdgeInsets.only(top: 100.0, left: 70.0, bottom: 10.0),
+                        EdgeInsets.only(top: 40.0, left: 70.0, bottom: 30.0),
                     child: Column(children: <Widget>[
                       LayoutBuilder(
                         builder:
@@ -126,16 +130,15 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           return Row(
                             children: <Widget>[
                               Container(
-                                width: 100.0,
+                                width: 120.0,
                                 child: Text(
                                   "Título",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Amatic SC',
+                                      fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
-                                      fontSize: 30),
+                                      fontSize: 20),
                                 ),
                               ),
                               SizedBox(
@@ -146,21 +149,21 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.purple[50],
+                                  color: parseColor("F4F19C"),
                                 ),
                                 child: TextField(
                                   controller: _text,
                                   onChanged: (value) {
                                     _titulo = value;
                                   },
-                                  maxLength: 50,
+                                  maxLength: 40,
                                   maxLengthEnforced: true,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: 'Amatic SC',
-                                      letterSpacing: 4,
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 20),
+                                      fontSize: 15),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -179,7 +182,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           );
                         },
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -187,67 +190,76 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20.0),
                                   boxShadow: [
-                                    BoxShadow(
-                                      color: parseColor("#320a5c"),
-                                      blurRadius: 10.0,
-                                    )
-                                  ]),
+                                                   BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+            blurRadius: 5.0, // has the effect of softening the shadow
+            spreadRadius: 2.0, // has the effect of extending the shadow
+            offset: Offset(
+              0.0, // horizontal
+              2.5, // vertical
+            ),
+                                        )
+                                                  ]),
                               child: Column(children: [
                                 Container(
-                                    height: 300,
+                                    height: 400,
                                     width: 700,
                                     child: ListView.separated(
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Column(children: [
-                                            Row(
-                                              children: <Widget>[
-                                                IconButton(
-                                                  icon: Icon(FontAwesomeIcons
-                                                      .question),
-                                                  iconSize: 10,
-                                                  color: parseColor("#320a5c"),
-                                                  onPressed: null,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Container(
-                                                      width: 170,
-                                                      child: Row(children: [
-                                                        Flexible(
-                                                          child: Text(
-                                                            _perguntas[index]
-                                                                .question,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900,
-                                                                fontFamily:
-                                                                    'Amatic SC',
-                                                                letterSpacing:
-                                                                    2,
-                                                                fontSize: 40),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  IconButton(
+                                                     icon: Icon(FontAwesomeIcons.check),
+                                                iconSize: 20,
+                                                color: Colors.blue,
+                                                onPressed: null,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Container(
+                                                        width: 550,
+                                                        child: Row(children: [
+                                                          Flexible(
+                                                            child: Text(
+                                                              _perguntas[index]
+                                                                  .question,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
+                                                                  fontFamily:
+                                                                      'Amatic SC',
+                                                                  letterSpacing:
+                                                                      2,
+                                                                  fontSize: 40),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ])),
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      FontAwesomeIcons.trash),
-                                                  iconSize: 10,
-                                                  color: parseColor("#320a5c"),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _perguntas
-                                                          .removeAt(index);
-                                                    missionNotifier.currentQuestion = null;
-                                                    });
-                                                  },
-                                                ),
-                                              ],
+                                                        ])),
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                        FontAwesomeIcons.trash),
+                                                    iconSize: 20,
+                                                    color:Colors.red,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        _perguntas
+                                                            .removeAt(index);
+                                                        missionNotifier
+                                                                .currentQuestion =
+                                                            null;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ]);
                                         },
@@ -258,21 +270,51 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                               color: Colors.black12);
                                         },
                                         itemCount: _perguntas.length)),
-                                FlatButton(
-                                  child: Icon(FontAwesomeIcons.plus),
-                                  onPressed: () {
-                                    //setState(() {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateQuestion()));
-                                   // });
-                                  },
+                                Container(
+                                  child: Column(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Container(
+                                          width: 700,
+                                          height: 1,
+                                          color: Colors.black),
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Adicione aqui cada pergunta e respetivas respostas: ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w900,
+                                                fontFamily: 'Monteserrat',
+                                                color: Colors.black,
+                                                letterSpacing: 2),
+                                          )
+                                        ]),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: FlatButton(
+                                        child: Icon(FontAwesomeIcons.plusCircle,
+                                        color: parseColor("#FFCE02"),
+                                            size: 30),
+                                        onPressed: () {
+                                          //setState(() {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CreateQuestion()));
+                                          // });
+                                        },
+                                      ),
+                                    ),
+                                  ]),
                                 )
                               ]))),
-                              SizedBox(
-                        height: 40.0,
+                      SizedBox(
+                        height: 20.0,
                       ),
                       Row(
                         children: <Widget>[
@@ -283,10 +325,11 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                             width: 20.0,
                           ),
                           FlatButton(
-                            color: Colors.purple[100],
-                            onPressed: () async { 
+                            color: parseColor("F4F19C"),
+                            onPressed: () async {
                               missionNotifier.currentQuestion = null;
-                              if (_text.text.length > 0 && _perguntas.length!=0)
+                              if (_text.text.length > 0 &&
+                                  _perguntas.length != 0)
                                 showConfirmar(context, _titulo, _perguntas);
                               else
                                 await showError();
@@ -295,16 +338,14 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                               "Submeter missão",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Amatic SC',
+                                  fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
-                                  fontSize: 30),
+                                  fontSize: 20),
                             ),
                           ),
                         ],
                       ),
                     ])),
-
               ],
             ),
           ),
@@ -312,7 +353,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
       ),
     );
   }
-  showError() async{
+
+  showError() async {
     AlertDialog alerta = AlertDialog(
       title: Text(
         "Falta inserir um título ou criar, pelo menos, uma questão!",
@@ -337,8 +379,12 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
     });
   }
 
-  showConfirmar(
-      BuildContext context, String titulo, List questions) {
+  showConfirmar(BuildContext context, String titulo, List questions) {
+  final popup = BeautifulPopup(
+  context: context,
+  template: TemplateBlueRocket,
+);  
+   
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -365,13 +411,14 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionQuiz(titulo, questions ,aventuraId.id,capitulo.id);
-        Navigator.of(context,rootNavigator:true).push(
-            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventura:aventuraId)));
+        createMissionQuiz(titulo, questions, aventuraId.id, capitulo.id);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) =>
+                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
       },
     );
 
-    AlertDialog alert = AlertDialog(
+    popup.show(
       title: Text(
         "Confirmação",
         style: TextStyle(
@@ -395,12 +442,6 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
         continuaButton,
       ],
     );
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+   
   }
 }

@@ -34,7 +34,7 @@ class _HomeScreen extends State<HomeScreen> {
       value : DatabaseService().aventura,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: parseColor("#432F49"),
+          backgroundColor: parseColor("#FFCE02"),
           title: Text("Home")
         ),
         body: Scaffold(

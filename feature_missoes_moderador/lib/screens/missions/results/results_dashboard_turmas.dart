@@ -143,101 +143,138 @@ class _ResultsDashboardTurmasScreenState
               body: RefreshIndicator(
             onRefresh: _refresh,
             child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/back11.png"),
-                    fit: BoxFit.cover,
-                  ),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/15.jpg"),
+                  //12.jpg
+                  fit: BoxFit.cover,
                 ),
-                child: GridView.count(
-                  // Create a grid with 2 columns. If you change the scrollDirection to
-                  // horizontal, this produces 2 rows.
-                  crossAxisCount: 4,
-                  // Generate 100 widgets that display their index in the List.
-                  children: List.generate(turmas.length, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, bottom: 30, top: 30, right: 20),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ResultsTurmaTab(
-                                      missions: this.missionsList,
-                                      alunos:
-                                          this.alunosTurma[turmas[index].id],
-                                      turma: this.turmas[index])));
-                        },
-                        child: Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                top: 60,
-                                left: 52,
-                                child: Container(
-                                  height: 160,
-                                  width: 160,
-                                  child: new CircularPercentIndicator(
-                                    radius: 140.0,
-                                    animation: true,
-                                    animationDuration: 2000,
-                                    lineWidth: 20.0,
-                                    startAngle: 45.0,
-                                    percent: percentagens[turmas[index].id],
-                                    center: new Text(
-                                      (percentagens[turmas[index].id] * 100)
-                                              .round()
-                                              .toString() +
-                                          "%",
-                                      style: new TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0),
-                                    ),
-                                    circularStrokeCap: CircularStrokeCap.butt,
-                                    backgroundColor: Colors.grey[200],
-                                    progressColor: Colors.deepPurpleAccent,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                  top: 220,
-                                  left: 80,
-                                  child: Text(
-                                    "alunos..",
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'Amatic SC',
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 4),
-                                  )),
-                              Positioned(
-                                  top: 10,
-                                  left: 75,
-                                  child: Text(
-                                    "Turma " + turmas[index].id,
-                                    style: TextStyle(
-                                        fontSize: 35,
-                                        fontFamily: 'Amatic SC',
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 4),
-                                  ))
-                            ],
-                          ),
-                          decoration: BoxDecoration(
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                          "Percentagens de missões feitas por cada turma: " ,
+                             
+                          style: TextStyle(
+                              fontSize: 40.0,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.w900,
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: parseColor("#320a5c"),
-                                  blurRadius: 10.0,
-                                )
-                              ]),
-                        ),
+                              fontFamily: 'Amatic SC')),
+                    ),
+                    Expanded(
+                      child: GridView.count(
+                        // Create a grid with 2 columns. If you change the scrollDirection to
+                        // horizontal, this produces 2 rows.
+                        crossAxisCount: 4,
+                        // Generate 100 widgets that display their index in the List.
+                        children: List.generate(turmas.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, bottom: 20, top: 30, right: 20),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ResultsTurmaTab(
+                                            missions: this.missionsList,
+                                            alunos: this
+                                                .alunosTurma[turmas[index].id],
+                                            turma: this.turmas[index])));
+                              },
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Turma " + turmas[index].id,
+                                              style: TextStyle(
+                                                  fontSize: 30.0,
+                                                  letterSpacing: 2,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontFamily: 'Monteserrat')),
+                                    ),
+                                   Padding(
+                                     padding: const EdgeInsets.all(5.0),
+                                     child: Container(
+                                          height: 160,
+                                          width: 160,
+                                          child: new CircularPercentIndicator(
+                                            radius: 140.0,
+                                            animation: true,
+                                            animationDuration: 2000,
+                                            lineWidth: 20.0,
+                                            startAngle: 45.0,
+                                            percent:
+                                                percentagens[turmas[index].id],
+                                            center: new Text(
+                                              (percentagens[turmas[index].id] *
+                                                          100)
+                                                      .round()
+                                                      .toString() +
+                                                  "%",
+                                              style: new TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 27.0),
+                                            ),
+                                            circularStrokeCap:
+                                                CircularStrokeCap.butt,
+                                            backgroundColor: Colors.grey[200],
+                                            progressColor:
+                                                Colors.deepPurpleAccent,
+                                          ),
+                                        ),
+                                   ),
+                                    
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Text(
+                                              turmas[index]
+                                                      .alunos
+                                                      .length
+                                                      .toString() +
+                                                  " alunos",
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  letterSpacing: 2,
+                                                  color: parseColor("#432F49"),
+                                                  fontFamily: 'Monteserrat')),
+                                   ),
+                                    
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius:
+                                            5.0, // has the effect of softening the shadow
+                                        spreadRadius:
+                                            2.0, // has the effect of extending the shadow
+                                        offset: Offset(
+                                          0.0, // horizontal
+                                          2.5, // vertical
+                                        ),
+                                      )
+                                    ]),
+                              ),
+                            ),
+                          );
+                        }),
                       ),
-                    );
-                  }),
-                )),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ));
         } else
           return Center(
@@ -260,13 +297,43 @@ class _ResultsDashboardTurmasScreenState
               onRefresh: _refresh,
               child: ListView(children: [
                 Container(
+                  height: 625,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/back11.png"),
+                        image: AssetImage("assets/images/11.png"),
                         fit: BoxFit.cover,
                       ),
                     ),
-                    child: Text("Ainda sem missões")),
+                    child: Center(
+                      child: Container(
+                        height: 200,
+                        width:700,
+                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+            blurRadius: 5.0, // has the effect of softening the shadow
+            spreadRadius: 2.0, // has the effect of extending the shadow
+            offset: Offset(
+              0.0, // horizontal
+              2.5, // vertical
+            ),
+                                        )
+                                            ]),
+                    
+                        child: Center(
+                            child: new Text(
+                                                "Ainda não há resultados...",
+                                                style: TextStyle(
+                                                    fontSize: 35,
+                                                  
+                                                    fontFamily: 'Amatic SC',
+                                                    letterSpacing: 4),
+                                              ),),
+                      ),
+                    )),
               ])));
   }
 }

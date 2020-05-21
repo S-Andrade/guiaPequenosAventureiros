@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,7 +21,7 @@ class _CreateQuestionarioQuestionState
   final _textQuestion = TextEditingController();
   final _numeroRespotas = TextEditingController();
   String valorMax;
-  int max;
+  int max=0;
   Question q = new Question();
 
   @override
@@ -41,164 +44,220 @@ class _CreateQuestionarioQuestionState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        child: Builder(
-          builder: (BuildContext context) {
-            return AlertDialog(
-                content: Column(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 100.0,
-                    child: Text(
-                      "Pergunta",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 2,
-                          fontSize: 30),
+      body: Container(
+        decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/11.png"),
+                      fit: BoxFit.fill,
                     ),
                   ),
-                  SizedBox(
-                    width: 40.0,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3.7,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.purple[50],
-                    ),
-                    child: TextField(
-                      controller: _textQuestion,
-                      onChanged: (value) {
-                        q.question = value;
-                      },
-                      maxLength: 50,
-                      maxLengthEnforced: true,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 4,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 20),
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10.0),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue[50],
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
+        child: Form(
+          child: Builder(
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  content:SingleChildScrollView(
+                child: Container(
+                  width: 840,
+                  height: 400,
+                  child: ListView(children: [ Column(children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 230.0,
+                        child: Text(
+                          "Pergunta",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Monteserrat',
+                                    letterSpacing: 2,
+                                    fontSize: 20),
                         ),
-                        hintText: "Insira a pergunta",
-                        fillColor: Colors.blue[50],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 100.0,
-                    child: Text(
-                      "Número de respostas",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 2,
-                          fontSize: 30),
+                    SizedBox(
+                      width: 40.0,
                     ),
-                  ),
-                  SizedBox(
-                    width: 40.0,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3.7,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.purple[50],
-                    ),
-                    child: TextField(
-                      controller: _numeroRespotas,
-                      onChanged: (value) {
-                        valorMax = value;
-                        max = int.parse(value);
-                      },
-                      maxLength: 50,
-                      maxLengthEnforced: true,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 4,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 20),
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10.0),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue[50],
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.4,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        color:  parseColor("F4F19C"),
+                      ),
+                      child: TextField(
+                        controller: _textQuestion,
+                        onChanged: (value) {
+                          q.question = value;
+                        },
+                        maxLength: 150,
+                        maxLengthEnforced: true,
+                        style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Monteserrat',
+                                  letterSpacing: 2,
+                                  fontSize: 20),
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue[50],
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
                           ),
-                          borderRadius: BorderRadius.circular(5.0),
+                          hintText: "Insira a pergunta",
+                          fillColor: Colors.blue[50],
                         ),
-                        hintText: "valor máximo: ex. 5",
-                        fillColor: Colors.blue[50],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 40.0,
-                  ),
-                  FlatButton(
-                      child: Icon(
-                        FontAwesomeIcons.checkSquare,
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 240.0,
+                        child: Text(
+                          "Número de respostas",
+                          textAlign: TextAlign.left,
+                          style:TextStyle(
+                                    color: Colors.green,
+                                    fontFamily: 'Monteserrat',
+                                    letterSpacing: 2,
+                                    fontSize: 20),
+                        ),
                       ),
-                      onPressed: () {
-                        addAnsRow(max);
-                      })
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 100.0,
-                    child: Text(
-                      "Respostas",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 2,
-                          fontSize: 30),
+                      SizedBox(
+                        width: 40.0,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 5.0,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: parseColor("F4F19C"),
+                        ),
+                        child: TextField(
+                          controller: _numeroRespotas,
+                          onChanged: (value) {
+                            valorMax = value;
+                            max = int.parse(value);
+                          },
+                          maxLength: 50,
+                          maxLengthEnforced: true,
+                          style:  TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Monteserrat',
+                                    letterSpacing: 2,
+                                    fontSize: 20),
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10.0),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue[50],
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            hintText: "valor máximo: ex. 5",
+                            fillColor: Colors.blue[50],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40.0,
+                      ),
+                      FlatButton(
+                          child: Icon(
+                            FontAwesomeIcons.plus,color:parseColor("F4F19C"),
+                          ),
+                          onPressed: () {
+                            if(max!=0) addAnsRow(max);
+                            else {
+                              showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Não inseriu o número de respostas!",
+              style: TextStyle(
+                  color: Colors.black,
+                
+                  fontFamily: 'Monteserrat',
+                  letterSpacing: 2,
+                  fontSize: 20),
+            ),
+          );
+        },
+      );
+      Timer(Duration(seconds: 2), () async {
+      Navigator.of(context, rootNavigator: true).pop();
+    });
+                            }
+                          }),
+                          Text("Criar respostas")
+                        
+                    ],
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 227.0,
+                        child: Text(
+                          "Respostas",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                                      color: Colors.red,
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
+                                      fontSize: 20),
+                        ),
+                      ),
                     ),
+                    SizedBox(
+                      width: 40.0,
+                    ),
+                    Column(
+                      children: List.generate(widgetsAns.length, (i) {
+                        return widgetsAns[i];
+                      }),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      FlatButton(
+                          child: Text('Submeter',style:TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
+                                      fontSize: 20),),
+                          onPressed: addQuestionToQuestionario),
+                          FlatButton(
+                                child: Text('Cancelar',style:TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
+                                      fontSize: 20),),
+                                onPressed: () => Navigator.pop(context))
+                    ],
                   ),
-                  SizedBox(
-                    width: 40.0,
-                  ),
-                  Column(
-                    children: List.generate(widgetsAns.length, (i) {
-                      return widgetsAns[i];
-                    }),
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  FlatButton(
-                      child: Text('Submeter'),
-                      onPressed: addQuestionToQuestionario)
-                ],
-              )
-            ]));
-          },
+                )
+              ])]))));
+            },
+          ),
         ),
       ),
     );
@@ -223,17 +282,20 @@ class _CreateQuestionarioQuestionState
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Preencha todos os campos",
+              "Falta inserir campos",
               style: TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Amatic SC',
+        
+                  fontFamily: 'Monteserrat',
                   letterSpacing: 2,
-                  fontSize: 30),
+                  fontSize: 20),
             ),
           );
         },
       );
+      Timer(Duration(seconds: 2), () async {
+      Navigator.of(context, rootNavigator: true).pop();
+    });
     }
   }
 }
@@ -249,59 +311,60 @@ class RowAnswer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String text = (this.numero + 1).toString();
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 100.0,
-          child: Text(
-            text,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Amatic SC',
-                letterSpacing: 2,
-                fontSize: 30),
-          ),
-        ),
-        SizedBox(
-          width: 40.0,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width / 3.7,
-          height: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.purple[50],
-          ),
-          child: TextField(
-            controller: _textAnsWrong,
-            onChanged: (value) {
-              _resposta = value;
-            },
-            maxLength: 50,
-            maxLengthEnforced: true,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Amatic SC',
-                letterSpacing: 4,
-                fontWeight: FontWeight.w900,
-                fontSize: 20),
-            maxLines: 1,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.blue[50],
-                ),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              hintText: "Resposta",
-              fillColor: Colors.blue[50],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 100.0,
+            child: Text(
+              text,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Monteserrat',
+                                    letterSpacing: 2,
+                                    fontSize: 20),
             ),
           ),
-        )
-      ],
+          SizedBox(
+            width: 40.0,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 3.9,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color:parseColor("F4F19C"),
+            ),
+            child: TextField(
+              controller: _textAnsWrong,
+              onChanged: (value) {
+                _resposta = value;
+              },
+              maxLength: 25,
+              maxLengthEnforced: true,
+              style:TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Monteserrat',
+                                    letterSpacing: 2,
+                                    fontSize: 20),
+              maxLines: 1,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(10.0),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blue[50],
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                hintText: "Resposta possível",
+                fillColor: Colors.blue[50],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

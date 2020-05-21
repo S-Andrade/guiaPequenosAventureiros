@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/results/results_dashboard_turmas.dart';
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import '../aventura/aventura.dart';
 import '../aventura/aventura_capitulo.dart';
@@ -53,7 +54,6 @@ class _TabBarMissionsState extends State<TabBarMissions>
 
   @override
   Widget build(BuildContext context) {
-    
 /*,leading: IconButton(
             tooltip: 'Previous choice',
             icon: const Icon(Icons.arrow_back),
@@ -63,47 +63,47 @@ class _TabBarMissionsState extends State<TabBarMissions>
                             MaterialPageRoute(
                                 builder: (_) => (this.capitulo,this.aventuraId)));*/
     return Scaffold(
-     
       body: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-            tooltip: 'Previous choice',
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));}),
+            title:Text("Resultados e Missões do Capítulo "+capitulo.id),
+              leading: IconButton(
+                  tooltip: 'Voltar para capítulos',
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AventuraCapitulo(aventura: aventura)));
+                  }),
               bottomOpacity: 1,
               toolbarOpacity: 1,
-              elevation: 0,
-              backgroundColor: Colors.indigoAccent,
+              backgroundColor:parseColor("#FFCE02"),
               bottom: TabBar(
                 controller: _tabController,
                 tabs: [
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(
-                        "Resultados",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Amatic SC',
-                            letterSpacing: 4),
-                      ),
+                      child: Text("Resultados",
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              letterSpacing: 4,
+                              color: Colors.white,
+                              fontFamily: 'Monteserrat')),
                     ),
                   ),
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(
-                        "Missões",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Amatic SC',
-                            letterSpacing: 4),
-                      ),
+                      child: Text("Missões",
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              letterSpacing: 4,
+                              color: Colors.white,
+                              fontFamily: 'Monteserrat')),
                     ),
                   ),
                 ],
@@ -111,10 +111,10 @@ class _TabBarMissionsState extends State<TabBarMissions>
           body: TabBarView(
             controller: _tabController,
             children: [
-              ResultsDashboardTurmasScreen(aventuraId: this.aventura.id, capitulo: this.capitulo),
+              ResultsDashboardTurmasScreen(
+                  aventuraId: this.aventura.id, capitulo: this.capitulo),
               CreateMissionScreen(
                   aventura: this.aventura, capitulo: this.capitulo),
-              
             ],
           ),
         ),
