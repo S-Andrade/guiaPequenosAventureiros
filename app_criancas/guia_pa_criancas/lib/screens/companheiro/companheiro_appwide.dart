@@ -3,7 +3,6 @@ import 'package:app_criancas/models/companheiro.dart';
 import 'package:app_criancas/services/companheiro_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import '../../auth.dart';
 
 class CompanheiroAppwide extends StatefulWidget {

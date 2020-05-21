@@ -20,7 +20,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   List quizQuestions;
   String _userID;
   Map resultados;
-  bool _done;
+  bool _done; //é usado sim
   int _timeSpentOnThisScreen;
   int _timeVisited;
   int _counterVisited;

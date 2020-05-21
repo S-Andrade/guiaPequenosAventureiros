@@ -1,6 +1,3 @@
-import 'package:app_criancas/screens/home_screen.dart';
-import 'package:app_criancas/screens/login/user_data_screen_tablet.dart';
-import 'package:app_criancas/services/missions_api.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

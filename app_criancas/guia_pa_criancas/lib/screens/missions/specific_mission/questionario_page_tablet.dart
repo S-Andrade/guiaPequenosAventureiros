@@ -1,5 +1,6 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class QuestionarioPage extends StatefulWidget {
 class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBindingObserver {
   int currentPage = 1;
   int currentStep = 0;
+  int pontos = 50;
   List<Step> steps = [];
   List allQuestions;
   double resposta = 0;
@@ -92,6 +94,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
     
 
     initPlatformState();
+    super.initState();
     
  
    
@@ -288,6 +291,8 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
             ),
             onPressed: () {
               if (complete) {
+                //adicionar para atualizar a pontuacao
+                updatePontuacaoAluno(_userID, pontos);
                 updateMissionCounterInFirestore(missionNotifier.currentMission, _userID, 1);
                 updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
                         saveMissionMovementAndLightDataInFirestore(
