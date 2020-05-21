@@ -46,6 +46,8 @@ getPontuacaoTurma(String aluno) async {
   return p;
 }
 
+//Função auxiliar
+
 getAlunoTurma(String aluno) async {
   CollectionReference companheiroRef = Firestore.instance.collection('aluno');
   DocumentReference companheiroDocRef = companheiroRef.document(aluno);
