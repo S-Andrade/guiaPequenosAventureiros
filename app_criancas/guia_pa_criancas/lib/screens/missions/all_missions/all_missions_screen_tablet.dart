@@ -272,6 +272,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                                           .currentMission =
                                                                       mission;
                                                                   setState(() {
+                                                                    print('aquiiiiii');
                                                                     _navegarParaMissao(
                                                                         context,
                                                                         mission);

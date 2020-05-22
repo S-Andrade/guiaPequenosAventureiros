@@ -8,25 +8,25 @@ import 'package:sensors/sensors.dart';
 import '../../../auth.dart';
 import 'dart:async';
 
-
 class QuestionarioPage extends StatefulWidget {
   @override
   _QuestionarioPageState createState() => _QuestionarioPageState();
 }
 
-class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBindingObserver {
+class _QuestionarioPageState extends State<QuestionarioPage>
+    with WidgetsBindingObserver {
   int currentPage = 1;
   int currentStep = 0;
   List<Step> steps = [];
   List allQuestions;
-  double resposta = 0;
+  double resposta = 1;
   List allAnswers;
-  String feedback = "Nunca";
+  String feedback = "Arrasta para responder";
   String _userID = "";
   bool complete = false;
   List<double> _movementData = List();
   List<int> _lightData = List();
-   DateTime _start;
+  DateTime _start;
   DateTime _end;
   int _timeSpentOnThisScreen;
   int _timeVisited;
@@ -36,9 +36,8 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
   int _totalPaused;
   Light _light;
   StreamSubscription _subscription;
-   List<StreamSubscription<dynamic>> _streamSubscriptions =
+  List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
-
 
   @override
   void initState() {
@@ -50,51 +49,37 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
         currentStep = missionsNotifier.currentPage;
         allQuestions[currentStep].resultados.forEach((aluno) {
           if (aluno['aluno'] == _userID) {
-            if (aluno['respostaEscolhida'] != null) {
+            if (aluno['respostaEscolhida'] != "") {
               feedback = aluno['respostaEscolhida'];
             }
-            if (aluno['respostaNumerica'] != null) {
+            if (aluno['respostaNumerica'] != 0) {
               resposta = aluno['respostaNumerica'].toDouble();
             }
           }
         });
         for (var a in missionsNotifier.currentMission.resultados) {
           if (a["aluno"] == _userID) {
-            
-          
-            _counterVisited =a["counterVisited"];
+            _counterVisited = a["counterVisited"];
             _timeVisited = a["timeVisited"];
           }
         }
         print(resposta);
         print(feedback);
-
       });
     });
 
-    
     WidgetsBinding.instance.addObserver(this);
 
     _start = DateTime.now();
 
-   
-
     _streamSubscriptions
-        .add(
-      
-    accelerometerEvents.listen((AccelerometerEvent event) {
+        .add(accelerometerEvents.listen((AccelerometerEvent event) {
       setState(() {
         _movementData.add(event.x);
       });
-    }
-    )
-        );
-    
+    }));
 
     initPlatformState();
-    
- 
-   
   }
 
   Future<void> initPlatformState() async {
@@ -115,21 +100,19 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
     print(luxValue);
   }
 
-   void stopListening() {
+  void stopListening() {
     _subscription.cancel();
   }
-
 
   @override
   void dispose() {
     print('dispose');
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-       for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
       subscription.cancel();
     }
     stopListening();
-
   }
 
   AppLifecycleState state;
@@ -137,13 +120,16 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
   @override
   void deactivate() {
     MissionsNotifier missionsNotifier =
-            Provider.of<MissionsNotifier>(context, listen: false);
+        Provider.of<MissionsNotifier>(context, listen: false);
     _counterVisited = _counterVisited + 1;
     _end = DateTime.now();
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
     updateMissionTimeAndCounterVisitedInFirestore(
-        missionsNotifier.currentMission, _userID, _timeVisited, _counterVisited);
+        missionsNotifier.currentMission,
+        _userID,
+        _timeVisited,
+        _counterVisited);
     super.deactivate();
   }
 
@@ -159,7 +145,6 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
     _timeVisited = _timeVisited - _totalPaused;
   }
 
-
   @override
   Widget build(BuildContext context) {
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
@@ -169,20 +154,25 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
     currentPage = 1;
 
     goTo(int step) {
+      print('lloooooooooooooooooooooooooooolllllllllllllllllllllllllllll');
+      print(step);
       setState(() {
         currentStep = step;
         allQuestions[currentStep].resultados.forEach((aluno) {
           if (aluno['aluno'] == _userID) {
-            if (aluno['respostaEscolhida'] != null) {
+            if (aluno['respostaEscolhida'] != "") {
               feedback = aluno['respostaEscolhida'];
+            }else{
+              feedback = 'Arrasta para responder';
             }
-            if (aluno['respostaNumerica'] != null) {
+            if (aluno['respostaNumerica'] != 0) {
               resposta = aluno['respostaNumerica'].toDouble();
+            }
+            else{
+              resposta=1;
             }
           }
         });
-        print(resposta);
-        print(feedback);
       });
     }
 
@@ -223,21 +213,27 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
             Text(feedback, style: TextStyle(fontSize: 25)),
             Slider(
                 value: resposta,
-                min: 0,
+                min: 1,
                 max: allAnswers.length.toDouble(),
                 onChanged: (novaresposta) {
+                  print(novaresposta);
                   setState(() {
                     resposta = novaresposta;
-                    if (resposta >= 0 && resposta < 1) {
+                    if (resposta >= 1 && resposta < 2) {
                       feedback = allAnswers[0];
-                    } else if (resposta >= 1 && resposta < 2) {
-                      feedback = allAnswers[1];
+                      resposta = 1;
                     } else if (resposta >= 2 && resposta < 3) {
-                      feedback = allAnswers[2];
+                      feedback = allAnswers[1];
+                      resposta =2;
                     } else if (resposta >= 3 && resposta < 4) {
+                      feedback = allAnswers[2];
+                      resposta = 3;
+                    } else if (resposta >= 4 && resposta < 5) {
                       feedback = allAnswers[3];
-                    } else if (resposta >= 1 && resposta < 5) {
+                      resposta =4;
+                    } else if (resposta == 5) {
                       feedback = allAnswers[4];
+                      resposta = 5;
                     }
                     missionsNotifier
                         .currentMission
@@ -248,7 +244,8 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
                     question.respostaNumerica = resposta;
                   });
                 },
-                label: feedback),
+                label: feedback,
+                divisions: allAnswers.length-1,),
           ])));
       currentPage++;
     });
@@ -287,15 +284,21 @@ class _QuestionarioPageState extends State<QuestionarioPage> with WidgetsBinding
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
-              if (complete) {
-                updateMissionCounterInFirestore(missionNotifier.currentMission, _userID, 1);
-                updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
-                        saveMissionMovementAndLightDataInFirestore(
-            missionNotifier.currentMission, _userID, _movementData, _lightData);
-            for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-      subscription.cancel();
-    }
-    stopListening();
+              if (complete && resposta!=null && feedback!=null) {
+                updateMissionCounterInFirestore(
+                    missionNotifier.currentMission, _userID, 1);
+                updateMissionDoneInFirestore(
+                    missionNotifier.currentMission, _userID);
+                saveMissionMovementAndLightDataInFirestore(
+                    missionNotifier.currentMission,
+                    _userID,
+                    _movementData,
+                    _lightData);
+                for (StreamSubscription<dynamic> subscription
+                    in _streamSubscriptions) {
+                  subscription.cancel();
+                }
+                stopListening();
                 Navigator.pop(context);
                 Navigator.pop(context);
               } else {
