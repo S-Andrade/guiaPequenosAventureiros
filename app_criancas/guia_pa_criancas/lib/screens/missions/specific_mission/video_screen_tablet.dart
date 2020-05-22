@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/video_player.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
@@ -192,10 +194,114 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePontuacao(_userID, mission.points);
         Navigator.pop(context);
       });
     }
+  }
+
+
+    updatePoints(String aluno, int points) async{
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+   
+    await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te pontos"),
+                content: new Text("+$points"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+    if( cromos[0] != []){
+
+      for (String i in cromos[0]){
+          Image image;
+
+
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
+        image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        }
+       );
+
+    
+      await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te um cromo para a tua caderneta"),
+                content: image,
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
+      
+    }
+    if( cromos[1] != []){
+
+      for (String i in cromos[1]){
+         Image image;
+
+
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
+        image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        }
+       );
+
+    
+      await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+                content: image,
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
+
+     
+    }
+
   }
 }
