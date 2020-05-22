@@ -232,7 +232,7 @@ class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
     if (_done == true) {
       print('back');
 
-        await updatePoints(_userID, mission.points);
+       // await updatePoints(_userID, mission.points);
 
       Navigator.pop(context);
     } else {
@@ -563,7 +563,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
     if (_done == true) {
       print('back');
 
-            await updatePoints(_userID, mission.points);
+         //  await updatePoints(_userID, mission.points);
 
       Navigator.pop(context);
     } else {
@@ -581,6 +581,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
     List cromos = await updatePontuacao(aluno, points);
     print("tellle");
     print(cromos);
+   
     await showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -600,12 +601,13 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
               );
             },
           );
-    if( cromos[0] != null){
+    if( cromos[0] != []){
 
-      Image image;
+      for (String i in cromos[0]){
+          Image image;
 
 
-       await FirebaseStorage.instance.ref().child(cromos[0]).getDownloadURL().then((downloadUrl) {
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
         image = Image.network(
             downloadUrl.toString(),
             fit: BoxFit.scaleDown,
@@ -633,12 +635,16 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
               );
             },
           );
+      }
+      
     }
-    if( cromos[1] != null){
-      Image image;
+    if( cromos[1] != []){
+
+      for (String i in cromos[1]){
+         Image image;
 
 
-       await FirebaseStorage.instance.ref().child(cromos[1]).getDownloadURL().then((downloadUrl) {
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
         image = Image.network(
             downloadUrl.toString(),
             fit: BoxFit.scaleDown,
@@ -666,6 +672,9 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
               );
             },
           );
+      }
+
+     
     }
 
   }

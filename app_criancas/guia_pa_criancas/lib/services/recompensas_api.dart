@@ -2,15 +2,23 @@ import 'dart:math';
 
 import 'package:app_criancas/models/cromos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 
 //Funções para o ranking -------
 
 //FUNÇÕES DE UPDATE
 updatePontuacao(String aluno, int pontuacao) async {
-  String cromo_aluno = await updatePontuacaoAluno(aluno, pontuacao);
-  String cromo_turma = await updatePontuacaoTurma(aluno, pontuacao);
-  return [cromo_aluno,cromo_turma];
+  List cromo_aluno = await updatePontuacaoAluno(aluno, pontuacao);
+  print("aluno");
+  print(cromo_aluno);
+  List cromo_turma = await updatePontuacaoTurma(aluno, pontuacao);
+  print("turma");
+  print(cromo_turma);
+  List r = [];
+  r.add(cromo_aluno);
+  r.add(cromo_turma);
+  return r;
 }
 
 updatePontuacaoAluno(String aluno, int pontuacao) async {
@@ -21,11 +29,13 @@ updatePontuacaoAluno(String aluno, int pontuacao) async {
   CollectionReference alunoRef = Firestore.instance.collection('aluno');
   DocumentReference alunoDocRef = alunoRef.document(aluno);
   await alunoDocRef.updateData({'pontuacao': novaPontuacao});
-  String cromo = null;
-  if(novaPontuacao % 100 == 0){
-    cromo = await giveCromoAluno(aluno);
+  int n_cromos = howMany(100, pontos, novaPontuacao);
+  print(n_cromos);
+  List c = [];
+  for(int i = 0 ; i < n_cromos; i++){
+    c.add( await giveCromoAluno(aluno));
   }
-  return cromo;
+  return c;
 }
 
 updatePontuacaoTurma(String aluno, int pontuacao) async {
@@ -35,11 +45,12 @@ updatePontuacaoTurma(String aluno, int pontuacao) async {
   CollectionReference turmaRef = Firestore.instance.collection('turma');
   DocumentReference turmaDocRef = turmaRef.document(turma);
   await turmaDocRef.updateData({'pontuacao': novaPontuacao});
-  String cromo;
-  if(novaPontuacao % 1000 == 0){
-    cromo = await giveCromoTurma(turma);
+  int n_cromos = howMany(1000, pontos, novaPontuacao);
+  List c = [];
+  for(int i = 0 ; i < n_cromos; i++){
+    c.add(await giveCromoTurma(aluno));
   }
-  return cromo;
+  return c;
 }
 
 //FUNÇÕES DE GET
@@ -76,6 +87,17 @@ getAlunoTurma(String aluno) async {
   });
   return turma;
 }
+
+howMany(int element, int min, int max){
+  List solutions = [];
+  for (int i = min+1; i <= max; i++){
+    if(i % element == 0){
+      solutions.add(i);
+    }
+  }
+ return solutions.length;
+}
+
 
 //FUNCOES PARA OS COLECIONAVEIS
 
@@ -170,3 +192,5 @@ getCromosTurma() async{
   });
   return list_cromos;
 }
+
+

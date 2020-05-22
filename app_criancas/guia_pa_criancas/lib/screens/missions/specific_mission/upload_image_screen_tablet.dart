@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +12,7 @@ import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
+
 
 class UploadImageScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -246,13 +249,14 @@ class _UploadImageScreenTabletPortraitState
   void _loadButton() {
     if (_done == true) {
       print('back');
-      Timer(Duration(milliseconds: 500), () {
-        
+      Timer(Duration(milliseconds: 500), () async{
+        //await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async{
         _upload();
+        await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
     }
@@ -266,5 +270,107 @@ class _UploadImageScreenTabletPortraitState
       });
       
     }
+  }
+
+  updatePoints(String aluno, int points) async{
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+   
+    await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te pontos"),
+                content: new Text("+$points"),
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+    if( cromos[0] != []){
+
+      for (String i in cromos[0]){
+          Image image;
+
+
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
+        image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        }
+       );
+
+    
+      await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te um cromo para a tua caderneta"),
+                content: image,
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
+      
+    }
+    if( cromos[1] != []){
+
+      for (String i in cromos[1]){
+         Image image;
+
+
+       await FirebaseStorage.instance.ref().child(i).getDownloadURL().then((downloadUrl) {
+        image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        }
+       );
+
+    
+      await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+                content: image,
+                actions: <Widget>[
+                  // define os botões na base do dialogo
+                  new FlatButton(
+                    child: new Text("Fechar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+      }
+
+     
+    }
+
   }
 }
