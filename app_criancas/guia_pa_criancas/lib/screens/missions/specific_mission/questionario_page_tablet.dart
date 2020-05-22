@@ -49,10 +49,12 @@ class _QuestionarioPageState extends State<QuestionarioPage>
         currentStep = missionsNotifier.currentPage;
         allQuestions[currentStep].resultados.forEach((aluno) {
           if (aluno['aluno'] == _userID) {
-            if (aluno['respostaEscolhida'] != "") {
+            if (aluno['respostaEscolhida'] != "" &&
+                aluno['respostaEscolhida'] != null) {
               feedback = aluno['respostaEscolhida'];
             }
-            if (aluno['respostaNumerica'] != 0) {
+            if (aluno['respostaNumerica'] != 0 &&
+                aluno['respostaNumerica'] != null) {
               resposta = aluno['respostaNumerica'].toDouble();
             }
           }
@@ -154,30 +156,40 @@ class _QuestionarioPageState extends State<QuestionarioPage>
     currentPage = 1;
 
     goTo(int step) {
-      print('lloooooooooooooooooooooooooooolllllllllllllllllllllllllllll');
-      print(step);
-      setState(() {
-        currentStep = step;
-        allQuestions[currentStep].resultados.forEach((aluno) {
-          if (aluno['aluno'] == _userID) {
-            if (aluno['respostaEscolhida'] != "") {
-              feedback = aluno['respostaEscolhida'];
-            }else{
-              feedback = 'Arrasta para responder';
+      if (feedback != "Arrasta para responder") {
+        updateAnswerQuestion(allQuestions[currentStep], _userID);
+        setState(() {
+          currentStep = step;
+          allQuestions[currentStep].resultados.forEach((aluno) {
+            if (aluno['aluno'] == _userID) {
+              if (aluno['respostaEscolhida'] != "" &&
+                  aluno['respostaEscolhida'] != null) {
+                feedback = aluno['respostaEscolhida'];
+              } else {
+                feedback = 'Arrasta para responder';
+              }
+              if (aluno['respostaNumerica'] != 0 &&
+                  aluno['respostaNumerica'] != null) {
+                resposta = aluno['respostaNumerica'].toDouble();
+              } else {
+                resposta = 1;
+              }
             }
-            if (aluno['respostaNumerica'] != 0) {
-              resposta = aluno['respostaNumerica'].toDouble();
-            }
-            else{
-              resposta=1;
-            }
-          }
+          });
         });
-      });
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return new AlertDialog(
+                  content:
+                      new Text("Responde para passares à pergunta seguinte!"));
+            });
+      }
     }
 
     next() {
-      if (feedback != "") {
+      if (feedback != "Arrasta para responder") {
         updateAnswerQuestion(allQuestions[currentStep], _userID);
         currentStep + 1 != steps.length
             ? goTo(currentStep + 1)
@@ -191,6 +203,14 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                               "Parabéns chegaste à última questão! Clica em entregar para submeter :)"));
                     });
               });
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return new AlertDialog(
+                  content:
+                      new Text("Responde para passares à pergunta seguinte!"));
+            });
       }
     }
 
@@ -212,40 +232,41 @@ class _QuestionarioPageState extends State<QuestionarioPage>
             Padding(padding: EdgeInsets.all(20)),
             Text(feedback, style: TextStyle(fontSize: 25)),
             Slider(
-                value: resposta,
-                min: 1,
-                max: allAnswers.length.toDouble(),
-                onChanged: (novaresposta) {
-                  print(novaresposta);
-                  setState(() {
-                    resposta = novaresposta;
-                    if (resposta >= 1 && resposta < 2) {
-                      feedback = allAnswers[0];
-                      resposta = 1;
-                    } else if (resposta >= 2 && resposta < 3) {
-                      feedback = allAnswers[1];
-                      resposta =2;
-                    } else if (resposta >= 3 && resposta < 4) {
-                      feedback = allAnswers[2];
-                      resposta = 3;
-                    } else if (resposta >= 4 && resposta < 5) {
-                      feedback = allAnswers[3];
-                      resposta =4;
-                    } else if (resposta == 5) {
-                      feedback = allAnswers[4];
-                      resposta = 5;
-                    }
-                    missionsNotifier
-                        .currentMission
-                        .content
-                        .questions[allQuestions.indexOf(question)]
-                        .respostaEscolhida = feedback;
-                    question.respostaEscolhida = feedback;
-                    question.respostaNumerica = resposta;
-                  });
-                },
-                label: feedback,
-                divisions: allAnswers.length-1,),
+              value: resposta,
+              min: 1,
+              max: allAnswers.length.toDouble(),
+              onChanged: (novaresposta) {
+                print(novaresposta);
+                setState(() {
+                  resposta = novaresposta;
+                  if (resposta >= 1 && resposta < 2) {
+                    feedback = allAnswers[0];
+                    resposta = 1;
+                  } else if (resposta >= 2 && resposta < 3) {
+                    feedback = allAnswers[1];
+                    resposta = 2;
+                  } else if (resposta >= 3 && resposta < 4) {
+                    feedback = allAnswers[2];
+                    resposta = 3;
+                  } else if (resposta >= 4 && resposta < 5) {
+                    feedback = allAnswers[3];
+                    resposta = 4;
+                  } else if (resposta == 5) {
+                    feedback = allAnswers[4];
+                    resposta = 5;
+                  }
+                  missionsNotifier
+                      .currentMission
+                      .content
+                      .questions[allQuestions.indexOf(question)]
+                      .respostaEscolhida = feedback;
+                  question.respostaEscolhida = feedback;
+                  question.respostaNumerica = resposta;
+                });
+              },
+              label: feedback,
+              divisions: allAnswers.length - 1,
+            ),
           ])));
       currentPage++;
     });
@@ -271,6 +292,21 @@ class _QuestionarioPageState extends State<QuestionarioPage>
         Expanded(
           child: Stepper(
             steps: steps,
+            controlsBuilder: (BuildContext context,
+                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+              return Row(
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: onStepContinue,
+                    child: const Text('Próxima'),
+                  ),
+                  FlatButton(
+                    onPressed: onStepCancel,
+                    child: const Text('Anterior'),
+                  ),
+                ],
+              );
+            },
             type: StepperType.vertical,
             currentStep: currentStep,
             onStepContinue: next,
@@ -284,7 +320,10 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
-              if (complete && resposta!=null && feedback!=null) {
+              if (complete &&
+                  resposta != null &&
+                  feedback != null &&
+                  feedback != 'Arrasta para responder') {
                 updateMissionCounterInFirestore(
                     missionNotifier.currentMission, _userID, 1);
                 updateMissionDoneInFirestore(
