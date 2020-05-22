@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
 import '../../../models/activity.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
@@ -96,7 +98,7 @@ class _ActivityScreenTabletPortraitState
   @override
   Widget build(BuildContext context) {
     List<Activity> activities = mission.content;
-  
+
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -127,8 +129,6 @@ class _ActivityScreenTabletPortraitState
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: List.generate(activities.length, (index) {
-        
-              
                 return Column(children: [
                   Row(
                     children: <Widget>[
@@ -141,7 +141,9 @@ class _ActivityScreenTabletPortraitState
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
-                            width: (activities[index].linkImage!=null) ? 370:600,
+                            width: (activities[index].linkImage != null)
+                                ? 370
+                                : 600,
                             child: Row(children: [
                               Flexible(
                                 child: Text(
@@ -156,24 +158,25 @@ class _ActivityScreenTabletPortraitState
                               ),
                             ])),
                       ),
-                       Container(
-                                  width: (activities[index].linkImage!=null) ? 300.0:10,
-                                  height: (activities[index].linkImage!=null) ? 300.0:10,
-                                  decoration: (activities[index].linkImage!=null) ? BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    
-                                    image: DecorationImage(
-                                      
-                                      image:new NetworkImage(activities[index].linkImage),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
-                                  :
-                                  BoxDecoration(
-                                   color:Colors.grey,
-                                  )
-                       ),
-                       
+                      Container(
+                          width: (activities[index].linkImage != null)
+                              ? 300.0
+                              : 10,
+                          height: (activities[index].linkImage != null)
+                              ? 300.0
+                              : 10,
+                          decoration: (activities[index].linkImage != null)
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  image: DecorationImage(
+                                    image: new NetworkImage(
+                                        activities[index].linkImage),
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                              : BoxDecoration(
+                                  color: Colors.grey,
+                                )),
                     ],
                   ),
                 ]);
@@ -232,10 +235,101 @@ class _ActivityScreenTabletPortraitState
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
+        await updatePoints(_userID, mission.points);
         updateMissionDoneInFirestore(mission, _userID);
         Navigator.pop(context);
       });
+    }
+  }
+
+//adiciona a pontuação e os cromos ao aluno e turma
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != null) {
+      Image image;
+      await FirebaseStorage.instance
+          .ref()
+          .child(cromos[0])
+          .getDownloadURL()
+          .then((downloadUrl) {
+        image = Image.network(
+          downloadUrl.toString(),
+          fit: BoxFit.scaleDown,
+        );
+      });
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // retorna um objeto do tipo Dialog
+          return AlertDialog(
+            title: new Text("Ganhas-te um cromo para a tua caderneta"),
+            content: image,
+            actions: <Widget>[
+              // define os botões na base do dialogo
+              new FlatButton(
+                child: new Text("Fechar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    if (cromos[1] != null) {
+      Image image;
+      await FirebaseStorage.instance
+          .ref()
+          .child(cromos[1])
+          .getDownloadURL()
+          .then((downloadUrl) {
+        image = Image.network(
+          downloadUrl.toString(),
+          fit: BoxFit.scaleDown,
+        );
+      });
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // retorna um objeto do tipo Dialog
+          return AlertDialog(
+            title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+            content: image,
+            actions: <Widget>[
+              // define os botões na base do dialogo
+              new FlatButton(
+                child: new Text("Fechar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 }

@@ -1,28 +1,24 @@
 import 'dart:math';
-
 import 'package:app_criancas/models/cromos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 //Funções para o ranking -------
 
 //FUNÇÕES DE UPDATE
 updatePontuacao(String aluno, int pontuacao) async {
-  String cromo_aluno = await updatePontuacaoAluno(aluno, pontuacao);
-  String cromo_turma = await updatePontuacaoTurma(aluno, pontuacao);
-  return [cromo_aluno,cromo_turma];
+  String cromoAluno = await updatePontuacaoAluno(aluno, pontuacao);
+  String cromoTurma = await updatePontuacaoTurma(aluno, pontuacao);
+  return [cromoAluno, cromoTurma];
 }
 
 updatePontuacaoAluno(String aluno, int pontuacao) async {
   int pontos = await getPontuacaoAluno(aluno);
-  print('pontuacaooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
-  print(pontos);
   int novaPontuacao = pontos + pontuacao;
   CollectionReference alunoRef = Firestore.instance.collection('aluno');
   DocumentReference alunoDocRef = alunoRef.document(aluno);
   await alunoDocRef.updateData({'pontuacao': novaPontuacao});
-  String cromo = null;
-  if(novaPontuacao % 100 == 0){
+  String cromo = "";
+  if (novaPontuacao % 100 == 0) {
     cromo = await giveCromoAluno(aluno);
   }
   return cromo;
@@ -35,8 +31,8 @@ updatePontuacaoTurma(String aluno, int pontuacao) async {
   CollectionReference turmaRef = Firestore.instance.collection('turma');
   DocumentReference turmaDocRef = turmaRef.document(turma);
   await turmaDocRef.updateData({'pontuacao': novaPontuacao});
-  String cromo;
-  if(novaPontuacao % 1000 == 0){
+  String cromo = "";
+  if (novaPontuacao % 1000 == 0) {
     cromo = await giveCromoTurma(turma);
   }
   return cromo;
@@ -65,7 +61,7 @@ getPontuacaoTurma(String aluno) async {
   return p;
 }
 
-//Função auxiliar
+//Função auxiliar-------------
 
 getAlunoTurma(String aluno) async {
   CollectionReference companheiroRef = Firestore.instance.collection('aluno');
@@ -77,7 +73,7 @@ getAlunoTurma(String aluno) async {
   return turma;
 }
 
-//FUNCOES PARA OS COLECIONAVEIS
+//FUNCOES PARA OS COLECIONAVEIS-----------------------
 
 giveCromoAluno(String aluno) async {
   List cromos = await getCromosAluno();
@@ -85,22 +81,22 @@ giveCromoAluno(String aluno) async {
   CollectionReference alunoRef = Firestore.instance.collection('aluno');
   DocumentReference alunoDocRef = alunoRef.document(aluno);
 
-  List cromos_aluno = await alunoDocRef.get().then((snapshot) {
+  List cromosAluno = await alunoDocRef.get().then((snapshot) {
     List c = snapshot.data['cromos'];
     return c;
   });
 
-  if(cromos.length != cromos_aluno.length){
-    String novo_cromo = cromos[Random().nextInt(cromos.length)];
-    while(cromos_aluno.contains(novo_cromo)){
-      cromos.remove(novo_cromo);
-      novo_cromo = cromos[Random().nextInt(cromos.length)];
+  if (cromos.length != cromosAluno.length) {
+    String novoCromo = cromos[Random().nextInt(cromos.length)];
+    while (cromosAluno.contains(novoCromo)) {
+      cromos.remove(novoCromo);
+      novoCromo = cromos[Random().nextInt(cromos.length)];
     }
 
-    cromos_aluno.add(novo_cromo);
+    cromosAluno.add(novoCromo);
 
-    await alunoDocRef.updateData({'cromos': cromos_aluno});
-    return "cromos/aluno/$novo_cromo";
+    await alunoDocRef.updateData({'cromos': cromosAluno});
+    return "cromos/aluno/$novoCromo";
   }
   return null;
 }
@@ -111,62 +107,57 @@ giveCromoTurma(String turma) async {
   CollectionReference turmaRef = Firestore.instance.collection('turma');
   DocumentReference turmaDocRef = turmaRef.document(turma);
 
-  List cromos_turma = await turmaDocRef.get().then((snapshot) {
+  List cromosTurma = await turmaDocRef.get().then((snapshot) {
     List c = snapshot.data['cromos'];
     return c;
   });
 
-  if(cromos.length != cromos_turma.length){
-    String novo_cromo = cromos[Random().nextInt(cromos.length)];
-    while(cromos_turma.contains(novo_cromo)){
-      cromos.remove(novo_cromo);
-      novo_cromo = cromos[Random().nextInt(cromos.length)];
+  if (cromos.length != cromosTurma.length) {
+    String novoCromo = cromos[Random().nextInt(cromos.length)];
+    while (cromosTurma.contains(novoCromo)) {
+      cromos.remove(novoCromo);
+      novoCromo = cromos[Random().nextInt(cromos.length)];
     }
 
-    cromos_turma.add(novo_cromo);
+    cromosTurma.add(novoCromo);
 
-    await turmaDocRef.updateData({'cromos': cromos_turma});
-    return "cromos/turma/$novo_cromo";
+    await turmaDocRef.updateData({'cromos': cromosTurma});
+    return "cromos/turma/$novoCromo";
   }
   return null;
-
 }
 
-
-getCromosAluno() async{
-  List list_cromos;
-  DocumentReference documentReference = Firestore.instance.collection("cromos").document("cromos"); 
+//Funcções para ir buscar a lista de cromos existentes-----------
+getCromosAluno() async {
+  List listCromos;
+  DocumentReference documentReference =
+      Firestore.instance.collection("cromos").document("cromos");
   await documentReference.get().then((datasnapshot) async {
     if (datasnapshot.exists) {
       Cromos cromos = Cromos(
-        aluno: datasnapshot.data['aluno'] ?? [],
-        turma: datasnapshot.data['turma'] ?? []
-      );
-      list_cromos = cromos.aluno;
-    }
-    else{
+          aluno: datasnapshot.data['aluno'] ?? [],
+          turma: datasnapshot.data['turma'] ?? []);
+      listCromos = cromos.aluno;
+    } else {
       print("La se foram os cromos");
     }
   });
-  return list_cromos;
+  return listCromos;
 }
 
-
-
-getCromosTurma() async{
-  List list_cromos;
-  DocumentReference documentReference = Firestore.instance.collection("cromos").document("cromos"); 
+getCromosTurma() async {
+  List listCromos;
+  DocumentReference documentReference =
+      Firestore.instance.collection("cromos").document("cromos");
   await documentReference.get().then((datasnapshot) async {
     if (datasnapshot.exists) {
       Cromos cromos = Cromos(
-        aluno: datasnapshot.data['aluno'] ?? [],
-        turma: datasnapshot.data['turma'] ?? []
-      );
-      list_cromos = cromos.turma;
-    }
-    else{
+          aluno: datasnapshot.data['aluno'] ?? [],
+          turma: datasnapshot.data['turma'] ?? []);
+      listCromos = cromos.turma;
+    } else {
       print("La se foram os cromos");
     }
   });
-  return list_cromos;
+  return listCromos;
 }

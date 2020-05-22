@@ -1,5 +1,6 @@
-
 import 'package:app_criancas/models/mission.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../../../services/missions_api.dart';
@@ -31,6 +32,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   DateTime _end;
   int _counter;
   Mission mission;
+  int points;
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
         MissionsNotifier missionsNotifier =
             Provider.of<MissionsNotifier>(context, listen: false);
         mission = missionsNotifier.currentMission;
+        points = missionNotifier.currentMission.points;
         for (var a in mission.resultados) {
           if (a["aluno"] == _userID) {
             resultados = a;
@@ -298,19 +301,25 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
         });
   }
 
-  void _loadButton() {
-      updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
-      updateMissionCounterInFirestore(
-          missionNotifier.currentMission, _userID, _counter);
-      updateMissionQuizResultInFirestore(missionNotifier.currentMission, _userID, missionNotifier.currentScore);
-      
-      _end = DateTime.now();
-      _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
-      _timeVisited = _timeVisited + _timeSpentOnThisScreen;
-      updateMissionTimeAndCounterVisitedInFirestore(
-          mission, _userID, _timeVisited, _counterVisited);
-      Navigator.pop(context);
-      Navigator.pop(context);
+  Future<void> _loadButton() async {
+    if (_counter == 1) {
+      await updatePoints(_userID, points);
+    } else {
+      print('no points for you');
+    }
+    updateMissionDoneInFirestore(missionNotifier.currentMission, _userID);
+    updateMissionCounterInFirestore(
+        missionNotifier.currentMission, _userID, _counter);
+    updateMissionQuizResultInFirestore(
+        missionNotifier.currentMission, _userID, missionNotifier.currentScore);
+
+    _end = DateTime.now();
+    _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
+    _timeVisited = _timeVisited + _timeSpentOnThisScreen;
+    updateMissionTimeAndCounterVisitedInFirestore(
+        mission, _userID, _timeVisited, _counterVisited);
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   List<Widget> _listAnswers() {
@@ -342,7 +351,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 allQuestions[nQuestion].done = true;
                 updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = false;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
+                updateMissionQuizQuestionSuccess(
+                    allQuestions[nQuestion], _userID);
                 createDialogQuestion(context);
               }
             } else {
@@ -354,13 +364,15 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 allQuestions[nQuestion].done = true;
                 updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = true;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
+                updateMissionQuizQuestionSuccess(
+                    allQuestions[nQuestion], _userID);
                 nQuestion++;
               } else {
                 allQuestions[nQuestion].done = true;
                 updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
                 allQuestions[nQuestion].success = false;
-                updateMissionQuizQuestionSuccess(allQuestions[nQuestion], _userID);
+                updateMissionQuizQuestionSuccess(
+                    allQuestions[nQuestion], _userID);
                 createDialogQuestion(context);
               }
             }
@@ -488,7 +500,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                       createDialog(context);
                     } else {
                       nQuestion++;
-                      updateMissionQuizQuestionDone(allQuestions[nQuestion], _userID);
+                      updateMissionQuizQuestionDone(
+                          allQuestions[nQuestion], _userID);
                     }
                   });
                 },
@@ -521,5 +534,94 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
             ],
           );
         });
+  }
+
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != null) {
+      Image image;
+      await FirebaseStorage.instance
+          .ref()
+          .child(cromos[0])
+          .getDownloadURL()
+          .then((downloadUrl) {
+        image = Image.network(
+          downloadUrl.toString(),
+          fit: BoxFit.scaleDown,
+        );
+      });
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // retorna um objeto do tipo Dialog
+          return AlertDialog(
+            title: new Text("Ganhas-te um cromo para a tua caderneta"),
+            content: image,
+            actions: <Widget>[
+              // define os botões na base do dialogo
+              new FlatButton(
+                child: new Text("Fechar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    if (cromos[1] != null) {
+      Image image;
+      await FirebaseStorage.instance
+          .ref()
+          .child(cromos[1])
+          .getDownloadURL()
+          .then((downloadUrl) {
+        image = Image.network(
+          downloadUrl.toString(),
+          fit: BoxFit.scaleDown,
+        );
+      });
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // retorna um objeto do tipo Dialog
+          return AlertDialog(
+            title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+            content: image,
+            actions: <Widget>[
+              // define os botões na base do dialogo
+              new FlatButton(
+                child: new Text("Fechar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
