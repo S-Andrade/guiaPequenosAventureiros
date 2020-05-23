@@ -404,7 +404,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
   List<Widget> _listAnswers() {
     List<Widget> lines = [];
     List<Widget> buttons = [];
-    for (int n = 0; n < 4; n++) {
+    for (int n = 0; n < allAnswers.length; n++) {
       Widget button = MaterialButton(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
