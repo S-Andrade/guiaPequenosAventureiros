@@ -25,6 +25,7 @@ class AventuraDetails extends StatelessWidget {
             backgroundColor: Colors.transparent,
             title: Text(
               aventura.nome,
+              textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,

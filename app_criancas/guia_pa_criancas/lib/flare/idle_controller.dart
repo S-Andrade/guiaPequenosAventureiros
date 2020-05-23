@@ -94,23 +94,24 @@ class IdleControls extends FlareController {
 
   void changeShapeColour(int selectColour) {
     _fillBodyColor = availableColours[selectColour];
+//      _fillBodyColor = Color(selectColour);
 //    if _fillPineappleColor > Color(0x00E5E5E5);)
     // advance the controller
     isActive.value = true;
   }
 
-  void changeEye(int numberEyes) {
-    if (numberEyes == 1) {
+  void changeEye(String numberEyes) {
+    if (numberEyes == 'one_eye') {
       oneEyeOpacity = 1.0;
       twoEyesOpacity = 0.0;
       threeEyesOpacity = 0.0;
       multiEyesOpacity = 0.0;
-    } else if (numberEyes == 2) {
+    } else if (numberEyes == 'two_eyes') {
       oneEyeOpacity = 0.0;
       twoEyesOpacity = 1.0;
       threeEyesOpacity = 0.0;
       multiEyesOpacity = 0.0;
-    } else if (numberEyes == 3) {
+    } else if (numberEyes == 'three_eyes') {
       oneEyeOpacity = 0.0;
       twoEyesOpacity = 0.0;
       threeEyesOpacity = 1.0;
@@ -125,7 +126,7 @@ class IdleControls extends FlareController {
     isActive.value = true;
   }
 
-  void changeMouth(int selectedMouth) {
+  void changeMouth(String selectedMouth) {
     if (selectedMouth == 1) {
       sillyMouthOpacity = 1.0;
       vampireMouthOpacity = 0.0;

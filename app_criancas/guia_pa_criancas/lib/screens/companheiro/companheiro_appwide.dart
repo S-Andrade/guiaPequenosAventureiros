@@ -11,9 +11,16 @@ class CompanheiroAppwide extends StatefulWidget {
 }
 
 class CompanheiroAppwideState extends State<CompanheiroAppwide> {
-  IdleControls _controller;
   String userID;
+
+  // Companheiro
+  IdleControls _controller;
   Companheiro companheiro;
+  String numberEyes;
+  String companheiroMouth;
+  int companheiroColour;
+
+
 
   getComp() async {
     Companheiro tempCompanheiro = await getCompanheiro(userID);
@@ -28,35 +35,34 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
     Auth().getUser().then((user) {
       setState(() {
         userID = user.email;
+        getComp();
       });
     });
     getComp();
     super.initState();
   }
 
-//  void _setColour(int selectColour) {
+  void _setColour(int companheiroColour) {
+    setState(() {
+      _controller.changeShapeColour(companheiroColour);
+      _controller.isActive.value = true;
+    });
+  }
+
+  void _setEyes(String numberEyes) {
+    setState(() {
+      _controller.changeEye(numberEyes);
+      _controller.isActive.value = true;
+    });
+  }
+
+//  void _setMouth(String companheiroMouth) {
 //    setState(() {
-////      _controller.changeShapeColour(selectColour);
-////      _controller.isActive.value = true;
+//      _controller.changeMouth(companheiroMouth);
+//      _controller.isActive.value = true;
 //    });
 //  }
 
-// functions do creator
-//  void _selectEye(int numberEyes) {
-//    setState(() {
-//      effectsPlayer.play('cartoon_bubble_pop_007.mp3');
-//      _flareController.changeEye(numberEyes);
-//      _flareController.isActive.value = true;
-//    });
-//  }
-//  void _selectMouth(int selectedMouth) {
-//    setState(() {
-//      effectsPlayer.play('button_click_drop.mp3');
-//
-//      _flareController.changeMouth(selectedMouth);
-//      _flareController.isActive.value = true;
-//    });
-//  }
 //  void _selectBodyPart(int selectedBodyPart) {
 //    setState(() {
 //      effectsPlayer.play('button_click_drop.mp3');
@@ -87,25 +93,25 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
 
   @override
   Widget build(BuildContext context) {
-    print('the last printolas');
-    print(companheiro);
-    return Align(
-      alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FractionallySizedBox(
-          widthFactor: 0.3,
-          heightFactor: 0.2,
-          child: GestureDetector(
-            child: Text(''),
-//            FlareActor(
-//              "assets/animation/shapes3.flr",
-//              animation: "animation",
-//              fit: BoxFit.contain,
-//              alignment: Alignment.topCenter,
-//              controller: _controller,
-//              artboard: "square",
-//            ),
+    numberEyes = companheiro.eyes;
+    companheiroColour = companheiro.color;
+    _setEyes(numberEyes);
+    _setColour(companheiroColour);
+
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: FractionallySizedBox(
+        widthFactor: 0.3,
+        heightFactor: 0.2,
+        child: GestureDetector(
+          child:
+          FlareActor(
+            "assets/animation/shapes3.flr",
+            animation: "animation",
+            fit: BoxFit.contain,
+            alignment: Alignment.topCenter,
+            controller: _controller,
+            artboard: companheiro.shape,
           ),
         ),
       ),

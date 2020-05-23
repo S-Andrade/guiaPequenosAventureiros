@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import 'quiz_page_tablet.dart';
 import '../../../widgets/color_parser.dart';
@@ -24,63 +25,110 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: new Text('Quiz'),),
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/purple3.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Color(0xFF30246A), //change your color here
+          ),
+          title: Center(
+            child: Text(
+              "Quiz",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
+              ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Stack(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+                child: Align(
               alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                    top: 80,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            mission.title,
-                            style: TextStyle(
-                                fontSize: 70,
-                                fontFamily: 'Amatic SC',
-                                color: Colors.white,
-                                letterSpacing: 4),
-                          )
-                        ],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Text(
+                      mission.title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 36,
+                            color: Colors.white),
                       ),
-                    )),
-                Positioned(
-                  bottom: 200,
-                  child: new MaterialButton(
-                    height: 100,
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return QuizPage();
-                      }));
-                    },
-                    color: parseColor("#320a5c"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20.0)),
-                    child: new Text("Começar!",
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 50,
-                          fontFamily: 'Amatic SC',
-                          letterSpacing: 4,
-                        )),
+                    ),
                   ),
-                )
-              ],
+                  FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 65,
+                      child: FlatButton(
+
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return QuizPage();
+                          }));
+                        },
+                        color: parseColor("#320a5c"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                        child: Text(
+                          "COMEÇAR",
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+//                        height: 130,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
+                  ),
+                ),
+              ),
             ),
-          )),
+          ],
+        ),
+      ),
     );
   }
 }
