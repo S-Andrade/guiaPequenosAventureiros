@@ -1,21 +1,21 @@
 import 'dart:math';
 import 'package:app_criancas/models/cromos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //Funções para o ranking -------
 
 //FUNÇÕES DE UPDATE
+
 updatePontuacao(String aluno, int pontuacao) async {
-  List cromo_aluno = await updatePontuacaoAluno(aluno, pontuacao);
+  List cromoAluno = await updatePontuacaoAluno(aluno, pontuacao);
   print("aluno");
-  print(cromo_aluno);
-  List cromo_turma = await updatePontuacaoTurma(aluno, pontuacao);
+  print(cromoAluno);
+  List cromoTurma = await updatePontuacaoTurma(aluno, pontuacao);
   print("turma");
-  print(cromo_turma);
+  print(cromoTurma);
   List r = [];
-  r.add(cromo_aluno);
-  r.add(cromo_turma);
+  r.add(cromoAluno);
+  r.add(cromoTurma);
   return r;
 }
 
@@ -25,10 +25,10 @@ updatePontuacaoAluno(String aluno, int pontuacao) async {
   CollectionReference alunoRef = Firestore.instance.collection('aluno');
   DocumentReference alunoDocRef = alunoRef.document(aluno);
   await alunoDocRef.updateData({'pontuacao': novaPontuacao});
-  int n_cromos = howMany(100, pontos, novaPontuacao);
-  print(n_cromos);
+  int nCromos = howMany(100, pontos, novaPontuacao);
+  print(nCromos);
   List c = [];
-  for(int i = 0 ; i < n_cromos; i++){
+  for(int i = 0 ; i < nCromos; i++){
     c.add( await giveCromoAluno(aluno));
   }
   return c;
@@ -41,9 +41,9 @@ updatePontuacaoTurma(String aluno, int pontuacao) async {
   CollectionReference turmaRef = Firestore.instance.collection('turma');
   DocumentReference turmaDocRef = turmaRef.document(turma);
   await turmaDocRef.updateData({'pontuacao': novaPontuacao});
-  int n_cromos = howMany(1000, pontos, novaPontuacao);
+  int nCromos = howMany(1000, pontos, novaPontuacao);
   List c = [];
-  for(int i = 0 ; i < n_cromos; i++){
+  for(int i = 0 ; i < nCromos; i++){
     c.add(await giveCromoTurma(aluno));
   }
   return c;
@@ -147,7 +147,8 @@ giveCromoTurma(String turma) async {
   return null;
 }
 
-//Funcções para ir buscar a lista de cromos existentes-----------
+//Funções para ir buscar a lista de cromos existentes-----------
+
 getCromosAluno() async {
   List listCromos;
   DocumentReference documentReference =
