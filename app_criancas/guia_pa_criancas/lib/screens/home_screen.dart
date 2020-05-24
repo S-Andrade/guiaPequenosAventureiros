@@ -126,27 +126,27 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                 ]),
               ),
-//              bottomNavigationBar: BottomNavigationBar(
-////              type: BottomNavigationBarType.shifting,
-//                backgroundColor: Colors.transparent,
-//                selectedItemColor: Colors.black,
-//                unselectedItemColor: Colors.white,
-//                elevation: 0,
-//                items: const <BottomNavigationBarItem>[
-//                  BottomNavigationBarItem(
-//                    icon: Icon(Icons.home),
-//                    title: Text('Home'),
-//                  ),
-//                  BottomNavigationBarItem(
-//                    icon: Icon(Icons.business),
-//                    title: Text('Business'),
-//                  ),
-//                  BottomNavigationBarItem(
-//                    icon: Icon(Icons.school),
-//                    title: Text('School'),
-//                  ),
-//                ],
-//              ),
+              bottomNavigationBar: BottomNavigationBar(
+//              type: BottomNavigationBarType.shifting,
+                backgroundColor: Colors.transparent,
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.white,
+                elevation: 0,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    title: Text('Home'),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.business),
+                    title: Text('Business'),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.school),
+                    title: Text('School'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

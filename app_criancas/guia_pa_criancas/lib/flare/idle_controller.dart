@@ -127,7 +127,7 @@ class IdleControls extends FlareController {
   }
 
   void changeMouth(String selectedMouth) {
-    if (selectedMouth == 1) {
+    if (selectedMouth == 'silly') {
       sillyMouthOpacity = 1.0;
       vampireMouthOpacity = 0.0;
     } else {
@@ -136,19 +136,19 @@ class IdleControls extends FlareController {
     }
   }
 
-  void changeBodyPart(int selectBodyPart) {
-    if (selectBodyPart == 1){
+  void changeBodyPart(String selectBodyPart) {
+    if (selectBodyPart == 'bat_wings'){
       _fillWingsColor = _fillBodyColor;
     }
 
     isActive.value = true;
   }
 
-  void changeHeadTop(int selectedHeadTop){
-    if (selectedHeadTop == 1){
+  void changeHeadTop(String selectedHeadTop){
+    if (selectedHeadTop == 'antenas'){
       _fillAntenasColor = _fillBodyColor;
       _fillPineappleColor = Color(0x00E5E5E5);
-    } else if (selectedHeadTop == 2) {
+    } else if (selectedHeadTop == 'pineapple') {
       _fillPineappleColor = _fillBodyColor;
       _fillAntenasColor = Color(0x00E5E5E5);
 

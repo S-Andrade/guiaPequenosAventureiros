@@ -279,78 +279,90 @@ class _QuestionarioPageState extends State<QuestionarioPage>
       });
     }
 
-    return new Scaffold(
-      appBar: AppBar(
-        leading: new FlatButton(
-          child: Icon(Icons.close),
-          onPressed: () {
-            _close();
-          },
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/green_question.png"),
+          fit: BoxFit.cover,
         ),
       ),
-      body: Column(children: <Widget>[
-        Expanded(
-          child: Stepper(
-            steps: steps,
-            controlsBuilder: (BuildContext context,
-                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-              return Row(
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: onStepContinue,
-                    child: const Text('Próxima'),
-                  ),
-                  FlatButton(
-                    onPressed: onStepCancel,
-                    child: const Text('Anterior'),
-                  ),
-                ],
-              );
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: FlatButton(
+            child: Icon(Icons.close),
+            onPressed: () {
+              _close();
             },
-            type: StepperType.vertical,
-            currentStep: currentStep,
-            onStepContinue: next,
-            onStepTapped: (step) => goTo(step),
-            onStepCancel: cancel,
           ),
         ),
-        FlatButton(
-            child: new Text(
-              'Entregar',
-              style: TextStyle(color: Colors.black),
+        body: Column(children: <Widget>[
+          Expanded(
+            child: Stepper(
+              steps: steps,
+              controlsBuilder: (BuildContext context,
+                  {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                return Row(
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: onStepContinue,
+                      child: const Text('Próxima'),
+                    ),
+                    FlatButton(
+                      onPressed: onStepCancel,
+                      child: const Text('Anterior'),
+                    ),
+                  ],
+                );
+              },
+              type: StepperType.vertical,
+              currentStep: currentStep,
+              onStepContinue: next,
+              onStepTapped: (step) => goTo(step),
+              onStepCancel: cancel,
             ),
-            onPressed: () {
-              if (complete &&
-                  resposta != null &&
-                  feedback != null &&
-                  feedback != 'Arrasta para responder') {
-                updateMissionCounterInFirestore(
-                    missionNotifier.currentMission, _userID, 1);
-                updateMissionDoneInFirestore(
-                    missionNotifier.currentMission, _userID);
-                saveMissionMovementAndLightDataInFirestore(
-                    missionNotifier.currentMission,
-                    _userID,
-                    _movementData,
-                    _lightData);
-                for (StreamSubscription<dynamic> subscription
-                    in _streamSubscriptions) {
-                  subscription.cancel();
+          ),
+          FlatButton(
+              child: new Text(
+                'Entregar',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                if (complete &&
+                    resposta != null &&
+                    feedback != null &&
+                    feedback != 'Arrasta para responder') {
+                  updateMissionCounterInFirestore(
+                      missionNotifier.currentMission, _userID, 1);
+                  updateMissionDoneInFirestore(
+                      missionNotifier.currentMission, _userID);
+                  saveMissionMovementAndLightDataInFirestore(
+                      missionNotifier.currentMission,
+                      _userID,
+                      _movementData,
+                      _lightData);
+                  for (StreamSubscription<dynamic> subscription
+                      in _streamSubscriptions) {
+                    subscription.cancel();
+                  }
+                  stopListening();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return new AlertDialog(
+                            content: new Text(
+                                "Tens de preencher todas as questões antes de submeter :)"));
+                      });
                 }
-                stopListening();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              } else {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return new AlertDialog(
-                          content: new Text(
-                              "Tens de preencher todas as questões antes de submeter :)"));
-                    });
-              }
-            }),
-      ]),
+              }),
+        ]),
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ class Companheiro {
   String eyes;
   String headTop;
   String id;
+  String mouth;
   DocumentReference owner;
 
   Companheiro();
@@ -19,6 +20,7 @@ class Companheiro {
     headTop = data['head_top'] ?? '';
     id = data['id'] ?? '';
     owner = data['owner'] ?? '';
+    mouth = data['mouth'] ?? '';
   }
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class Companheiro {
       'head_top': headTop,
       'id': id,
       'owner': owner,
+      'mouth': mouth,
     };
   }
 }

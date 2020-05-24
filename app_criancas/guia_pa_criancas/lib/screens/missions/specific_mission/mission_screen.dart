@@ -32,13 +32,7 @@ class MissionScreen extends StatelessWidget {
     } else if (mission.type == 'Image') {
       return ImageScreenTabletPortrait(mission);
     } else if (mission.type == 'Text') {
-      return ScreenTypeLayout(
-          tablet: OrientationLayout(
-            portrait: TextScreenTabletPortrait(mission),
-          ),
-          mobile: OrientationLayout(
-            portrait: TextScreenMobilePortrait(mission),
-          ));
+      return TextScreenMobilePortrait(mission);
     } else if (mission.type == 'Audio') {
       return AudioScreenTabletPortrait(mission);
     } else if (mission.type == 'UploadVideo') {

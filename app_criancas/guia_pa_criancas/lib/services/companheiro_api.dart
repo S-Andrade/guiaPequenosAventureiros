@@ -29,6 +29,7 @@ getCompanheiro(String userEmail) async {
 //    companheiro.id = userEmail;
 //    companheiro.shape = shape;
 //    companheiro.owner = owner;
+//    companheiro.mouth = mouth;
 //    await companheiroDocRef.setData(companheiro.toMap());
 //  }
 //

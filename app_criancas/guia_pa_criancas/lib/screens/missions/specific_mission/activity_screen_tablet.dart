@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../models/activity.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
@@ -95,109 +97,140 @@ class _ActivityScreenTabletPortraitState
 
   @override
   Widget build(BuildContext context) {
+//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//      statusBarColor: Colors.transparent,
+//      systemNavigationBarColor: Colors.white,
+////      systemNavigationBarIconBrightness: Brightness.dark,
+//      statusBarIconBrightness: Brightness.light,
+//    ));
+
     List<Activity> activities = mission.content;
-  
-    return Scaffold(
-        body: Container(
+
+    return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage("assets/images/yellow2.png"),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: ListView(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    mission.title,
-                    style: TextStyle(
-                        fontSize: 70,
-                        fontFamily: 'Amatic SC',
-                        color: parseColor("#320a5c"),
-                        letterSpacing: 4),
-                  )
-                ],
+      child: Scaffold(
+          extendBody: true,
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Color(0xFF30246A), //change your color here
+            ),
+            title: Text(
+              mission.title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
               ),
             ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: List.generate(activities.length, (index) {
-        
-              
-                return Column(children: [
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesomeIcons.star),
-                        iconSize: 40,
-                        color: parseColor("#320a5c"),
-                        onPressed: null,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                            width: (activities[index].linkImage!=null) ? 370:600,
-                            child: Row(children: [
-                              Flexible(
-                                child: Text(
-                                  activities[index].description,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Amatic SC',
-                                      letterSpacing: 2,
-                                      fontSize: 40),
-                                ),
-                              ),
-                            ])),
-                      ),
-                       Container(
-                                  width: (activities[index].linkImage!=null) ? 300.0:10,
-                                  height: (activities[index].linkImage!=null) ? 300.0:10,
-                                  decoration: (activities[index].linkImage!=null) ? BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    
-                                    image: DecorationImage(
-                                      
-                                      image:new NetworkImage(activities[index].linkImage),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
-                                  :
-                                  BoxDecoration(
-                                   color:Colors.grey,
-                                  )
-                       ),
-                       
-                    ],
+          body: Stack(
+            children: [
+//              Text(
+//                mission.title,
+//              ),
+              Positioned(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.25,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                    ),
                   ),
-                ]);
-              }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 70.0, left: 300, right: 300),
-            child: MaterialButton(
-                child: setButton(),
-                onPressed: () {
-                  setState(() {
-                    _state = 1;
-                    _loadButton();
-                  });
-                },
-                height: 90,
-                color: parseColor('#320a5c'),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0))),
-          )
-        ],
-      ),
-    ));
+                ),
+              ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: Container(
+//                      height: 700,
+                      child: Column(
+//                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: ListView(
+                              children: <Widget>[
+                                Column(
+                                  children: List.generate(activities.length, (index) {
+                                    return Row(children: [
+                                        Flexible(
+                                          child: Text(
+                                            activities[index].description,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w900,
+                                                fontFamily: 'Amatic SC',
+                                                letterSpacing: 2,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          child: Align(
+                                            alignment: Alignment.topCenter,
+//                                      heightFactor: 0.4,
+//                                      widthFactor: 0.8,
+                                            child: (activities[index].linkImage != null)
+                                                ? Image(
+                                                    height: 150,
+                                                    image: NetworkImage(
+                                                        activities[index].linkImage),
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : Container(),
+                                          ),
+                                        ),
+                                    ]);
+                                  }),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FractionallySizedBox(
+                            widthFactor: 0.6,
+                            child: FlatButton(
+                                child: setButton(),
+                                onPressed: () {
+                                  setState(() {
+                                    _state = 1;
+                                    _loadButton();
+                                  });
+                                },
+                                color: parseColor('#320a5c'),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    new BorderRadius.circular(10.0))),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 
   Widget setButton() {
@@ -207,9 +240,8 @@ class _ActivityScreenTabletPortraitState
           "okay",
           style: const TextStyle(
             fontFamily: 'Amatic SC',
-            letterSpacing: 4,
             color: Colors.white,
-            fontSize: 40.0,
+            fontSize: 20.0,
           ),
         );
       } else
@@ -219,9 +251,8 @@ class _ActivityScreenTabletPortraitState
         "Feita",
         style: const TextStyle(
           fontFamily: 'Amatic SC',
-          letterSpacing: 4,
           color: Colors.white,
-          fontSize: 40.0,
+          fontSize: 20.0,
         ),
       );
     }

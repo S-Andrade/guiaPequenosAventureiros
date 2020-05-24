@@ -39,16 +39,14 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
           iconTheme: IconThemeData(
             color: Color(0xFF30246A), //change your color here
           ),
-          title: Center(
-            child: Text(
-              "Quiz",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24,
-                    color: Color(0xFF30246A)),
-              ),
+          title: Text(
+            "Quiz",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Color(0xFF30246A)),
             ),
           ),
           elevation: 0,

@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import '../../auth.dart';
 
-class CompanheiroAppwide extends StatefulWidget {
-  CompanheiroAppwideState createState() => CompanheiroAppwideState();
+class CompanheiroMessage extends StatefulWidget {
+  CompanheiroMessageState createState() => CompanheiroMessageState();
 }
 
-class CompanheiroAppwideState extends State<CompanheiroAppwide> {
+class CompanheiroMessageState extends State<CompanheiroMessage> {
   String userID;
 
   // Companheiro
@@ -103,23 +103,13 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
     _setMouth(companheiroMouth);
     _setBodyPart(companheiroBodyPart);
 
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: FractionallySizedBox(
-        widthFactor: 0.3,
-        heightFactor: 0.2,
-        child: GestureDetector(
-          child:
-          FlareActor(
-            "assets/animation/shapes3.flr",
-            animation: "animation",
-            fit: BoxFit.contain,
-            alignment: Alignment.topCenter,
-            controller: _controller,
-            artboard: companheiro.shape,
-          ),
-        ),
-      ),
+    return FlareActor(
+      "assets/animation/shapes3.flr",
+      animation: "animation",
+      fit: BoxFit.fitWidth,
+      alignment: Alignment.topCenter,
+      controller: _controller,
+      artboard: companheiro.shape,
     );
   }
 }

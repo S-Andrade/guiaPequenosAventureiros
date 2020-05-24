@@ -1,247 +1,12 @@
 import 'dart:async';
-
+import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
-
-
-
-class TextScreenTabletPortrait extends StatefulWidget {
-  Mission mission;
-
-  TextScreenTabletPortrait(this.mission);
-
-  @override
-  _TextScreenTabletPortraitState createState() =>
-      _TextScreenTabletPortraitState(mission);
-}
-
-class _TextScreenTabletPortraitState extends State<TextScreenTabletPortrait>
-     {
-  Mission mission;
-  int _state = 0;
-  DateTime _start;
-  DateTime _end;
-  int _timeSpentOnThisScreen;
-  int _timeVisited;
-  int _counterVisited;
-  DateTime _paused;
-  DateTime _returned;
-  int _totalPaused;
-  String _userID;
-  Map resultados;
-  bool _done;
-
-
-  _TextScreenTabletPortraitState(this.mission);
-
-  @override
-  void initState() {
-    Auth().getUser().then((user) {
-      setState(() {
-        _userID = user.email;
-        for (var a in mission.resultados) {
-          if (a["aluno"] == _userID) {
-            resultados = a;
-            _done = resultados["done"];
-            _counterVisited = resultados["counterVisited"];
-            _timeVisited = resultados["timeVisited"];
-          }
-        }
-      });
-    });
-
-    
-    _start = DateTime.now();
-    
-     super.initState();
-
-    
-  }
-
-
-  
-  
-
-  @override
-  void dispose() {
-    print('dispose');
-    
-    super.dispose();
-      
-   
-
-  }
-
-  AppLifecycleState state;
-
-  @override
-  void deactivate() {
-    _counterVisited = _counterVisited + 1;
-    _end = DateTime.now();
-    _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
-    _timeVisited = _timeVisited + _timeSpentOnThisScreen;
-    updateMissionTimeAndCounterVisitedInFirestore(
-        mission, _userID, _timeVisited, _counterVisited);
-    super.deactivate();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      _paused = DateTime.now();
-    } else if (state == AppLifecycleState.resumed) {
-      _returned = DateTime.now();
-    }
-
-    _totalPaused = _returned.difference(_paused).inSeconds;
-    _timeVisited = _timeVisited - _totalPaused;
-  }
-
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                    top: 80,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            mission.title,
-                            style: TextStyle(
-                                fontSize: 70,
-                                fontFamily: 'Amatic SC',
-                                color: Colors.white,
-                                letterSpacing: 4),
-                          )
-                        ],
-                      ),
-                    )),
-                Positioned(
-                    top: 340,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        height: 530,
-                        width: 630,
-                        color: parseColor('#320a5c'),
-                        child: Column(children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, right: 30, bottom: 30, top: 100),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Text(
-                                    mission.content,
-                                    style: TextStyle(
-                                        fontSize: 50,
-                                        color: Colors.white,
-                                        fontFamily: 'Amatic SC',
-                                        letterSpacing: 4),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                      ),
-                    )),
-                Positioned(
-                    top: 180,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image(
-                          height: 300.0,
-                          width: 320.0,
-                          image: AssetImage("assets/images/text.png"),
-                          fit: BoxFit.fill,
-                        ))),
-                Positioned(
-                  top: 920,
-                  child: MaterialButton(
-                      child: setButton(),
-                      onPressed: () {
-                        setState(() {
-                          _state = 1;
-                          _loadButton();
-                        });
-                      },
-                      height: 90,
-                      minWidth: 300,
-                      color: parseColor('#320a5c'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(20.0))),
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-
-  Widget setButton() {
-    if (_done == false) {
-      if (_state == 0) {
-        return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
-        );
-      } else
-        return ColorLoader();
-    } else {
-      return new Text(
-        "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
-      );
-    }
-  }
-
-  void _loadButton() {
-    if (_done == true) {
-      print('back');
-      Navigator.pop(context);
-    } else {
-      Timer(Duration(milliseconds: 3000), () {
-      updateMissionDoneInFirestore(mission, _userID);
-
-        Navigator.pop(context);
-      });
-    }
-  }
-}
-
-/////////// MOBILE PORTRAIT
 
 class TextScreenMobilePortrait extends StatefulWidget {
   Mission mission;
@@ -253,8 +18,7 @@ class TextScreenMobilePortrait extends StatefulWidget {
       _TextScreenMobilePortraitState(mission);
 }
 
-class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
-     {
+class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
   Mission mission;
   int _state = 0;
   DateTime _start;
@@ -268,8 +32,6 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
   String _userID;
   Map resultados;
   bool _done;
-
-  
 
   _TextScreenMobilePortraitState(this.mission);
 
@@ -289,29 +51,16 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
       });
     });
 
-    
     _start = DateTime.now();
 
     super.initState();
-
-      
-
-  
-    
-      
- 
-   
   }
 
-
-  
-  
   @override
   void dispose() {
     print('dispose');
-  
+
     super.dispose();
-    
   }
 
   AppLifecycleState state;
@@ -341,97 +90,143 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/blue.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Color(0xFF30246A), //change your color here
+          ),
+          title: Flexible(
+            child: Text(
+              'Mensagem',
+//              mission.title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
+              ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                    top: 40,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            mission.title,
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontFamily: 'Amatic SC',
-                                color: Colors.white,
-                                letterSpacing: 4),
-                          )
-                        ],
-                      ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+//                        height: 130,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
                     )),
-                Positioned(
-                    top: 140,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        height: 370,
-                        width: 330,
-                        color: parseColor('#320a5c'),
-                        child: Column(children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, right: 30, bottom: 30, top: 50),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Text(
-                                    mission.content,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontFamily: 'Amatic SC',
-                                        letterSpacing: 4),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+                child: Align(
+              alignment: Alignment.center,
+              child: FractionallySizedBox(
+                widthFactor: 0.9,
+                heightFactor: 0.6,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          mission.title,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 28,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(20)),
+                            color: Colors.white.withOpacity(0.6),
+                          ),
+//                        height: 500,
+                          child: Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Flexible(
+                              child: Center(
+                                child: Text(
+                                  mission.content,
+                                  style: GoogleFonts.pangolin(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 22,
+                                        color: Colors.black),
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ]),
+                        ),
                       ),
-                    )),
-                Positioned(
-                    top: 60,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image(
-                          height: 150.0,
-                          width: 170.0,
-                          image: AssetImage("assets/images/text.png"),
-                          fit: BoxFit.fill,
-                        ))),
-                Positioned(
-                  top: 560,
-                  child: MaterialButton(
-                      child: setButton(),
-                      onPressed: () {
-                        setState(() {
-                          _state = 1;
-                          _loadButton();
-                        });
-                      },
-                      height: 50,
-                      minWidth: 100,
-                      color: parseColor('#320a5c'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(20.0))),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.5,
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: FlatButton(
+                                child: setButton(),
+                                onPressed: () {
+                                  setState(() {
+                                    _state = 1;
+                                    _loadButton();
+                                  });
+                                },
+                                color: Colors.indigo,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(10.0))),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
+            )),
+            Positioned(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                      widthFactor: 0.6,
+//                      heightFactor:0.4 ,
+                      child: CompanheiroMessage())),
             ),
-          )),
+          ],
+        ),
+      ),
     );
   }
 
@@ -439,26 +234,26 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 20.0,
-          ),
+          "Okay",
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+              ),),
         );
       } else
         return ColorLoader();
     } else {
       return new Text(
         "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
+          style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 20,
           color: Colors.white,
-          fontSize: 20.0,
-        ),
-      );
+      ),
+      ),);
     }
   }
 
@@ -467,11 +262,9 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
       print('back');
       Navigator.pop(context);
     } else {
-       
       Timer(Duration(milliseconds: 3000), () {
-       
         updateMissionDoneInFirestore(mission, _userID);
-       
+
         Navigator.pop(context);
       });
     }
