@@ -229,10 +229,10 @@ final _textPontos = TextEditingController();
                                   maxLengthEnforced: true,
                                   style: TextStyle(
                                       color: Colors.black,
-                                     
+                                     fontWeight: FontWeight.w900,
                                       fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
-                                      fontSize: 20),
+                                      fontSize: 15),
                                   maxLines: 4,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),

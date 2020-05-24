@@ -135,7 +135,7 @@ class _CreateQuestionarioQuestionState
                         width: 40.0,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width / 5.0,
+                        width: MediaQuery.of(context).size.width / 4.0,
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.0),

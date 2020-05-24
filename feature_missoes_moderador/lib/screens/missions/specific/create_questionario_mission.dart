@@ -137,13 +137,13 @@ class _CreateQuestionarioMissionScreenState
                 ),
                 Container(
                     padding:
-                        EdgeInsets.only(top: 50.0, left: 40.0, bottom: 10.0,right: 10),
+                        EdgeInsets.only(top: 50.0, left: 70.0, bottom: 10.0),
                     child: Column(children: <Widget>[
                       LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 260.0),
+                            padding: const EdgeInsets.only(right: 0.0),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -207,7 +207,7 @@ class _CreateQuestionarioMissionScreenState
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 260.0),
+                            padding: const EdgeInsets.only(right: 0.0),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -273,7 +273,7 @@ class _CreateQuestionarioMissionScreenState
                       ),
                       SizedBox(height: 30.0),
                       Padding(
-                          padding: const EdgeInsets.only(right:180.0),
+                          padding: const EdgeInsets.only(right:0.0),
                           child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,

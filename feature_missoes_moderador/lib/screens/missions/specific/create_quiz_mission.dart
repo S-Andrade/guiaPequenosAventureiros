@@ -132,7 +132,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 260.0),
+                            padding: const EdgeInsets.only(right: 0.0),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -196,7 +196,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 260.0),
+                            padding: const EdgeInsets.only(right: 00.0,left:0),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -264,7 +264,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                         height: 10,
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(right:260.0),
+                          padding: const EdgeInsets.only(right:0.0,top:10),
                           child: Container(width:480,
 
                               decoration: BoxDecoration(
