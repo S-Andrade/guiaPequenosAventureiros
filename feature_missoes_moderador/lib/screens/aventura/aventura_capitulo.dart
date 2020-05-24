@@ -50,7 +50,7 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
                         ),
                       ),
                     ),Padding(
-                      padding: const EdgeInsets.only(top:70.0),
+                      padding: const EdgeInsets.only(top:100.0,bottom:30),
                       child: Container(
                   child: CapituloList(aventura: aventura)),
                     ),]

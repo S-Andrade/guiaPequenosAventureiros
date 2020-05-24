@@ -1,5 +1,6 @@
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'capitulo.dart';
 import '../aventura/aventura.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,7 +38,7 @@ class CapituloTile extends StatelessWidget {
                                     capitulo: capitulo, aventura: aventura)));
                       },
                       child: Container(
-                        height: 580,
+                        height: 430,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -50,12 +51,22 @@ class CapituloTile extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Flexible(
-                                      child: Text("Capítulo " + index.toString(),
+                                      child: Text(
+                                          "Capítulo " + index.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontSize: 70.0,
+                                              fontSize: 40.0,
                                               color: Colors.black,
                                               fontFamily: 'Amatic SC')),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:408.0),
+                                      child: IconButton(
+                                          icon: Icon(FontAwesomeIcons.unlock),
+                                          iconSize: 30,
+                                          color: Colors.red,
+                                          tooltip: 'Desbloquear',
+                                          onPressed: () {}),
                                     ),
                                   ],
                                 ),

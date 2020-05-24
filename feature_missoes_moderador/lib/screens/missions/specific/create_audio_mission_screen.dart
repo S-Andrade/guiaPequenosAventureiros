@@ -88,16 +88,16 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 60.0,
+                            height: 0.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 50.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 0.0, bottom: 5.0),
                             child: Text(
                               "Enviar um áudio",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -358,7 +358,7 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
                                 : Container()),
                       ]),
                       SizedBox(
-                        height: 70.0,
+                        height: 40.0,
                       ),
                       Row(
                         children: <Widget>[

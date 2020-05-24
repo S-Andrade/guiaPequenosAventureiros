@@ -31,7 +31,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                           Padding(
-                            padding: const EdgeInsets.only(right:380.0,top:50),
+                            padding: const EdgeInsets.only(right:300.0,top:50),
                             child: FlatButton(
                               color:parseColor("F4F19C"),
                               onPressed: () {
@@ -49,7 +49,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                             ),
                           ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 50),
+                      padding: const EdgeInsets.only(top: 30.0, bottom: 30),
                       child: Text(
                         "Resultados gerais da turma " +
                             turma.nome +
@@ -57,7 +57,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w900,
-                            fontSize: 30,
+                            fontSize: 20,
                             fontFamily: 'Amatic SC',
                             letterSpacing: 3),
                       ),
@@ -75,7 +75,7 @@ class ResultsTurmaByMission extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
-                height: 350,
+                height: 300,
                 width: 1000,
                 child: Row(children: [
                   Expanded(
@@ -140,7 +140,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                                         color: Colors.black,
                                         fontFamily: 'Monteserrat',
                                         letterSpacing: 2,
-                                        fontSize: 20),
+                                        fontSize: 15),
                                   ),
                                 ),
                                 decoration: BoxDecoration(

@@ -48,16 +48,16 @@ final _textPontos = TextEditingController();
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 60.0,
+                            height: 30.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 50.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
                             child: Text(
                               "Enviar uma mensagem de texto",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -102,7 +102,7 @@ final _textPontos = TextEditingController();
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 0.0, left: 70.0, bottom: 30.0),
+                  padding: EdgeInsets.only(top: 20.0, left: 70.0, bottom: 30.0),
                   child: Column(
                     children: <Widget>[
                       LayoutBuilder(

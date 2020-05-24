@@ -68,13 +68,13 @@ final _textPontos = TextEditingController();
             ),
                  
                   child: Padding(
-                    padding: EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
+                    padding: EdgeInsets.only(top: 15.0, right: 50.0, left: 50.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 60.0,
+                            height: 30.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 50.0, bottom: 5.0),
@@ -83,7 +83,7 @@ final _textPontos = TextEditingController();
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -251,7 +251,7 @@ final _textPontos = TextEditingController();
                           );
                         },
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
@@ -394,7 +394,7 @@ final _textPontos = TextEditingController();
                       ),
 
                       SizedBox(
-                        height: 70.0,
+                        height: 20.0,
                       ),
                       Row(
                         children: <Widget>[

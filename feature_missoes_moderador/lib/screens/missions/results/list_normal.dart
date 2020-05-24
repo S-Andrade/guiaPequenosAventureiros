@@ -66,7 +66,7 @@ class _ResultsByMissionNormalForTurmaState
               Row(
                               children:[ 
                                       Padding(
-                                        padding: const EdgeInsets.only(top:50.0,bottom:20,right:100,left:50),
+                                        padding: const EdgeInsets.only(top:50.0,bottom:20,right:40,left:50),
                                         child: FlatButton(
                             color:parseColor("F4F19C"),
                             onPressed: () {
@@ -96,7 +96,7 @@ class _ResultsByMissionNormalForTurmaState
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
-                        fontSize: 20,
+                        fontSize: 15,
                         fontFamily: 'Monteserrat',
                         letterSpacing: 2),
                   ),
@@ -125,22 +125,22 @@ class _ResultsByMissionNormalForTurmaState
                         ]),
                     child: Row(children: [
                       Text(
-                        '                Aluno                  Missão feita      Tempo passado na missão         Nº de vezes que entrou        ',
+                        '         Aluno                      Missão feita         Tempo passado na missão         Visitas        ',
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Monteserrat',
                             letterSpacing: 2,
-                            fontSize: 15),
+                            fontSize: 13),
                       ),
                       Text(
                         (mission.type == "Video")
-                            ? "Nº de vezes que não esteve atento"
+                            ? "    Nº de vezes que \nnão esteve atento"
                             : "",
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Monteserrat',
                             letterSpacing: 2,
-                            fontSize: 15),
+                            fontSize: 13),
                       )
                     ])),
               ),
@@ -178,8 +178,8 @@ class _ResultsByMissionNormalForTurmaState
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 30),
                                     child: Container(
-                                      height: 100,
-                                      width: 170,
+                                      height: 70,
+                                      width: 140,
                                       child: Center(
                                         child: Text(
                                           alunos[index],
@@ -187,7 +187,7 @@ class _ResultsByMissionNormalForTurmaState
                                               color: Colors.black,
                                               fontFamily: 'Monteserrat',
                                               letterSpacing: 2,
-                                              fontSize: 20),
+                                              fontSize: 15),
                                         ),
                                       ),
                                     ),
@@ -198,8 +198,8 @@ class _ResultsByMissionNormalForTurmaState
                                         builder: (BuildContext) => results[
                                                 alunos[index]]['done']
                                             ? Container(
-                                                height: 80,
-                                                width: 130,
+                                                height: 60,
+                                                width: 100,
                                                 child: Center(
                                                   child: Text("Feita",
                                                       style: TextStyle(
@@ -207,7 +207,7 @@ class _ResultsByMissionNormalForTurmaState
                                                           fontFamily:
                                                               'Monteserrat',
                                                           letterSpacing: 2,
-                                                          fontSize: 20)),
+                                                          fontSize: 15)),
                                                 ),
                                                 decoration: BoxDecoration(
                                                     color: Colors.green[300],
@@ -230,7 +230,7 @@ class _ResultsByMissionNormalForTurmaState
                                                     ]),
                                               )
                                             : Container(
-                                                height: 80,
+                                                height: 60,
                                                 child: Center(
                                                   child: Text("Não feita",
                                                       style: TextStyle(
@@ -238,9 +238,9 @@ class _ResultsByMissionNormalForTurmaState
                                                           fontFamily:
                                                               'Monteserrat',
                                                           letterSpacing: 2,
-                                                          fontSize: 20)),
+                                                          fontSize: 15)),
                                                 ),
-                                                width: 130,
+                                                width: 100,
                                                 decoration: BoxDecoration(
                                                     color: Colors.red[300],
                                                     borderRadius:
@@ -288,12 +288,12 @@ class _ResultsByMissionNormalForTurmaState
                                               letterSpacing: 2,
                                               fontSize: 20)),
                                       circularStrokeCap: CircularStrokeCap.butt,
-                                      backgroundColor: Colors.grey[200],
+                                      backgroundColor: Colors.yellow,
                                       progressColor: parseColor("#E04C36"),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 120.0),
+                                    padding: const EdgeInsets.only(left: 50.0),
                                     child: Text(
                                         "Entrou " +
                                             results[alunos[index]]
@@ -304,7 +304,7 @@ class _ResultsByMissionNormalForTurmaState
                                             color: Colors.black,
                                             fontFamily: 'Monteserrat',
                                             letterSpacing: 2,
-                                            fontSize: 20)),
+                                            fontSize: 15)),
                                   ),
                                   new Builder(
                                     builder: (BuildContext) => (mission.type ==
@@ -312,7 +312,7 @@ class _ResultsByMissionNormalForTurmaState
                                         ? Row(children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 130.0),
+                                                  left: 50.0),
                                               child: results[alunos[index]]
                                                       ['done']
                                                   ? Text(
@@ -325,7 +325,7 @@ class _ResultsByMissionNormalForTurmaState
                                                           fontFamily:
                                                               'Monteserrat',
                                                           letterSpacing: 2,
-                                                          fontSize: 20))
+                                                          fontSize: 15))
                                                   : Text(""),
                                             ),
                                             new Builder(

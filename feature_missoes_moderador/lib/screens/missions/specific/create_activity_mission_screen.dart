@@ -13,24 +13,20 @@ import 'package:feature_missoes_moderador/models/activity.dart';
 import 'dart:io';
 import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 
-
-
 class CreateActivityMissionScreen extends StatefulWidget {
-  
   Aventura aventuraId;
   Capitulo capitulo;
 
-  CreateActivityMissionScreen(this.capitulo,this.aventuraId);
+  CreateActivityMissionScreen(this.capitulo, this.aventuraId);
 
   @override
   _CreateActivityMissionScreenState createState() =>
-      _CreateActivityMissionScreenState(this.capitulo,this.aventuraId);
+      _CreateActivityMissionScreenState(this.capitulo, this.aventuraId);
 }
 
 class _CreateActivityMissionScreenState
     extends State<CreateActivityMissionScreen> {
-  _CreateActivityMissionScreenState(this.capitulo,this.aventuraId);
-
+  _CreateActivityMissionScreenState(this.capitulo, this.aventuraId);
 
   Aventura aventuraId;
   Capitulo capitulo;
@@ -38,8 +34,8 @@ class _CreateActivityMissionScreenState
   final _formKey = GlobalKey<FormState>();
   final _text = TextEditingController();
   final _text2 = TextEditingController();
-String _pontos;
-final _textPontos = TextEditingController();
+  String _pontos;
+  final _textPontos = TextEditingController();
   List<Activity> activities;
   NetworkImage _image;
   File _imageFile;
@@ -55,7 +51,7 @@ final _textPontos = TextEditingController();
     if (image != null)
       setState(() {
         _imageFile = image;
-        
+
         _loaded = true;
       });
   }
@@ -63,7 +59,7 @@ final _textPontos = TextEditingController();
   @override
   void initState() {
     super.initState();
-    activities=[];
+    activities = [];
     _imageExists = false;
     _loaded = false;
   }
@@ -87,20 +83,20 @@ final _textPontos = TextEditingController();
                   width: MediaQuery.of(context).size.width / 2.8,
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/26.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/26.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   child: Padding(
                     padding:
-                        EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
+                        EdgeInsets.only(top: 10.0, right: 50.0, left: 20.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 0.0,
+                            height: 30.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 0.0, bottom: 15.0),
@@ -109,17 +105,17 @@ final _textPontos = TextEditingController();
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           SizedBox(
-                            height: 100.0,
+                            height: 20.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 50.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 10.0, bottom: 5.0),
                             child: Text(
                               "Nesta secção, poderão ser criadas as instruções para a realização de uma atividade.",
                               style: TextStyle(
@@ -135,7 +131,7 @@ final _textPontos = TextEditingController();
                             height: 100.0,
                           ),
                           FlatButton(
-                            color:parseColor("F4F19C"),
+                            color: parseColor("F4F19C"),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -143,7 +139,6 @@ final _textPontos = TextEditingController();
                               "Voltar atrás",
                               style: TextStyle(
                                   color: Colors.black,
-                                 
                                   fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
                                   fontSize: 20),
@@ -155,8 +150,7 @@ final _textPontos = TextEditingController();
                   ),
                 ),
                 Container(
-                  padding:
-                      EdgeInsets.only(top: 50.0, left: 70.0, bottom: 30.0),
+                  padding: EdgeInsets.only(top: 20.0, left: 30.0, bottom: 30.0),
                   child: Column(
                     children: <Widget>[
                       LayoutBuilder(
@@ -171,7 +165,6 @@ final _textPontos = TextEditingController();
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.black,
-                                    
                                       fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
                                       fontSize: 20),
@@ -231,7 +224,6 @@ final _textPontos = TextEditingController();
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.black,
-                                     
                                       fontFamily: 'Monteserrat',
                                       letterSpacing: 2,
                                       fontSize: 20),
@@ -249,7 +241,9 @@ final _textPontos = TextEditingController();
                                 ),
                                 child: TextField(
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                                  inputFormatters: [
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                  ],
                                   controller: _textPontos,
                                   onChanged: (value) {
                                     _pontos = value;
@@ -271,7 +265,8 @@ final _textPontos = TextEditingController();
                                       ),
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
-                                    hintText: "Insira os pontos que esta missão vale",
+                                    hintText:
+                                        "Insira os pontos que esta missão vale",
                                     fillColor: Colors.blue[50],
                                   ),
                                 ),
@@ -296,25 +291,27 @@ final _textPontos = TextEditingController();
                             child: Column(children: [
                               Container(
                                 height: 300,
-                                width: 700,
-                                child:ListView(
+                                width: 400,
+                                child: ListView(
                                   children:
-                                      List.generate(activities.length, (index) { 
+                                      List.generate(activities.length, (index) {
                                     return Column(children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: <Widget>[
                                             IconButton(
-                                              icon: Icon(FontAwesomeIcons.check),
+                                              icon:
+                                                  Icon(FontAwesomeIcons.check),
                                               iconSize: 20,
                                               color: Colors.blue,
                                               onPressed: null,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(20.0),
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
                                               child: Container(
-                                                  width: 400,
+                                                  width: 300,
                                                   child: Row(children: [
                                                     Flexible(
                                                       child: Text(
@@ -334,7 +331,9 @@ final _textPontos = TextEditingController();
                                             ),
                                             new Builder(
                                                 builder: (BuildContext) =>
-                                                    (activities[index].linkImage!=null)
+                                                    (activities[index]
+                                                                .linkImage !=
+                                                            null)
                                                         ? Container(
                                                             width: 100.0,
                                                             height: 100.0,
@@ -350,17 +349,20 @@ final _textPontos = TextEditingController();
                                                                     activities[
                                                                             index]
                                                                         .linkImage),
-                                                                fit: BoxFit.fill,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                               ),
                                                             ),
                                                           )
                                                         : Container()),
                                             Padding(
-                                              padding: const EdgeInsets.only(left:10.0),
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
                                               child: IconButton(
-                                                icon: Icon(FontAwesomeIcons.trash),
+                                                icon: Icon(
+                                                    FontAwesomeIcons.trash),
                                                 iconSize: 20,
-                                                color:Colors.red,
+                                                color: Colors.red,
                                                 onPressed: () {
                                                   setState(() {
                                                     activities.removeAt(index);
@@ -376,32 +378,42 @@ final _textPontos = TextEditingController();
                                 ),
                               ),
                               Container(
-                                child: Column(children:[
-                                  Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Container(width:400,height:1,color:Colors.black),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right:340,top:10,bottom:10),
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [Text("Adicione aqui cada instrução: ",style:TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w900,
-                                                      fontFamily: 'Monteserrat',
-                                                      color: Colors.black,
-                                                      letterSpacing: 2),)]),
-                                  ),
+                                  child: Column(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Container(
+                                      width: 300,
+                                      height: 1,
+                                      color: Colors.black),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 140, top: 10, bottom: 10),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Adicione aqui cada instrução: ",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: 'Monteserrat',
+                                              color: Colors.black,
+                                              letterSpacing: 2),
+                                        )
+                                      ]),
+                                ),
                                 Row(children: [
                                   Container(
                                     height: 100,
-                                    width: 640,
                                     child: Row(
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.all(15.0),
                                           child: Container(
                                             height: 150,
-                                            width: 250,
+                                            width: 200,
                                             child: TextField(
                                               controller: _text2,
                                               onChanged: (value) {
@@ -413,7 +425,6 @@ final _textPontos = TextEditingController();
                                                   color: Colors.black,
                                                   fontFamily: 'Monteserrat',
                                                   letterSpacing: 2,
-                                                 
                                                   fontSize: 20),
                                               maxLines: 7,
                                               decoration: InputDecoration(
@@ -424,7 +435,8 @@ final _textPontos = TextEditingController();
                                                     color: Colors.blue[50],
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.circular(5.0),
+                                                      BorderRadius.circular(
+                                                          5.0),
                                                 ),
                                                 hintText: "Descrição",
                                                 fillColor: Colors.blue[50],
@@ -456,41 +468,42 @@ final _textPontos = TextEditingController();
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 0.0,right: 20.0),
+                                          padding: const EdgeInsets.only(
+                                              left: 0.0, right: 10.0),
                                           child: new Builder(
                                               builder: (BuildContext) => _loaded
                                                   ? new Icon(
                                                       FontAwesomeIcons
                                                           .checkCircle,
                                                       color: Colors.green,
-                                                      size: 30.0,
+                                                      size: 20.0,
                                                     )
                                                   : Container()),
                                         ),
                                         IconButton(
-                                          icon: Icon(FontAwesomeIcons.plusCircle,color: parseColor("#FFCE02")),
+                                          icon: Icon(
+                                              FontAwesomeIcons.plusCircle,
+                                              color: parseColor("#FFCE02")),
                                           onPressed: () async {
                                             if (_imageFile != null &&
                                                 _description != null) {
-                                                
                                               String link =
                                                   await uploadImageToFirebaseStorage(
                                                       _imageFile);
 
                                               Activity a = new Activity(
-                                                  "",_description,link);
+                                                  "", _description, link);
 
                                               setState(() {
                                                 activities.add(a);
-                                                _imageFile=null;
+                                                _imageFile = null;
                                                 _loaded = false;
                                                 _text2.clear();
                                               });
-                                            } else if (_description != null && _imageFile==null) {
-                                            
+                                            } else if (_description != null &&
+                                                _imageFile == null) {
                                               Activity a = new Activity(
-                                                  "",_description);
+                                                  "", _description);
 
                                               setState(() {
                                                 activities.add(a);
@@ -502,7 +515,6 @@ final _textPontos = TextEditingController();
                                                   "Insira, pelo menos, uma descrição!",
                                                   style: TextStyle(
                                                       color: Colors.black,
-                                                  
                                                       fontFamily: 'Monteserrat',
                                                       letterSpacing: 2,
                                                       fontSize: 20),
@@ -518,7 +530,9 @@ final _textPontos = TextEditingController();
                                                 },
                                               );
                                               Timer(Duration(seconds: 2), () {
-                                                Navigator.of(context, rootNavigator: true).pop();
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
                                               });
                                             }
                                           },
@@ -528,12 +542,12 @@ final _textPontos = TextEditingController();
                                       ],
                                     ),
                                   ),
-                                ]),])
-                              )
+                                ]),
+                              ]))
                             ]),
                           )),
                       SizedBox(
-                        height: 20.0,
+                        height: 10.0,
                       ),
                       Row(
                         children: <Widget>[
@@ -546,9 +560,11 @@ final _textPontos = TextEditingController();
                           FlatButton(
                             color: const Color(0xff72d8bf),
                             onPressed: () async {
-                       
-                              if (_text.text.length > 0 && activities.length!=0 && _textPontos.text.length>0)
-                                showConfirmar(context, _titulo, activities,int.parse(_pontos));
+                              if (_text.text.length > 0 &&
+                                  activities.length != 0 &&
+                                  _textPontos.text.length > 0)
+                                showConfirmar(context, _titulo, activities,
+                                    int.parse(_pontos));
                               else
                                 await showError();
                             },
@@ -556,7 +572,6 @@ final _textPontos = TextEditingController();
                               "Submeter missão",
                               style: TextStyle(
                                   color: Colors.black,
-                                  
                                   fontFamily: 'Monteserrat',
                                   letterSpacing: 2,
                                   fontSize: 20),
@@ -575,13 +590,12 @@ final _textPontos = TextEditingController();
     );
   }
 
-  showError() async{
+  showError() async {
     AlertDialog alerta = AlertDialog(
       title: Text(
         "Falta inserir um título ou criar, pelo menos, uma atividade!",
         style: TextStyle(
             color: Colors.black,
-         
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
@@ -589,7 +603,7 @@ final _textPontos = TextEditingController();
     );
 
     // exibe o dialog
-  showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -601,22 +615,18 @@ final _textPontos = TextEditingController();
     });
   }
 
-  showConfirmar(
-    
-      BuildContext context, String titulo, List<Activity> activities,int pontos) {
-    
-   final popup = BeautifulPopup.customize(
-  context: context,
-  build: (options) => MyTemplateConfirmation(options),
-);
-    
-    
+  showConfirmar(BuildContext context, String titulo, List<Activity> activities,
+      int pontos) {
+    final popup = BeautifulPopup.customize(
+      context: context,
+      build: (options) => MyTemplateConfirmation(options),
+    );
+
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
         style: TextStyle(
             color: Colors.black,
-  
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
@@ -631,20 +641,21 @@ final _textPontos = TextEditingController();
         "Sim",
         style: TextStyle(
             color: Colors.black,
-       
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
       ),
       onPressed: () {
-        createMissionActivityInFirestore(titulo, activities,aventuraId.id,capitulo.id,pontos);
-        Navigator.of(context,rootNavigator:true).push(
-            MaterialPageRoute(builder: (_) => TabBarMissions(capitulo:capitulo,aventura:aventuraId)));
+        createMissionActivityInFirestore(
+            titulo, activities, aventuraId.id, capitulo.id, pontos);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) =>
+                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
       },
     );
 
     popup.show(
-      close:Container(),
+      close: Container(),
       title: Text(
         "",
         style: TextStyle(
@@ -658,7 +669,6 @@ final _textPontos = TextEditingController();
         "\nTem a certeza que pretende submeter?",
         style: TextStyle(
             color: Colors.black,
-       
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
@@ -668,7 +678,5 @@ final _textPontos = TextEditingController();
         continuaButton,
       ],
     );
-
-    
   }
 }

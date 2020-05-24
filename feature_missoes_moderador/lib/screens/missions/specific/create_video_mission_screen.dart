@@ -79,7 +79,7 @@ final _textPontos = TextEditingController();
               ),
             ),
                   child: Padding(
-                    padding: EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
+                    padding: EdgeInsets.only(top: 50.0, right: 50.0, left: 50.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
@@ -92,7 +92,7 @@ final _textPontos = TextEditingController();
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -354,7 +354,7 @@ final _textPontos = TextEditingController();
                                 : Container()),
                       ]),
                       SizedBox(
-                        height: 70.0,
+                        height: 30.0,
                       ),
                       Row(
                         children: <Widget>[

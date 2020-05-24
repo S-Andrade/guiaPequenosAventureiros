@@ -83,7 +83,7 @@ class _ResultsByMissionQuizForTurmaState
                 Row(children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 50.0, bottom: 20, right: 100, left: 50),
+                        top: 50.0, bottom: 20, right: 20, left: 50),
                     child: FlatButton(
                       color: parseColor("F4F19C"),
                       onPressed: () {
@@ -112,7 +112,7 @@ class _ResultsByMissionQuizForTurmaState
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
-                          fontSize: 20,
+                          fontSize: 15,
                           fontFamily: 'Monteserrat',
                           letterSpacing: 2),
                     ),
@@ -141,12 +141,12 @@ class _ResultsByMissionQuizForTurmaState
                           ]),
                       child: Row(children: [
                         Text(
-                          '                Aluno                    Missão feita      Tempo passado na missão           Nº de vezes que entrou               Último score ',
+                          '      Aluno                    Missão feita      Tempo passado na missão        Visitas                 Último score ',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 17),
+                              fontSize: 15),
                         )
                       ])),
                 ),
@@ -182,10 +182,10 @@ class _ResultsByMissionQuizForTurmaState
                                   child: Row(children: [
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 50.0, right: 30),
+                                          left: 20.0, right: 30),
                                       child: Container(
-                                        height: 100,
-                                        width: 170,
+                                        height: 70,
+                                        width: 140,
                                         child: Center(
                                           child: Text(
                                             alunos[index],
@@ -193,7 +193,7 @@ class _ResultsByMissionQuizForTurmaState
                                                 color: Colors.black,
                                                 fontFamily: 'Monteserrat',
                                                 letterSpacing: 2,
-                                                fontSize: 20),
+                                                fontSize: 15),
                                           ),
                                         ),
                                       ),
@@ -204,8 +204,8 @@ class _ResultsByMissionQuizForTurmaState
                                           builder: (BuildContext) => results[
                                                   alunos[index]]['done']
                                               ? Container(
-                                                  height: 80,
-                                                  width: 130,
+                                                  height: 60,
+                                                  width: 100,
                                                   child: Center(
                                                     child: Text("Feita",
                                                         style: TextStyle(
@@ -213,7 +213,7 @@ class _ResultsByMissionQuizForTurmaState
                                                             fontFamily:
                                                                 'Monteserrat',
                                                             letterSpacing: 2,
-                                                            fontSize: 20)),
+                                                            fontSize: 15)),
                                                   ),
                                                   decoration: BoxDecoration(
                                                       color: Colors.green[300],
@@ -236,7 +236,7 @@ class _ResultsByMissionQuizForTurmaState
                                                       ]),
                                                 )
                                               : Container(
-                                                  height: 80,
+                                                  height: 60,
                                                   child: Center(
                                                     child: Text("Não feita",
                                                         style: TextStyle(
@@ -244,9 +244,9 @@ class _ResultsByMissionQuizForTurmaState
                                                             fontFamily:
                                                                 'Monteserrat',
                                                             letterSpacing: 2,
-                                                            fontSize: 20)),
+                                                            fontSize: 15)),
                                                   ),
-                                                  width: 130,
+                                                  width: 100,
                                                   decoration: BoxDecoration(
                                                       color: Colors.red[300],
                                                       borderRadius:
@@ -296,13 +296,13 @@ class _ResultsByMissionQuizForTurmaState
                                                 fontSize: 20)),
                                         circularStrokeCap:
                                             CircularStrokeCap.butt,
-                                        backgroundColor: Colors.grey[200],
+                                        backgroundColor: Colors.yellow,
                                         progressColor: parseColor("#E04C36"),
                                       ),
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 150.0),
+                                          const EdgeInsets.only(left: 60.0),
                                       child: Text(
                                           "Entrou " +
                                               results[alunos[index]]
@@ -313,11 +313,11 @@ class _ResultsByMissionQuizForTurmaState
                                               color: Colors.black,
                                               fontFamily: 'Monteserrat',
                                               letterSpacing: 2,
-                                              fontSize: 20)),
+                                              fontSize: 15)),
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 130.0),
+                                          const EdgeInsets.only(left: 60.0),
                                       child: results[alunos[index]]['done']
                                           ? Text(
                                               "Acertou " +
@@ -330,7 +330,7 @@ class _ResultsByMissionQuizForTurmaState
                                                   color: Colors.black,
                                                   fontFamily: 'Monteserrat',
                                                   letterSpacing: 2,
-                                                  fontSize: 20))
+                                                  fontSize: 15))
                                           : Text(""),
                                     ),
                                   ]))

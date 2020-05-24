@@ -87,7 +87,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                 if (i == (value2[1].length - 1))
                   for (var a in respostas.entries) {
                     lista.add([a.key, a.value]);
-                    while (a.value.length != 3) a.value.add(" ");
+                    while (a.value.length != 3) a.value.add("");
                   }
 
                 if (lista.length != 0)
@@ -405,7 +405,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                               Row(children: <Widget>[
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      left: 80.0, right: 40),
+                                                      left: 30.0, right: 40),
                                                   child: Container(
                                                       height: 130,
                                                       width: 170,
@@ -532,7 +532,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                               Row(children: <Widget>[
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      left: 50.0, right: 20),
+                                                      left: 40.0, right: 20),
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
@@ -554,7 +554,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                           )
                                                         ]),
                                                     height: 350,
-                                                    width: 550,
+                                                    width: 400,
                                                     child: new Builder(
                                                       builder: (BuildContext
                                                               context) =>
@@ -584,7 +584,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 160.0, top: 100, bottom: 50),
+                                          left: 120.0, top: 100, bottom: 50),
                                       child: Row(children: [
                                         Text(
                                           "Estatísticas dos Questionários",
@@ -599,11 +599,11 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                     Row(children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 30.0, bottom: 30, left: 130),
+                                            top: 30.0, bottom: 30, left: 30),
                                         child: _questExists
                                             ? Container(
                                                 height: 600,
-                                                width: 1000,
+                                                width: 850,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
@@ -635,7 +635,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                         color: Colors.white,
                                                         child: Row(children: [
                                                           Text(
-                                                            '     Questão                                                                Q 1               Q 2           Q 3',
+                                                            '     Questão                                                              Q 1      Q 2     Q 3',
                                                             style: TextStyle(
                                                               fontSize: 25,
                                                               letterSpacing: 1,
@@ -677,7 +677,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                           child: Row(
                                                                               children: [
                                                                                 Container(
-                                                                                  width: 550,
+                                                                                 
+                                                                                  width: 500,
                                                                                   child: Row(children: [
                                                                                     Expanded(
                                                                                         child: ListView(children: [
@@ -696,11 +697,11 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                                   child: Text(respostasFinal[index][1][0], style: const TextStyle(fontSize: 15.0)),
                                                                                 ),
                                                                                 Padding(
-                                                                                  padding: const EdgeInsets.only(left: 30.0),
+                                                                                  padding: const EdgeInsets.only(left: 10.0),
                                                                                   child: Text(respostasFinal[index][1][1], style: const TextStyle(fontSize: 15.0)),
                                                                                 ),
                                                                                 Padding(
-                                                                                  padding: const EdgeInsets.only(left: 30.0),
+                                                                                  padding: const EdgeInsets.only(left: 10.0),
                                                                                   child: Text(respostasFinal[index][1][2], style: const TextStyle(fontSize: 15.0)),
                                                                                 )
                                                                               ]),
@@ -761,7 +762,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                     ]),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 160.0, top: 70, bottom: 50),
+                                          left: 120.0, top: 70, bottom: 50),
                                       child: Row(children: [
                                         Text(
                                           "Galeria de itens carregados",
@@ -777,10 +778,10 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 30.0, bottom: 30, left: 130),
+                                              top: 30.0, bottom: 30, left: 30),
                                           child: Container(
-                                              height: _little ? 380 : 700,
-                                              width: 1000,
+                                              height: _little ? 350 : 700,
+                                              width: 850,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:

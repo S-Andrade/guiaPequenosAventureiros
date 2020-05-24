@@ -168,11 +168,11 @@ class _ResultsDashboardTurmasScreenState
                             child: Stack(children: [
                               Center(
                                 child: Text(
-                                  "Resultados por turmas",
+                                  "Resultados Por Turmas",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 70,
+                                      fontSize: 50,
                                       fontFamily: 'Amatic SC',
                                       letterSpacing: 4),
                                   textAlign: TextAlign.center,
@@ -205,22 +205,22 @@ class _ResultsDashboardTurmasScreenState
                             ])),
                         Container(
                             height: 600 * (turmas.length / 4),
-                             decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius:
-                              5.0, // has the effect of softening the shadow
-                          spreadRadius:
-                              2.0, // has the effect of extending the shadow
-                          offset: Offset(
-                            0.0, // horizontal
-                            2.5, // vertical
-                          ),
-                        )
-                      ]),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius:
+                                        5.0, // has the effect of softening the shadow
+                                    spreadRadius:
+                                        2.0, // has the effect of extending the shadow
+                                    offset: Offset(
+                                      0.0, // horizontal
+                                      2.5, // vertical
+                                    ),
+                                  )
+                                ]),
                             child: Column(
                               children: <Widget>[
                                 Padding(
@@ -232,7 +232,7 @@ class _ResultsDashboardTurmasScreenState
                                   child: Text(
                                       "Percentagens de missões feitas por cada turma: ",
                                       style: TextStyle(
-                                          fontSize: 25.0,
+                                          fontSize: 20.0,
                                           letterSpacing: 2,
                                           color: Colors.black,
                                           fontFamily: 'Monteserrat')),
@@ -241,7 +241,7 @@ class _ResultsDashboardTurmasScreenState
                                   child: GridView.count(
                                     // Create a grid with 2 columns. If you change the scrollDirection to
                                     // horizontal, this produces 2 rows.
-                                    crossAxisCount: 4,
+                                    crossAxisCount: 3,
                                     // Generate 100 widgets that display their index in the List.
                                     children:
                                         List.generate(turmas.length, (index) {
@@ -271,17 +271,17 @@ class _ResultsDashboardTurmasScreenState
                                             child: Column(
                                               children: <Widget>[
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
                                                   child: Text(
                                                       "Turma " +
                                                           turmas[index].id,
                                                       style: TextStyle(
-                                                          fontSize: 30.0,
+                                                          fontSize: 20.0,
                                                           letterSpacing: 2,
                                                           color: Colors.black,
                                                           fontWeight:
-                                                              FontWeight.w900,
+                                                              FontWeight.w500,
                                                           fontFamily:
                                                               'Monteserrat')),
                                                 ),
@@ -317,7 +317,7 @@ class _ResultsDashboardTurmasScreenState
                                                           CircularStrokeCap
                                                               .butt,
                                                       backgroundColor:
-                                                          parseColor("F4F19C"),
+                                                          Colors.yellow,
                                                       progressColor:
                                                           parseColor("#E04C36"),
                                                     ),
@@ -333,7 +333,7 @@ class _ResultsDashboardTurmasScreenState
                                                               .toString() +
                                                           " alunos",
                                                       style: TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 15.0,
                                                           letterSpacing: 2,
                                                           color: parseColor(
                                                               "#432F49"),
@@ -373,66 +373,69 @@ class _ResultsDashboardTurmasScreenState
                   )),
             );
           } else
-            return Center(
-                child: ColorLoader(
-            
-            ));
+            return Center(child: ColorLoader());
         } else {
-          return Center(
-              child: ColorLoader(
-        
-          ));
+          return Center(child: ColorLoader());
         }
       } else
         return Scaffold(
+            backgroundColor: Colors.transparent,
             body: RefreshIndicator(
                 onRefresh: _refresh,
-                child: ListView(children: [
-                  Container(
-                      height: 625,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/11.png"),
-                          fit: BoxFit.cover,
+                child: Stack(children: [
+                    Positioned(
+               top:50,left:100,
+                      child: FlatButton(
+                        color: parseColor("F4F19C"),
+                        textColor: Colors.black,
+                        padding: EdgeInsets.all(8.0),
+                        onPressed: () {
+                          print(this.user);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => HomeScreen(user: this.user)));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(FontAwesomeIcons.home),
                         ),
                       ),
+                    ),Center(
+                  child: 
+                    Container(
+                      height: 200,
+                      width: 600,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius:
+                                  5.0, // has the effect of softening the shadow
+                              spreadRadius:
+                                  2.0, // has the effect of extending the shadow
+                              offset: Offset(
+                                0.0, // horizontal
+                                2.5, // vertical
+                              ),
+                            )
+                          ]),
                       child: Center(
-                        child: Container(
-                          height: 200,
-                          width: 700,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius:
-                                      5.0, // has the effect of softening the shadow
-                                  spreadRadius:
-                                      2.0, // has the effect of extending the shadow
-                                  offset: Offset(
-                                    0.0, // horizontal
-                                    2.5, // vertical
-                                  ),
-                                )
-                              ]),
-                          child: Center(
-                            child: new Text(
-                              "Ainda não há resultados...",
-                              style: TextStyle(
-                                  fontSize: 35,
-                                  fontFamily: 'Amatic SC',
-                                  letterSpacing: 4),
-                            ),
-                          ),
+                        child: new Text(
+                          "Ainda não há resultados...",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 4),
                         ),
-                      )),
-                ])));
+                      ),
+                    ),
+                    )],
+                )));
     } else {
-      return Center(
-          child: ColorLoader(
-      
-      ));
+      return Center(child: ColorLoader());
     }
   }
 }

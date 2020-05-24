@@ -95,7 +95,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                 Row(children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 50.0, bottom: 20, right: 100, left: 50),
+                        top: 50.0, bottom: 20, right: 40, left: 50),
                     child: FlatButton(
                       color: parseColor("F4F19C"),
                       onPressed: () {
@@ -124,7 +124,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
-                          fontSize: 20,
+                          fontSize: 15,
                           fontFamily: 'Monteserrat',
                           letterSpacing: 2),
                     ),
@@ -153,60 +153,60 @@ class _ResultsByMissionQuestionarioForTurmaState
                           ]),
                       child: Row(children: [
                         Text(
-                          '            Aluno',
+                          '        Aluno',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '                  Missão feita',
+                          '               Missão feita',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '        Tempo passado\n           na missão',
+                          '       Tempo passado\n           na missão',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '         Nº de vezes\n          que entrou',
+                          '      Nº de vezes\n      que entrou',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '            Movimento',
+                          '       Movimento',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '            Luz Ambiental',
+                          '         Luz\n       Ambiental',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                         Text(
-                          '            Respostas',
+                          '     Respostas',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
                               letterSpacing: 2,
-                              fontSize: 15),
+                              fontSize: 13),
                         ),
                       ])),
                 ),
@@ -245,8 +245,8 @@ class _ResultsByMissionQuestionarioForTurmaState
                                         left: 15.0,
                                       ),
                                       child: Container(
-                                        height: 100,
-                                        width: 170,
+                                        height: 50,
+                                        width: 120,
                                         child: Center(
                                           child: Text(
                                             alunos[index],
@@ -254,7 +254,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                 color: Colors.black,
                                                 fontFamily: 'Monteserrat',
                                                 letterSpacing: 2,
-                                                fontSize: 20),
+                                                fontSize: 15),
                                           ),
                                         ),
                                       ),
@@ -266,8 +266,8 @@ class _ResultsByMissionQuestionarioForTurmaState
                                           builder: (BuildContext) => results[
                                                   alunos[index]]['done']
                                               ? Container(
-                                                  height: 80,
-                                                  width: 130,
+                                                  height: 60,
+                                                  width: 100,
                                                   child: Center(
                                                     child: Text("Feita",
                                                         style: TextStyle(
@@ -275,7 +275,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                             fontFamily:
                                                                 'Monteserrat',
                                                             letterSpacing: 2,
-                                                            fontSize: 20)),
+                                                            fontSize: 15)),
                                                   ),
                                                   decoration: BoxDecoration(
                                                       color: Colors.green[300],
@@ -298,7 +298,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                       ]),
                                                 )
                                               : Container(
-                                                  height: 80,
+                                                  height: 60,
                                                   child: Center(
                                                     child: Text("Não feita",
                                                         style: TextStyle(
@@ -306,9 +306,9 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                             fontFamily:
                                                                 'Monteserrat',
                                                             letterSpacing: 2,
-                                                            fontSize: 20)),
+                                                            fontSize: 15)),
                                                   ),
-                                                  width: 130,
+                                                  width: 100,
                                                   decoration: BoxDecoration(
                                                       color: Colors.red[300],
                                                       borderRadius:
@@ -334,7 +334,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                       padding:
                                           const EdgeInsets.only(left: 30.0),
                                       child: CircularPercentIndicator(
-                                        radius: 130.0,
+                                        radius: 110.0,
                                         animation: true,
                                         animationDuration: 2000,
                                         lineWidth: 20.0,
@@ -355,10 +355,10 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                 color: Colors.black,
                                                 fontFamily: 'Monteserrat',
                                                 letterSpacing: 2,
-                                                fontSize: 20)),
+                                                fontSize: 15)),
                                         circularStrokeCap:
                                             CircularStrokeCap.butt,
-                                        backgroundColor: Colors.grey[200],
+                                        backgroundColor: Colors.yellow,
                                         progressColor: parseColor("#E04C36"),
                                       ),
                                     ),
@@ -375,7 +375,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                               color: Colors.black,
                                               fontFamily: 'Monteserrat',
                                               letterSpacing: 2,
-                                              fontSize: 20)),
+                                              fontSize: 13)),
                                     ),
                                     Padding(
                                       padding:
@@ -400,7 +400,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                     color: Colors.white,
                                                     textColor: Colors.black,
                                                     padding:
-                                                        EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(5.0),
                                                     onPressed: () {
                                                       showGraficoMovimento(
                                                           context,
@@ -415,7 +415,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                         "Ver gráfico"
                                                             .toUpperCase(),
                                                         style: TextStyle(
-                                                          fontSize: 18.0,
+                                                          fontSize: 10.0,
                                                         ),
                                                       ),
                                                     ),
@@ -455,12 +455,12 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              8.0),
+                                                              5.0),
                                                       child: Text(
                                                         "Ver gráfico"
                                                             .toUpperCase(),
                                                         style: TextStyle(
-                                                          fontSize: 18.0,
+                                                          fontSize: 10.0,
                                                         ),
                                                       ),
                                                     ),
@@ -500,12 +500,12 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              8.0),
+                                                              4.0),
                                                       child: Text(
                                                         "Ver respostas"
                                                             .toUpperCase(),
                                                         style: TextStyle(
-                                                          fontSize: 18.0,
+                                                          fontSize: 10.0,
                                                         ),
                                                       ),
                                                     ),
@@ -566,7 +566,7 @@ class _ResultsByMissionQuestionarioForTurmaState
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
-            fontSize: 30,
+            fontSize: 20,
             fontFamily: 'Monteserrat',
             letterSpacing: 2),
       ),
@@ -603,7 +603,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 20,
+                                          fontSize: 15,
                                           fontFamily: 'Monteserrat',
                                           letterSpacing: 2),
                                     ),
@@ -614,7 +614,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
                               child: Text(perguntas[index][aluno],
-                                  style: const TextStyle(fontSize: 20.0)),
+                                  style: const TextStyle(fontSize: 15.0)),
                             ),
                           ]))
                     ]),
@@ -666,7 +666,7 @@ class _ResultsByMissionQuestionarioForTurmaState
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
-            fontSize: 30,
+            fontSize: 20,
             fontFamily: 'Monteserrat',
             letterSpacing: 2),
       ),
@@ -682,7 +682,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                 "Picos acentuados assinalam momento em que o aluno moveu demasiado o dispositivo.",
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: 15,
                     fontFamily: 'Monteserrat',
                     letterSpacing: 2),
               ),
@@ -760,7 +760,7 @@ class _ResultsByMissionQuestionarioForTurmaState
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
-            fontSize: 30,
+            fontSize: 20,
             fontFamily: 'Monteserrat',
             letterSpacing: 2),
       ),
@@ -771,10 +771,10 @@ class _ResultsByMissionQuestionarioForTurmaState
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: Text(
-              "Valores de luz ambiental durante a realização da missão...",
+              "Valores de luz ambiental durante a realização da missão.",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 15,
                   fontFamily: 'Monteserrat',
                   letterSpacing: 2),
             ),

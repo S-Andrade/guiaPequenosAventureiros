@@ -51,11 +51,11 @@ class ChooseMissionScreen extends StatelessWidget {
                                   fontSize: 20),
                             ),
                           ),
-                    SizedBox(width: 200),
+                    SizedBox(width: 150),
                     Text(
                       'Escolha o tipo de missão a criar',
                       style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 25,
                           color:Colors.black,
                           fontWeight: FontWeight.w900,
                           fontFamily: 'Amatic SC',
@@ -65,7 +65,7 @@ class ChooseMissionScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -80,13 +80,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                       this.capitulo, this.aventura)));
                         },
                         child: Container(
-                          height: 200,
-                          width: 260,
+                          height: 150,
+                          width: 200,
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  height: 150,
-                                  width: 160,
+                                  height: 100,
+                                  width: 120,
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: ExactAssetImage(
@@ -98,7 +98,7 @@ class ChooseMissionScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text("Mandar uma mensagem",
                                     style: TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 2,
                                         color: Colors.black,
                                         fontFamily: 'Monteserrat')),
@@ -135,13 +135,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                       this.capitulo, this.aventura)));
                         },
                         child: Container(
-                          height: 200,
-                          width: 260,
+                          height: 150,
+                          width: 200,
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  height: 150,
-                                  width: 160,
+                                  height: 100,
+                                  width: 120,
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: ExactAssetImage(
@@ -153,7 +153,7 @@ class ChooseMissionScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text("Mandar um audio",
                                     style: TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 2,
                                         color: Colors.black,
                                         fontFamily: 'Monteserrat')),
@@ -191,13 +191,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                       aventuraId: this.aventura)));
                         },
                         child: Container(
-                          height: 200,
-                          width: 260,
+                          height: 150,
+                          width: 200,
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  height: 150,
-                                  width: 160,
+                                  height: 100,
+                                  width: 120,
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: ExactAssetImage(
@@ -209,7 +209,7 @@ class ChooseMissionScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text("Pedir uma submissão",
                                     style: TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 2,
                                         color: Colors.black,
                                         fontFamily: 'Monteserrat')),
@@ -246,13 +246,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                       this.capitulo, this.aventura)));
                         },
                         child: Container(
-                          height: 200,
-                          width: 260,
+                          height: 150,
+                          width: 200,
                           child: Column(
                             children: <Widget>[
                               Container(
-                                  height: 150,
-                                  width: 160,
+                                  height: 100,
+                                  width: 120,
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
                                       image: ExactAssetImage(
@@ -264,7 +264,7 @@ class ChooseMissionScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text("Criar uma atividade",
                                     style: TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 2,
                                         color: Colors.black,
                                         fontFamily: 'Monteserrat')),
@@ -307,13 +307,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
-                        height: 200,
-                        width: 260,
+                        height: 150,
+                        width: 200,
                         child: Column(
                           children: <Widget>[
                             Container(
-                                height: 150,
-                                width: 160,
+                                height: 100,
+                                width: 120,
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image: ExactAssetImage(
@@ -325,7 +325,7 @@ class ChooseMissionScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: Text("Mandar um vídeo",
                                   style: TextStyle(
-                                      fontSize: 17.0,
+                                      fontSize: 13.0,
                                       letterSpacing: 2,
                                       color: Colors.black,
                                       fontFamily: 'Monteserrat')),
@@ -362,13 +362,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
-                        height: 200,
-                        width: 260,
+                        height: 150,
+                        width: 200,
                         child: Column(
                           children: <Widget>[
                             Container(
-                                height: 150,
-                                width: 160,
+                                height: 100,
+                                width: 120,
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image:
@@ -380,7 +380,7 @@ class ChooseMissionScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: Text("Criar um questionário",
                                   style: TextStyle(
-                                      fontSize: 17.0,
+                                      fontSize: 13.0,
                                       letterSpacing: 2,
                                       color: Colors.black,
                                       fontFamily: 'Monteserrat')),
@@ -417,13 +417,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
-                        height: 200,
-                        width: 260,
+                        height: 150,
+                        width: 200,
                         child: Column(
                           children: <Widget>[
                             Container(
-                                height: 150,
-                                width: 160,
+                                height: 100,
+                                width: 120,
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image: ExactAssetImage(
@@ -435,7 +435,7 @@ class ChooseMissionScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: Text("Mandar uma imagem",
                                   style: TextStyle(
-                                      fontSize: 17.0,
+                                      fontSize: 13.0,
                                       letterSpacing: 2,
                                       color: Colors.black,
                                       fontFamily: 'Monteserrat')),
@@ -472,13 +472,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
-                        height: 200,
-                        width: 260,
+                        height: 150,
+                        width: 200,
                         child: Column(
                           children: <Widget>[
                             Container(
-                                height: 150,
-                                width: 160,
+                                height: 100,
+                                width: 120,
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image:
@@ -490,7 +490,7 @@ class ChooseMissionScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: Text("Criar um quiz",
                                   style: TextStyle(
-                                      fontSize: 17.0,
+                                      fontSize: 13.0,
                                       letterSpacing: 2,
                                       color: Colors.black,
                                       fontFamily: 'Monteserrat')),

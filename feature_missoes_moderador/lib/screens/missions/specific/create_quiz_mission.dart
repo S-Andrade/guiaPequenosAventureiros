@@ -65,13 +65,13 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsets.only(top: 85.0, right: 50.0, left: 50.0),
+                        EdgeInsets.only(top: 85.0, right: 50.0, left: 0.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 60.0,
+                            height: 30.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -80,7 +80,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 100.0,
+                            height: 60.0,
                           ),
                           FlatButton(
                             color: parseColor("F4F19C"),
@@ -126,281 +126,306 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                 ),
                 Container(
                     padding:
-                        EdgeInsets.only(top: 40.0, left: 70.0, bottom: 30.0),
+                        EdgeInsets.only(top: 20.0, left: 70.0, bottom: 10.0),
                     child: Column(children: <Widget>[
                       LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
-                          return Row(
-                            children: <Widget>[
-                              Container(
-                                width: 120.0,
-                                child: Text(
-                                  "Título",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Monteserrat',
-                                      letterSpacing: 2,
-                                      fontSize: 20),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 40.0,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 3.7,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: parseColor("F4F19C"),
-                                ),
-                                child: TextField(
-                                  controller: _text,
-                                  onChanged: (value) {
-                                    _titulo = value;
-                                  },
-                                  maxLength: 40,
-                                  maxLengthEnforced: true,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Monteserrat',
-                                      letterSpacing: 2,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 15),
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue[50],
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    hintText: "Insira o título",
-                                    fillColor: Colors.blue[50],
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 260.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 120.0,
+                                  child: Text(
+                                    "Título",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat',
+                                        letterSpacing: 2,
+                                        fontSize: 20),
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 40.0,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 3.7,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: parseColor("F4F19C"),
+                                  ),
+                                  child: TextField(
+                                    controller: _text,
+                                    onChanged: (value) {
+                                      _titulo = value;
+                                    },
+                                    maxLength: 40,
+                                    maxLengthEnforced: true,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat',
+                                        letterSpacing: 2,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 15),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10.0),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.blue[50],
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      hintText: "Insira o título",
+                                      fillColor: Colors.blue[50],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
-                      SizedBox(height: 20.0),
-                     
+                      SizedBox(height: 10.0),
                       LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
-                          return Row(
-                            children: <Widget>[
-                              Container(
-                                width: 120.0,
-                                child: Text(
-                                  "Pontos",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                     
-                                      fontFamily: 'Monteserrat',
-                                      letterSpacing: 2,
-                                      fontSize: 20),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 40.0,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 3.7,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: parseColor("F4F19C"),
-                                ),
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                                  controller: _textPontos,
-                                  onChanged: (value) {
-                                    _pontos = value;
-                                  },
-                                  maxLength: 5,
-                                  maxLengthEnforced: true,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Monteserrat',
-                                      letterSpacing: 2,
-                                      fontSize: 14),
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue[50],
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    hintText: "Insira os pontos que esta missão vale",
-                                    fillColor: Colors.blue[50],
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 260.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 120.0,
+                                  child: Text(
+                                    "Pontos",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat',
+                                        letterSpacing: 2,
+                                        fontSize: 20),
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 40.0,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 3.7,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: parseColor("F4F19C"),
+                                  ),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      WhitelistingTextInputFormatter.digitsOnly
+                                    ],
+                                    controller: _textPontos,
+                                    onChanged: (value) {
+                                      _pontos = value;
+                                    },
+                                    maxLength: 5,
+                                    maxLengthEnforced: true,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w900,
+                                        fontFamily: 'Monteserrat',
+                                        letterSpacing: 2,
+                                        fontSize: 14),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10.0),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.blue[50],
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      hintText:
+                                          "Insira os pontos que esta missão vale",
+                                      fillColor: Colors.blue[50],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
-
-SizedBox(height: 20,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
+                          padding: const EdgeInsets.only(right:260.0),
+                          child: Container(width:480,
+
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                color:Colors.white,
                                   borderRadius: BorderRadius.circular(20.0),
                                   boxShadow: [
-                                                   BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-            blurRadius: 5.0, // has the effect of softening the shadow
-            spreadRadius: 2.0, // has the effect of extending the shadow
-            offset: Offset(
-              0.0, // horizontal
-              2.5, // vertical
-            ),
-                                        )
-                                                  ]),
-                              child: Column(children: [
-                                Container(
-                                    height: 350,
-                                    width: 700,
-                                    child: ListView.separated(
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Column(children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  IconButton(
-                                                     icon: Icon(FontAwesomeIcons.check),
-                                                iconSize: 20,
-                                                color: Colors.blue,
-                                                onPressed: null,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(
-                                                        10.0),
-                                                    child: Container(
-                                                        width: 550,
-                                                        child: Row(children: [
-                                                          Flexible(
-                                                            child: Text(
-                                                              _perguntas[index]
-                                                                  .question,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w900,
-                                                                  fontFamily:
-                                                                      'Amatic SC',
-                                                                  letterSpacing:
-                                                                      2,
-                                                                  fontSize: 40),
-                                                            ),
-                                                          ),
-                                                        ])),
-                                                  ),
-                                                  IconButton(
-                                                    icon: Icon(
-                                                        FontAwesomeIcons.trash),
-                                                    iconSize: 20,
-                                                    color:Colors.red,
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        _perguntas
-                                                            .removeAt(index);
-                                                        missionNotifier
-                                                                .currentQuestion =
-                                                            null;
-                                                      });
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ]);
-                                        },
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return Divider(
-                                              height: 70,
-                                              color: Colors.black12);
-                                        },
-                                        itemCount: _perguntas.length)),
-                                Container(
-                                  child: Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Container(
-                                          width: 700,
-                                          height: 1,
-                                          color: Colors.black),
-                                    ),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Adicione aqui cada pergunta e respetivas respostas: ",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900,
-                                                fontFamily: 'Monteserrat',
-                                                color: Colors.black,
-                                                letterSpacing: 2),
-                                          )
-                                        ]),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: FlatButton(
-                                        child: Icon(FontAwesomeIcons.plusCircle,
-                                        color: parseColor("#FFCE02"),
-                                            size: 30),
-                                        onPressed: () {
-                                          //setState(() {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CreateQuestion()));
-                                          // });
-                                        },
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius:
+                                          5.0, // has the effect of softening the shadow
+                                      spreadRadius:
+                                          2.0, // has the effect of extending the shadow
+                                      offset: Offset(
+                                        0.0, // horizontal
+                                        2.5, // vertical
                                       ),
-                                    ),
+                                    )
                                   ]),
-                                )
-                              ]))),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right:30.0),
+                                child: Column(children: [
+                                  Container(
+                                      height: 250,
+                                      color:Colors.white,
+                                width:430,
+                                      child: ListView.separated(
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            return Column(children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    IconButton(
+                                                      icon: Icon(
+                                                          FontAwesomeIcons.check),
+                                                      iconSize: 20,
+                                                      color: Colors.blue,
+                                                      onPressed: null,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10.0),
+                                                      child: Container(
+                                                          width: 280,
+                                                          child: Row(children: [
+                                                            Flexible(
+                                                              child: Text(
+                                                                _perguntas[index]
+                                                                    .question,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        'Monteserrat',
+                                                                    letterSpacing:
+                                                                        2,
+                                                                    fontSize: 10),
+                                                              ),
+                                                            ),
+                                                          ])),
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(
+                                                          FontAwesomeIcons.trash),
+                                                      iconSize: 20,
+                                                      color: Colors.red,
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _perguntas
+                                                              .removeAt(index);
+                                                          missionNotifier
+                                                                  .currentQuestion =
+                                                              null;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ]);
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context, int index) {
+                                            return Divider(
+                                                height: 70,
+                                                color: Colors.black12);
+                                          },
+                                          itemCount: _perguntas.length)),
+                                  Container(
+                                    child: Column(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Container(
+                                            width: 300,
+                                            height: 1,
+                                            color: Colors.black),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Adicione aqui cada pergunta e respetivas respostas: ",
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontFamily: 'Monteserrat',
+                                                    color: Colors.black,
+                                                    letterSpacing: 2),
+                                              )
+                                            ]),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: FlatButton(
+                                          child: Icon(FontAwesomeIcons.plusCircle,
+                                              color: parseColor("#FFCE02"),
+                                              size: 30),
+                                          onPressed: () {
+                                            //setState(() {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CreateQuestion()));
+                                            // });
+                                          },
+                                        ),
+                                      ),
+                                    ]),
+                                  )
+                                ]),
+                              ))),
                       SizedBox(
                         height: 10.0,
                       ),
                       Row(
                         children: <Widget>[
                           SizedBox(
-                            width: 200.0,
+                            width: 30.0,
                           ),
                           SizedBox(
                             width: 20.0,
                           ),
                           FlatButton(
-                            color:const Color(0xff72d8bf),
+                            color: const Color(0xff72d8bf),
                             onPressed: () async {
                               missionNotifier.currentQuestion = null;
                               if (_text.text.length > 0 &&
-                                  _perguntas.length != 0
-                                  && _textPontos.text.length!=0
-                                  )
-                                showConfirmar(context, _titulo, _perguntas,int.parse(_pontos));
+                                  _perguntas.length != 0 &&
+                                  _textPontos.text.length != 0)
+                                showConfirmar(context, _titulo, _perguntas,
+                                    int.parse(_pontos));
                               else
                                 await showError();
                             },
@@ -430,7 +455,6 @@ SizedBox(height: 20,),
         "Falta inserir um título ou criar, pelo menos, uma questão!",
         style: TextStyle(
             color: Colors.black,
-     
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
@@ -449,12 +473,13 @@ SizedBox(height: 20,),
     });
   }
 
-  showConfirmar(BuildContext context, String titulo, List questions,int pontos) {
- final popup = BeautifulPopup.customize(
-  context: context,
-  build: (options) => MyTemplateConfirmation(options),
-);
-   
+  showConfirmar(
+      BuildContext context, String titulo, List questions, int pontos) {
+    final popup = BeautifulPopup.customize(
+      context: context,
+      build: (options) => MyTemplateConfirmation(options),
+    );
+
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -481,7 +506,8 @@ SizedBox(height: 20,),
             fontSize: 30),
       ),
       onPressed: () {
-        createMissionQuiz(titulo, questions, aventuraId.id, capitulo.id,pontos);
+        createMissionQuiz(
+            titulo, questions, aventuraId.id, capitulo.id, pontos);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) =>
                 TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
@@ -512,6 +538,5 @@ SizedBox(height: 20,),
         continuaButton,
       ],
     );
-   
   }
 }

@@ -89,11 +89,11 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                     child: Stack(children: [
                       Center(
                         child: Text(
-                          "Missões configuradas",
+                          "Missões Configuradas",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w900,
-                              fontSize: 70,
+                              fontSize: 50,
                               fontFamily: 'Amatic SC',
                               letterSpacing: 4),
                           textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Container(
-                    height: 1150,
+                    height: 900,
                      decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
@@ -128,7 +128,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                 "Missões deste capítulo: " ,
                                    
                                 style: TextStyle(
-                                    fontSize: 25.0,
+                                    fontSize: 20.0,
                                     letterSpacing: 2,
                                   
                                     color: Colors.black,
@@ -139,7 +139,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                           child: new RefreshIndicator(
                               onRefresh: _refreshList,
                               child: Container(
-                                  height: 700,
+                                  height: 500,
                                   width: 800,
                                   
                                   child: Padding(
@@ -250,7 +250,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                                                             .title,
                                                                         style: TextStyle(
                                                                             fontSize:
-                                                                                30,
+                                                                                25,
                                                                             fontFamily:
                                                                                 'Monteserrat',
                                                                             letterSpacing:
@@ -314,7 +314,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                             )
                                           : ListView(children: [
                                               Container(
-                                                  height: 460,
+                                                  height: 260,
                                                   width: 700,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
@@ -339,8 +339,8 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                                     child: new Text(
                                                       "Ainda não há missões configuradas",
                                                       style: TextStyle(
-                                                          fontSize: 35,
-                                                          fontFamily: 'Amatic SC',
+                                                          fontSize: 25,
+                                                          fontFamily: 'Monteserrat',
                                                           letterSpacing: 4),
                                                     ),
                                                   )),
@@ -349,7 +349,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                                   ))),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 50.0),
+                          padding: const EdgeInsets.only(top: 30.0),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[

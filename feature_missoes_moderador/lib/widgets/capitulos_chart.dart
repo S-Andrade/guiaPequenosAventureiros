@@ -126,7 +126,7 @@ class BarChartSample1State extends State<BarChartSample1> {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay;
 
-              weekDay = 'Capitulo ' + groupIndex.toString();
+              weekDay = 'Capítulo ' + groupIndex.toString();
 
               return BarTooltipItem(
                   weekDay +
