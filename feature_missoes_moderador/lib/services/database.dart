@@ -132,7 +132,7 @@ class DatabaseService {
 
   final CollectionReference turmaCollection = Firestore.instance.collection('turma');
 
-  Future<void> updateTurmaData(String id , String nome,String professor, int nAlunos, List alunos, String file) async {
+  Future<void> updateTurmaData(String id , String nome,String professor, int nAlunos, List alunos, String file, List cromos, int pontuacao) async {
     return await turmaCollection.document(id).setData({
       'id': id,
       'nome': nome,
@@ -140,6 +140,8 @@ class DatabaseService {
       'nAlunos' : nAlunos,
       'alunos' : alunos,
       'file' : file,
+      'cromos': cromos,
+      'pontuacao': pontuacao
     });
   }
 
@@ -152,6 +154,8 @@ class DatabaseService {
         nAlunos: doc.data['nAlunos'] ?? 0,
         alunos: doc.data['alunos'] ?? [],
         file: doc.data['file'] ?? '',
+        cromos: doc.data['cromos'] ?? [],
+        pontuacao: doc.data['pontuacao'] ?? 0
       );
     }).toList();
   }
@@ -173,7 +177,7 @@ class DatabaseService {
     });
   }*/
 
-  void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai, String turma, String escola) {
+  void updateUserData(String id, String idade, String genero, DateTime dateTime, bool frequentouPre, String idadeIngresso, String maisInfo, String nacionalidade, String nacionalidadeEE, String grauParentesco, String habilitacoesEE, String idadeEE, String profissaoEE, String profissaoMae, String idadeMae, String nacionalidadeMae, String habilitacoesMae, String idadePai, String nacionalidadePai, String profissaoPai, String habilitacoesPai, String turma, String escola, List cromos, int pontuacao) {
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
   alunoCollection.document(id).setData({
     'id': id,
@@ -198,7 +202,9 @@ class DatabaseService {
     'habilitacoesMae': habilitacoesMae,
     'habilitacoesPai': habilitacoesPai,
     'turma': turma,
-    'escola': escola
+    'escola': escola,
+    'cromos':cromos,
+    'pontuacao':pontuacao
   });
 
 }

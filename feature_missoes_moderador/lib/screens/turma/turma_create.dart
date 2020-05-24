@@ -227,7 +227,7 @@ class _TurmaCreate extends State<TurmaCreate> {
         String id_aluno = letras_escola + numero_aluno;
         alunos.add(id_aluno);
        
-        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai", id_turma,escola.id);
+        DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai", id_turma,escola.id,[],0);
 
         var password = generatePassword(true, true, true, false, 10);
         print(id_aluno + " -> " + password);
@@ -257,7 +257,7 @@ class _TurmaCreate extends State<TurmaCreate> {
 
 
       //create turma
-      DatabaseService().updateTurmaData(id_turma, nome, professor, int.parse(nAlunos), alunos, turmas_path);
+      DatabaseService().updateTurmaData(id_turma, nome, professor, int.parse(nAlunos), alunos, turmas_path,[],0);
 
 
       //gerar alunos

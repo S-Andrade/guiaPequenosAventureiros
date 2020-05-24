@@ -21,6 +21,8 @@ class Aluno {
   bool frequentouPre;
   String turma;
   String escola;
+  List cromos;
+  int pontuacao;
 
   Aluno();
 
@@ -45,6 +47,8 @@ class Aluno {
     escola = data['escola'];
     frequentouPre = data['frequentouPre'];
     idadeEE=data['idadeEE'];
+    cromos = data['cromos'];
+    pontuacao = data['pontuacao'];
   }
 
   Map<String, dynamic> toMap() {
@@ -65,6 +69,8 @@ class Aluno {
       'profissaoMae': profissaoMae,
       'profissaoPai': profissaoPai,
       'idadeIngresso': idadeIngresso,
+      'cromos': cromos,
+      'pontuacao': pontuacao
     };
   }
 }
