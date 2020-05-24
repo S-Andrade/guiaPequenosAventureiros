@@ -231,6 +231,14 @@ class _QuestionarioPageState extends State<QuestionarioPage>
             ),
             Padding(padding: EdgeInsets.all(20)),
             Text(feedback, style: TextStyle(fontSize: 25)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children:
+                    List.generate(5, (index) => Text((index + 1).toString())),
+              ),
+            ),
             Slider(
               value: resposta,
               min: 1,
@@ -320,10 +328,18 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
-              if (complete &&
-                  resposta != null &&
-                  feedback != null &&
-                  feedback != 'Arrasta para responder') {
+              int respondidas = 0;
+              allQuestions.forEach((element) {
+                element.resultados.forEach((aluno) {
+                  if (aluno['aluno'] == _userID) {
+                    if (aluno['respostaEscolhida'] != "" &&
+                        aluno['respostaEscolhida'] != null) {
+                      respondidas++;
+                    }
+                  }
+                });
+              });
+              if (respondidas ==allQuestions.length) {
                 updateMissionCounterInFirestore(
                     missionNotifier.currentMission, _userID, 1);
                 updateMissionDoneInFirestore(
