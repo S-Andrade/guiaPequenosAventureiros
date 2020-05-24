@@ -103,7 +103,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
             )),
         child: Scaffold(
 //          extendBody: true,
-            bottomNavigationBar: BottomBar(1,missionNotifier.currentAventura),
+            bottomNavigationBar: BottomBar(1, missionNotifier.currentAventura),
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               iconTheme: IconThemeData(
@@ -131,198 +131,203 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                              padding: EdgeInsets.symmetric(vertical:130),
-                              itemBuilder: (BuildContext context, int index) {
-                                Mission mission =
-                                    missionsNotifier.missionsList[index];
-                                for (var a in mission.resultados) {
-                                  if (a["aluno"] == _userID) {
-                                    resultados = a;
-                                    _done = resultados["done"];
-                                  }
-                                }
+                          padding: EdgeInsets.symmetric(vertical: 130),
+                          itemBuilder: (BuildContext context, int index) {
+                            Mission mission =
+                                missionsNotifier.missionsList[index];
+                            for (var a in mission.resultados) {
+                              if (a["aluno"] == _userID) {
+                                resultados = a;
+                                _done = resultados["done"];
+                              }
+                            }
 
-                                if (_done == true)
-                                  _completada = 0.4;
-                                else if (_done == false) _completada = 1;
+                            if (_done == true)
+                              _completada = 0.4;
+                            else if (_done == false) _completada = 1;
 
-                                if (mission.type == 'Text')
-                                  _imagem = 'assets/images/background.png';
-                                else if (mission.type == 'Audio')
-                                  _imagem = 'assets/images/audio.png';
-                                else if (mission.type == 'Video')
-                                  _imagem = 'assets/images/movie.png';
-                                else if (mission.type == 'Quiz')
-                                  _imagem = 'assets/images/quiz3.png';
-                                else if (mission.type == 'Questionario')
-                                  _imagem = 'assets/images/green_question.png';
-                                else if (mission.type == 'Activity')
-                                  _imagem = 'assets/images/yellow2.png';
-                                else if (mission.type == 'UploadVideo')
-                                  _imagem = 'assets/images/upload.png';
-                                else if (mission.type == 'UploadImage')
-                                  _imagem = 'assets/images/green.png';
-                                else if (mission.type == 'Image')
-                                  _imagem = 'assets/images/grass_green.png';
+                            if (mission.type == 'Text')
+                              _imagem = 'assets/images/background.png';
+                            else if (mission.type == 'Audio')
+                              _imagem = 'assets/images/audio.png';
+                            else if (mission.type == 'Video')
+                              _imagem = 'assets/images/movie.png';
+                            else if (mission.type == 'Quiz')
+                              _imagem = 'assets/images/quiz3.png';
+                            else if (mission.type == 'Questionario')
+                              _imagem = 'assets/images/green_question.png';
+                            else if (mission.type == 'Activity')
+                              _imagem = 'assets/images/yellow2.png';
+                            else if (mission.type == 'UploadVideo')
+                              _imagem = 'assets/images/upload.png';
+                            else if (mission.type == 'UploadImage')
+                              _imagem = 'assets/images/green.png';
+                            else if (mission.type == 'Image')
+                              _imagem = 'assets/images/grass_green.png';
 
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20,
-                                    right: 20,
-                                    top: 10,
-                                    bottom: 10,
-                                  ),
-                                  child: Container(
-                                      key: UniqueKey(),
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                          image: new DecorationImage(
-                                            image: ExactAssetImage(_imagem),
-                                            colorFilter: new ColorFilter.mode(
-                                                Colors.white
-                                                    .withOpacity(_completada),
-                                                BlendMode.dstIn),
-                                            fit: BoxFit.fitWidth,
-                                            alignment: Alignment.center,
-                                          ),
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              child: Container(
+                                  key: UniqueKey(),
+//                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      image: new DecorationImage(
+                                        image: ExactAssetImage(_imagem),
+                                        colorFilter: new ColorFilter.mode(
+                                            Colors.white
+                                                .withOpacity(_completada),
+                                            BlendMode.dstIn),
+                                        fit: BoxFit.fitWidth,
+                                        alignment: Alignment.center,
+                                      ),
 //                                      color: Color(0xFF01BBB6),
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(16.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withOpacity(0.1),
-                                              blurRadius:
-                                                  5.0, // has the effect of softening the shadow
-                                              spreadRadius:
-                                                  2.0, // has the effect of extending the shadow
-                                              offset: Offset(
-                                                0.0, // horizontal
-                                                2.5, // vertical
-                                              ),
-                                            )
-                                          ]),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius:
+                                              5.0, // has the effect of softening the shadow
+                                          spreadRadius:
+                                              2.0, // has the effect of extending the shadow
+                                          offset: Offset(
+                                            0.0, // horizontal
+                                            2.5, // vertical
+                                          ),
+                                        )
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                color:
-                                                    Colors.black.withOpacity(0.2),
+                                                color: Colors.black
+                                                    .withOpacity(0.2),
                                                 borderRadius:
                                                     BorderRadius.circular(6.0),
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(4.0),
-                                                child: Flexible(
-                                                  child: Text(
-                                                    mission.type,
-                                                    style: GoogleFonts.quicksand(
-                                                      textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                    ),
-                                                    textAlign: TextAlign.left,
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  mission.type + ": ",
+                                                  style: GoogleFonts.quicksand(
+                                                    textStyle: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 14,
+                                                        color: Colors.white),
                                                   ),
+                                                  textAlign: TextAlign.left,
                                                 ),
                                               ),
                                             ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    mission.title,
-                                                    style: GoogleFonts.quicksand(
-                                                      textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 22,
-                                                          color: Colors.black),
-                                                    ),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    'Pontos: '+mission.points.toString(),
-                                                    style: GoogleFonts.quicksand(
-                                                      textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 22,
-                                                          color: Colors.black),
-                                                    ),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                ),
-                                                new Builder(
-                                                  builder: (BuildContext context) =>
-                                                      _done
-                                                          ? IconButton(
-                                                              icon: Icon(
-                                                                  FontAwesomeIcons
-                                                                      .redo),
-                                                              iconSize: 20,
-                                                              color: Colors.white,
-                                                              tooltip:
-                                                                  'Repetir a missão',
-                                                              onPressed: () {
-                                                                missionsNotifier
-                                                                        .currentMission =
-                                                                    mission;
-                                                                setState(() {
-                                                                  _navegarParaMissao(
-                                                                      context,
-                                                                      mission);
-                                                                });
-                                                              },
-                                                            )
-                                                          : IconButton(
-                                                              icon: Icon(
-                                                                  FontAwesomeIcons
-                                                                      .arrowRight),
-                                                              iconSize: 30,
-                                                              color: parseColor(
-                                                                  "#320a5c"),
-                                                              tooltip:
-                                                                  'Passar para a missão',
-                                                              onPressed: () {
-                                                                missionsNotifier
-                                                                        .currentMission =
-                                                                    mission;
-                                                                setState(() {
-                                                                  print(
-                                                                      'aquiiiiii');
-                                                                  _navegarParaMissao(
-                                                                      context,
-                                                                      mission);
-                                                                });
-                                                              },
-                                                            ),
-                                                ),
-                                              ],
+                                            Text(
+                                              mission.points.toString() +
+                                                  ' pontos',
+                                              style: GoogleFonts.quicksand(
+                                                textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                    color: Colors.yellow),
+                                              ),
+                                              textAlign: TextAlign.left,
                                             ),
                                           ],
                                         ),
-                                      )),
-                                );
-                              },
-                              itemCount: missoes.length,
-                            ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                mission.title,
+                                                style: GoogleFonts.quicksand(
+                                                  textStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 22,
+                                                      color: Colors.black),
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                            new Builder(
+                                              builder: (BuildContext context) =>
+                                                  _done
+                                                      ? IconButton(
+                                                          icon: Icon(
+                                                              FontAwesomeIcons
+                                                                  .redo),
+                                                          iconSize: 20,
+                                                          color: Colors.white,
+                                                          tooltip:
+                                                              'Repetir a missão',
+                                                          onPressed: () {
+                                                            missionsNotifier
+                                                                    .currentMission =
+                                                                mission;
+                                                            setState(() {
+                                                              _navegarParaMissao(
+                                                                  context,
+                                                                  mission);
+                                                            });
+                                                          },
+                                                        )
+                                                      : IconButton(
+                                                          icon: Icon(
+                                                              FontAwesomeIcons
+                                                                  .arrowRight),
+                                                          iconSize: 30,
+                                                          color: parseColor(
+                                                              "#320a5c"),
+                                                          tooltip:
+                                                              'Passar para a missão',
+                                                          onPressed: () {
+                                                            missionsNotifier
+                                                                    .currentMission =
+                                                                mission;
+                                                            setState(() {
+                                                              print(
+                                                                  'aquiiiiii');
+                                                              _navegarParaMissao(
+                                                                  context,
+                                                                  mission);
+                                                            });
+                                                          },
+                                                        ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            );
+                          },
+                          itemCount: missoes.length,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Positioned(
-                  child: Align
-                    ( alignment: Alignment.topLeft,
+                  child: Align(
+                      alignment: Alignment.topLeft,
                       child: CompanheiroAppwide()),
                 ),
                 Positioned(
@@ -332,15 +337,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                       height: 130,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/clouds_bottom_navigation_purple.png'),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                          )),
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_purple.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
                     ),
                   ),
                 ),
-
               ],
             )),
       );
