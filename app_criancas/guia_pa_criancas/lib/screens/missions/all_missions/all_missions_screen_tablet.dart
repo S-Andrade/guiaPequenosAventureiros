@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../auth.dart';
+import '../../../bottom_navigation_bar.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../specific_mission/mission_screen.dart';
@@ -92,6 +93,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
         ),
         child: Scaffold(
 //          extendBody: true,
+            bottomNavigationBar: BottomBar(1,missionNotifier.currentAventura),
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               iconTheme: IconThemeData(
