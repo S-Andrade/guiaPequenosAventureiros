@@ -2,6 +2,7 @@ import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:light/light.dart';
 import 'package:sensors/sensors.dart';
@@ -224,19 +225,42 @@ class _QuestionarioPageState extends State<QuestionarioPage>
       allAnswers = question.answers;
       steps.add(Step(
           title: Text(currentPage.toString()),
-          content: new Column(children: <Widget>[
-            Text(
-              question.question,
-              style: TextStyle(fontSize: 20),
+          content: Column(children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.2),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  question.question,
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
             ),
-            Padding(padding: EdgeInsets.all(20)),
-            Text(feedback, style: TextStyle(fontSize: 25)),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:
-                    List.generate(5, (index) => Text((index + 1).toString())),
+                children: List.generate(
+                  5,
+                  (index) => Text(
+                    (index + 1).toString(),
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
               ),
             ),
             Slider(
@@ -275,6 +299,18 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               label: feedback,
               divisions: allAnswers.length - 1,
             ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                'Resposta: ' + feedback,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.black),
+                ),
+              ),
+            ),
           ])));
       currentPage++;
     });
@@ -287,86 +323,186 @@ class _QuestionarioPageState extends State<QuestionarioPage>
       });
     }
 
-    return new Scaffold(
-      appBar: AppBar(
-        leading: new FlatButton(
-          child: Icon(Icons.close),
-          onPressed: () {
-            _close();
-          },
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/green_question.png"),
+          fit: BoxFit.cover,
         ),
       ),
-      body: Column(children: <Widget>[
-        Expanded(
-          child: Stepper(
-            steps: steps,
-            controlsBuilder: (BuildContext context,
-                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-              return Row(
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: onStepContinue,
-                    child: const Text('Próxima'),
-                  ),
-                  FlatButton(
-                    onPressed: onStepCancel,
-                    child: const Text('Anterior'),
-                  ),
-                ],
-              );
-            },
-            type: StepperType.vertical,
-            currentStep: currentStep,
-            onStepContinue: next,
-            onStepTapped: (step) => goTo(step),
-            onStepCancel: cancel,
+      child: new Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            "Questionário",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Colors.black),
+            ),
           ),
-        ),
-        FlatButton(
-            child: new Text(
-              'Entregar',
-              style: TextStyle(color: Colors.black),
+          leading: new FlatButton(
+            child: Icon(
+              Icons.close,
+              color: Colors.black,
             ),
             onPressed: () {
-              int respondidas = 0;
-              allQuestions.forEach((element) {
-                element.resultados.forEach((aluno) {
-                  if (aluno['aluno'] == _userID) {
-                    if (aluno['respostaEscolhida'] != "" &&
-                        aluno['respostaEscolhida'] != null) {
-                      respondidas++;
-                    }
-                  }
-                });
-              });
-              if (respondidas ==allQuestions.length) {
-                updateMissionCounterInFirestore(
-                    missionNotifier.currentMission, _userID, 1);
-                updateMissionDoneInFirestore(
-                    missionNotifier.currentMission, _userID);
-                saveMissionMovementAndLightDataInFirestore(
-                    missionNotifier.currentMission,
-                    _userID,
-                    _movementData,
-                    _lightData);
-                for (StreamSubscription<dynamic> subscription
-                    in _streamSubscriptions) {
-                  subscription.cancel();
-                }
-                stopListening();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              } else {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return new AlertDialog(
-                          content: new Text(
-                              "Tens de preencher todas as questões antes de submeter :)"));
-                    });
-              }
-            }),
-      ]),
+              _close();
+            },
+          ),
+        ),
+        body: Stack(
+          children: [
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+//                        height: 130,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
+                  ),
+                ),
+              ),
+            ),
+            Column(children: <Widget>[
+              Expanded(
+                child: Stepper(
+                  steps: steps,
+                  controlsBuilder: (BuildContext context,
+                      {VoidCallback onStepContinue,
+                      VoidCallback onStepCancel}) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FlatButton(
+                            color: Color(0xFF0081C2),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            onPressed: onStepContinue,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Próxima',
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FlatButton(
+                            color: Color(0xFFEF807A),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            onPressed: onStepCancel,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Anterior',
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  type: StepperType.vertical,
+                  currentStep: currentStep,
+                  onStepContinue: next,
+                  onStepTapped: (step) => goTo(step),
+                  onStepCancel: cancel,
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: FlatButton(
+                      color: Color(0xFFF3C463),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          'Entregar',
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        int respondidas = 0;
+                        allQuestions.forEach((element) {
+                          element.resultados.forEach((aluno) {
+                            if (aluno['aluno'] == _userID) {
+                              if (aluno['respostaEscolhida'] != "" &&
+                                  aluno['respostaEscolhida'] != null) {
+                                respondidas++;
+                              }
+                            }
+                          });
+                        });
+                        if (respondidas == allQuestions.length) {
+                          updateMissionCounterInFirestore(
+                              missionNotifier.currentMission, _userID, 1);
+                          updateMissionDoneInFirestore(
+                              missionNotifier.currentMission, _userID);
+                          saveMissionMovementAndLightDataInFirestore(
+                              missionNotifier.currentMission,
+                              _userID,
+                              _movementData,
+                              _lightData);
+                          for (StreamSubscription<dynamic> subscription
+                              in _streamSubscriptions) {
+                            subscription.cancel();
+                          }
+                          stopListening();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return new AlertDialog(
+                                    content: new Text(
+                                        "Tens de preencher todas as questões antes de submeter :)"));
+                              });
+                        }
+                      }),
+                ),
+              ),
+            ]),
+          ],
+        ),
+      ),
     );
   }
 }
