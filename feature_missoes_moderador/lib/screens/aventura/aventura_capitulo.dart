@@ -19,16 +19,43 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
 
   @override
   Widget build(BuildContext context) {
-        return  new Scaffold(
-            appBar: new AppBar(title: new Text("Capítulos de "+aventura.nome),backgroundColor: parseColor("#FFCE02"),),
-            body: Container(decoration:
-              BoxDecoration(
-              image: DecorationImage(
-          image: AssetImage("assets/images/15.jpg"),
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
-        ),),
-              child: CapituloList(aventura: aventura)),
-          );
+        return  Container(
+           decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/19.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            
+              body: Stack(
+                              children:[  Padding(
+                      padding: const EdgeInsets.only(
+                        top: 40.0,
+                        left: 170,
+                      ),
+                      child: FlatButton(
+                        color: parseColor("F4F19C"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Voltar atrás",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 20),
+                        ),
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.only(top:70.0),
+                      child: Container(
+                  child: CapituloList(aventura: aventura)),
+                    ),]
+              ),
+            ),
+        );
   }
 }

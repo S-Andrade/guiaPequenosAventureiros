@@ -1,4 +1,5 @@
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
+import 'package:feature_missoes_moderador/widgets/popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import '../home_screen.dart';
@@ -59,15 +60,15 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                        /*Container(
-                              height:150,width:150,child: SvgPicture.asset(
+                                        Container(
+                              height:200,width:200,child: SvgPicture.asset(
                             'assets/images/logo_temp.svg',
 //                            width: 50,
                               ),),
-                            */
+                            
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 120, bottom: 50),
+                                              top: 40, bottom: 54),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -75,7 +76,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                                 Text('Moderadores',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 30,
+                                                        fontSize: 20,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         letterSpacing: 2,
@@ -85,7 +86,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                         ),
                                         Container(
                                             width: 350,
-                                            height: 80,
+                                            height: 70,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -116,10 +117,10 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                                     border: InputBorder.none,
                                                   )),
                                             )),
-                                        SizedBox(height: 50),
+                                        SizedBox(height: 30),
                                         Container(
                                             width: 350,
-                                            height: 80,
+                                            height: 70,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -151,14 +152,14 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                                     border: InputBorder.none,
                                                   )),
                                             )),
-                                        SizedBox(height: 50),
+                                        SizedBox(height: 30),
                                         GestureDetector(
                                           onTap: () {
                                             autenticar(context);
                                           },
                                           child: Container(
                                             width: 350,
-                                            height: 80,
+                                            height: 70,
                                             decoration: BoxDecoration(
                                                 color: parseColor('#EBBA4E'),
                                                 borderRadius:
@@ -195,9 +196,9 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
   Future<void> autenticar(BuildContext context) async {
     final formState = _formKey.currentState;
-    final popup = BeautifulPopup(
+    final popup = BeautifulPopup.customize(
           context: context,
-          template: TemplateFail,
+          build: (options) => MyTemplateError(options),
         );
 
     await getListModerador(context);
@@ -222,17 +223,21 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
               MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
         } catch (e) {
           popup.show(
-                title: new Text("Problema na autenticação",
+            close:Container(),
+                title: new Text("",
                     style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.black,
                         fontFamily: 'Monteserrat')),
-                content: Center(
-                  child: new Text("\nE-mail ou password não está correto!",
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.black,
-                          fontFamily: 'Monteserrat')),
+                content: Padding(
+                  padding: const EdgeInsets.only(top:100.0),
+                  child: Center(
+                    child: new Text("\nE-mail ou password não está correto!",
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.black,
+                            fontFamily: 'Monteserrat')),
+                  ),
                 ),
                 actions: <Widget>[
                   // define os botões na base do dialogo
@@ -251,17 +256,20 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
         popup.show(
           close:Container(),
-          title: new Text("Problema na autenticação",
+          title: new Text("",
               style: TextStyle(
                   fontSize: 20.0,
                   color: Colors.black,
                   fontFamily: 'Monteserrat')),
-          content: Center(
-            child: new Text("\nEmail ou password não está correto!",
-                style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    fontFamily: 'Monteserrat')),
+          content: Padding(
+            padding: const EdgeInsets.only(top:100.0),
+            child: Center(
+              child: new Text("\nEmail ou password não está correto!",
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.black,
+                      fontFamily: 'Monteserrat')),
+            ),
           ),
           actions: <Widget>[
             // define os botões na base do dialogo

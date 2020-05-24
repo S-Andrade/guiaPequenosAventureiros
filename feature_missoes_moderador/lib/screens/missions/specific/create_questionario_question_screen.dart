@@ -47,7 +47,7 @@ class _CreateQuestionarioQuestionState
       body: Container(
         decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/11.png"),
+                      image: AssetImage("assets/images/19.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -179,9 +179,12 @@ class _CreateQuestionarioQuestionState
                             if(max!=0) addAnsRow(max);
                             else {
                               showDialog(
+                                barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            
+
             title: Text(
               "Não inseriu o número de respostas!",
               style: TextStyle(

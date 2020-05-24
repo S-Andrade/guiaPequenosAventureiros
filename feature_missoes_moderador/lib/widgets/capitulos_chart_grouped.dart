@@ -1,3 +1,4 @@
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -83,14 +84,14 @@ class BarChartSample2State extends State<BarChartSample2> {
                   ),
                   const Text(
                     'Comparação em percentagem',
-                    style: TextStyle(color: Colors.indigo, fontSize: 22),
+                    style: TextStyle(color: Colors.black, fontSize: 15),
                   ),
                   const SizedBox(
-                    width: 150,
+                    width: 40,
                   ),
                   const Text(
                     'Clique numa barra para ver informação e média',
-                    style: TextStyle(color: Colors.indigoAccent, fontSize: 16),
+                    style: TextStyle(color:   const Color(0xff72d8bf), fontSize: 8),
                   ),
                 ],
               ),
@@ -227,7 +228,7 @@ class BarChartSample2State extends State<BarChartSample2> {
             nNomes.length,
             (i) => BarChartRodData(
                   y: nNomes[i][capitulo].toDouble(),
-                  color: Colors.indigoAccent,
+                  color:  Colors.yellow,
                   width: width,
                 )));
   }

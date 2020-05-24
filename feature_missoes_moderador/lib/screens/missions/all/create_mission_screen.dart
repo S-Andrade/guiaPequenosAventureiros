@@ -6,6 +6,7 @@ import 'package:feature_missoes_moderador/models/mission.dart';
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/choose_mission_sreen.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
+import 'package:feature_missoes_moderador/widgets/popupConfirm.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
@@ -26,7 +27,7 @@ class CreateMissionScreen extends StatefulWidget {
 
 class _CreateMissionScreenState extends State<CreateMissionScreen> {
   Aventura aventura;
- 
+
   Capitulo capitulo;
   List<Mission> missions;
 
@@ -39,9 +40,8 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
       MissionsNotifier missionsNotifier =
           Provider.of<MissionsNotifier>(context, listen: false);
       getMissions(missionsNotifier, capitulo.missoes);
-     
     } else
-     print("vazio");
+      print("vazio");
   }
 
   _getCurrentCapitulo(capituloId) async {
@@ -74,216 +74,306 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
     }
 
     return Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/15.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: <Widget>[
-              
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child:  new RefreshIndicator(
-                        onRefresh: _refreshList, child:Container(
-                    height: 480,
-                    width: 800,
-                    decoration: BoxDecoration(
+      backgroundColor: Colors.transparent,
+      key: _scaffoldKey,
+      body: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 70,
+                    color: Colors.transparent,
+                    child: Stack(children: [
+                      Center(
+                        child: Text(
+                          "Missões configuradas",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 70,
+                              fontFamily: 'Amatic SC',
+                              letterSpacing: 4),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ])),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Container(
+                    height: 1150,
+                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
                         boxShadow: [
-                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-            blurRadius: 5.0, // has the effect of softening the shadow
-            spreadRadius: 2.0, // has the effect of extending the shadow
-            offset: Offset(
-              0.0, // horizontal
-              2.5, // vertical
-            ),
-                                        )
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius:
+                                5.0, // has the effect of softening the shadow
+                            spreadRadius:
+                                2.0, // has the effect of extending the shadow
+                            offset: Offset(
+                              0.0, // horizontal
+                              2.5, // vertical
+                            ),
+                          )
                         ]),
-                   
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:20.0),
-                          child: new Builder(
-                            builder: (BuildContext) => (capitulo.missoes.length != 0)
-                                ? new ListView.separated(
-                                    itemBuilder: (context, int index) {
-                                      Mission mission =
-                                          missionsNotifier.missionsList[index];
-
-                                      if (mission.type == 'Text')
-                                        _imagem = 'assets/images/text.png';
-                                      else if (mission.type == 'Audio')
-                                        _imagem = 'assets/images/audio.png';
-                                      else if (mission.type == 'Video')
-                                        _imagem = 'assets/images/video.png';
-                                      else if (mission.type == 'Quiz')
-                                        _imagem = 'assets/images/quiz.png';
-                                      else if (mission.type == 'Activity')
-                                        _imagem = 'assets/images/atividade.png';
-                                      else if (mission.type == 'UploadVideo')
-                                        _imagem = 'assets/images/upload.png';
-                                      else if (mission.type == 'UploadImage')
-                                        _imagem = 'assets/images/upload.png';
-                                      else if (mission.type == 'Image')
-                                        _imagem = 'assets/images/image.png';
-                                      else if (mission.type == 'Questionario')
-                                        _imagem = 'assets/images/quiz.png';
-
-                                      return Stack(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Container(
-                                              key: UniqueKey(),
-                                              height: 160,
-                                              decoration: BoxDecoration(
-                                                  image: new DecorationImage(
-                                                    image:
-                                                        ExactAssetImage(_imagem),
-                                                    colorFilter:
-                                                        new ColorFilter.mode(
-                                                            Colors.white
-                                                                .withOpacity(0.8),
-                                                            BlendMode.dstIn),
-                                                    fit: BoxFit.fitHeight,
-                                                  ),
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(20.0),
-                                                  boxShadow: [
-                                                   BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-            blurRadius: 5.0, // has the effect of softening the shadow
-            spreadRadius: 2.0, // has the effect of extending the shadow
-            offset: Offset(
-              0.0, // horizontal
-              2.5, // vertical
-            ),
-                                        )
-                                                  ]),
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 30),
-                                                    child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Center(
-                                                            child: Text(
-                                                              mission.title,
-                                                              style: TextStyle(
-                                                                  fontSize: 30,
-                                                                  fontFamily:
-                                                                      'Monteserrat',
-                                                                     
-                                                                  letterSpacing:
-                                                                      2),
-                                                              textAlign: TextAlign
-                                                                  .center,
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                  ),
-                                                  Row(children: [
-                                               
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 650),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment.end,
-                                                        children: <Widget>[
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                FontAwesomeIcons
-                                                                    .trash),
-                                                            iconSize: 40,
-                                                            color: parseColor("#FFCE02"),
-                                                            tooltip:
-                                                                'Passar para a missão',
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                _remover(mission);
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ])
-                                                ],
-                                              )),
-                                        ),
-                                      ]);
-                                    },
-                                    itemCount:
-                                        missionsNotifier.missionsList.length,
-                                    separatorBuilder: (context, int index) {
-                                      return Divider(
-                                          height: 30, color:parseColor("#FFCE02"));
-                                    },
-                                  )
-                                :   ListView(
-                                                                children:[ Container(
-                                        height: 460,
-                                        width: 700,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            boxShadow: [
-                                              BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-            blurRadius: 5.0, // has the effect of softening the shadow
-            spreadRadius: 2.0, // has the effect of extending the shadow
-            offset: Offset(
-              0.0, // horizontal
-              2.5, // vertical
-            ),
-                                        )
-                                            ]),
-                                        child: Center(
-                                          child: new Text(
-                                            "Ainda não há missões configuradas",
-                                            style: TextStyle(
-                                                fontSize: 35,
-                                                fontFamily: 'Amatic SC',
-                                                letterSpacing: 4),
-                                          ),
-                                        )),]
-                                ),
-                                
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.only(left:20.0,right:20,top:100,bottom:50),
+                            child: Text(
+                                "Missões deste capítulo: " ,
+                                   
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    letterSpacing: 2,
+                                  
+                                    color: Colors.black,
+                                    fontFamily: 'Monteserrat')),
                           ),
-                        ))),
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                      
-                      icon: Icon(FontAwesomeIcons.plusCircle),
-                      iconSize: 80,
-                      color:Colors.white,
-                      tooltip: 'Adicionar missão nova',
-                      onPressed: () {
-                        setState(() {
-                          _navegarParaEscolherMissao(context);
-                        });
-                      },
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: new RefreshIndicator(
+                              onRefresh: _refreshList,
+                              child: Container(
+                                  height: 700,
+                                  width: 800,
+                                  
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 20.0),
+                                    child: new Builder(
+                                      builder: (BuildContext) => (capitulo
+                                                  .missoes.length !=
+                                              0)
+                                          ? new ListView.separated(
+                                              itemBuilder: (context, int index) {
+                                                Mission mission = missionsNotifier
+                                                    .missionsList[index];
+
+                                                if (mission.type == 'Text')
+                                                  _imagem =
+                                                      'assets/images/text.png';
+                                                else if (mission.type == 'Audio')
+                                                  _imagem =
+                                                      'assets/images/audio.png';
+                                                else if (mission.type == 'Video')
+                                                  _imagem =
+                                                      'assets/images/video.png';
+                                                else if (mission.type == 'Quiz')
+                                                  _imagem =
+                                                      'assets/images/quiz.png';
+                                                else if (mission.type ==
+                                                    'Activity')
+                                                  _imagem =
+                                                      'assets/images/atividade.png';
+                                                else if (mission.type ==
+                                                    'UploadVideo')
+                                                  _imagem =
+                                                      'assets/images/upload.png';
+                                                else if (mission.type ==
+                                                    'UploadImage')
+                                                  _imagem =
+                                                      'assets/images/upload.png';
+                                                else if (mission.type == 'Image')
+                                                  _imagem =
+                                                      'assets/images/image.png';
+                                                else if (mission.type ==
+                                                    'Questionario')
+                                                  _imagem =
+                                                      'assets/images/quiz.png';
+
+                                                return Stack(children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        20.0),
+                                                    child: Container(
+                                                        key: UniqueKey(),
+                                                        height: 160,
+                                                        decoration: BoxDecoration(
+                                                            image:
+                                                                new DecorationImage(
+                                                              image:
+                                                                  ExactAssetImage(
+                                                                      _imagem),
+                                                              colorFilter:
+                                                                  new ColorFilter
+                                                                          .mode(
+                                                                      Colors
+                                                                          .white
+                                                                          .withOpacity(
+                                                                              0.8),
+                                                                      BlendMode
+                                                                          .dstIn),
+                                                              fit: BoxFit
+                                                                  .fitHeight,
+                                                            ),
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20.0),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .black
+                                                                    .withOpacity(
+                                                                        0.2),
+                                                                blurRadius:
+                                                                    5.0, // has the effect of softening the shadow
+                                                                spreadRadius:
+                                                                    2.0, // has the effect of extending the shadow
+                                                                offset: Offset(
+                                                                  0.0, // horizontal
+                                                                  2.5, // vertical
+                                                                ),
+                                                              )
+                                                            ]),
+                                                        child: Column(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 30),
+                                                              child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Center(
+                                                                      child: Text(
+                                                                        mission
+                                                                            .title,
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                30,
+                                                                            fontFamily:
+                                                                                'Monteserrat',
+                                                                            letterSpacing:
+                                                                                2),
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                      ),
+                                                                    ),
+                                                                  ]),
+                                                            ),
+                                                            Row(children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            650),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    IconButton(
+                                                                      icon: Icon(
+                                                                          FontAwesomeIcons
+                                                                              .trash),
+                                                                      iconSize:
+                                                                          40,
+                                                                      color: Colors
+                                                                          .red,
+                                                                      tooltip:
+                                                                          'Remover missão',
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          _remover(
+                                                                              mission);
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ])
+                                                          ],
+                                                        )),
+                                                  ),
+                                                ]);
+                                              },
+                                              itemCount: missionsNotifier
+                                                  .missionsList.length,
+                                              separatorBuilder:
+                                                  (context, int index) {
+                                                return Divider(
+                                                    height: 30,
+                                                    color: parseColor("#FFCE02"));
+                                              },
+                                            )
+                                          : ListView(children: [
+                                              Container(
+                                                  height: 460,
+                                                  width: 700,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          blurRadius:
+                                                              5.0, // has the effect of softening the shadow
+                                                          spreadRadius:
+                                                              2.0, // has the effect of extending the shadow
+                                                          offset: Offset(
+                                                            0.0, // horizontal
+                                                            2.5, // vertical
+                                                          ),
+                                                        )
+                                                      ]),
+                                                  child: Center(
+                                                    child: new Text(
+                                                      "Ainda não há missões configuradas",
+                                                      style: TextStyle(
+                                                          fontSize: 35,
+                                                          fontFamily: 'Amatic SC',
+                                                          letterSpacing: 4),
+                                                    ),
+                                                  )),
+                                            ]),
+                                    ),
+                                  ))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(FontAwesomeIcons.plusCircle),
+                                  iconSize: 80,
+                                  color:parseColor("F4F19C"),
+                                  tooltip: 'Adicionar missão nova',
+                                  onPressed: () {
+                                    setState(() {
+                                      _navegarParaEscolherMissao(context);
+                                    });
+                                  },
+                                ),
+                              ]),
+                        ),
+                      ],
                     ),
-                  ]),
-            ],
-          ),
-        ));
+                  ),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 
   _navegarParaMissao(BuildContext context, Mission mission) async {
@@ -303,17 +393,17 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
   }
 
   _remover(Mission mission) {
-       final popup = BeautifulPopup(
-  context: context,
-  template: TemplateOrangeRocket2,
-);
+    final popup = BeautifulPopup.customize(
+      context: context,
+      build: (options) => MyTemplateConfirmation(options),
+    );
+
     print("a remover missao");
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
         style: TextStyle(
-            color: Colors.black,
-            
+            color: Colors.red,
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
             fontSize: 20),
@@ -328,7 +418,6 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
           "Sim",
           style: TextStyle(
               color: Colors.black,
-              
               fontFamily: 'Monteserrat',
               letterSpacing: 2,
               fontSize: 20),
@@ -341,10 +430,10 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                   TabBarMissions(capitulo: this.capitulo, aventura: aventura)));
         });
 
-   popup.show(
-     close:Container(),
+    popup.show(
+      close: Container(),
       title: Text(
-        "Confirmação",
+        "",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -352,27 +441,23 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
             letterSpacing: 2,
             fontSize: 30),
       ),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-              children: [Flexible(
-                              child: Text(
-          "Tem a certeza que pretende remover a missão?",
-          style: TextStyle(
+      content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Flexible(
+          child: Text(
+            "Tem a certeza que pretende remover a missão?",
+            style: TextStyle(
                 color: Colors.black,
-                
                 fontFamily: 'Monteserrat',
                 letterSpacing: 2,
                 fontSize: 20),
+          ),
         ),
-              ),]
-      ),
+      ]),
       actions: [
-        cancelaButton,
         continuaButton,
+        cancelaButton,
       ],
     );
-
- 
   }
 
   pedir_refresh(BuildContext context) {

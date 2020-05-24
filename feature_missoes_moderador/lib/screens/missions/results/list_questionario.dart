@@ -3,6 +3,7 @@ import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_loader.dart';
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -28,11 +29,8 @@ class _ResultsByMissionQuestionarioForTurmaState
   Turma turma;
   Map results;
 
-           
   List<Question> perguntas;
   List<Map> perguntasResults;
-  
-
 
   _ResultsByMissionQuestionarioForTurmaState(
       {this.mission, this.alunos, this.turma});
@@ -43,7 +41,7 @@ class _ResultsByMissionQuestionarioForTurmaState
     results = {};
     perguntas = [];
     perguntasResults = [];
-    
+
     for (var aluno in alunos) {
       for (var campo in mission.resultados) {
         if (campo['aluno'] == aluno) {
@@ -57,293 +55,491 @@ class _ResultsByMissionQuestionarioForTurmaState
 
     getPerguntasDoQuestionario(mission.content).then((value) => setState(() {
           perguntas = value;
-          for(var i in value){
-            
-            Map alunoResposta={};
-           alunoResposta['pergunta']=i.question;
-         
-          for (var aluno in alunos) {
-          
-            for (var campo in i.resultados) {
-              if (campo['aluno'] == aluno) {
-                alunoResposta[aluno] = campo['respostaEscolhida'];
-               
-                break;
+          for (var i in value) {
+            Map alunoResposta = {};
+            alunoResposta['pergunta'] = i.question;
+
+            for (var aluno in alunos) {
+              for (var campo in i.resultados) {
+                if (campo['aluno'] == aluno) {
+                  alunoResposta[aluno] = campo['respostaEscolhida'];
+
+                  break;
+                }
               }
             }
-            
-          }
-          
-perguntasResults.add(alunoResposta);
-          }
-          
 
+            perguntasResults.add(alunoResposta);
+          }
         }));
   }
 
   @override
   Widget build(BuildContext context) {
-  
-      if(perguntasResults.length!=0){
-        
-      
+    if (perguntasResults.length != 0) {
       return Scaffold(
-        appBar: new AppBar(title: new Text('Questionário Results Por Turma')),
+        backgroundColor: Colors.white,
         body: Container(
-          width: double.infinity,
-          color:Colors.indigoAccent[50],
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 60.0,
-                bottom: 20,
-              ),
-              child: Text(
-                  "Turma " +
-                      turma.nome +
-                      "                       " +
-                      alunos.length.toString() +
-                      " alunos",
-                  style: TextStyle(
-                      fontSize: 45, fontFamily: 'Amatic SC', letterSpacing: 4)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, right: 30, top: 30),
-              child: Container(
-                  height: 70,
-                  color: Colors.white,
-                  child: Row(children: [
-                    Text(
-                      '       Aluno          Missão feita   Tempo passado na missão   Nº de vezes que entrou   Movimento   Luz ambiental   Respostas',
+          child: ListView(children: [
+            Column(
+              children: [
+                Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/13.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 50.0, bottom: 20, right: 100, left: 50),
+                    child: FlatButton(
+                      color: parseColor("F4F19C"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Voltar atrás",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Monteserrat',
+                            letterSpacing: 2,
+                            fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50, bottom: 20),
+                    child: Text(
+                      "Resultados para a missão  '" +
+                          mission.title +
+                          "'  dos " +
+                          turma.nAlunos.toString() +
+                          " alunos da turma " +
+                          turma.nome +
+                          " : ",
                       style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
                           fontSize: 20,
-                          fontFamily: 'Amatic SC',
-                          color: Colors.indigo,
-                          letterSpacing: 4,
-                          fontWeight: FontWeight.w900),
-                    )
-                  ])),
-            ),
-            Expanded(
-              child: new ListView.separated(
-                itemBuilder: (context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 30.0, right: 30),
-                    child: Column(children: [
-                      Container(
-                          height: 150,
+                          fontFamily: 'Monteserrat',
+                          letterSpacing: 2),
+                    ),
+                  ),
+                ]),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30, top: 30, bottom: 10),
+                  child: Container(
+                      height: 70,
+                      decoration: BoxDecoration(
                           color: Colors.white,
-                          child: Row(children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 30),
-                              child: Container(
-                                height: 100,
-                                width: 170,
-                                child: Center(
-                                  child: Text(
-                                    alunos[index],
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'Amatic SC',
-                                        letterSpacing: 4,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                ),
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius:
+                                  5.0, // has the effect of softening the shadow
+                              spreadRadius:
+                                  2.0, // has the effect of extending the shadow
+                              offset: Offset(
+                                0.0, // horizontal
+                                2.5, // vertical
                               ),
+                            )
+                          ]),
+                      child: Row(children: [
+                        Text(
+                          '            Aluno',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '                  Missão feita',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '        Tempo passado\n           na missão',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '         Nº de vezes\n          que entrou',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '            Movimento',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '            Luz Ambiental',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                        Text(
+                          '            Respostas',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Monteserrat',
+                              letterSpacing: 2,
+                              fontSize: 15),
+                        ),
+                      ])),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30, top: 10, bottom: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius:
+                                5.0, // has the effect of softening the shadow
+                            spreadRadius:
+                                2.0, // has the effect of extending the shadow
+                            offset: Offset(
+                              0.0, // horizontal
+                              2.5, // vertical
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: new Builder(
-                                  builder: (BuildContext) =>
-                                      results[alunos[index]]['done']
-                                          ? Container(
-                                              height: 80,
-                                              width: 130,
-                                              child: Center(
-                                                child: Text(
-                                                  "Feita",
-                                                  style: new TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 30.0),
-                                                ),
-                                              ),
-                                              color: Colors.green[300])
-                                          : Container(
-                                              height: 80,
-                                              child: Center(
-                                                child: Text(
-                                                  "Não feita",
-                                                  style: new TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 30.0),
-                                                ),
-                                              ),
-                                              width: 130,
-                                              color: Colors.red[300])),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: CircularPercentIndicator(
-                                radius: 130.0,
-                                animation: true,
-                                animationDuration: 2000,
-                                lineWidth: 20.0,
-                                startAngle: 45.0,
-                                percent:
-                                    (results[alunos[index]]['timeVisited'] / 60)
-                                            .round() /
-                                        60,
-                                center: new Text(
-                                  ((results[alunos[index]]['timeVisited'] / 60)
-                                              .round())
-                                          .toString() +
-                                      " min",
-                                  style: new TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25.0),
-                                ),
-                                circularStrokeCap: CircularStrokeCap.butt,
-                                backgroundColor: Colors.grey[200],
-                                progressColor: Colors.indigoAccent,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                  "Entrou " +
-                                      results[alunos[index]]["counterVisited"]
-                                          .toString() +
-                                      " vezes",
-                                  style: const TextStyle(fontSize: 20.0)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: new Builder(
-                                  builder: (BuildContext) => results[
-                                          alunos[index]]['done']
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: FlatButton(
-                                            shape: new RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        18.0),
-                                                side: BorderSide(
-                                                    color: Colors.indigo,
-                                                    width: 5)),
-                                            color: Colors.white,
-                                            textColor: Colors.black,
-                                            padding: EdgeInsets.all(8.0),
-                                            onPressed: () {
-                                              showGraficoMovimento(context,
-                                                  results[alunos[index]]);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Ver gráfico".toUpperCase(),
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                ),
-                                              ),
-                                            ),
+                          )
+                        ]),
+                    height: (170 * alunos.length.toDouble()),
+                    child: Row(children: [
+                      Expanded(
+                        child: new ListView.separated(
+                          itemBuilder: (context, int index) {
+                            return Column(children: [
+                              Container(
+                                  height: 150,
+                                  color: Colors.white,
+                                  child: Row(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 15.0,
+                                      ),
+                                      child: Container(
+                                        height: 100,
+                                        width: 170,
+                                        child: Center(
+                                          child: Text(
+                                            alunos[index],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'Monteserrat',
+                                                letterSpacing: 2,
+                                                fontSize: 20),
                                           ),
-                                        )
-                                      : Container()),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5.0),
-                              child: new Builder(
-                                  builder: (BuildContext) => results[
-                                          alunos[index]]['done']
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: FlatButton(
-                                            shape: new RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        18.0),
-                                                side: BorderSide(
-                                                    color: Colors.indigo,
-                                                    width: 5)),
-                                            color: Colors.white,
-                                            textColor: Colors.black,
-                                            padding: EdgeInsets.all(8.0),
-                                            onPressed: () {
-                                              showGraficoLuz(context,
-                                                  results[alunos[index]]);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Ver gráfico".toUpperCase(),
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : Container()),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(),
-                              child: new Builder(
-                                  builder: (BuildContext) => results[
-                                          alunos[index]]['done']
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: FlatButton(
-                                            shape: new RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        18.0),
-                                                side: BorderSide(
-                                                    color: Colors.indigo,
-                                                    width: 5)),
-                                            color: Colors.white,
-                                            textColor: Colors.black,
-                                            padding: EdgeInsets.all(8.0),
-                                            onPressed: () {
-                                              showRespostas(context, perguntasResults,
-                                                  alunos[index]);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Ver respostas".toUpperCase(),
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : Container()),
-                            ),
-                          ]))
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
+                                      child: new Builder(
+                                          builder: (BuildContext) => results[
+                                                  alunos[index]]['done']
+                                              ? Container(
+                                                  height: 80,
+                                                  width: 130,
+                                                  child: Center(
+                                                    child: Text("Feita",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontFamily:
+                                                                'Monteserrat',
+                                                            letterSpacing: 2,
+                                                            fontSize: 20)),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.green[300],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          blurRadius:
+                                                              5.0, // has the effect of softening the shadow
+                                                          spreadRadius:
+                                                              2.0, // has the effect of extending the shadow
+                                                          offset: Offset(
+                                                            0.0, // horizontal
+                                                            2.5, // vertical
+                                                          ),
+                                                        )
+                                                      ]),
+                                                )
+                                              : Container(
+                                                  height: 80,
+                                                  child: Center(
+                                                    child: Text("Não feita",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontFamily:
+                                                                'Monteserrat',
+                                                            letterSpacing: 2,
+                                                            fontSize: 20)),
+                                                  ),
+                                                  width: 130,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.red[300],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          blurRadius:
+                                                              5.0, // has the effect of softening the shadow
+                                                          spreadRadius:
+                                                              2.0, // has the effect of extending the shadow
+                                                          offset: Offset(
+                                                            0.0, // horizontal
+                                                            2.5, // vertical
+                                                          ),
+                                                        )
+                                                      ]),
+                                                )),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
+                                      child: CircularPercentIndicator(
+                                        radius: 130.0,
+                                        animation: true,
+                                        animationDuration: 2000,
+                                        lineWidth: 20.0,
+                                        startAngle: 45.0,
+                                        percent: (results[alunos[index]]
+                                                        ['timeVisited'] /
+                                                    60)
+                                                .round() /
+                                            120,
+                                        center: new Text(
+                                            ((results[alunos[index]][
+                                                                'timeVisited'] /
+                                                            60)
+                                                        .round())
+                                                    .toString() +
+                                                " min",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'Monteserrat',
+                                                letterSpacing: 2,
+                                                fontSize: 20)),
+                                        circularStrokeCap:
+                                            CircularStrokeCap.butt,
+                                        backgroundColor: Colors.grey[200],
+                                        progressColor: parseColor("#E04C36"),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
+                                      child: Text(
+                                          "Entrou " +
+                                              results[alunos[index]]
+                                                      ["counterVisited"]
+                                                  .toString() +
+                                              " vezes",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Monteserrat',
+                                              letterSpacing: 2,
+                                              fontSize: 20)),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 10.0),
+                                      child: new Builder(
+                                          builder: (BuildContext) => results[
+                                                  alunos[index]]['done']
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: FlatButton(
+                                                    shape:
+                                                        new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    18.0),
+                                                            side: BorderSide(
+                                                                color: Colors
+                                                                    .indigo,
+                                                                width: 5)),
+                                                    color: Colors.white,
+                                                    textColor: Colors.black,
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    onPressed: () {
+                                                      showGraficoMovimento(
+                                                          context,
+                                                          results[
+                                                              alunos[index]]);
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        "Ver gráfico"
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontSize: 18.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container()),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5.0),
+                                      child: new Builder(
+                                          builder: (BuildContext) => results[
+                                                  alunos[index]]['done']
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: FlatButton(
+                                                    shape:
+                                                        new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    18.0),
+                                                            side: BorderSide(
+                                                                color: Colors
+                                                                    .indigo,
+                                                                width: 5)),
+                                                    color: Colors.white,
+                                                    textColor: Colors.black,
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    onPressed: () {
+                                                      showGraficoLuz(
+                                                          context,
+                                                          results[
+                                                              alunos[index]]);
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        "Ver gráfico"
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontSize: 18.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container()),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(),
+                                      child: new Builder(
+                                          builder: (BuildContext) => results[
+                                                  alunos[index]]['done']
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: FlatButton(
+                                                    shape:
+                                                        new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    18.0),
+                                                            side: BorderSide(
+                                                                color: Colors
+                                                                    .indigo,
+                                                                width: 5)),
+                                                    color: Colors.white,
+                                                    textColor: Colors.black,
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    onPressed: () {
+                                                      showRespostas(
+                                                          context,
+                                                          perguntasResults,
+                                                          alunos[index]);
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        "Ver respostas"
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontSize: 18.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container()),
+                                    ),
+                                  ]))
+                            ]);
+                          },
+                          itemCount: alunos.length,
+                          separatorBuilder: (context, int index) {
+                            return Divider(height: 30, color: Colors.black12);
+                          },
+                        ),
+                      ),
                     ]),
-                  );
-                },
-                itemCount: alunos.length,
-                separatorBuilder: (context, int index) {
-                  return Divider(height: 30, color: Colors.black12);
-                },
-              ),
-            ),
+                  ),
+                ),
+              ],
+            )
           ]),
         ),
       );
-      } else return Scaffold(
-                  appBar: new AppBar(backgroundColor: Colors.indigoAccent, title: new Text('Perfil do aluno')),
-                  body: Container(color: Colors.indigoAccent[50],child:Center(child: Container(child:ColorLoader(color1: Colors.indigoAccent,color2:Colors.yellowAccent,color3: Colors.deepPurpleAccent,)))));
-    
+    } else
+      return Scaffold(
+         
+          body: Container(
+             
+              child: Center(
+                  child: Container(
+                      child: ColorLoader(
+               
+              )))));
   }
 
 // POP UP DAS RESPOSTAS DO ALUNO AO QUESTIONÁRIO
@@ -354,10 +550,10 @@ perguntasResults.add(alunoResposta);
         "Ok",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -369,10 +565,10 @@ perguntasResults.add(alunoResposta);
         "Respostas do aluno ao Questionário",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       content: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -387,34 +583,33 @@ perguntasResults.add(alunoResposta);
               child: new ListView.separated(
                 itemBuilder: (context, int index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 30),
+                    padding:
+                        const EdgeInsets.only(left: 10.0, right: 30, top: 40),
                     child: Column(children: [
                       Container(
                           height: 90,
                           color: Colors.white,
                           child: Row(children: [
                             Expanded(
-                                                          child: ListView(
-                                                            children:[ Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 5.0, right: 30),
+                              child: ListView(children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0, right: 30),
                                   child: Container(
                                     height: 250,
                                     width: 400,
-                                    child:   Text(
-                                          perguntas[index]['pergunta'],
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              
-                                              letterSpacing: 4,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                                                       
-                                      
-                                    
+                                    child: Text(
+                                      perguntas[index]['pergunta'],
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          fontFamily: 'Monteserrat',
+                                          letterSpacing: 2),
+                                    ),
                                   ),
-                                ),]
-                              ),
+                                ),
+                              ]),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
@@ -456,10 +651,9 @@ perguntasResults.add(alunoResposta);
         "Ok",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -471,10 +665,10 @@ perguntasResults.add(alunoResposta);
         "Gráfico de movimento ao realizar a missão",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       content: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -485,12 +679,12 @@ perguntasResults.add(alunoResposta);
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Text(
-                "Picos acentuados assinalam momento em que o aluno moveu demasiado o dispositivo...",
+                "Picos acentuados assinalam momento em que o aluno moveu demasiado o dispositivo.",
                 style: TextStyle(
                     color: Colors.black,
-                    fontFamily: 'Amatic SC',
-                    letterSpacing: 2,
-                    fontSize: 30),
+                    fontSize: 20,
+                    fontFamily: 'Monteserrat',
+                    letterSpacing: 2),
               ),
             ),
             Container(
@@ -551,10 +745,9 @@ perguntasResults.add(alunoResposta);
         "Ok",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -566,10 +759,10 @@ perguntasResults.add(alunoResposta);
         "Gráfico da luz ambiental ao realizar a missão",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
-            letterSpacing: 2,
-            fontSize: 30),
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2),
       ),
       content: Container(
         width: 700,
@@ -581,13 +774,13 @@ perguntasResults.add(alunoResposta);
               "Valores de luz ambiental durante a realização da missão...",
               style: TextStyle(
                   color: Colors.black,
-                  fontFamily: 'Amatic SC',
-                  letterSpacing: 2,
-                  fontSize: 30),
+                  fontSize: 20,
+                  fontFamily: 'Monteserrat',
+                  letterSpacing: 2),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 50.0),
             child: Container(
               height: 230,
               width: 700,

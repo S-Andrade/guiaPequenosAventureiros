@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:feature_missoes_moderador/screens/home_screen.dart';
@@ -140,7 +141,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                           iconSize: 24,
                           elevation: 16,
                           style: TextStyle(
-                            color: Colors.blue
+                            color: const Color(0xff72d8bf)
                           ),
                           validator: (value){
                              if (value == "Historia") {
@@ -172,7 +173,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                                   width: 300,
                                   height: 50,
                                   decoration: BoxDecoration(
-                                      color: Colors.blue,
+                                      color:  const Color(0xff72d8bf),
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -188,7 +189,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: 'Amatic SC'),
+                                        fontFamily: 'Monteserrat'),
                                   )),
                                 ),
                               ),
@@ -208,7 +209,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                                   width: 300,
                                   height: 50,
                                   decoration: BoxDecoration(
-                                      color: Colors.blue,
+                                      color: const Color(0xff72d8bf),
                                       borderRadius: BorderRadius.circular(20.0),
                                       boxShadow: [
                                         BoxShadow(
@@ -224,7 +225,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: 'Amatic SC'),
+                                        fontFamily: 'Monteserrat'),
                                   )),
                                 ),
                               ),
@@ -385,57 +386,100 @@ class _AventuraCreate extends State<AventuraCreate> {
           return FutureBuilder<void>(
             future: getLists(context),
             builder: (context, AsyncSnapshot<void> snapshot) {
-          return Scaffold(
-              appBar: AppBar(
-                    title: Text('Criar aventura'),
-                  ),
-                  body: Column(
-                    children: <Widget>[
-                        Expanded(
-                      child: Stepper(
-                        
-                        steps: steps,
-                        currentStep: currentStep,
-                        onStepContinue: next,
-                        onStepTapped: (step) => goTo(step),
-                        onStepCancel: cancel,
-                      ),
+          return Container(
+             decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/19.png"),
+                      fit: BoxFit.fill,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: GestureDetector(
-                                onTap: () {
-                                  print('create');
-                                  create(context);
-                                },
-                                child: Container(
-                                  width: 300,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 4.0,
-                                        )
-                                      ]),
-                                  child: Center(
-                                      child: Text(
-                                      'Criar',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 26.0,
-                                        letterSpacing: 3,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Amatic SC'),
-                                  )),
-                                ),
-                              ),
-                    )
-                    
-                    ]
-                  ));
+                  ),
+            child: Scaffold(
+               backgroundColor: Colors.transparent,
+                    body: Padding(
+                      padding: const EdgeInsets.all(90.0),
+                      child: Container(
+                         decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius:
+                                      5.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    0.0, // horizontal
+                                    2.5, // vertical
+                                  ),
+                                )
+                              ]),
+                        child: Column(
+                          children: <Widget>[
+                              Expanded(
+                            child: Stepper(
+                              
+                              steps: steps,
+                              currentStep: currentStep,
+                              onStepContinue: next,
+                              onStepTapped: (step) => goTo(step),
+                              onStepCancel: cancel,
+                            ),
+                          ),
+                          Row(
+                                                      children:[ Padding(
+                              padding: const EdgeInsets.only(bottom: 50,left:300,right:70),
+                              child: GestureDetector(
+                                        onTap: () {
+                                          print('create');
+                                          create(context);
+                                        },
+                                        child: Container(
+                                          width: 200,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                              color:  const Color(0xff72d8bf),
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 4.0,
+                                                )
+                                              ]),
+                                          child: Center(
+                                              child: Text(
+                                              'Criar',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                letterSpacing: 3,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Monteserrat'),
+                                          )),
+                                        ),
+                                      ),
+                            ),  FlatButton(
+                            color:parseColor("F4F19C"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Voltar atrás",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                 
+                                  fontFamily: 'Monteserrat',
+                                  letterSpacing: 2,
+                                  fontSize: 20),
+                            ),
+                          ),]
+                          )
+                          
+                          ]
+                        ),
+                      ),
+                    )),
+          );
 
 
 
@@ -710,7 +754,7 @@ class _AventuraCreate extends State<AventuraCreate> {
                                         fontSize: 26.0,
                                         letterSpacing: 3,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: 'Amatic SC'),
+                                        fontFamily: 'Monteserrat'),
                                   )),
                                 ),
                               ),

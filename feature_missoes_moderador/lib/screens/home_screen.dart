@@ -24,7 +24,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
+    print(user);
     return MaterialApp(
       title: 'Guia dos Pequenos Aventureiros',
       theme: ThemeData(
@@ -32,27 +32,37 @@ class _HomeScreen extends State<HomeScreen> {
       ),
      home: StreamProvider<List<Aventura>>.value(
       value : DatabaseService().aventura,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: parseColor("#FFCE02"),
-          title: Text("Home")
-        ),
-        body: Scaffold(
-            body: AventuraList(user: user),
-            floatingActionButton: FloatingActionButton(
-              tooltip: "Criar Aventura Nova",
-              
-              onPressed: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCreate(user:user)));
-              },
-              child: Icon(Icons.add),
-              
-              backgroundColor: parseColor("#432F49"),
-            ),
-          )
+      child:
+       Container(
+         decoration:
+              BoxDecoration(
+              image: DecorationImage(
+          image: AssetImage("assets/images/inicial.gif"),
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,)),
+         child: Scaffold(
+          backgroundColor: Colors.transparent,
+         
+       
+              body: AventuraList(user: user),
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: FloatingActionButton(
+                  tooltip: "Criar Aventura Nova",
+                  
+                  onPressed: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => AventuraCreate(user:user)));
+                  },
+                  child: Icon(Icons.add),
+                  
+                  backgroundColor: const Color(0xff72d8bf),
+                ),
+              ),
+            
       ),
+       ),)
       
-    ),
+    
     );
   }
 }

@@ -94,7 +94,7 @@ flutter:
     
     - family: Amatic SC
       fonts:
-        - asset: google-fonts/AmaticSC-Bold.ttf
+        - asset: google-fonts/Lora-Regular.ttf
     - family: Montserrat
       fonts:
         - asset: google-fonts/Montserrat-Light.ttf    

@@ -52,108 +52,195 @@ class _ResultsByMissionUploadForTurmaState
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: new AppBar(title: new Text('Upload Results Por Turma')),
+   return Scaffold(
+      backgroundColor: Colors.white,
+   
       body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/back11.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 60.0,
-              bottom: 20,
-            ),
-            child: Text(
-                "Turma " +
-                    turma.nome +
-                    "                       " +
-                    alunos.length.toString() +
-                    " alunos",
-                style: TextStyle(
-                    fontSize: 45, fontFamily: 'Amatic SC', letterSpacing: 4)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0, right: 30, top: 30),
-            child: Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(children: [
-                  Text(
-                    '       Aluno               Missão feita          Foto/Vídeo Uploaded',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Amatic SC',
-                        color: Colors.indigo,
-                        letterSpacing: 4,
-                        fontWeight: FontWeight.w900),
-                  )
-                ])),
-          ),
-          Expanded(
-            child: new ListView.separated(
-              itemBuilder: (context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30),
-                  child: Column(children: [
-                    Container(
-                        height: 150,
-                        color: Colors.white,
-                        child: Row(children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, right: 30),
-                            child: Container(
-                              height: 100,
-                              width: 170,
-                              child: Center(
-                                child: Text(
-                                  alunos[index],
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontFamily: 'Amatic SC',
-                                      letterSpacing: 4,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ),
+       
+         child:ListView(
+              children:[Column(children: [ Container(height: 250,
+             decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/13.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+            ),Row(
+                              children:[ 
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:50.0,bottom:20,right:100,left:50),
+                                        child: FlatButton(
+                            color:parseColor("F4F19C"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Voltar atrás",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                 
+                                  fontFamily: 'Monteserrat',
+                                  letterSpacing: 2,
+                                  fontSize: 20),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: new Builder(
-                                builder: (BuildContext) =>
-                                    results[alunos[index]]['done']
-                                        ? Container(
-                                            height: 80,
-                                            width: 130,
-                                            child: Center(
-                                              child: Text(
-                                                "Feita",
-                                                style: new TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 30.0),
-                                              ),
-                                            ),
-                                            color: Colors.green[300])
-                                        : Container(
-                                            height: 80,
-                                            child: Center(
-                                              child: Text(
-                                                "Não feita",
-                                                style: new TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 30.0),
-                                              ),
-                                            ),
-                                            width: 130,
-                                            color: Colors.red[300])),
-                          ),
-                         
-                          Padding(
+                                      ),
+                                Padding(
+                  padding: const EdgeInsets.only(top: 50, bottom: 20),
+                  child: Text(
+                    "Resultados para a missão  '" +
+                        mission.title +
+                        "'  dos " +
+                        turma.nAlunos.toString() +
+                        " alunos da turma " +
+                        turma.nome +
+                        " : ",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        fontFamily: 'Monteserrat',
+                        letterSpacing: 2),
+                  ),
+                ),]
+              ),Padding(
+                padding: const EdgeInsets.only(left: 30.0, right: 30, top: 30,bottom:10),
+                child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                     boxShadow: [
+                                                    BoxShadow(
+                                                color: Colors.black.withOpacity(0.1),
+                  blurRadius: 5.0, // has the effect of softening the shadow
+                  spreadRadius: 2.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.0, // horizontal
+                    2.5, // vertical
+                  ),
+                                              )
+                                                  ]),
+                    child: Row(children: [
+                      Text(
+                        '                Aluno                    Missão feita         Ficheiro carregado',
+                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'Monteserrat',
+                                            letterSpacing: 2,
+                                            fontSize: 17),
+                      )
+                    ])),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0, right: 30,top:10,bottom:10),
+                child: Container(
+                   decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                       boxShadow: [
+                                                      BoxShadow(
+                                                  color: Colors.black.withOpacity(0.1),
+                    blurRadius: 5.0, // has the effect of softening the shadow
+                    spreadRadius: 2.0, // has the effect of extending the shadow
+                    offset: Offset(
+                      0.0, // horizontal
+                      2.5, // vertical
+                    ),
+                                                )
+                                                    ]),
+                  height:(170*alunos.length.toDouble()
+                  ) ,
+                  child: Row(
+                                    children: [Expanded(
+                      child: new ListView.separated(
+                        itemBuilder: (context, int index) {
+                          return Column(children: [
+                              Container(
+                                  height: 150,
+                                  color: Colors.white,
+                                  child: Row(children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 50.0, right: 30),
+                                      child: Container(
+                                        height: 100,
+                                        width: 170,
+                                        child: Center(
+                                          child: Text(
+                                            alunos[index],
+                                            style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Monteserrat',
+                                                  letterSpacing: 2,
+                                                  fontSize: 20),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: new Builder(
+                                          builder: (BuildContext) =>
+                                              results[alunos[index]]['done']
+                                                  ? Container(
+                                                      height: 80,
+                                                      width: 130,
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Feita",
+                                                          style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Monteserrat',
+                                                  letterSpacing: 2,
+                                                  fontSize: 20)
+                                                        ),
+                                                      ),
+                                                       decoration: BoxDecoration(
+                                      color: Colors.green[300],
+                                      borderRadius: BorderRadius.circular(10.0),
+                                       boxShadow: [
+                                                      BoxShadow(
+                                                  color: Colors.black.withOpacity(0.1),
+                    blurRadius: 5.0, // has the effect of softening the shadow
+                    spreadRadius: 2.0, // has the effect of extending the shadow
+                    offset: Offset(
+                      0.0, // horizontal
+                      2.5, // vertical
+                    ),
+                                                )
+                                                    ]),)
+                                                  : Container(
+                                                      height: 80,
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Não feita",
+                                                          style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Monteserrat',
+                                                  letterSpacing: 2,
+                                                  fontSize: 20)
+                                                        ),
+                                                      ),
+                                                      width: 130,
+                                       decoration: BoxDecoration(
+                                      color: Colors.red[300],
+                                      borderRadius: BorderRadius.circular(10.0),
+                                       boxShadow: [
+                                                      BoxShadow(
+                                                  color: Colors.black.withOpacity(0.1),
+                    blurRadius: 5.0, // has the effect of softening the shadow
+                    spreadRadius: 2.0, // has the effect of extending the shadow
+                    offset: Offset(
+                      0.0, // horizontal
+                      2.5, // vertical
+                    ),
+                                                )
+                                                    ]),)),
+                                    ),
+                                   
+                                   
+                                    Padding(
                             padding: const EdgeInsets.only(left: 60.0),
                             child: new Builder(
                                 builder: (BuildContext) =>
@@ -191,20 +278,31 @@ class _ResultsByMissionUploadForTurmaState
                                             ),
                                           )
                                         : Container()),
-                          ),
-                        ]))
-                  ]),
-                );
-              },
-              itemCount: alunos.length,
-              separatorBuilder: (context, int index) {
-                return Divider(height: 30, color: Colors.black12);
-              },
+                                   
+                                    )
+                                  ]))
+                            ]);
+                          
+                        },
+                        itemCount: alunos.length,
+                        separatorBuilder: (context, int index) {
+                          return Divider(height: 30, color: Colors.black12);
+                        },
+                      ),
+                    ),]
+                  ),
+                ),
+              ),
+            ],)]
             ),
-          ),
-        ]),
+        
       ),
+      
+      
     );
+                         
+                          
+                         
   }
 
   showImageOrVideo(BuildContext context, link, mission) {
@@ -216,10 +314,10 @@ class _ResultsByMissionUploadForTurmaState
         "Ok",
         style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+         
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         
@@ -229,7 +327,7 @@ class _ResultsByMissionUploadForTurmaState
 
     AlertDialog alertImage = AlertDialog(
       title: Text(
-        "Imagem uploaded pelo aluno",
+        "Imagem carregada pela criança:",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -262,7 +360,7 @@ class _ResultsByMissionUploadForTurmaState
 
     AlertDialog alertVideo = AlertDialog(
       title: Text(
-        "Video uploaded pelo aluno",
+        "Vídeo carregado pela criança:",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,

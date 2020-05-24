@@ -62,60 +62,62 @@ class _TabBarMissionsState extends State<TabBarMissions>
                             context,
                             MaterialPageRoute(
                                 builder: (_) => (this.capitulo,this.aventuraId)));*/
-    return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title:Text("Resultados e Missões do Capítulo "+capitulo.id),
-              leading: IconButton(
-                  tooltip: 'Voltar para capítulos',
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AventuraCapitulo(aventura: aventura)));
-                  }),
-              bottomOpacity: 1,
-              toolbarOpacity: 1,
-              backgroundColor:parseColor("#FFCE02"),
-              bottom: TabBar(
-                controller: _tabController,
-                tabs: [
-                  Tab(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Resultados",
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              letterSpacing: 4,
-                              color: Colors.white,
-                              fontFamily: 'Monteserrat')),
+    return Container(
+       decoration:
+              BoxDecoration(
+              image: DecorationImage(
+          image: AssetImage("assets/images/animated18.gif"),
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
+        ),),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar:  TabBar(
+                  controller: _tabController,
+                  tabs: [
+                    Padding(
+                      padding: const EdgeInsets.only(top:40.0),
+                      child: Tab(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("Resultados",
+                              style: TextStyle(
+                                  fontSize: 25.0,
+                                  letterSpacing: 4,
+                                  color: Colors.white,
+                                  fontFamily: 'Monteserrat')),
+                        ),
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Missões",
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              letterSpacing: 4,
-                              color: Colors.white,
-                              fontFamily: 'Monteserrat')),
+                    Padding(
+                      padding: const EdgeInsets.only(top:40.0),
+                      child: Tab(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("Missões",
+                              style: TextStyle(
+                                  fontSize: 25.0,
+                                  letterSpacing: 4,
+                                  color: Colors.white,
+                                  fontFamily: 'Monteserrat')),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              ResultsDashboardTurmasScreen(
-                  aventuraId: this.aventura.id, capitulo: this.capitulo),
-              CreateMissionScreen(
-                  aventura: this.aventura, capitulo: this.capitulo),
-            ],
+                  ],
+                ),
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                ResultsDashboardTurmasScreen(
+                    aventuraId: this.aventura.id, capitulo: this.capitulo),
+                CreateMissionScreen(
+                    aventura: this.aventura, capitulo: this.capitulo),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 
-class MyTemplate extends BeautifulPopupTemplate {
+class MyTemplateError extends BeautifulPopupTemplate {
   final BeautifulPopup options;
-  MyTemplate(this.options) : super(options);
+  MyTemplateError(this.options) : super(options);
 
   @override
-  final illustrationKey = 'packages/flutter_beautiful_popup/fail';
+  final illustrationKey = 'assets/images/erro.jpg';
   @override
   Color get primaryColor => options.primaryColor ?? Color(0xff000000); // The default primary color of the template is Colors.black.
   @override

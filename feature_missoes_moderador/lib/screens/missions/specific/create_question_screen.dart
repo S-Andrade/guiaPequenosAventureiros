@@ -37,7 +37,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
       body: Container(
         decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/11.png"),
+                      image: AssetImage("assets/images/19.png"),
                       fit: BoxFit.fill,
                     ),
                   ),

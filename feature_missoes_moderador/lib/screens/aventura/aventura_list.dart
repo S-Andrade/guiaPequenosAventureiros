@@ -5,6 +5,8 @@ import 'package:feature_missoes_moderador/screens/aventura/aventura_details.dart
 import 'package:feature_missoes_moderador/screens/aventura/aventura_edit.dart';
 import 'package:feature_missoes_moderador/screens/participantes/participantes.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
+import 'package:feature_missoes_moderador/widgets/popup.dart';
+import 'package:feature_missoes_moderador/widgets/popupOptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'aventura.dart';
@@ -27,51 +29,13 @@ class _AventuraListState extends State<AventuraList> {
 
   List<Aventura> aventuras = [];
   List<Aventura> aventura;
-  Widget _buildAvatar() {
-    return Row(
-      children: [
-        Container(
-          width: 130.0,
-          height: 130.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white30),
-          ),
-          margin: const EdgeInsets.only(top: 32.0, left: 50.0),
-          padding: const EdgeInsets.all(3.0),
-          child: ClipOval(
-            child: Image.asset("assets/images/brain.png"),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30, left: 50, bottom: 20.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Bem-Vindo!",
-                style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.black,
-                    letterSpacing: 5,
-                    fontFamily: 'Amatic SC')),
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0),
-              child: Text("GUIA dos pequenos Aventureiros [ Moderador ]",
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: parseColor("#432F49"),
-                      fontFamily: 'Monteserrat')),
-            ),
-          ]),
-        ),
-      ],
-    );
-  }
 
   Widget _buildInfo() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0, left: 30.0, right: 16.0),
+      padding:
+          const EdgeInsets.only(top: 50.0, left: 30.0, right: 16.0, bottom: 50),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             color: Colors.white.withOpacity(0.85),
@@ -79,10 +43,9 @@ class _AventuraListState extends State<AventuraList> {
             width: 600.0,
             height: 1.0,
           ),
-          Text(
-              "Esta plataforma foi desenvolvida em colaboração de alunos de Licenciatura em\nEngenharia Informática da Universidade de Aveiro com o grupo de psicólogos GUIA.\n\n\nAqui poderá vizualizar as aventuras existentes, no momento:",
+          Text("\n\n  Aventuras existentes, no momento:",
               style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 20.0,
                   color: Colors.black,
                   fontFamily: 'Monteserrat')),
         ],
@@ -92,21 +55,22 @@ class _AventuraListState extends State<AventuraList> {
 
   Widget _buildVideoScroller(aventuras) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0, left: 50),
+      padding: const EdgeInsets.only(bottom:130.0,left:50),
       child: SizedBox.fromSize(
-        size: Size.fromHeight(300.0),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          itemCount: aventuras.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-                onTap: () {
-                  showOptions(aventuras[index]);
-                },
-                child: Card(aventura: aventuras[index]));
-          },
-        ),
+          size: Size.fromHeight(300.0),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            itemCount: aventuras.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                  onTap: () {
+                    showOptions(aventuras[index]);
+                  },
+                  child: Card(aventura: aventuras[index]));
+            },
+          ),
+        
       ),
     );
   }
@@ -117,9 +81,33 @@ class _AventuraListState extends State<AventuraList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildAvatar(),
-            _buildInfo(),
-            _buildVideoScroller(aventuras),
+           
+            Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius:
+                              5.0, // has the effect of softening the shadow
+                          spreadRadius:
+                              2.0, // has the effect of extending the shadow
+                          offset: Offset(
+                            0.0, // horizontal
+                            2.5, // vertical
+                          ),
+                        )
+                      ]),
+                  child: Column(
+                    children: <Widget>[
+                      _buildInfo(),
+                      _buildVideoScroller(aventuras),
+                    ],
+                  )),
+            ),
           ],
         ),
       );
@@ -135,13 +123,30 @@ class _AventuraListState extends State<AventuraList> {
               if (snapshot.hasError)
                 return new Text('Erro: ${snapshot.error}');
               else
-                return Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Image.asset("assets/images/magic.jpg", fit: BoxFit.cover),
-                    // or story3?
+                return  Container(
+                      child: ListView(children: [
+                    Column(children: <Widget>[
+                  
+                  Container(width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height ,
+                            color: Colors.transparent,child:Stack(
+                            children: [
+                              
+                              
+                              Center(
+                                child: Text(
+                                  "Bem Vindo!",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 100,
+                                      fontFamily: 'Amatic SC',
+                                      letterSpacing: 4),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),]),),
                     _buildContent(aventuras),
-                  ],
+                  ],)])
                 );
               break;
             default:
@@ -162,22 +167,19 @@ class _AventuraListState extends State<AventuraList> {
   }
 
   showOptions(aventura) async {
-
-    final popup = BeautifulPopup(
-  context: context,
-  template: TemplateTerm,
-);
-
+    final popup = BeautifulPopup.customize(
+      context: context,
+      build: (options) => MyTemplateOptions(options),
+    );
 
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
         style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Amatic SC',
+            color: Colors.red,
+            fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -186,7 +188,7 @@ class _AventuraListState extends State<AventuraList> {
 
     popup.show(
       title: Text(
-        "Escolha uma opção:",
+        "",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -198,17 +200,34 @@ class _AventuraListState extends State<AventuraList> {
         padding: const EdgeInsets.all(20.0),
         child: Container(
             width: 300,
-            height: 200,
             child: Column(
               children: [
+                Text(
+                  "Escolha uma opção:",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Amatic SC',
+                      letterSpacing: 2,
+                      fontSize: 15),
+                ),
                 GestureDetector(
-                   onTap: () {
-                            Navigator.of(context,rootNavigator: true).push( MaterialPageRoute(builder: (context) => ParticipantesScreen(escolasId: aventura.escolas,aventuraId:aventura.id)));
-                          },
-                                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) => ParticipantesScreen(
+                                escolasId: aventura.escolas,
+                                aventuraId: aventura.id)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10.0,
+                      left: 10.0,
+                      right: 10,
+                      bottom: 10,
+                    ),
                     child: Container(
-                      height: 30,
+                      height: 20,
                       width: 300,
                       child: Center(child: Text("Ver Dashboard Geral")),
                       decoration: BoxDecoration(
@@ -223,14 +242,17 @@ class _AventuraListState extends State<AventuraList> {
                     ),
                   ),
                 ),
-               GestureDetector(
-                   onTap: () {
-                            Navigator.of(context,rootNavigator: true).push( MaterialPageRoute(builder: (context) => AventuraCapitulo(aventura: aventura)));
-                          },
-                                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AventuraCapitulo(aventura: aventura)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
                     child: Container(
-                      height: 30,
+                      height: 20,
                       width: 300,
                       child: Center(child: Text("Ir para capítulos")),
                       decoration: BoxDecoration(
@@ -246,13 +268,16 @@ class _AventuraListState extends State<AventuraList> {
                   ),
                 ),
                 GestureDetector(
-                   onTap: () {
-                            Navigator.of(context,rootNavigator: true).push( MaterialPageRoute(builder: (context) => AventuraDetails(aventura: aventura)));
-                          },
-                                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AventuraDetails(aventura: aventura)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
                     child: Container(
-                      height: 30,
+                      height: 20,
                       width: 300,
                       child: Center(child: Text("Editar participantes")),
                       decoration: BoxDecoration(
@@ -268,13 +293,16 @@ class _AventuraListState extends State<AventuraList> {
                   ),
                 ),
                 GestureDetector(
-                   onTap: () {
-                            Navigator.of(context,rootNavigator: true).push( MaterialPageRoute(builder: (context) => AventuraEdit(user: user , aventura: aventura)));
-                          },
-                                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AventuraEdit(user: user, aventura: aventura)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
                     child: Container(
-                      height: 30,
+                      height: 20,
                       width: 300,
                       child: Center(child: Text("Editar Aventura")),
                       decoration: BoxDecoration(
@@ -292,13 +320,11 @@ class _AventuraListState extends State<AventuraList> {
               ],
             )),
       ),
-      close:Container(),
+      close: Container(),
       actions: [
         cancelaButton,
       ],
     );
-    
-   
   }
 }
 

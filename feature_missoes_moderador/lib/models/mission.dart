@@ -8,6 +8,7 @@ class Mission {
   String linkImage;
   String linkAudio;
   List resultados;
+  int points;
  
  
   
@@ -22,6 +23,7 @@ class Mission {
     linkImage=data['linkImage'];
     linkAudio=data['linkAudio'];
     resultados=data['resultados'];
+    points=data['points'];
     
   }
   
@@ -35,6 +37,7 @@ class Mission {
       'linkImage':linkImage,
       'linkAudio':linkAudio,
       'resultados':resultados,
+      'points':points
       
     };
   }

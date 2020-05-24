@@ -4,7 +4,9 @@ import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
+import 'package:feature_missoes_moderador/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +30,8 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
   Capitulo capitulo;
   String _titulo;
   String _descricao;
+final _textPontos = TextEditingController();
+  String _pontos;
 
   final _text = TextEditingController();
   final _text2 = TextEditingController();
@@ -70,7 +74,7 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                   height: MediaQuery.of(context).size.height,
                  decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/25.jpg"),
+                image: AssetImage("assets/images/29.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -80,15 +84,13 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                       alignment: Alignment.centerRight,
                       child: Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: 60.0,
-                          ),
+                        
                           Container(
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 0.0, bottom: 5.0),
                             child: Text(
                               "Enviar um video",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 40,
                                   fontFamily: 'Amatic SC',
@@ -100,12 +102,13 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                             height: 40.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 110.0, bottom: 5.0),
                             child: Text(
                               "As crianças irão receber uma missão, em forma de vídeo, ao qual poderão assistir.",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
                                   fontFamily: 'Amatic SC',
                                   letterSpacing: 4),
                               textAlign: TextAlign.center,
@@ -135,7 +138,7 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 0.0, left: 70.0, bottom: 30.0),
+                  padding: EdgeInsets.only(top: 50.0, left: 70.0, bottom: 30.0),
                   child: Column(
                     children: <Widget>[
                       LayoutBuilder(
@@ -258,6 +261,69 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                         },
                       ),
                       SizedBox(height: 50.0),
+                      LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          return Row(
+                            children: <Widget>[
+                              Container(
+                                width: 120.0,
+                                child: Text(
+                                  "Pontos",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                     
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 40.0,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3.7,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: parseColor("F4F19C"),
+                                ),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                                  controller: _textPontos,
+                                  onChanged: (value) {
+                                    _pontos = value;
+                                  },
+                                  maxLength: 5,
+                                  maxLengthEnforced: true,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Monteserrat',
+                                      letterSpacing: 2,
+                                      fontSize: 14),
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(10.0),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.blue[50],
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    hintText: "Insira os pontos que esta missão vale",
+                                    fillColor: Colors.blue[50],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+
+                      SizedBox(height: 50.0),
                       Row(children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -299,12 +365,12 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
                             width: 20.0,
                           ),
                           FlatButton(
-                            color:parseColor("F4F19C"),
+                            color:const Color(0xff72d8bf),
                             onPressed: () {
                               if (_text.text.length > 0 &&
                                   _text2.text.length > 0 &&
-                                  _video != null)
-                                showConfirmar(context, _titulo, _descricao);
+                                  _video != null && _textPontos.text.length>0)
+                                showConfirmar(context, _titulo, _descricao,int.parse(_pontos));
                               else
                                 showError(context);
                             },
@@ -360,12 +426,11 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
     });
   }
 
-  showConfirmar(BuildContext context, String titulo, String conteudo) {
-   final popup = BeautifulPopup(
+  showConfirmar(BuildContext context, String titulo, String conteudo,int pontos) {
+final popup = BeautifulPopup.customize(
   context: context,
-  template: TemplateBlueRocket,
+  build: (options) => MyTemplateConfirmation(options),
 );
-   
     Widget cancelaButton = FlatButton(
       child: Text(
         "Cancelar",
@@ -393,7 +458,7 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
       ),
       onPressed: () {
         addUploadedVideoToFirebaseStorage(
-            _titulo, _descricao, _video, aventuraId.id, capitulo.id);
+            _titulo, _descricao, _video, aventuraId.id, capitulo.id,pontos);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => TabBarMissions(
                 capitulo: capitulo, aventura: aventuraId)));
@@ -403,7 +468,7 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
     popup.show(
       close:Container(),
       title: Text(
-        "Confirmação",
+        "",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -412,7 +477,7 @@ class _CreateVideoMissionScreenState extends State<CreateVideoMissionScreen> {
             fontSize: 30),
       ),
       content: Text(
-        "Tem a certeza que pretende submeter?",
+        "\nTem a certeza que pretende submeter?",
         style: TextStyle(
             color: Colors.black,
             

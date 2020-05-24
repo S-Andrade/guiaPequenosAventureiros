@@ -1,3 +1,4 @@
+import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'capitulo.dart';
 import '../aventura/aventura.dart';
@@ -9,7 +10,7 @@ class CapituloTile extends StatelessWidget {
   Aventura aventura;
   int index;
 
-  CapituloTile({this.capituloId, this.aventura,this.index});
+  CapituloTile({this.capituloId, this.aventura, this.index});
 
   Capitulo capitulo;
   bool flag = false;
@@ -24,9 +25,9 @@ class CapituloTile extends StatelessWidget {
               if (snapshot.hasError)
                 return new Text('Erro: ${snapshot.error}');
               else
-                  return Padding(
-                    padding: const EdgeInsets.only(left:20.0),
-                    child: Center(
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Center(
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -35,66 +36,60 @@ class CapituloTile extends StatelessWidget {
                                 builder: (context) => CapituloDetails(
                                     capitulo: capitulo, aventura: aventura)));
                       },
-                     
-                      
-                        child: Container(
-
-             height: 580,
-         
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Padding(
-                                   padding: const EdgeInsets.only(top:15.0,left:30),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                              
-                                       
-                                        Flexible(
-                                          child: Text("Capítulo " + capitulo.id,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 70.0,
-                                                 
-                                                  color: Colors.black,
-                                                  fontFamily: 'Amatic SC')),
-                                        ),
-                                      
-                                    ],
-                                  ),
+                      child: Container(
+                        height: 580,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 15.0, left: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Text("Capítulo " + index.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 70.0,
+                                              color: Colors.black,
+                                              fontFamily: 'Amatic SC')),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius:
-                                      5.0, // has the effect of softening the shadow
-                                  spreadRadius:
-                                      2.0, // has the effect of extending the shadow
-                                  offset: Offset(
-                                    0.0, // horizontal
-                                    2.5, // vertical
-                                  ),
-                                )
-                              ],
-                              color:Colors.white,
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/chapter_"+index.toString()+".png"),
-                                fit: BoxFit.fitHeight,
-                                alignment: Alignment.topCenter,
-                              )),
+                            ),
+                          ],
                         ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                blurRadius:
+                                    5.0, // has the effect of softening the shadow
+                                spreadRadius:
+                                    2.0, // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0, // horizontal
+                                  2.5, // vertical
+                                ),
+                              )
+                            ],
+                            color: Colors.white,
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/chapter_" +
+                                  index.toString() +
+                                  ".png"),
+                              fit: BoxFit.fitHeight,
+                              alignment: Alignment.topCenter,
+                            )),
                       ),
-                    
-                ),
-                  );
+                    ),
+                  ),
+                );
 
               break;
             default:

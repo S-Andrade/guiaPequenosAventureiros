@@ -155,7 +155,7 @@ Future<List<Activity>> getAllActivitiesInDatabase() async {
 // CRIAÇAO DE UMA MISSÃO DE TEXTO
 
 createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
-    String capituloId) async {
+    String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -164,6 +164,7 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
   alunos = await getAlunos(aventuraId);
 
   mission.title = titulo;
+  mission.points = pontos;
   mission.id = (_largerId + 1).toString();
   mission.content = conteudo;
   mission.type = 'Text';
@@ -201,7 +202,7 @@ createMissionTextInFirestore(String titulo, String conteudo, String aventuraId,
 //ASSOCIA A UMA MISSÃO
 //ASSOCIA AO CAPITULO
 createMissionQuiz(
-    String titulo, List questoes, String aventuraId, String capituloId) async {
+    String titulo, List questoes, String aventuraId, String capituloId,int pontos) async {
   List<dynamic> documentosQuestao = new List<dynamic>();
   CollectionReference questionRef = Firestore.instance.collection('question');
 
@@ -250,6 +251,7 @@ createMissionQuiz(
   mission.id = (_largerId + 1).toString();
   mission.title = titulo;
   mission.type = 'Quiz';
+  mission.points=pontos;
   mission.content = quizDocRef;
   mission.resultados = [];
 
@@ -280,7 +282,7 @@ createMissionQuiz(
 //ASSOCIA A UMA MISSÃO
 //ASSOCIA AO CAPITULO
 createMissionQuestinario(
-    String titulo, List questoes, String aventuraId, String capituloId) async {
+    String titulo, List questoes, String aventuraId, String capituloId,int pontos) async {
 
   List<dynamic> documentosQuestao = new List<dynamic>();
   CollectionReference questionRef = Firestore.instance.collection('question');
@@ -335,6 +337,7 @@ createMissionQuestinario(
   mission.type = 'Questionario';
   mission.content = qDocRef;
   mission.resultados = [];
+  mission.points=pontos;
 
   alunos.forEach((element) {
     Map<String, dynamic> mapa = {};
@@ -361,7 +364,7 @@ createMissionQuestinario(
 // PRIMEIRO CRIA SE OS DOCUMENTOS PARA CADA ATIVIDADE
 // DEPOIS CRIA-SE A MISSÃO COM A LISTA DOS DOCUMENTOS DE ATIVIDADE
 createMissionActivityInFirestore(String titulo, List<Activity> activities,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   CollectionReference activityRef = Firestore.instance.collection('activity');
 
   List<dynamic> documentos = new List<dynamic>();
@@ -388,6 +391,7 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
   mission.id = (_largerId + 1).toString();
   mission.title = titulo;
   mission.type = 'Activity';
+  mission.points=pontos;
   mission.content = documentos;
   mission.resultados = [];
 
@@ -418,7 +422,7 @@ createMissionActivityInFirestore(String titulo, List<Activity> activities,
 // CRIAÇÃO DA MISSÃO DE IMAGEM
 
 createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -433,6 +437,7 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
     mission.id = (_largerId + 1).toString();
     mission.title = titulo;
     mission.type = 'Image';
+    mission.points=pontos;
     mission.content = descricao;
     mission.resultados = [];
   }
@@ -463,7 +468,7 @@ createMissionImageInFirestore(String imageUrl, String titulo, String descricao,
 // CRIAÇÃO DA MISSÃO DE VÍDEO
 
 createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -478,6 +483,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
     mission.id = (_largerId + 1).toString();
     mission.title = titulo;
     mission.type = 'Video';
+    mission.points=pontos;
     mission.resultados = [];
     mission.content = descricao;
   }
@@ -487,6 +493,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
+    mapa['counterPause']=0;
     mapa['counterVisited'] = 0;
     mapa['done'] = false;
     mapa['timeVisited'] = 0;
@@ -508,7 +515,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
 // CRIAÇÃO DA MISSÃO DE AUDIO
 
 createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -523,6 +530,7 @@ createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
     mission.id = (_largerId + 1).toString();
     mission.title = titulo;
     mission.type = 'Audio';
+    mission.points=pontos;
     mission.resultados = [];
     mission.content = descricao;
   }
@@ -552,7 +560,7 @@ createMissionAudioInFirestore(String audioUrl, String titulo, String descricao,
 // CRIAÇÃO DA MISSÃO DE UPLOAD IMAGEM/VIDEO
 
 createMissionUploadImageInFirestore(String titulo, String descricao,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -568,6 +576,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
     mission.resultados = [];
     mission.content = descricao;
     mission.type = 'UploadImage';
+    mission.points=pontos;
   }
 
   alunos.forEach((element) {
@@ -595,7 +604,7 @@ createMissionUploadImageInFirestore(String titulo, String descricao,
 }
 
 createMissionUploadVideoInFirestore(String titulo, String descricao,
-    String aventuraId, String capituloId) async {
+    String aventuraId, String capituloId,int pontos) async {
   Mission mission = new Mission();
   List<dynamic> alunos;
   int _largerId;
@@ -611,6 +620,7 @@ createMissionUploadVideoInFirestore(String titulo, String descricao,
     mission.resultados = [];
     mission.content = descricao;
     mission.type = 'UploadVideo';
+    mission.points=pontos;
   }
 
   alunos.forEach((element) {
@@ -643,7 +653,7 @@ UPLOADS PARA O STORAGE DO FIREBASE
 // UPLOAD DA IMAGEM, OBTENÇÃO DO URL E CONSEQUENTE CRIAÇÃO DA MISSÃO
 
 addUploadedImageToFirebaseStorage(String titulo, String descricao,
-    File localFile, String aventuraId, String capituloId) async {
+    File localFile, String aventuraId, String capituloId,int pontos) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -664,14 +674,14 @@ addUploadedImageToFirebaseStorage(String titulo, String descricao,
     String imageUrl = await firebaseStorageRef.getDownloadURL();
 
     createMissionImageInFirestore(
-        imageUrl, titulo, descricao, aventuraId, capituloId);
+        imageUrl, titulo, descricao, aventuraId, capituloId,pontos);
   }
 }
 
 // UPLOAD DO AUDIO, OBTENÇÃO DO URL E CONSEQUENTE CRIAÇÃO DA MISSÃO
 
 addUploadedAudioToFirebaseStorage(String titulo, String descricao,
-    File localFile, String aventuraId, String capituloId) async {
+    File localFile, String aventuraId, String capituloId,int pontos) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -692,14 +702,14 @@ addUploadedAudioToFirebaseStorage(String titulo, String descricao,
     String url = await firebaseStorageRef.getDownloadURL();
 
     createMissionAudioInFirestore(
-        url, titulo, descricao, aventuraId, capituloId);
+        url, titulo, descricao, aventuraId, capituloId,pontos);
   }
 }
 
 // UPLOAD DO VIDEO, OBTENÇÃO DO URL E CONSEQUENTE CRIAÇÃO DA MISSÃO
 
 addUploadedVideoToFirebaseStorage(String titulo, String descricao,
-    File localFile, String aventuraId, String capituloId) async {
+    File localFile, String aventuraId, String capituloId,int pontos) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
 
@@ -720,7 +730,7 @@ addUploadedVideoToFirebaseStorage(String titulo, String descricao,
     String url = await firebaseStorageRef.getDownloadURL();
 
     createMissionVideoInFirestore(
-        url, titulo, descricao, aventuraId, capituloId);
+        url, titulo, descricao, aventuraId, capituloId,pontos);
   }
 }
 

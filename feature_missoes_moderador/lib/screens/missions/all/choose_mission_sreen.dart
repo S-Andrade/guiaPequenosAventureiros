@@ -19,39 +19,281 @@ class ChooseMissionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-          backgroundColor:parseColor("#FFCE02"),
-          title: new Text('Criar missão')),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/15.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 300),
-                  Text(
-                    'Escolha o tipo de missão a criar',
-                    style: TextStyle(
-                        fontSize: 40,
-                        color:Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Amatic SC',
-                        letterSpacing: 4),
-                  )
-                ],
+    return Container(
+       decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/19.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+      
+        body:Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Row(
+
+                  children: <Widget>[
+                    FlatButton(
+                            color:parseColor("F4F19C"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Voltar atrás",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                 
+                                  fontFamily: 'Monteserrat',
+                                  letterSpacing: 2,
+                                  fontSize: 20),
+                            ),
+                          ),
+                    SizedBox(width: 200),
+                    Text(
+                      'Escolha o tipo de missão a criar',
+                      style: TextStyle(
+                          fontSize: 40,
+                          color:Colors.black,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Amatic SC',
+                          letterSpacing: 4),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: Row(
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CreateTextMissionScreen(
+                                      this.capitulo, this.aventura)));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 260,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  height: 150,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: ExactAssetImage(
+                                          "assets/images/text.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("Mandar uma mensagem",
+                                    style: TextStyle(
+                                        fontSize: 17.0,
+                                        letterSpacing: 2,
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat')),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius:
+                                      5.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    0.0, // horizontal
+                                    2.5, // vertical
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CreateAudioMissionScreen(
+                                      this.capitulo, this.aventura)));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 260,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  height: 150,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: ExactAssetImage(
+                                          "assets/images/audio.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("Mandar um audio",
+                                    style: TextStyle(
+                                        fontSize: 17.0,
+                                        letterSpacing: 2,
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat')),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                 color: Colors.black.withOpacity(0.2),
+                                  blurRadius:
+                                      5.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    0.0, // horizontal
+                                    2.5, // vertical
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CreateUploadMissionScreen(
+                                      capitulo: this.capitulo,
+                                      aventuraId: this.aventura)));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 260,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  height: 150,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: ExactAssetImage(
+                                          "assets/images/upload.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("Pedir uma submissão",
+                                    style: TextStyle(
+                                        fontSize: 17.0,
+                                        letterSpacing: 2,
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat')),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                 color: Colors.black.withOpacity(0.2),
+                                  blurRadius:
+                                      5.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    0.0, // horizontal
+                                    2.5, // vertical
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CreateActivityMissionScreen(
+                                      this.capitulo, this.aventura)));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 260,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  height: 150,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    image: new DecorationImage(
+                                      image: ExactAssetImage(
+                                          "assets/images/atividade.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("Criar uma atividade",
+                                    style: TextStyle(
+                                        fontSize: 17.0,
+                                        letterSpacing: 2,
+                                        color: Colors.black,
+                                        fontFamily: 'Monteserrat')),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius:
+                                      5.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    0.0, // horizontal
+                                    2.5, // vertical
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
@@ -61,7 +303,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateTextMissionScreen(
+                                builder: (_) => CreateVideoMissionScreen(
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
@@ -75,13 +317,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image: ExactAssetImage(
-                                        "assets/images/text.png"),
+                                        "assets/images/video.png"),
                                     fit: BoxFit.contain,
                                   ),
                                 )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text("Mandar uma mensagem",
+                              child: Text("Mandar um vídeo",
                                   style: TextStyle(
                                       fontSize: 17.0,
                                       letterSpacing: 2,
@@ -95,62 +337,7 @@ class ChooseMissionScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius:
-                                    5.0, // has the effect of softening the shadow
-                                spreadRadius:
-                                    2.0, // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0, // horizontal
-                                  2.5, // vertical
-                                ),
-                              )
-                            ]),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => CreateAudioMissionScreen(
-                                    this.capitulo, this.aventura)));
-                      },
-                      child: Container(
-                        height: 200,
-                        width: 260,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                height: 150,
-                                width: 160,
-                                decoration: BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: ExactAssetImage(
-                                        "assets/images/audio.png"),
-                                    fit: BoxFit.contain,
-                                  ),
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text("Mandar um audio",
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      letterSpacing: 2,
-                                      color: Colors.black,
-                                      fontFamily: 'Monteserrat')),
-                            )
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                               color: Colors.black.withOpacity(0.2),
                                 blurRadius:
                                     5.0, // has the effect of softening the shadow
                                 spreadRadius:
@@ -171,9 +358,8 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateUploadMissionScreen(
-                                    capitulo: this.capitulo,
-                                    aventuraId: this.aventura)));
+                                builder: (_) => CreateQuestionarioMissionScreen(
+                                    this.capitulo, this.aventura)));
                       },
                       child: Container(
                         height: 200,
@@ -185,14 +371,14 @@ class ChooseMissionScreen extends StatelessWidget {
                                 width: 160,
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
-                                    image: ExactAssetImage(
-                                        "assets/images/upload.png"),
+                                    image:
+                                        ExactAssetImage("assets/images/quiz.png"),
                                     fit: BoxFit.contain,
                                   ),
                                 )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text("Pedir uma submissão",
+                              child: Text("Criar um questionário",
                                   style: TextStyle(
                                       fontSize: 17.0,
                                       letterSpacing: 2,
@@ -206,7 +392,7 @@ class ChooseMissionScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                               color: Colors.black.withOpacity(0.2),
                                 blurRadius:
                                     5.0, // has the effect of softening the shadow
                                 spreadRadius:
@@ -227,7 +413,7 @@ class ChooseMissionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => CreateActivityMissionScreen(
+                                builder: (_) => CreateImageMissionScreen(
                                     this.capitulo, this.aventura)));
                       },
                       child: Container(
@@ -241,13 +427,13 @@ class ChooseMissionScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   image: new DecorationImage(
                                     image: ExactAssetImage(
-                                        "assets/images/atividade.png"),
+                                        "assets/images/image.png"),
                                     fit: BoxFit.contain,
                                   ),
                                 )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text("Criar uma atividade",
+                              child: Text("Mandar uma imagem",
                                   style: TextStyle(
                                       fontSize: 17.0,
                                       letterSpacing: 2,
@@ -261,7 +447,62 @@ class ChooseMissionScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                               color: Colors.black.withOpacity(0.2),
+                                blurRadius:
+                                    5.0, // has the effect of softening the shadow
+                                spreadRadius:
+                                    2.0, // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0, // horizontal
+                                  2.5, // vertical
+                                ),
+                              )
+                            ]),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => CreateQuizMissionScreen(
+                                    this.capitulo, this.aventura)));
+                      },
+                      child: Container(
+                        height: 200,
+                        width: 260,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                height: 150,
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  image: new DecorationImage(
+                                    image:
+                                        ExactAssetImage("assets/images/quiz.png"),
+                                    fit: BoxFit.contain,
+                                  ),
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text("Criar um quiz",
+                                  style: TextStyle(
+                                      fontSize: 17.0,
+                                      letterSpacing: 2,
+                                      color: Colors.black,
+                                      fontFamily: 'Monteserrat')),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
                                 blurRadius:
                                     5.0, // has the effect of softening the shadow
                                 spreadRadius:
@@ -276,234 +517,9 @@ class ChooseMissionScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => CreateVideoMissionScreen(
-                                  this.capitulo, this.aventura)));
-                    },
-                    child: Container(
-                      height: 200,
-                      width: 260,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              height: 150,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                image: new DecorationImage(
-                                  image: ExactAssetImage(
-                                      "assets/images/video.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text("Mandar um vídeo",
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    letterSpacing: 2,
-                                    color: Colors.black,
-                                    fontFamily: 'Monteserrat')),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius:
-                                  5.0, // has the effect of softening the shadow
-                              spreadRadius:
-                                  2.0, // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0, // horizontal
-                                2.5, // vertical
-                              ),
-                            )
-                          ]),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => CreateQuestionarioMissionScreen(
-                                  this.capitulo, this.aventura)));
-                    },
-                    child: Container(
-                      height: 200,
-                      width: 260,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              height: 150,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                image: new DecorationImage(
-                                  image:
-                                      ExactAssetImage("assets/images/quiz.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text("Criar um questionário",
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    letterSpacing: 2,
-                                    color: Colors.black,
-                                    fontFamily: 'Monteserrat')),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius:
-                                  5.0, // has the effect of softening the shadow
-                              spreadRadius:
-                                  2.0, // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0, // horizontal
-                                2.5, // vertical
-                              ),
-                            )
-                          ]),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => CreateImageMissionScreen(
-                                  this.capitulo, this.aventura)));
-                    },
-                    child: Container(
-                      height: 200,
-                      width: 260,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              height: 150,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                image: new DecorationImage(
-                                  image: ExactAssetImage(
-                                      "assets/images/image.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text("Mandar uma imagem",
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    letterSpacing: 2,
-                                    color: Colors.black,
-                                    fontFamily: 'Monteserrat')),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius:
-                                  5.0, // has the effect of softening the shadow
-                              spreadRadius:
-                                  2.0, // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0, // horizontal
-                                2.5, // vertical
-                              ),
-                            )
-                          ]),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => CreateQuizMissionScreen(
-                                  this.capitulo, this.aventura)));
-                    },
-                    child: Container(
-                      height: 200,
-                      width: 260,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              height: 150,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                image: new DecorationImage(
-                                  image:
-                                      ExactAssetImage("assets/images/quiz.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text("Criar um quiz",
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    letterSpacing: 2,
-                                    color: Colors.black,
-                                    fontFamily: 'Monteserrat')),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius:
-                                  5.0, // has the effect of softening the shadow
-                              spreadRadius:
-                                  2.0, // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0, // horizontal
-                                2.5, // vertical
-                              ),
-                            )
-                          ]),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+              )
+            ],
+          
         ),
       ),
     );
