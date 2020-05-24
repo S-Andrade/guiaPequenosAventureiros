@@ -249,6 +249,19 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                     textAlign: TextAlign.left,
                                                   ),
                                                 ),
+                                                Flexible(
+                                                  child: Text(
+                                                    'Pontos: '+mission.points.toString(),
+                                                    style: GoogleFonts.quicksand(
+                                                      textStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 22,
+                                                          color: Colors.black),
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ),
                                                 new Builder(
                                                   builder: (BuildContext context) =>
                                                       _done

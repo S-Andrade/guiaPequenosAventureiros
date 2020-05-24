@@ -46,10 +46,10 @@ class BottomBar extends StatelessWidget {
         }else if (i == 2) {
           //Perfil here
         }else if (i == 3) {
-          //RankingHere
+          //Ranking Here
         }
         else if (i == 4) {
-          //A minha caderneta
+          //A minha caderneta here
         }
       },
       elevation: 0,
