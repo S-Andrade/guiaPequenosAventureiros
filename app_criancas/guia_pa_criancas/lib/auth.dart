@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -47,5 +48,11 @@ class Auth {
 
   Future<FirebaseUser> getUser() async {
     return await auth.currentUser();
+  }
+
+  Future<AuthResult> logOut() async{
+    auth.currentUser();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
   }
 }

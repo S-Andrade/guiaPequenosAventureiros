@@ -1,4 +1,5 @@
 import 'package:app_criancas/auth.dart';
+import 'package:app_criancas/perfil.dart';
 import 'package:app_criancas/screens/aventura/aventura.dart';
 import 'package:app_criancas/screens/aventura/aventura_details.dart';
 import 'package:app_criancas/screens/home_screen.dart';
@@ -44,7 +45,12 @@ class BottomBar extends StatelessWidget {
             }),
           );
         }else if (i == 2) {
-          //Perfil here
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return Perfil(user:user);
+            }),
+          );
         }else if (i == 3) {
           //Ranking Here
         }
