@@ -231,6 +231,14 @@ class _QuestionarioPageState extends State<QuestionarioPage>
             ),
             Padding(padding: EdgeInsets.all(20)),
             Text(feedback, style: TextStyle(fontSize: 25)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children:
+                    List.generate(5, (index) => Text((index + 1).toString())),
+              ),
+            ),
             Slider(
               value: resposta,
               min: 1,
@@ -279,90 +287,86 @@ class _QuestionarioPageState extends State<QuestionarioPage>
       });
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/green_question.png"),
-          fit: BoxFit.cover,
+    return new Scaffold(
+      appBar: AppBar(
+        leading: new FlatButton(
+          child: Icon(Icons.close),
+          onPressed: () {
+            _close();
+          },
         ),
       ),
-      child: Scaffold(
-        extendBody: true,
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: FlatButton(
-            child: Icon(Icons.close),
-            onPressed: () {
-              _close();
+      body: Column(children: <Widget>[
+        Expanded(
+          child: Stepper(
+            steps: steps,
+            controlsBuilder: (BuildContext context,
+                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+              return Row(
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: onStepContinue,
+                    child: const Text('Próxima'),
+                  ),
+                  FlatButton(
+                    onPressed: onStepCancel,
+                    child: const Text('Anterior'),
+                  ),
+                ],
+              );
             },
+            type: StepperType.vertical,
+            currentStep: currentStep,
+            onStepContinue: next,
+            onStepTapped: (step) => goTo(step),
+            onStepCancel: cancel,
           ),
         ),
-        body: Column(children: <Widget>[
-          Expanded(
-            child: Stepper(
-              steps: steps,
-              controlsBuilder: (BuildContext context,
-                  {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-                return Row(
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: onStepContinue,
-                      child: const Text('Próxima'),
-                    ),
-                    FlatButton(
-                      onPressed: onStepCancel,
-                      child: const Text('Anterior'),
-                    ),
-                  ],
-                );
-              },
-              type: StepperType.vertical,
-              currentStep: currentStep,
-              onStepContinue: next,
-              onStepTapped: (step) => goTo(step),
-              onStepCancel: cancel,
+        FlatButton(
+            child: new Text(
+              'Entregar',
+              style: TextStyle(color: Colors.black),
             ),
-          ),
-          FlatButton(
-              child: new Text(
-                'Entregar',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () {
-                if (complete &&
-                    resposta != null &&
-                    feedback != null &&
-                    feedback != 'Arrasta para responder') {
-                  updateMissionCounterInFirestore(
-                      missionNotifier.currentMission, _userID, 1);
-                  updateMissionDoneInFirestore(
-                      missionNotifier.currentMission, _userID);
-                  saveMissionMovementAndLightDataInFirestore(
-                      missionNotifier.currentMission,
-                      _userID,
-                      _movementData,
-                      _lightData);
-                  for (StreamSubscription<dynamic> subscription
-                      in _streamSubscriptions) {
-                    subscription.cancel();
+            onPressed: () {
+              int respondidas = 0;
+              allQuestions.forEach((element) {
+                element.resultados.forEach((aluno) {
+                  if (aluno['aluno'] == _userID) {
+                    if (aluno['respostaEscolhida'] != "" &&
+                        aluno['respostaEscolhida'] != null) {
+                      respondidas++;
+                    }
                   }
-                  stopListening();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return new AlertDialog(
-                            content: new Text(
-                                "Tens de preencher todas as questões antes de submeter :)"));
-                      });
+                });
+              });
+              if (respondidas ==allQuestions.length) {
+                updateMissionCounterInFirestore(
+                    missionNotifier.currentMission, _userID, 1);
+                updateMissionDoneInFirestore(
+                    missionNotifier.currentMission, _userID);
+                saveMissionMovementAndLightDataInFirestore(
+                    missionNotifier.currentMission,
+                    _userID,
+                    _movementData,
+                    _lightData);
+                for (StreamSubscription<dynamic> subscription
+                    in _streamSubscriptions) {
+                  subscription.cancel();
                 }
-              }),
-        ]),
-      ),
+                stopListening();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return new AlertDialog(
+                          content: new Text(
+                              "Tens de preencher todas as questões antes de submeter :)"));
+                    });
+              }
+            }),
+      ]),
     );
   }
 }
