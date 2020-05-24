@@ -2,6 +2,7 @@ import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../bottom_navigation_bar.dart';
 import 'aventura.dart';
 import 'package:flutter/material.dart';
 import '../historia/historia_details.dart';
@@ -17,6 +18,7 @@ class AventuraDetails extends StatelessWidget {
       systemNavigationBarColor: Color(0xFFC499FA),
     ));
     return Scaffold(
+        bottomNavigationBar: BottomBar(1, aventura),
         appBar: AppBar(
             iconTheme: IconThemeData(
               color: Color(0xFF30246A), //change your color here

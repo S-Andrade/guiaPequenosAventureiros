@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'package:app_criancas/screens/aventura/aventura.dart';
+
 import '../models/question.dart';
 import '../models/quiz.dart';
 
@@ -14,6 +16,7 @@ class MissionsNotifier with ChangeNotifier{
   int _currentScore;
   int _currentPage = 0;
   List<Question> _allQuestions;
+  Aventura _currentAventura;
 
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
@@ -25,6 +28,7 @@ class MissionsNotifier with ChangeNotifier{
 
   Mission get currentMission => _currentMission;
   Quiz get missionContent => _missionContent;
+  Aventura get currentAventura => _currentAventura;
 
   set missionsList(List<Mission> missionList) {
     _missionsList = missionList;
@@ -38,6 +42,10 @@ class MissionsNotifier with ChangeNotifier{
 
   set currentMission(Mission mission) {
     _currentMission = mission;
+    notifyListeners();
+  }
+  set currentAventura(Aventura aventura) {
+    _currentAventura = aventura;
     notifyListeners();
   }
 
