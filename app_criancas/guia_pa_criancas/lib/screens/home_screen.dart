@@ -64,24 +64,27 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               body: Center(
                 child: Stack(children: <Widget>[
-                  // Aventuras
-                  Positioned.fill(child: AventuraList(user: user)),
                   // Bottom clouds
                   Positioned(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 110,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_purple.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      child: FractionallySizedBox(
+                        heightFactor: 0.25,
+                        child: Container(
+//                        height: 130,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/clouds_bottom_navigation_purple.png'),
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              )),
+                        ),
                       ),
                     ),
                   ),
+                  // Aventuras
+                  Positioned.fill(child: AventuraList(user: user)),
                   // Zona do Assistente
                   Positioned(
                       child: Padding(
@@ -119,6 +122,7 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                   )),
                   // Companheiro
+
                   Positioned(
 //                    top: 10,
 //                    right: 30,
@@ -126,27 +130,27 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                 ]),
               ),
-              bottomNavigationBar: BottomNavigationBar(
-//              type: BottomNavigationBarType.shifting,
-                backgroundColor: Colors.transparent,
-                selectedItemColor: Colors.black,
-                unselectedItemColor: Colors.white,
-                elevation: 0,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    title: Text('Home'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.business),
-                    title: Text('Business'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.school),
-                    title: Text('School'),
-                  ),
-                ],
-              ),
+//              bottomNavigationBar: BottomNavigationBar(
+////              type: BottomNavigationBarType.shifting,
+//                backgroundColor: Colors.transparent,
+//                selectedItemColor: Colors.black,
+//                unselectedItemColor: Colors.white,
+//                elevation: 0,
+//                items: const <BottomNavigationBarItem>[
+//                  BottomNavigationBarItem(
+//                    icon: Icon(Icons.home),
+//                    title: Text('Home'),
+//                  ),
+//                  BottomNavigationBarItem(
+//                    icon: Icon(Icons.business),
+//                    title: Text('Business'),
+//                  ),
+//                  BottomNavigationBarItem(
+//                    icon: Icon(Icons.school),
+//                    title: Text('School'),
+//                  ),
+//                ],
+//              ),
             ),
           ),
         ),

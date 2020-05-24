@@ -151,7 +151,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                 else if (mission.type == 'Audio')
                                   _imagem = 'assets/images/audio.png';
                                 else if (mission.type == 'Video')
-                                  _imagem = 'assets/images/blue.png';
+                                  _imagem = 'assets/images/movie.png';
                                 else if (mission.type == 'Quiz')
                                   _imagem = 'assets/images/quiz3.png';
                                 else if (mission.type == 'Questionario')

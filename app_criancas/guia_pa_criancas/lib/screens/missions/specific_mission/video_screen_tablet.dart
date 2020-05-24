@@ -26,7 +26,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   _VideoScreenTabletPortraitState(this.mission);
   int _state = 0;
- 
+
   String _userID;
   Map resultados;
   bool _done;
@@ -39,28 +39,25 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   DateTime _start;
   DateTime _end;
 
-
   @override
   void initState() {
-  
-
-     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                        _counterVisited=resultados["counterVisited"];
-                        _timeVisited=resultados["timeVisited"];
-                      }
-                    }
-                  });
-                });
+    Auth().getUser().then((user) {
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+            _counterVisited = resultados["counterVisited"];
+            _timeVisited = resultados["timeVisited"];
+          }
+        }
+      });
+    });
 
     WidgetsBinding.instance.addObserver(this);
-   
-    _start=DateTime.now();
+
+    _start = DateTime.now();
     super.initState();
   }
 
@@ -68,7 +65,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void deactivate() {
-    _counterVisited=_counterVisited+1;
+    _counterVisited = _counterVisited + 1;
     _end = DateTime.now();
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
@@ -90,7 +87,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void dispose() {
-
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -98,17 +94,23 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomCenter,
-            stops: [0.0, 1.0],
-            colors: [
-              Color(0xFFFCF477),
-              Color(0xFFF6A51E),
-            ],
-          ),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/movie.png"),
+          fit: BoxFit.cover,
         ),
+      ),
+//      decoration: BoxDecoration(
+//        gradient: LinearGradient(
+//          begin: Alignment.topLeft,
+//          end: Alignment.bottomCenter,
+//          stops: [0.0, 1.0],
+//          colors: [
+//            Color(0xFFFCF477),
+//            Color(0xFFF6A51E),
+//          ],
+//        ),
+//      ),
       child: Scaffold(
         extendBody: true,
         backgroundColor: Colors.transparent,
@@ -129,56 +131,60 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Column(children: [
-          Stack(children: [
-            Positioned(
-
-              child: Row(children: [
-                Text(
-                  mission.title,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Amatic SC',
-                      color: Colors.white,
-                      letterSpacing: 4),
+        body: Stack(children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.25,
+                child: Container(
+//                        height: 130,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
                 ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 250, right: 30),
-              child: Container(
-                height: 600,
-                decoration: BoxDecoration(
-                    color: parseColor("#320a5c"),
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: parseColor("#320a5c"),
-                        blurRadius: 10.0,
-                      )
-                    ]),
-                child: ChewieDemo(
-                                                      link: mission.linkVideo),
               ),
             ),
-
-          ]),
-          Padding(
-            padding: const EdgeInsets.all(70.0),
-            child: MaterialButton(
-                child: setButton(),
-                onPressed: () {
-                  setState(() {
-                    _state = 1;
-                    _loadButton();
-                  });
-                },
-                height: 90,
-                minWidth: 300,
-                color: parseColor('#320a5c'),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0))),
           ),
+          Positioned(
+              child: Center(
+            child: FractionallySizedBox(
+              heightFactor: 0.8,
+              child: Column(
+                children: [
+                  Text(
+                    mission.title,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 36,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Expanded(
+                    child: ChewieDemo(link: mission.linkVideo, ),
+                  ),
+                  FlatButton(
+                    child: setButton(),
+                    onPressed: () {
+                      setState(() {
+                        _state = 1;
+                        _loadButton();
+                      });
+                    },
+                    color: Color(0xFFF3C463),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                  ),
+                ],
+              ),
+            ),
+          )),
         ]),
       ),
     );
@@ -188,25 +194,25 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
+          "Okay",
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+              ),),
         );
       } else
         return ColorLoader();
     } else {
       return new Text(
         "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+            color: Colors.white,
+          ),),
       );
     }
   }
