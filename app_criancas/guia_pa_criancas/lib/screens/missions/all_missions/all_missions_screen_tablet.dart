@@ -1,6 +1,10 @@
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../auth.dart';
+import '../../../bottom_navigation_bar.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../specific_mission/mission_screen.dart';
@@ -9,7 +13,6 @@ import '../../../widgets/color_parser.dart';
 import '../../../widgets/color_loader.dart';
 import 'package:provider/provider.dart';
 
-///////// VISTA TABLET PORTRAIT
 class AllMissionsTabletPortrait extends StatefulWidget {
   List missoes;
   AllMissionsTabletPortrait(this.missoes);
@@ -32,7 +35,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
   @override
   void initState() {
-   
     Auth().getUser().then((user) {
       _userID = user.email;
     });
@@ -45,11 +47,17 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.white,
+//      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+    ));
+
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     double _completada;
     String _imagem;
-    flag =false;
-
+    flag = false;
 
     if (missoes.length == missionsNotifier.missionsList.length) {
       setState(() {
@@ -63,365 +71,286 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     }
 
     if (flag) {
-      return new Scaffold(
-          appBar: new AppBar(title: new Text('Missões')),
-          key: _scaffoldKey,
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/back6.jpg"),
-                fit: BoxFit.cover,
+      return Container(
+//        decoration: BoxDecoration(
+//          gradient: LinearGradient(
+//            begin: Alignment.topCenter,
+//            end: Alignment.bottomCenter,
+//            stops: [0.0, 1.0],
+//            colors: [
+//              Color(0xFF62D7A2),
+//              Color(0xFF00C9C9),
+//            ],
+//          ),
+//        ),
+//        decoration: BoxDecoration(
+//          gradient: LinearGradient(
+//            begin: Alignment.topLeft,
+//            end: Alignment.bottomCenter,
+//            stops: [0.0, 1.0],
+//            colors: [
+//              Color(0xFFFCF477),
+//              Color(0xFFF6A51E),
+//            ],
+//          ),
+//        ),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/images/.png'),
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+            )),
+        child: Scaffold(
+            extendBody: true,
+            bottomNavigationBar: BottomBar(1, missionNotifier.currentAventura),
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Color(0xFF30246A), //change your color here
+              ),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: Text(
+                "As tuas missões",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      color: Color(0xFF30246A)),
+                ),
               ),
             ),
-            child: new RefreshIndicator(
-              onRefresh: _refreshList,
-              child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  Mission mission = missionsNotifier.missionsList[index];
-                  for (var a in mission.resultados) {
-                    if (a["aluno"] == _userID) {
-                      resultados = a;
-                      _done = resultados["done"];
-                    }
-                  }
+            key: _scaffoldKey,
+            body: Stack(
+              children: <Widget>[
+                RefreshIndicator(
+                  onRefresh: _refreshList,
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(vertical: 130),
+                          itemBuilder: (BuildContext context, int index) {
+                            Mission mission =
+                                missionsNotifier.missionsList[index];
+                            for (var a in mission.resultados) {
+                              if (a["aluno"] == _userID) {
+                                resultados = a;
+                                _done = resultados["done"];
+                              }
+                            }
 
-                  if (_done == true)
-                    _completada = 0.2;
-                  else if (_done == false) _completada = 0.8;
+                            if (_done == true)
+                              _completada = 0.4;
+                            else if (_done == false) _completada = 1;
 
-                  if (mission.type == 'Text')
-                    _imagem = 'assets/images/text.png';
-                  else if (mission.type == 'Audio')
-                    _imagem = 'assets/images/audio.png';
-                  else if (mission.type == 'Video')
-                    _imagem = 'assets/images/video.png';
-                  else if (mission.type == 'Quiz')
-                    _imagem = 'assets/images/quiz.png';
-                  else if (mission.type == 'Questionario')
-                    _imagem = 'assets/images/quiz.png';
-                  else if (mission.type == 'Activity')
-                    _imagem = 'assets/images/atividade.png';
-                  else if (mission.type == 'UploadVideo')
-                    _imagem = 'assets/images/upload.png';
-                  else if (mission.type == 'UploadImage')
-                    _imagem = 'assets/images/upload.png';
-                  else if (mission.type == 'Image')
-                    _imagem = 'assets/images/image.png';
+                            if (mission.type == 'Text')
+                              _imagem = 'assets/images/background.png';
+                            else if (mission.type == 'Audio')
+                              _imagem = 'assets/images/audio.png';
+                            else if (mission.type == 'Video')
+                              _imagem = 'assets/images/movie.png';
+                            else if (mission.type == 'Quiz')
+                              _imagem = 'assets/images/quiz3.png';
+                            else if (mission.type == 'Questionario')
+                              _imagem = 'assets/images/green_question.png';
+                            else if (mission.type == 'Activity')
+                              _imagem = 'assets/images/yellow2.png';
+                            else if (mission.type == 'UploadVideo')
+                              _imagem = 'assets/images/upload.png';
+                            else if (mission.type == 'UploadImage')
+                              _imagem = 'assets/images/green.png';
+                            else if (mission.type == 'Image')
+                              _imagem = 'assets/images/grass_green.png';
 
-                  return Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                            key: UniqueKey(),
-                            height: 160,
-                            decoration: BoxDecoration(
-                                image: new DecorationImage(
-                                  image: ExactAssetImage(_imagem),
-                                  colorFilter: new ColorFilter.mode(
-                                      Colors.white.withOpacity(_completada),
-                                      BlendMode.dstIn),
-                                  fit: BoxFit.fitHeight,
-                                ),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: parseColor("#320a5c"),
-                                    blurRadius: 10.0,
-                                  )
-                                ]),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Row(
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              child: Container(
+                                  key: UniqueKey(),
+//                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      image: new DecorationImage(
+                                        image: ExactAssetImage(_imagem),
+                                        colorFilter: new ColorFilter.mode(
+                                            Colors.white
+                                                .withOpacity(_completada),
+                                            BlendMode.dstIn),
+                                        fit: BoxFit.fitWidth,
+                                        alignment: Alignment.center,
+                                      ),
+//                                      color: Color(0xFF01BBB6),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius:
+                                              5.0, // has the effect of softening the shadow
+                                          spreadRadius:
+                                              2.0, // has the effect of extending the shadow
+                                          offset: Offset(
+                                            0.0, // horizontal
+                                            2.5, // vertical
+                                          ),
+                                        )
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Center(
-                                          child: Text(
-                                            mission.title,
-                                            style: TextStyle(
-                                                fontSize: 45,
-                                                fontFamily: 'Amatic SC',
-                                                letterSpacing: 4),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ]),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 50),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      new Builder(
-                                        builder: (BuildContext context) => _done
-                                            ? IconButton(
-                                                icon:
-                                                    Icon(FontAwesomeIcons.redo),
-                                                iconSize: 50,
-                                                color: Colors.green[300],
-                                                tooltip: 'Repetir a missão',
-                                                onPressed: () {
-                                                  missionsNotifier
-                                                      .currentMission = mission;
-                                                  setState(() {
-                                                    _navegarParaMissao(
-                                                        context, mission);
-                                                  });
-                                                },
-                                              )
-                                            : IconButton(
-                                                icon: Icon(FontAwesomeIcons
-                                                    .arrowRight),
-                                                iconSize: 50,
-                                                color: parseColor("#320a5c"),
-                                                tooltip: 'Passar para a missão',
-                                                onPressed: () {
-                                                  missionsNotifier
-                                                      .currentMission = mission;
-                                                  setState(() {
-                                                    _navegarParaMissao(
-                                                        context, mission);
-                                                  });
-                                                },
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.2),
+                                                borderRadius:
+                                                    BorderRadius.circular(6.0),
                                               ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  mission.type + ": ",
+                                                  style: GoogleFonts.quicksand(
+                                                    textStyle: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 14,
+                                                        color: Colors.white),
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              mission.points.toString() +
+                                                  ' pontos',
+                                              style: GoogleFonts.quicksand(
+                                                textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                    color: Colors.yellow),
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                mission.title,
+                                                style: GoogleFonts.quicksand(
+                                                  textStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 22,
+                                                      color: Colors.black),
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                            new Builder(
+                                              builder: (BuildContext context) =>
+                                                  _done
+                                                      ? IconButton(
+                                                          icon: Icon(
+                                                              FontAwesomeIcons
+                                                                  .redo),
+                                                          iconSize: 20,
+                                                          color: Colors.white,
+                                                          tooltip:
+                                                              'Repetir a missão',
+                                                          onPressed: () {
+                                                            missionsNotifier
+                                                                    .currentMission =
+                                                                mission;
+                                                            setState(() {
+                                                              _navegarParaMissao(
+                                                                  context,
+                                                                  mission);
+                                                            });
+                                                          },
+                                                        )
+                                                      : IconButton(
+                                                          icon: Icon(
+                                                              FontAwesomeIcons
+                                                                  .arrowRight),
+                                                          iconSize: 30,
+                                                          color: parseColor(
+                                                              "#320a5c"),
+                                                          tooltip:
+                                                              'Passar para a missão',
+                                                          onPressed: () {
+                                                            missionsNotifier
+                                                                    .currentMission =
+                                                                mission;
+                                                            setState(() {
+                                                              print(
+                                                                  'aquiiiiii');
+                                                              _navegarParaMissao(
+                                                                  context,
+                                                                  mission);
+                                                            });
+                                                          },
+                                                        ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            );
+                          },
+                          itemCount: missoes.length,
+                        ),
                       ),
                     ],
-                  );
-                },
-                itemCount: missoes.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(height: 70, color: Colors.black12);
-                },
-              ),
-            ),
-          ));
+                  ),
+                ),
+                Positioned(
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: CompanheiroAppwide()),
+                ),
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 130,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_purple.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                    ),
+                  ),
+                ),
+              ],
+            )),
+      );
     } else {
       return ColorLoader();
     }
-  }
-
-  _navegarParaMissao(BuildContext context, Mission mission) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MissionScreen(mission)),
-    );
-  }
-}
-
-///////// VISTA TABLET LANDSCAPE
-class AllMissionsTabletLandscape extends StatefulWidget {
-  @override
-  _AllMissionsTabletLandscapeState createState() =>
-      _AllMissionsTabletLandscapeState();
-}
-
-class _AllMissionsTabletLandscapeState
-    extends State<AllMissionsTabletLandscape> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.black,
-        height: 30,
-        width: 30,
-      ),
-    );
-  }
-}
-
-///// MOBILE PORTRAIT
-///
-///
-class AllMissionsMobilePortrait extends StatefulWidget {
-  List missoes;
-  AllMissionsMobilePortrait(this.missoes);
-
-  @override
-  _AllMissionsMobilePortraitState createState() =>
-      _AllMissionsMobilePortraitState(missoes);
-}
-
-class _AllMissionsMobilePortraitState extends State<AllMissionsMobilePortrait> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List missoes;
-  String _userID;
-  Map resultados;
-  bool _done;
-  _AllMissionsMobilePortraitState(this.missoes);
-
-  @override
-  void initState() {
-   
-    Auth().getUser().then((user) {
-      _userID = user.email;
-    });
-    _done = false;
-    MissionsNotifier missionsNotifier =
-        Provider.of<MissionsNotifier>(context, listen: false);
-    getMissions(missionsNotifier, missoes, _userID);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
-    double _completada;
-    String _imagem;
-
-    Future<void> _refreshList() async {
-      print('refresh');
-      getMissions(missionsNotifier, missoes, _userID);
-    }
-
-    return new Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: new RefreshIndicator(
-            onRefresh: _refreshList,
-            child: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                Mission mission = missionsNotifier.missionsList[index];
-
-                for (var a in mission.resultados) {
-                  if (a["aluno"] == _userID) {
-                    resultados = a;
-                    _done = resultados["done"];
-                  }
-                }
-
-                if (_done == true)
-                  _completada = 0.2;
-                else if (_done == false) _completada = 0.8;
-
-                if (mission.type == 'Text')
-                  _imagem = 'assets/images/text.png';
-                else if (mission.type == 'Audio')
-                  _imagem = 'assets/images/audio.png';
-                else if (mission.type == 'Video')
-                  _imagem = 'assets/images/video.png';
-                else if (mission.type == 'Quiz')
-                  _imagem = 'assets/images/quiz.png';
-                else if (mission.type == 'Activity')
-                  _imagem = 'assets/images/atividade.png';
-                else if (mission.type == 'UploadImage')
-                  _imagem = 'assets/images/upload.png';
-                else if (mission.type == 'UploadVideo')
-                  _imagem = 'assets/images/upload.png';
-                else if (mission.type == 'Image')
-                  _imagem = 'assets/images/image.png';
-                   else if (mission.type == 'Questionario')
-                    _imagem = 'assets/images/quiz.png';
-
-                return Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                        key: UniqueKey(),
-                        height: 80,
-                        decoration: BoxDecoration(
-                            image: new DecorationImage(
-                              image: ExactAssetImage(_imagem),
-                              colorFilter: new ColorFilter.mode(
-                                  Colors.white.withOpacity(_completada),
-                                  BlendMode.dstIn),
-                              fit: BoxFit.fitHeight,
-                            ),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: parseColor("#320a5c"),
-                                blurRadius: 10.0,
-                              )
-                            ]),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Text(
-                                        mission.title,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'Amatic SC',
-                                            letterSpacing: 4),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 50),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  new Builder(
-                                    builder: (BuildContext context) => _done
-                                        ? IconButton(
-                                            icon: Icon(FontAwesomeIcons.redo),
-                                            iconSize: 20,
-                                            color: Colors.green[300],
-                                            tooltip: 'Repetir a missão',
-                                            onPressed: () {
-                                              missionsNotifier.currentMission =
-                                                  mission;
-                                              setState(() {
-                                                _navegarParaMissao(
-                                                    context, mission);
-                                              });
-                                            },
-                                          )
-                                        : IconButton(
-                                            icon: Icon(
-                                                FontAwesomeIcons.arrowRight),
-                                            iconSize: 20,
-                                            color: parseColor("#320a5c"),
-                                            tooltip: 'Passar para a missão',
-                                            onPressed: () {
-                                              missionsNotifier.currentMission =
-                                                  mission;
-                                              setState(() {
-                                                _navegarParaMissao(
-                                                    context, mission);
-                                              });
-                                            },
-                                          ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                ]);
-              },
-              itemCount: missionsNotifier.missionsList.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(height: 10, color: Colors.black12);
-              },
-            ),
-          ),
-        ));
   }
 
   _navegarParaMissao(BuildContext context, Mission mission) async {

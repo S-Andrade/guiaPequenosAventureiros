@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:app_criancas/widgets/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
@@ -24,8 +26,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   _VideoScreenTabletPortraitState(this.mission);
   int _state = 0;
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
+
   String _userID;
   Map resultados;
   bool _done;
@@ -38,30 +39,25 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   DateTime _start;
   DateTime _end;
 
-
   @override
   void initState() {
-    _controller = VideoPlayerController.network(mission.linkVideo);
-
-    _initializeVideoPlayerFuture = _controller.initialize();
-
-     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                        _counterVisited=resultados["counterVisited"];
-                        _timeVisited=resultados["timeVisited"];
-                      }
-                    }
-                  });
-                });
+    Auth().getUser().then((user) {
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+            _counterVisited = resultados["counterVisited"];
+            _timeVisited = resultados["timeVisited"];
+          }
+        }
+      });
+    });
 
     WidgetsBinding.instance.addObserver(this);
-   
-    _start=DateTime.now();
+
+    _start = DateTime.now();
     super.initState();
   }
 
@@ -69,7 +65,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void deactivate() {
-    _counterVisited=_counterVisited+1;
+    _counterVisited = _counterVisited + 1;
     _end = DateTime.now();
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
@@ -91,104 +87,114 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void dispose() {
-    _controller.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/back6.jpg"),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/movie.png"),
+          fit: BoxFit.cover,
         ),
-        child: Column(children: [
-          Stack(children: [
-            Positioned(
-              top: 90,
-              left: 50,
-              child: Row(children: [
-                Text(
-                  mission.title,
-                  style: TextStyle(
-                      fontSize: 70,
-                      fontFamily: 'Amatic SC',
-                      color: Colors.white,
-                      letterSpacing: 4),
-                ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 250, right: 30),
-              child: Container(
-                height: 600,
-                decoration: BoxDecoration(
-                    color: parseColor("#320a5c"),
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: parseColor("#320a5c"),
-                        blurRadius: 10.0,
-                      )
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FutureBuilder(
-                    future: _initializeVideoPlayerFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 750,
-              right: 80,
-              child: FloatingActionButton(
-                backgroundColor: Colors.green[200],
-                onPressed: () {
-                  setState(() {
-                    if (_controller.value.isPlaying) {
-                      _controller.pause();
-                    } else {
-                      _controller.play();
-                    }
-                  });
-                },
-                child: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                ),
-              ),
-            ),
-          ]),
-          Padding(
-            padding: const EdgeInsets.all(70.0),
-            child: MaterialButton(
-                child: setButton(),
-                onPressed: () {
-                  setState(() {
-                    _state = 1;
-                    _loadButton();
-                  });
-                },
-                height: 90,
-                minWidth: 300,
-                color: parseColor('#320a5c'),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0))),
+      ),
+//      decoration: BoxDecoration(
+//        gradient: LinearGradient(
+//          begin: Alignment.topLeft,
+//          end: Alignment.bottomCenter,
+//          stops: [0.0, 1.0],
+//          colors: [
+//            Color(0xFFFCF477),
+//            Color(0xFFF6A51E),
+//          ],
+//        ),
+//      ),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
           ),
+          title: Text(
+            "Video",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Colors.black),
+            ),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Stack(
+            alignment: Alignment.center,
+            children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.25,
+                child: Container(
+//                        height: 130,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:20.0),
+                      child: Text(
+                        mission.title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 36,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    ChewieDemo(link: mission.linkVideo, ),
+                    FractionallySizedBox(
+                      widthFactor: 0.5,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 65,
+                        child: FlatButton(
+                          child: setButton(),
+                          onPressed: () {
+                            setState(() {
+                              _state = 1;
+                              _loadButton();
+                            });
+                          },
+                          color: Color(0xFFF3C463),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ]),
       ),
     );
@@ -198,25 +204,25 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
+          "Okay",
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+              ),),
         );
       } else
         return ColorLoader();
     } else {
       return new Text(
         "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+            color: Colors.white,
+          ),),
       );
     }
   }

@@ -13,6 +13,7 @@ class Mission {
   int counterVisited;
   int timeVisited;
   List resultados;
+  int points;
  
   
   Mission();
@@ -31,6 +32,7 @@ class Mission {
     counterVisited=data['counterVisited'];
     timeVisited=data['timeVisited'];
     resultados=data['resultados'];
+    points=data['points'];
   }
   
   Map<String, dynamic> toMap() {
@@ -48,6 +50,7 @@ class Mission {
       'counterVisited':counterVisited,
       'timeVisited':timeVisited,
       'resultados':resultados,
+      'points':points
     };
   }
   

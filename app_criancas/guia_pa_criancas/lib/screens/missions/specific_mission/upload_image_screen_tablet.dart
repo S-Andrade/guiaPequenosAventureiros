@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
@@ -34,27 +35,28 @@ class _UploadImageScreenTabletPortraitState
   bool _loaded;
   var image;
   int _state = 0;
-  
-    String _userID;
-    Map resultados;
-    bool _done;
+
+  String _userID;
+  Map resultados;
+  bool _done;
 
   @override
   void initState() {
     MissionsNotifier missionNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     _loaded = false;
+    _done = false;
     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                      }
-                    }
-                  });
-                });
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+          }
+        }
+      });
+    });
     super.initState();
   }
 
@@ -72,141 +74,163 @@ class _UploadImageScreenTabletPortraitState
   Widget build(BuildContext context) {
     _titulo = 'upload_foto_crianca_' + mission.id;
 
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text('Upload Foto Example'),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/yellow_camera.png"),
+          fit: BoxFit.cover,
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+      ),
+      child: Scaffold(
+          key: _scaffoldKey,
+          extendBody: true,
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Color(0xFF30246A), //change your color here
             ),
+            title: Text(
+              mission.title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
+              ),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-          child: Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 70.0, left: 30),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    mission.title,
-                    style: TextStyle(
-                        fontSize: 70,
-                        fontFamily: 'Amatic SC',
-                        color: Colors.white,
-                        letterSpacing: 4),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 130.0, left: 35),
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      mission.content,
-                      style: TextStyle(
-                          fontSize: 45,
-                          fontFamily: 'Amatic SC',
-                          color: Colors.white,
-                          letterSpacing: 4),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:150.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  new Builder(
-                builder: (BuildContext) => _done ?
-                  Center(
-                    child: MaterialButton(
-                      height: 90,
-                      minWidth: 300,
-                      color: parseColor('#320a5c'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(20.0)),
-                      child: Text(
-                        'Foto já carregada',
-                        style: TextStyle(
-                            fontSize: 45,
-                            fontFamily: 'Amatic SC',
-                            color: Colors.white,
-                            letterSpacing: 4),
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Column(children: <Widget>[
+                    Text(
+                      mission.title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24,
+                            color: Color(0xFF30246A)),
                       ),
-                      onPressed: () => _loadButton()
                     ),
-                  )
-                  :
-                  Center(
-                    child: MaterialButton(
-                      height: 90,
-                      minWidth: 300,
-                      color: parseColor('#320a5c'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(20.0)),
+                    Flexible(
                       child: Text(
-                        'Escolher foto',
-                        style: TextStyle(
-                            fontSize: 45,
-                            fontFamily: 'Amatic SC',
-                            color: Colors.white,
-                            letterSpacing: 4),
+                        mission.content,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 24,
+                              color: Colors.black),
+                        ),
                       ),
-                      onPressed: getImage,
                     ),
-                  )),
-                
-                Padding(
-                  padding: const EdgeInsets.only(left:18.0),
-                  child: new Builder(
+                    Builder(
+                        builder: (BuildContext) => _loaded
+                            ? Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.file(image),
+                        )
+                            : Container()),
+                    Builder(
+                        builder: (BuildContext) => _done
+                            ? Center(
+                          child: MaterialButton(
+                              height: 60,
+                              minWidth: double.infinity,
+                              color: parseColor('#320a5c'),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(20.0)),
+                              child: Text(
+                                'Foto já carregada',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'Amatic SC',
+                                    color: Colors.white,
+                                    letterSpacing: 4),
+                              ),
+                              onPressed: () => _loadButton()),
+                        )
+                            : Center(
+                          child: MaterialButton(
+                            height: 90,
+                            minWidth: 300,
+                            color: parseColor('#320a5c'),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            child: Text(
+                              'Escolher foto',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Amatic SC',
+                                  color: Colors.white,
+                                  letterSpacing: 4),
+                            ),
+                            onPressed: getImage,
+                          ),
+                        )),
+                    Builder(
+                        builder: (BuildContext) => _loaded
+                            ? Icon(
+                          FontAwesomeIcons.checkCircle,
+                          color: Colors.green,
+                          size: 50.0,
+                        )
+                            : Container()),
+                    Builder(
                       builder: (BuildContext) => _loaded
-                          ? new Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: Colors.green,
-                              size: 50.0,
-                            )
-                          : Container()),
-                ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:130.0,right:70),
-              child: new Builder(
-                builder: (BuildContext) => _loaded
-                    ? MaterialButton(
-                      child: setButton(),
-                      onPressed: () {
-                        
-                          setState(() {
-                            _state = 1;
-                            _loadButton();
-                          
-                        });
-                      },
-                      height: 90,
-                      minWidth: 300,
-                      color: parseColor('#320a5c'),
-                      shape:RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0))
+                          ? MaterialButton(
+                          child: setButton(),
+                          onPressed: () {
+                            setState(() {
+                              _state = 1;
+                              _loadButton();
+                            });
+                          },
+                          height: 90,
+                          minWidth: 300,
+                          color: parseColor('#320a5c'),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)))
+                          : Container(),
                     )
-                    : Container(),
+                  ]),
+                ),
               ),
-            )
-          ]),
-        ));
+              Positioned(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.25,
+                    child: Container(
+//                        height: 130,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
-
-
-
 
   Widget setButton() {
     if (_done == false) {
       if (_state == 0) {
-        return new Text(
+        return Text(
           "Carregar",
           style: const TextStyle(
             fontFamily: 'Amatic SC',
@@ -218,7 +242,7 @@ class _UploadImageScreenTabletPortraitState
       } else
         return ColorLoader();
     } else {
-      return new Text(
+      return Text(
         "foto já carregada",
         style: const TextStyle(
           fontFamily: 'Amatic SC',
@@ -234,7 +258,6 @@ class _UploadImageScreenTabletPortraitState
     if (_done == true) {
       print('back');
       Timer(Duration(milliseconds: 500), () {
-        
         Navigator.pop(context);
       });
     } else {
@@ -248,10 +271,8 @@ class _UploadImageScreenTabletPortraitState
   _upload() {
     if (image != null) {
       _image = image;
-      addUploadedImageToFirebaseStorage(_image, _titulo).then((value)=>{
-        updateMissionDoneWithLinkInFirestore(mission,_userID,value)
-      });
-      
+      addUploadedImageToFirebaseStorage(_image, _titulo).then((value) =>
+          {updateMissionDoneWithLinkInFirestore(mission, _userID, value)});
     }
   }
 }

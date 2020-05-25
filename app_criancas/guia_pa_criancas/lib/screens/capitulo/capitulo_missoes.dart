@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 
@@ -19,7 +18,7 @@ class  CapitulosDetailsMissoes extends StatelessWidget {
         itemCount: missoes.length,
         itemBuilder: (context,index) {
           return Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 0.0),
             child: Card(
               margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
               child: ListTile(
