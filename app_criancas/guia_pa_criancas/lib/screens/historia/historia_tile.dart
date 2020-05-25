@@ -1,4 +1,4 @@
-import 'package:app_criancas/widgets/color_loader.dart';
+
 import 'historia.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,10 +12,14 @@ class HistoriaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    /*return FutureBuilder<void>(
         future: loadImage(),
         builder: (context, AsyncSnapshot<void> snapshot) {
-          if (flag) {
+         switch (snapshot.connectionState) {
+           case ConnectionState.done:
+           if(snapshot.hasError)
+           return new Text("Erro");
+           else */
             return new Scaffold(
               body: new Column(
 //                mainAxisSize: MainAxisSize.max,
@@ -31,17 +35,22 @@ class HistoriaTile extends StatelessWidget {
                 ],
               ),
             );
-          } else {
-            return ColorLoader();
-          }
-        });
-  }
+           /* break;
+            default:
+            return Container();
+  }*/
+          } 
 
-  Future<void> loadImage() async {
+
+         /*Future<void> loadImage() async {
     url = await FirebaseStorage.instance
         .ref()
         .child(historia.capa)
         .getDownloadURL();
     flag = true;
+  }*/
+
+
   }
-}
+
+ 
