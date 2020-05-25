@@ -102,7 +102,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
               alignment: Alignment.topCenter,
             )),
         child: Scaffold(
-//          extendBody: true,
+            extendBody: true,
             bottomNavigationBar: BottomBar(1, missionNotifier.currentAventura),
             backgroundColor: Colors.transparent,
             appBar: AppBar(

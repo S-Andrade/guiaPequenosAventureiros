@@ -25,7 +25,7 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Color(0xFFC499FA),
+      systemNavigationBarColor: Color(0xFFBBA9F9),
     ));
     return MaterialApp(
       title: 'Guia dos Aventureiros',
@@ -59,8 +59,8 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                elevation: 5,
-                backgroundColor: Colors.white,
+                elevation: 0,
+                backgroundColor: Colors.white.withOpacity(0.7),
               ),
               body: Center(
                 child: Stack(children: <Widget>[
@@ -75,7 +75,7 @@ class _HomeScreen extends State<HomeScreen> {
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
-                                    'assets/images/clouds_bottom_navigation_purple.png'),
+                                    'assets/images/clouds_bottom_navigation_purple2.png'),
                                 fit: BoxFit.cover,
                                 alignment: Alignment.topCenter,
                               )),
