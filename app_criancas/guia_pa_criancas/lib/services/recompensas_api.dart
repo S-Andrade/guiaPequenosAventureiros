@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:app_criancas/models/cromos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:app_criancas/screens/turma/turma.dart';
 
 //Funções para o ranking -------
 
@@ -183,4 +184,24 @@ getCromosTurma() async {
   return listCromos;
 }
 
-
+//-----outras funções
+getAllTurmasPontuacao() async {
+  final QuerySnapshot turmaRef = await Firestore.instance.collection('turma').getDocuments();
+  List<Turma> temp=[];
+  print('chegueeeeiiii');
+  List listaTurmas = turmaRef.documents.toList();
+  listaTurmas.forEach((doc) {
+    print('passei');
+      print(doc.data);
+      Turma  t  = Turma(id: doc.data['id'] ?? '',
+          professor: doc.data['professor'] ?? '',
+          nAlunos: doc.data['nAlunos'] ?? 0,
+          alunos: doc.data['alunos'] ?? [],
+          nome: doc.data['nome']?? "",
+          pontuacao: doc.data['pontuacao']?? 0,
+          cromos: doc.data['pontuacao']=[]);
+    temp.add(t);
+    return temp;
+  });
+  return temp;
+}

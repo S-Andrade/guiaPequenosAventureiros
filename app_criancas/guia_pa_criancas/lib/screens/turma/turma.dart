@@ -1,6 +1,3 @@
-
-
-
 class Turma {
 
   final String id;
