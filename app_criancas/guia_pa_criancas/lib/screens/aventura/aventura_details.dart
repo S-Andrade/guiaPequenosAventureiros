@@ -15,9 +15,10 @@ class AventuraDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Color(0xFFC499FA),
+      systemNavigationBarColor: Color(0xFFBBA9F9),
     ));
     return Scaffold(
+      extendBody: true,
         bottomNavigationBar: BottomBar(1, aventura),
         appBar: AppBar(
             iconTheme: IconThemeData(
@@ -45,6 +46,23 @@ class AventuraDetails extends StatelessWidget {
                   child: ShowHistoriaDetails(idHistoria: aventura.historia)),
             ]),
             CompanheiroAppwide(),
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/clouds_bottom_navigation_purple2.png'),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                        )),
+                  ),
+                ),
+              ),
+            ),
           ],
         ));
   }

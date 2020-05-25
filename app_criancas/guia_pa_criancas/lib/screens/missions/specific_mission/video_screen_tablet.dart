@@ -131,7 +131,9 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Stack(children: [
+        body: Stack(
+            alignment: Alignment.center,
+            children: [
           Positioned(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -151,40 +153,48 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             ),
           ),
           Positioned(
-              child: Center(
-            child: FractionallySizedBox(
-              heightFactor: 0.8,
-              child: Column(
-                children: [
-                  Text(
-                    mission.title,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 36,
-                          color: Colors.white),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:20.0),
+                      child: Text(
+                        mission.title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 36,
+                              color: Colors.white),
+                        ),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: ChewieDemo(link: mission.linkVideo, ),
-                  ),
-                  FlatButton(
-                    child: setButton(),
-                    onPressed: () {
-                      setState(() {
-                        _state = 1;
-                        _loadButton();
-                      });
-                    },
-                    color: Color(0xFFF3C463),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                  ),
-                ],
-              ),
-            ),
-          )),
+                    ChewieDemo(link: mission.linkVideo, ),
+                    FractionallySizedBox(
+                      widthFactor: 0.5,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 65,
+                        child: FlatButton(
+                          child: setButton(),
+                          onPressed: () {
+                            setState(() {
+                              _state = 1;
+                              _loadButton();
+                            });
+                          },
+                          color: Color(0xFFF3C463),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ]),
       ),
     );
