@@ -1,6 +1,8 @@
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../bottom_navigation_bar.dart';
 import 'aventura.dart';
 import 'package:flutter/material.dart';
 import '../historia/historia_details.dart';
@@ -11,26 +13,58 @@ class AventuraDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Color(0xFFBBA9F9),
+    ));
     return Scaffold(
+      extendBody: true,
+        bottomNavigationBar: BottomBar(1, aventura),
         appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Color(0xFF30246A), //change your color here
+            ),
             elevation: 0,
             backgroundColor: Colors.transparent,
-
-            title: Center(
-              child: Text(
-                aventura.nome,
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 28,
-                      color: Color(0xFF30246A)),
-                ),
+            title: Text(
+              aventura.nome,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
               ),
             )),
-        body: Stack(children: <Widget>[
-          ShowHistoriaDetails(idHistoria: aventura.historia),
-          CompanheiroAppwide(),
-        ]));
+        body: Stack(
+          children: <Widget>[
+            Column(children: <Widget>[
+              SizedBox(
+                height: 100,
+              ),
+              Expanded(
+                  child: ShowHistoriaDetails(idHistoria: aventura.historia)),
+            ]),
+            CompanheiroAppwide(),
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/clouds_bottom_navigation_purple2.png'),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                        )),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
 

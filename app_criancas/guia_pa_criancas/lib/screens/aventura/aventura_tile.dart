@@ -1,4 +1,8 @@
+import 'package:app_criancas/models/mission.dart';
+import 'package:app_criancas/notifier/missions_notifier.dart';
+import 'package:app_criancas/services/missions_api.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'aventura.dart';
 import 'package:flutter/material.dart';
 import 'aventura_details.dart';
@@ -9,11 +13,13 @@ class AventuraTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Center(
         child: GestureDetector(
           onTap: () {
+            missionsNotifier.currentAventura = aventura;
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -49,7 +55,13 @@ class AventuraTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        missionsNotifier.currentAventura = aventura;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AventuraDetails(aventura: aventura)));
+                      },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),

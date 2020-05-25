@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:app_criancas/widgets/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
 import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
@@ -13,16 +13,15 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
-
 class VideoScreenTabletPortrait extends StatefulWidget {
   Mission mission;
 
-  VideoScreenTabletPortrait({this.mission});
+  VideoScreenTabletPortrait(this.mission);
 
   @override
-  _VideoScreenTabletPortraitState createState() => _VideoScreenTabletPortraitState(mission);
+  _VideoScreenTabletPortraitState createState() =>
+      _VideoScreenTabletPortraitState(mission);
 }
-      
 
 class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     with WidgetsBindingObserver {
@@ -30,8 +29,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   _VideoScreenTabletPortraitState(this.mission);
   int _state = 0;
- 
-  String _userID;
+
+ String _userID;
   Map resultados;
   bool _done;
   int _timeSpentOnThisScreen;
@@ -44,38 +43,35 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   DateTime _end;
   ChewieDemo chewieDemo;
 
-
   Timer timer;
   List<bool> resultado = [];
   CameraController _cameracontroller;
   Future<void> _initializeControllerFuture;
   int _counterPause;  
 
-
   @override
   void initState() {
-  
     chewieDemo =  ChewieDemo(link: mission.linkVideo);
-     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                        _counterVisited=resultados["counterVisited"];
-                        _timeVisited=resultados["timeVisited"];
-                        _counterPause=resultados["counterPause"];
-                      }
-                    }
-                  });
-                });
+    Auth().getUser().then((user) {
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+            _counterVisited = resultados["counterVisited"];
+            _timeVisited = resultados["timeVisited"];
+            _counterPause = resultados["counterPause"];
+          }
+        }
+      });
+    });
 
     WidgetsBinding.instance.addObserver(this);
-   
-    _start=DateTime.now();
 
-     availableCameras().then((cameras){
+    _start = DateTime.now();
+
+      availableCameras().then((cameras){
         CameraDescription camera = cameras.last;
           _cameracontroller = CameraController(
           camera,
@@ -88,20 +84,20 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     if(_counterPause == null){
       _counterPause = 0;
     }
+
     super.initState();
-    
   }
 
   AppLifecycleState state;
 
   @override
   void deactivate() {
-    _counterVisited=_counterVisited+1;
+    _counterVisited = _counterVisited + 1;
     _end = DateTime.now();
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
-    updateMissionTimeAndCounterVisitedInFirestore(
-        mission, _userID, _timeVisited, _counterVisited, _counterPause); 
+    updateMissionTimeAndCounterVisitedInFirestoreVideo(
+        mission, _userID, _timeVisited, _counterVisited, _counterPause);
     super.deactivate();
   }
 
@@ -125,64 +121,100 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/back6.jpg"),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/movie.png"),
+          fit: BoxFit.cover,
         ),
-        child: Column(children: [
-          Stack(children: [
-            Positioned(
-              top: 90,
-              left: 50,
-              child: Row(children: [
-                Text(
-                  mission.title,
-                  style: TextStyle(
-                      fontSize: 70,
-                      fontFamily: 'Amatic SC',
-                      color: Colors.white,
-                      letterSpacing: 4),
-                ),
-              ]),
+      ),
+//      decoration: BoxDecoration(
+//        gradient: LinearGradient(
+//          begin: Alignment.topLeft,
+//          end: Alignment.bottomCenter,
+//          stops: [0.0, 1.0],
+//          colors: [
+//            Color(0xFFFCF477),
+//            Color(0xFFF6A51E),
+//          ],
+//        ),
+//      ),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            "Video",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Colors.black),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 250, right: 30),
-              child: Container(
-                height: 600,
-                decoration: BoxDecoration(
-                    color: parseColor("#320a5c"),
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: parseColor("#320a5c"),
-                        blurRadius: 10.0,
-                      )
-                    ]),
-                child: chewieDemo,
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Stack(children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.25,
+                child: Container(
+//                        height: 130,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                ),
               ),
             ),
-          ]),
-          Padding(
-            padding: const EdgeInsets.all(70.0),
-            child: MaterialButton(
-                child: setButton(),
-                onPressed: () {
-                  setState(() {
-                    _state = 1;
-                    _loadButton();
-                  });
-                },
-                height: 90,
-                minWidth: 300,
-                color: parseColor('#320a5c'),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0))),
           ),
-          Text(resultado.toString()),
+          Positioned(
+              child: Center(
+            child: FractionallySizedBox(
+              heightFactor: 0.8,
+              child: Column(
+                children: [
+                  Text(
+                    mission.title,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 36,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Expanded(
+                    child: chewieDemo,
+                  ),
+                  FlatButton(
+                    child: setButton(),
+                    onPressed: () {
+                      setState(() {
+                        _state = 1;
+                        _loadButton();
+                      });
+                    },
+                    color: Color(0xFFF3C463),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                  ),
+                  //AQUI É ONDE APARECE OS RESULTADOS
+                  Text(resultado.toString())
+                ],
+              ),
+            ),
+          )),
         ]),
       ),
     );
@@ -192,25 +224,25 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
+          "Okay",
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+              ),),
         );
       } else
         return ColorLoader();
     } else {
       return new Text(
         "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+            color: Colors.white,
+          ),),
       );
     }
   }
@@ -227,7 +259,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     }
   }
 
-  void checkForFace() async{
+   void checkForFace() async{
       try {
             await _initializeControllerFuture;
 
@@ -260,9 +292,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     });*/
 
     if(faces.length == 0){
+      print("helllllooooooooooooooooooooo");
       setState(() {
         if (chewieDemo.isPlaying()) {
           chewieDemo.pauseVideo();
+          //O VIDEO PAROU AQUI
           _counterPause += 1;
         }
         resultado.add(false);
@@ -314,6 +348,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           setState(() {
             if (chewieDemo.isPlaying()) {
               chewieDemo.pauseVideo();
+              //O VIDEO PAROU AQUI
               _counterPause += 1;
             }
             resultado.add(false);

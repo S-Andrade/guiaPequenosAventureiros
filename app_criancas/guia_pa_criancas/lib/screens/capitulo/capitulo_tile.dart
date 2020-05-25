@@ -22,23 +22,27 @@ class CapituloTile extends StatelessWidget {
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => AllMissionsScreen(capitulo.missoes)));
         } ,
-        child:Card(
-          margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-          
-          child: ListTile(
-            title: Text(capitulo.id, style: TextStyle(color: Colors.blue)),
-            subtitle: Text(capitulo.bloqueado.toString(),style: TextStyle(color: Colors.blue)),
+        child:Container(
+          child: Card(
+            margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+
+            child: ListTile(
+              title: Text(capitulo.id, style: TextStyle(color: Colors.blue)),
+              subtitle: Text(capitulo.bloqueado.toString(),style: TextStyle(color: Colors.blue)),
+            ),
           ),
         ),
       );
     }else{
       return  Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Card(
-          margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-          child: ListTile(
-            title: Text(capitulo.id),
-            subtitle: Text(capitulo.bloqueado.toString()),
+        child: Container(
+          child: Card(
+            margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+            child: ListTile(
+              title: Text(capitulo.id),
+              subtitle: Text(capitulo.bloqueado.toString()),
+            ),
           ),
         ),
       );

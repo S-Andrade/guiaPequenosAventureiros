@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'capitulo.dart';
 import '../../services/database.dart';
@@ -18,7 +17,6 @@ class CapitulosDetails extends StatelessWidget {
     return StreamProvider<List<Capitulo>>.value(
       value : DatabaseService().capitulo,
       child: Scaffold( 
-  
         body: CapituloList(capitulos: capitulos)
       )
     );

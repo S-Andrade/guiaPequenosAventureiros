@@ -768,7 +768,6 @@ class _UserDataState extends State<UserData> {
                       child: Text(
                         'Convidamos a preencher este questionário com o objetivo de avaliarmos a progressão do projeto e o seu impacto na vida escolar dos alunos e alunas de quarto ano.\nSe surgirem dúvidas estamos aqui para esclarecer. É muito importante que responda a todas as perguntas.',
                         textAlign: TextAlign.justify,
-
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                           fontWeight: FontWeight.w300,
@@ -784,7 +783,6 @@ class _UserDataState extends State<UserData> {
                       child: Text(
                         'Convidamos a preencher este questionário com o objetivo de avaliarmos a progressão do projeto e o seu impacto na vida escolar dos alunos e alunas de quarto ano.\nSe surgirem dúvidas estamos aqui para esclarecer. É muito importante que responda a todas as perguntas.',
                         textAlign: TextAlign.justify,
-
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                           fontWeight: FontWeight.w300,
@@ -797,10 +795,26 @@ class _UserDataState extends State<UserData> {
                     Container(
                       child: Stepper(
                         physics: ClampingScrollPhysics(),
+                        controlsBuilder: (BuildContext context,
+                            {VoidCallback onStepContinue,
+                            VoidCallback onStepCancel}) {
+                          return Row(
+                            children: <Widget>[
+                              FlatButton(
+                                onPressed: onStepContinue,
+                                child: const Text('Próximo'),
+                              ),
+                              FlatButton(
+                                onPressed: onStepCancel,
+                                child: const Text('Anterior'),
+                              ),
+                            ],
+                          );
+                        },
                         steps: steps,
                         currentStep: currentStep,
                         onStepContinue: next,
-                        onStepTapped: (step) => goTo(step),
+                        //onStepTapped: (step) => goTo(step),
                         onStepCancel: cancel,
                       ),
                     ),

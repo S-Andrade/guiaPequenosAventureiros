@@ -1,10 +1,10 @@
-import 'package:app_criancas/screens/login/user_data_screen_tablet.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   final FirebaseAuth auth = FirebaseAuth.instance;
-
   //psicologo
   //Future<String> signUp(String email, String password) async {
   //  AuthResult result = await auth.createUserWithEmailAndPassword(
@@ -15,16 +15,13 @@ class Auth {
   //}
 
   //usado no 1º login
-  Future<void> signIn(
+  Future<AuthResult> signIn(
       BuildContext context, String email, String password) async {
-    FirebaseUser user;
     AuthResult result;
     try {
       result = await auth.signInWithEmailAndPassword(
           email: email.trim(), password: password);
-      user = result.user;
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => UserData(user: user)));
+      return result;
     } catch (e) {
       print(e.toString());
       showDialog(
@@ -51,5 +48,11 @@ class Auth {
 
   Future<FirebaseUser> getUser() async {
     return await auth.currentUser();
+  }
+
+  Future<AuthResult> logOut() async{
+    auth.currentUser();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
   }
 }

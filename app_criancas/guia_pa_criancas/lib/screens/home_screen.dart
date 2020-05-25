@@ -25,7 +25,7 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Color(0xFFC499FA),
+      systemNavigationBarColor: Color(0xFFBBA9F9),
     ));
     return MaterialApp(
       title: 'Guia dos Aventureiros',
@@ -54,34 +54,37 @@ class _HomeScreen extends State<HomeScreen> {
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 28,
+                          fontSize: 24,
                           color: Color(0xFF30246A)),
                     ),
                   ),
                 ),
                 elevation: 0,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.white.withOpacity(0.7),
               ),
               body: Center(
                 child: Stack(children: <Widget>[
-                  // Aventuras
-                  Positioned.fill(child: AventuraList(user: user)),
                   // Bottom clouds
                   Positioned(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 110,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_purple.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      child: FractionallySizedBox(
+                        heightFactor: 0.25,
+                        child: Container(
+//                        height: 130,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/clouds_bottom_navigation_purple2.png'),
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              )),
+                        ),
                       ),
                     ),
                   ),
+                  // Aventuras
+                  Positioned.fill(child: AventuraList(user: user)),
                   // Zona do Assistente
                   Positioned(
                       child: Padding(
@@ -118,11 +121,12 @@ class _HomeScreen extends State<HomeScreen> {
                       ],
                     ),
                   )),
+                  // Companheiro
+
                   Positioned(
+//                    top: 10,
 //                    right: 30,
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: CompanheiroAppwide()),
+                    child: CompanheiroAppwide(),
                   ),
                 ]),
               ),

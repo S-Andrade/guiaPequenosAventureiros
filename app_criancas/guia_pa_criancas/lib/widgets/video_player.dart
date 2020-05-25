@@ -9,14 +9,13 @@ class ChewieDemo extends StatefulWidget {
 
   ChewieDemo({this.link});
 
-  _ChewieDemoState _chewieDemoState;
-  
+    _ChewieDemoState _chewieDemoState;
+
   @override
   State<StatefulWidget> createState() {
     _chewieDemoState = _ChewieDemoState(link:this.link);
     return _chewieDemoState;
   }
-
   void pauseVideo(){
     _chewieDemoState.pauseVideo();
   }
