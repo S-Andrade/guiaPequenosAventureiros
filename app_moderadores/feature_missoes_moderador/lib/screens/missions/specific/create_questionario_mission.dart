@@ -31,7 +31,7 @@ class _CreateQuestionarioMissionScreenState
   final _textPontos = TextEditingController();
   String _pontos;
   List<Question> _perguntas;
-  List<Question> selectedQ = [];
+  List<Question> selectedQ =[];
 
   final _text = TextEditingController();
 
@@ -46,13 +46,18 @@ class _CreateQuestionarioMissionScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (missionNotifier.currentQuestion != null) {
+    setState(() {
+      if (missionNotifier.currentQuestion != null) {
+      print(missionNotifier.currentQuestion.question);
       if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
       }
-    }
+    }     
+    });
+    
     if (selectedQ.isNotEmpty) {
       selectedQ.forEach((f) {
+        print(f.question);
         if (!_perguntas.contains(f)) {
           _perguntas.add(f);
         }
@@ -273,7 +278,7 @@ class _CreateQuestionarioMissionScreenState
                       ),
                       SizedBox(height: 30.0),
                       Padding(
-                          padding: const EdgeInsets.only(right:0.0),
+                          padding: const EdgeInsets.only(right: 0.0),
                           child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
