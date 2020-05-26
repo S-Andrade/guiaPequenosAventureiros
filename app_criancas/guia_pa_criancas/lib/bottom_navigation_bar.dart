@@ -2,6 +2,7 @@ import 'package:app_criancas/auth.dart';
 import 'package:app_criancas/perfil.dart';
 import 'package:app_criancas/screens/aventura/aventura.dart';
 import 'package:app_criancas/screens/aventura/aventura_details.dart';
+import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
 import 'package:app_criancas/screens/ranking/ranking_screen.dart';
 import 'package:app_criancas/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,23 +46,27 @@ class BottomBar extends StatelessWidget {
               return AventuraDetails(aventura: aventura);
             }),
           );
-        }else if (i == 2) {
+        } else if (i == 2) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return Perfil(user:user);
+              return Perfil(user: user);
             }),
           );
-        }else if (i == 3) {
-           Navigator.push(
+        } else if (i == 3) {
+          Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
               return RankingScreen();
             }),
           );
-        }
-        else if (i == 4) {
-          //A minha caderneta here
+        } else if (i == 4) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return MinhaCaderneta();
+            }),
+          );
         }
       },
       elevation: 0,
