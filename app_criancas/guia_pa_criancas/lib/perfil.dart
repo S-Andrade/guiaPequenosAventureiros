@@ -1,4 +1,6 @@
 import 'package:app_criancas/auth.dart';
+import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
+import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +45,23 @@ class _Perfil extends State<Perfil> {
                  Text(" A pontuação da tua turma "+ pontuacao_turma.toString()),
                  RaisedButton(
                     onPressed: () {
-                      //ir para a caderneta do aluno
+                      Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return MinhaCaderneta();
+                                }),
+                              );
                     },
                     child: const Text('Minha Caderneta', style: TextStyle(fontSize: 20)),
                   ),
                   RaisedButton(
                     onPressed: () {  
-                      //ir para a caderneta da turma
+                      Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return CadernetaTurma();
+                                }),
+                              );
                     },
                     child: const Text('Caderneta de turma', style: TextStyle(fontSize: 20)),
                   ),

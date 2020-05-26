@@ -1,6 +1,5 @@
-import 'package:app_criancas/models/mission.dart';
+
 import 'package:app_criancas/notifier/missions_notifier.dart';
-import 'package:app_criancas/services/missions_api.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'aventura.dart';
