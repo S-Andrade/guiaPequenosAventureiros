@@ -666,6 +666,10 @@ class _CreateQuestionarioMissionScreenState
             fontSize: 20),
       ),
       onPressed: () {
+        missionNotifier.selectedQuestions.clear();
+        _perguntas = [];
+        _text.clear();
+        _textPontos.clear();
         missionNotifier.currentQuestion = null;
         createMissionQuestinario(
             titulo, questions, aventuraId.id, capitulo.id, pontos);
