@@ -28,7 +28,6 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
     nSelected = 0;
     isSelected = false;
     first = true;
-    selected = [];
     MissionsNotifier missionsNotifier =
         Provider.of<MissionsNotifier>(context, listen: false);
     getQuestions(missionsNotifier);
@@ -37,18 +36,20 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
 
   @override
   Widget build(BuildContext context) {
-    MissionsNotifier missionNotifier = Provider.of<MissionsNotifier>(context);
-    List<Question> questions = missionNotifier.allQuestions;
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+    List<Question> questions = missionsNotifier.allQuestions;
+    setState(() {
       selectedQ.forEach((f) {
         selected.add(f.question);
       });
-      selectedQ.clear();
-      questions.forEach((f) {
-        if (selected.contains(f.question)) {
-          selectedQ.add(f);
-        }
-      });
-      nSelected = selectedQ.length;
+      nSelected = selected.length;
+    });
+    print('lololololololoololol');
+    print(missionNotifier.selectedQuestions.toString());
+    missionNotifier.selectedQuestions.clear();
+    print('lel');
+    print(missionNotifier.selectedQuestions.toString());
+    print(selected.toString());
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -96,7 +97,6 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                           if (first) {
                             questions.forEach((f) {
                               if (!selected.contains(f.question)) {
-                                selectedQ.add(f);
                                 selected.add(f.question);
                               }
                             });
@@ -122,10 +122,11 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                             padding:
                                 const EdgeInsets.only(left: 20.0, right: 20.0),
                             child: Card(
-                              color:
-                                  selectedQ.contains(questions[index]) == true
-                                      ? parseColor("F4F19C")
-                                      : Colors.white,
+                              color: selected.contains(
+                                          questions[index].question) ==
+                                      true
+                                  ? parseColor("F4F19C")
+                                  : Colors.white,
                               child: ListTile(
                                 title: Text(
                                   questions[index].question,
@@ -136,18 +137,19 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                                       fontSize: 15),
                                 ),
                                 onTap: () {
+                                  print(index);
                                   setState(() {
                                     if (selected
                                         .contains(questions[index].question)) {
-                                      selectedQ.remove(questions[index]);
                                       selected
                                           .remove(questions[index].question);
-                                        print(selected.toString());
+                                      print(
+                                          'removiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
                                     } else {
+                                      print(
+                                          'adicioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeiiiiiiiiiiiiiiiiiiiiiiiiii');
                                       selected.add(questions[index].question);
-                                      selectedQ.add(questions[index]);
                                     }
-                                    nSelected = selectedQ.length;
                                   });
                                 },
                               ),
@@ -185,8 +187,12 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                   children: <Widget>[
                     FlatButton(
                         onPressed: () {
-                          missionNotifier.allQuestions = selectedQ;
-                          Navigator.pop(context);
+                          questions.forEach((f) {
+                            if (selected.contains(f.question)) {
+                              if(!missionNotifier.selectedQuestions.contains(f))
+                                missionNotifier.selectedQuestions.add(f);
+                            }
+                          });
                           Navigator.pop(context);
                         },
                         child: Text("Adicionar")),

@@ -39,11 +39,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
     super.initState();
   }
 
-  getPerguntas() async {
-    await addPergunta();
-  }
-
-  addPergunta() {
+  getPerguntas() {
     if (missionNotifier.currentQuestion != null) {
       if (!_perguntas.contains(missionNotifier.currentQuestion)) {
         _perguntas.add(missionNotifier.currentQuestion);
