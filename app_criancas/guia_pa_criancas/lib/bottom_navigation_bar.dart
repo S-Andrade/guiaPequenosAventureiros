@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomBar extends StatelessWidget {
+  Color _navIconBarColor;
   int index;
   Aventura aventura;
   BottomBar(this.index, this.aventura);
@@ -20,11 +21,14 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (index == 1) {
+      _navIconBarColor = Colors.white;
+    }
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.transparent,
-      selectedItemColor: Colors.purple,
-      unselectedItemColor: Color(0xFF30246A),
+      selectedItemColor: Colors.black54,
+      unselectedItemColor: _navIconBarColor,
       currentIndex: index,
       onTap: (int i) async {
         if (i == 0) {

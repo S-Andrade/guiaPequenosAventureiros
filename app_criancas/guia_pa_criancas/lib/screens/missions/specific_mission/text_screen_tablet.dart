@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
 
 class TextScreenMobilePortrait extends StatefulWidget {
@@ -93,7 +92,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/blue.png"),
+          image: AssetImage("assets/images/yellow3.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -102,7 +101,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: Color(0xFF30246A), //change your color here
+            color: Colors.indigo, //change your color here
           ),
           title: Flexible(
             child: Text(
@@ -113,7 +112,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
-                    color: Color(0xFF30246A)),
+                    color: Colors.indigo),
               ),
             ),
           ),
@@ -144,74 +143,78 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
             Positioned(
                 child: Align(
               alignment: Alignment.center,
-              child: FractionallySizedBox(
-                widthFactor: 0.9,
-                heightFactor: 0.6,
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          mission.title,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 28,
-                                color: Colors.white),
+              child: Center(
+                child: FractionallySizedBox(
+                  widthFactor: 0.9,
+                  heightFactor: 0.7,
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            mission.title,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 28,
+                                  color: Colors.white),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(20)),
-                            color: Colors.white.withOpacity(0.6),
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SingleChildScrollView(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(16)),
+                                color: Colors.white.withOpacity(0.6),
+                              ),
 //                        height: 500,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Flexible(
-                              child: Center(
-                                child: Text(
-                                  mission.content,
-                                  style: GoogleFonts.pangolin(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 22,
-                                        color: Colors.black),
+                              child: Padding(
+                                padding: const EdgeInsets.all(30.0),
+                                child: Flexible(
+                                  child: Center(
+                                    child: Text(
+                                      mission.content,
+                                      style: GoogleFonts.pangolin(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 22,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: FractionallySizedBox(
-                          widthFactor: 0.5,
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: FlatButton(
-                                child: setButton(),
-                                onPressed: () {
-                                  setState(() {
-                                    _state = 1;
-                                    _loadButton();
-                                  });
-                                },
-                                color: Colors.indigo,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(10.0))),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: FractionallySizedBox(
+                            widthFactor: 0.5,
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                  padding: EdgeInsets.all(20),
+                                  child: setButton(),
+                                  onPressed: () {
+                                    setState(() {
+                                      _state = 1;
+                                      _loadButton();
+                                    });
+                                  },
+                                  color: Colors.indigo,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(10.0))),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -234,7 +237,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "Okay",
+          "Lido",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                 fontWeight: FontWeight.normal,

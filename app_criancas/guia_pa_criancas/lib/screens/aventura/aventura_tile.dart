@@ -54,7 +54,7 @@ class AventuraTile extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: RaisedButton(
+                    child: FlatButton(
                       onPressed: () {
                         missionsNotifier.currentAventura = aventura;
                         Navigator.push(
@@ -71,7 +71,6 @@ class AventuraTile extends StatelessWidget {
                           "SEGUIR AVENTURA",
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
-                                height: 1,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
                                 color:  Color(0xFF333351)),

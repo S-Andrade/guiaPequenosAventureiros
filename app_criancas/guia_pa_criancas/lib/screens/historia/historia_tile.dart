@@ -1,4 +1,3 @@
-
 import 'historia.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,29 +19,27 @@ class HistoriaTile extends StatelessWidget {
            if(snapshot.hasError)
            return new Text("Erro");
            else */
-            return new Scaffold(
-              body: new Column(
+    return Column(
 //                mainAxisSize: MainAxisSize.max,
-//                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
 //                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
+      children: <Widget>[
 //                  Image.network(url),
 //                  Text(historia.titulo),
-                  Text('Capítulos'),
-                  Expanded(
-                    child: CapitulosDetails(capitulos: historia.capitulos),
-                  ),
-                ],
-              ),
-            );
-           /* break;
+//                  Text('Capítulos'),
+        Expanded(
+          child: CapitulosDetails(capitulos: historia.capitulos),
+        ),
+      ],
+    );
+
+    /* break;
             default:
             return Container();
   }*/
-          } 
+  }
 
-
-         /*Future<void> loadImage() async {
+  /*Future<void> loadImage() async {
     url = await FirebaseStorage.instance
         .ref()
         .child(historia.capa)
@@ -50,7 +47,4 @@ class HistoriaTile extends StatelessWidget {
     flag = true;
   }*/
 
-
-  }
-
- 
+}
