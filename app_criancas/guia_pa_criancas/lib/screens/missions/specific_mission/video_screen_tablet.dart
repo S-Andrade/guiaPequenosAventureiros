@@ -50,6 +50,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   CameraController _cameracontroller;
   Future<void> _initializeControllerFuture;
   int _counterPause;
+  String texto = "Olá, hoje vamos ver um vídeo juntos!";
 
   @override
   void initState() {
@@ -191,7 +192,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       ),
                     ),
                   ),
-                   Expanded(
+                  Expanded(
                     child: chewieDemo,
                   ),
                   FractionallySizedBox(
@@ -215,12 +216,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                   ),
                   //AQUI É ONDE APARECE OS RESULTADOS
                   //Alterar frontend
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-
-                      child: Text(resultado.toString())),
+                  //Container(
+                  //    decoration: BoxDecoration(
+                  //      borderRadius: BorderRadius.circular(10),
+                  //     ),
+                  //     child: Text(resultado.toString())),
                 ],
               ),
             ),
@@ -245,7 +245,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Center(
                         child: Text(
-                          "Vamos estar atentos para o quiz que vem ai...",
+                          texto,
                           textAlign: TextAlign.right,
                           style: GoogleFonts.pangolin(
                             textStyle: TextStyle(
@@ -326,7 +326,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -348,13 +349,16 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -362,20 +366,21 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -410,7 +415,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -438,22 +444,24 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -461,7 +469,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                 ),
               ),
             );
-
           },
         );
       }
@@ -492,7 +499,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -520,22 +528,24 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -543,7 +553,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                 ),
               ),
             );
-
           },
         );
       }
@@ -591,6 +600,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           _counterPause += 1;
         }
         resultado.add(false);
+        texto = 'Pssst, presta atenção!';
       });
     }
 
@@ -632,6 +642,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           (0 <= narizy && narizy <= 700)) {
         setState(() {
           resultado.add(true);
+          texto = 'Vamos prestar atenção...';
         });
       } else {
         setState(() {
@@ -639,14 +650,14 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             chewieDemo.pauseVideo();
             //O VIDEO PAROU AQUI
             _counterPause += 1;
+            print('deviiiiiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaa');
           }
           resultado.add(false);
+          print('aqui');
+          texto = 'Pssst, presta atenção!';
         });
       }
     }
-
     faceDetector.close();
-
-    print(resultado);
   }
 }
