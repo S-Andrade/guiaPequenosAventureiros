@@ -21,6 +21,8 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
   String companheiroHeadTop;
   String companheiroBodyPart;
   int companheiroColour;
+  bool flag;
+
 
 
 

@@ -59,7 +59,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     String _imagem;
     flag = false;
 
-    if (missoes.length == missionsNotifier.missionsList.length) {
+    if (missoes.length == missionsNotifier.missionsList.length ) {
       setState(() {
         flag = true;
       });
@@ -143,7 +143,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                             }
 
                             if (_done == true)
-                              _completada = 0.6;
+                              _completada = 0.5;
                             else if (_done == false) _completada = 1;
 
                             if (mission.type == 'Text')
