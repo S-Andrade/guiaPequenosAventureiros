@@ -241,10 +241,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
       for (RowAnswer r in widgetsAns) {
         if (r._textAnsWrong.text.length > 0) {
           _respostasErradas.add(r._textAnsWrong.text);
+          r._textAnsWrong.clear();
         }
       }
       q.wrongAnswers = _respostasErradas;
       _respostasErradas = [];
+      _textQuestion.clear();
+      _textAnsCorrect.clear();
       Navigator.pop(context);
     } else {
       showDialog(
@@ -256,7 +259,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
               "Falta inserir campos!",
               style: TextStyle(
                   color: Colors.black,
-               
                   fontFamily: 'Monteserrat',
                   letterSpacing: 2,
                   fontSize: 20),

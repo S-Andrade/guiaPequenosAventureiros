@@ -29,8 +29,8 @@ updatePontuacaoAluno(String aluno, int pontuacao) async {
   int nCromos = howMany(100, pontos, novaPontuacao);
   print(nCromos);
   List c = [];
-  for(int i = 0 ; i < nCromos; i++){
-    c.add( await giveCromoAluno(aluno));
+  for (int i = 0; i < nCromos; i++) {
+    c.add(await giveCromoAluno(aluno));
   }
   return c;
 }
@@ -44,7 +44,7 @@ updatePontuacaoTurma(String aluno, int pontuacao) async {
   await turmaDocRef.updateData({'pontuacao': novaPontuacao});
   int nCromos = howMany(1000, pontos, novaPontuacao);
   List c = [];
-  for(int i = 0 ; i < nCromos; i++){
+  for (int i = 0; i < nCromos; i++) {
     c.add(await giveCromoTurma(aluno));
   }
   return c;
@@ -85,15 +85,14 @@ getAlunoTurma(String aluno) async {
   return turma;
 }
 
-
-howMany(int element, int min, int max){
+howMany(int element, int min, int max) {
   List solutions = [];
-  for (int i = min+1; i <= max; i++){
-    if(i % element == 0){
+  for (int i = min + 1; i <= max; i++) {
+    if (i % element == 0) {
       solutions.add(i);
     }
   }
- return solutions.length;
+  return solutions.length;
 }
 
 giveCromoAluno(String aluno) async {
@@ -186,22 +185,46 @@ getCromosTurma() async {
 
 //-----outras funções
 getAllTurmasPontuacao() async {
-  final QuerySnapshot turmaRef = await Firestore.instance.collection('turma').getDocuments();
-  List<Turma> temp=[];
-  print('chegueeeeiiii');
+  final QuerySnapshot turmaRef =
+      await Firestore.instance.collection('turma').getDocuments();
+  List<Turma> temp = [];
   List listaTurmas = turmaRef.documents.toList();
   listaTurmas.forEach((doc) {
-    print('passei');
-      print(doc.data);
-      Turma  t  = Turma(id: doc.data['id'] ?? '',
-          professor: doc.data['professor'] ?? '',
-          nAlunos: doc.data['nAlunos'] ?? 0,
-          alunos: doc.data['alunos'] ?? [],
-          nome: doc.data['nome']?? "",
-          pontuacao: doc.data['pontuacao']?? 0,
-          cromos: doc.data['pontuacao']=[]);
+    Turma t = Turma(
+        id: doc.data['id'] ?? '',
+        professor: doc.data['professor'] ?? '',
+        nAlunos: doc.data['nAlunos'] ?? 0,
+        alunos: doc.data['alunos'] ?? [],
+        nome: doc.data['nome'] ?? "",
+        pontuacao: doc.data['pontuacao'] ?? 0,
+        cromos: doc.data['cromos'] = []);
     temp.add(t);
     return temp;
   });
   return temp;
+}
+
+getUserCromos(String email) async {
+  List cromos = [];
+  DocumentReference alunoRef =
+      Firestore.instance.collection('aluno').document(email);
+  await alunoRef.get().then((value) {
+    cromos = value.data['cromos'];
+  });
+  return cromos;
+}
+
+getUserTurmaCromos(String email) async {
+  List cromos = [];
+  DocumentReference alunoRef =
+      Firestore.instance.collection('aluno').document(email);
+  await alunoRef.get().then((value) async {
+    String turma = value.data['turma'];
+    DocumentReference turmaRef =
+        Firestore.instance.collection('turma').document(turma);
+    await turmaRef.get().then((value) {
+      cromos = value.data['cromos'];
+    });
+  });
+  return cromos;
 }
