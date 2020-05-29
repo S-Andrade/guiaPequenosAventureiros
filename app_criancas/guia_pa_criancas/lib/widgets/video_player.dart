@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
 
@@ -70,9 +71,10 @@ class _ChewieDemoState extends State<ChewieDemo> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-       
-        body: Column(
+      backgroundColor: Colors.transparent,
+      body: Column(
           children: <Widget>[
             Expanded(
               child: Center(
@@ -85,7 +87,13 @@ class _ChewieDemoState extends State<ChewieDemo> {
               onPressed: () {
                 _chewieController.enterFullScreen();
               },
-              child: Text('Ecrã inteiro'),
+              child: Text('Ver em ecrã inteiro',textAlign: TextAlign.center,
+                style: GoogleFonts.pangolin(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),),
             ),
             
             
