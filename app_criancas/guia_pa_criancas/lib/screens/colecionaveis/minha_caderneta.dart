@@ -2,6 +2,7 @@ import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/color_loader.dart';
+import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,7 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
   @override
   Widget build(BuildContext context) {
     if (_cromos.length != imageCromo.length && (_cromos[0] != '')) {
-      return ColorLoader();
+      return ColorLoader5();
     } else if (imageCromo.isEmpty && _cromos.isNotEmpty) {
       return Container(
         decoration: BoxDecoration(
