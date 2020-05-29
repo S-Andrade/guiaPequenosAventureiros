@@ -312,11 +312,10 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     }
   }
 
-  //adiciona a pontuação e os cromos ao aluno e turma
   updatePoints(String aluno, int points, BuildContext context) async {
     List cromos = await updatePontuacao(aluno, points);
-    print("tellle");
-    print(cromos);
+//    print("tellle");
+//    print(cromos);
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -404,7 +403,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
@@ -494,7 +492,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text("Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
