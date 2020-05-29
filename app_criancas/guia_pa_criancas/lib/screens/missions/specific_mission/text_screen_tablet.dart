@@ -287,19 +287,71 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
       context: context,
       builder: (BuildContext context) {
         // retorna um objeto do tipo Dialog
-        return AlertDialog(
-          title: new Text("Ganhas-te pontos"),
-          content: new Text("+$points"),
-          actions: <Widget>[
-            // define os botões na base do dialogo
-            new FlatButton(
-              child: new Text("Fechar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+          ),
+          child: AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text("Ganhas-te pontos",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    color: Colors.white),
+              ),
             ),
-          ],
+            content: FractionallySizedBox(
+              heightFactor: 0.3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("+$points",  textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 50,
+                              color: Color(0xFFffcc00)),
+                        ),),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FlatButton(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                          color: Color(0xFFEF807A),
+                          child: new Text("Fechar",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         );
+
       },
     );
     if (cromos[0] != []) {
@@ -321,19 +373,65 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
           context: context,
           builder: (BuildContext context) {
             // retorna um objeto do tipo Dialog
-            return AlertDialog(
-              title: new Text("Ganhas-te um cromo para a tua caderneta"),
-              content: image,
-              actions: <Widget>[
-                // define os botões na base do dialogo
-                new FlatButton(
-                  child: new Text("Fechar"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
                 ),
-              ],
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
+
           },
         );
       }
@@ -357,19 +455,65 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
           context: context,
           builder: (BuildContext context) {
             // retorna um objeto do tipo Dialog
-            return AlertDialog(
-              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
-              content: image,
-              actions: <Widget>[
-                // define os botões na base do dialogo
-                new FlatButton(
-                  child: new Text("Fechar"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo\npara a turma",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
                 ),
-              ],
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
+
           },
         );
       }
