@@ -8,6 +8,10 @@ import 'package:provider/provider.dart';
 import 'aventura/aventura_list.dart';
 import 'companheiro/companheiro_appwide.dart';
 import 'package:flutter/services.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:supercharged/supercharged.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   final FirebaseUser user;
@@ -17,9 +21,25 @@ class HomeScreen extends StatefulWidget {
   _HomeScreen createState() => _HomeScreen(user: user);
 }
 
-class _HomeScreen extends State<HomeScreen> {
+class _HomeScreen extends State<HomeScreen> with AnimationMixin {
   final FirebaseUser user;
   _HomeScreen({this.user});
+
+//  AnimationController widthController;
+//  Animation<double> sizeWidth;
+//  Animation<double> sizeHeight;
+
+//  @override
+//  void initState() {
+//    widthController = createController()..mirror(duration: 2.seconds);
+//    sizeWidth = 0.0.tweenTo(0.8).animatedBy(widthController);
+//    sizeHeight = 0.0.tweenTo(0.15).animatedBy(controller);
+//    controller.play();
+//    widthController.play();
+//    super.initState();
+//  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +146,8 @@ class _HomeScreen extends State<HomeScreen> {
                       alignment: Alignment.topLeft,
                       child: FractionallySizedBox(
                         heightFactor: 0.15,
+//                        heightFactor: sizeHeight.value,
+//                        widthFactor: sizeWidth.value,
                         widthFactor: 0.8,
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
