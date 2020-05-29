@@ -1,16 +1,12 @@
 import 'package:app_criancas/auth.dart';
-
 import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
-
 import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'main.dart';
 
 class Perfil extends StatefulWidget {
@@ -137,9 +133,7 @@ class _Perfil extends State<Perfil> {
                                       //ir para a caderneta do aluno
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return MinhaCaderneta();
-                                        }),
+                                        MaterialPageRoute(builder: (context) => MinhaCaderneta()),
                                       );
                                     },
                                     child: Padding(
@@ -172,9 +166,7 @@ class _Perfil extends State<Perfil> {
                                       //ir para a caderneta da turma
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return CadernetaTurma();
-                                        }),
+                                        MaterialPageRoute(builder: (context) =>CadernetaTurma()),
                                       );
                                     },
                                     child: Padding(
