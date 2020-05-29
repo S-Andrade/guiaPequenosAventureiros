@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/video_player.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
-import 'package:video_player/video_player.dart';
 import '../../../auth.dart';
+import 'package:camera/camera.dart';
 
 class VideoScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -39,9 +44,16 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   int _totalPaused;
   DateTime _start;
   DateTime _end;
+  ChewieDemo chewieDemo;
+  Timer timer;
+  List<bool> resultado = [];
+  CameraController _cameracontroller;
+  Future<void> _initializeControllerFuture;
+  int _counterPause;
 
   @override
   void initState() {
+    chewieDemo = ChewieDemo(link: mission.linkVideo);
     Auth().getUser().then((user) {
       setState(() {
         _userID = user.email;
@@ -51,6 +63,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             _done = resultados["done"];
             _counterVisited = resultados["counterVisited"];
             _timeVisited = resultados["timeVisited"];
+            _counterPause = resultados["counterPause"];
           }
         }
       });
@@ -59,6 +72,21 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     WidgetsBinding.instance.addObserver(this);
 
     _start = DateTime.now();
+
+    availableCameras().then((cameras) {
+      CameraDescription camera = cameras.last;
+      _cameracontroller = CameraController(
+        camera,
+        ResolutionPreset.medium,
+      );
+      _initializeControllerFuture = _cameracontroller.initialize();
+      timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
+    });
+
+    if (_counterPause == null) {
+      _counterPause = 0;
+    }
+
     super.initState();
   }
 
@@ -88,6 +116,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   void dispose() {
+    timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -162,8 +191,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       ),
                     ),
                   ),
-                  ChewieDemo(
-                    link: mission.linkVideo,
+                   Expanded(
+                    child: chewieDemo,
                   ),
                   FractionallySizedBox(
                     widthFactor: 0.5,
@@ -175,7 +204,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                         onPressed: () {
                           setState(() {
                             _state = 1;
-                            _loadButton();
+                            _loadButton(context);
                           });
                         },
                         color: Color(0xFFF3C463),
@@ -184,6 +213,9 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       ),
                     ),
                   ),
+                  //AQUI É ONDE APARECE OS RESULTADOS
+                  //Alterar frontend
+                  Text(resultado.toString())
                 ],
               ),
             ),
@@ -262,15 +294,215 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     }
   }
 
-  void _loadButton() {
+  void _loadButton(BuildContext context) {
     if (_done == true) {
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePoints(_userID, mission.points, context);
         Navigator.pop(context);
       });
     }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points, BuildContext context) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
+  void checkForFace() async {
+    try {
+      await _initializeControllerFuture;
+
+      final path = join(
+        (await getTemporaryDirectory()).path,
+        '${DateTime.now()}.png',
+      );
+
+      await _cameracontroller.takePicture(path);
+
+      getResult(path);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void getResult(String imagePath) async {
+    final File imageFile = File(imagePath);
+    final FirebaseVisionImage visionImage =
+        FirebaseVisionImage.fromFile(imageFile);
+    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector(
+        FaceDetectorOptions(
+            mode: FaceDetectorMode.accurate,
+            enableLandmarks: true,
+            enableClassification: true));
+    final List<Face> faces = await faceDetector.processImage(visionImage);
+    /* print(faces);
+    setState(() {
+      carinhas = faces.length;
+    });*/
+
+    if (faces.length == 0) {
+      print("helllllooooooooooooooooooooo");
+      setState(() {
+        if (chewieDemo.isPlaying()) {
+          chewieDemo.pauseVideo();
+          //O VIDEO PAROU AQUI
+          _counterPause += 1;
+        }
+        resultado.add(false);
+      });
+    }
+
+    for (Face face in faces) {
+      //List olhos = [];
+      var olhoesquerdo = face.getLandmark(FaceLandmarkType.leftEye).position;
+      double olhoesquerdox = olhoesquerdo.dx;
+      double olhoesquerdoy = olhoesquerdo.dy;
+      var olhodireito = face.getLandmark(FaceLandmarkType.rightEye).position;
+      double olhodireitox = olhodireito.dx;
+      double olhodireitoy = olhodireito.dy;
+
+      //olhos.add(olhoesquerdo);
+      //olhos.add(olhodireito);
+
+      //List<double> cabecorra = [];
+      double cabecay = face.headEulerAngleY;
+      double cabecaz = face.headEulerAngleZ;
+      //cabecorra.add(cabecay);
+      //cabecorra.add(cabecaz);
+
+      var focinho = face.getLandmark(FaceLandmarkType.noseBase).position;
+      double narizx = focinho.dx;
+      double narizy = focinho.dy;
+
+      /* setState(() {  
+          olhinhos.add(olhos);
+          cabeca.add(cabecorra);
+          nariz.add(focinho);
+        });*/
+
+      if ((-20 <= olhoesquerdox && olhoesquerdox <= 500) &&
+          (0 <= olhoesquerdoy && olhoesquerdoy <= 650) &&
+          (50 <= olhodireitox && olhodireitox <= 700) &&
+          (0 <= olhodireitoy && olhodireitoy <= 650) &&
+          (-50 <= cabecay && cabecay <= 50) &&
+          (-100 <= cabecaz && cabecaz <= 100) &&
+          (0 <= narizx && narizx <= 700) &&
+          (0 <= narizy && narizy <= 700)) {
+        setState(() {
+          resultado.add(true);
+        });
+      } else {
+        setState(() {
+          if (chewieDemo.isPlaying()) {
+            chewieDemo.pauseVideo();
+            //O VIDEO PAROU AQUI
+            _counterPause += 1;
+          }
+          resultado.add(false);
+        });
+      }
+    }
+
+    faceDetector.close();
+
+    print(resultado);
   }
 }

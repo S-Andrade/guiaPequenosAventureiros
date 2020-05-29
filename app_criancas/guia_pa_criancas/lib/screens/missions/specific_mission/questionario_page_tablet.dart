@@ -1,5 +1,7 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,6 +38,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
   DateTime _returned;
   int _totalPaused;
   Light _light;
+  int points;
   StreamSubscription _subscription;
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
@@ -47,6 +50,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
         MissionsNotifier missionsNotifier =
             Provider.of<MissionsNotifier>(context, listen: false);
         _userID = user.email;
+        points = missionsNotifier.currentMission.points;
         currentStep = missionsNotifier.currentPage;
         allQuestions[currentStep].resultados.forEach((aluno) {
           if (aluno['aluno'] == _userID) {
@@ -458,8 +462,9 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                           ),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         int respondidas = 0;
+                        await updatePoints(_userID, points);
                         allQuestions.forEach((element) {
                           element.resultados.forEach((aluno) {
                             if (aluno['aluno'] == _userID) {
@@ -504,5 +509,105 @@ class _QuestionarioPageState extends State<QuestionarioPage>
         ),
       ),
     );
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 }

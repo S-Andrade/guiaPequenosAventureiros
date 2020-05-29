@@ -1,19 +1,13 @@
 import 'package:app_criancas/auth.dart';
-
 import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
-
 import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'main.dart';
-import 'models/aluno.dart';
-import 'screens/turma/turma.dart';
 
 class Perfil extends StatefulWidget {
   FirebaseUser user;
@@ -94,7 +88,8 @@ class _Perfil extends State<Perfil> {
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                " A tua pontuação é de " + pontuacao_aluno.toString(),
+                                " A tua pontuação é de " +
+                                    pontuacao_aluno.toString(),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
@@ -123,7 +118,7 @@ class _Perfil extends State<Perfil> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical:20.0),
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -132,21 +127,29 @@ class _Perfil extends State<Perfil> {
                                   child: FlatButton(
                                     color: Color(0xFFF3C463),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: new BorderRadius.circular(10.0)),
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0)),
                                     onPressed: () {
                                       //ir para a caderneta do aluno
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => MinhaCaderneta()),
+                                      );
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical:20.0),
-                                      child: Text('Minha Caderneta',
-                                          textAlign: TextAlign.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0),
+                                      child: Text(
+                                        'Minha Caderneta',
+                                        textAlign: TextAlign.center,
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 18,
                                             color: Colors.white,
                                           ),
-                                        ),),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -157,14 +160,20 @@ class _Perfil extends State<Perfil> {
                                   child: FlatButton(
                                     color: Color(0xFF01BBB6),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: new BorderRadius.circular(10.0)),
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0)),
                                     onPressed: () {
                                       //ir para a caderneta da turma
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) =>CadernetaTurma()),
+                                      );
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical:20.0),
-                                      child: Text('Caderneta de turma',
-
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0),
+                                      child: Text(
+                                        'Caderneta de turma',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
@@ -172,12 +181,12 @@ class _Perfil extends State<Perfil> {
                                             fontSize: 18,
                                             color: Colors.white,
                                           ),
-                                        ),),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -185,83 +194,56 @@ class _Perfil extends State<Perfil> {
                 ),
               ),
               Positioned(
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FractionallySizedBox(
+                        heightFactor: 0.25,
+                        child: Container(
+//                        height: 130,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/clouds_bottom_navigation_white.png'),
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          )),
+                        ),
+                      ))),
+              Positioned(
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: FractionallySizedBox(
-                    heightFactor: 0.25,
-                    child: Container(
-//                        height: 130,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/clouds_bottom_navigation_white.png'),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      )),
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                      10.0,
+                    )),
+//                  color: Color(0xFFFF2929),
+                    onPressed: () async {
+                      await Auth().logOut();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return MyApp();
+                        }),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Logout',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: Color(0xFFFF2929),
+                          ),
+                        ),
+                      ),
                     ),
-
-        return Scaffold(
-            appBar: new AppBar(title: new Text("Criar turmas")),
-             body: Column(
-               children: [
-                 Text("Olá, $aa!"),
-                 Text(" A tua pontuação é de " + pontuacao_aluno.toString()),
-                 Text(" A pontuação da tua turma "+ pontuacao_turma.toString()),
-                 RaisedButton(
-                    onPressed: () {
-                      Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return MinhaCaderneta();
-                                }),
-                              );
-                    },
-                    child: const Text('Minha Caderneta', style: TextStyle(fontSize: 20)),
-                  ),
-                  RaisedButton(
-                    onPressed: () {  
-                      Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return CadernetaTurma();
-                                }),
-                              );
-                    },
-                    child: const Text('Caderneta de turma', style: TextStyle(fontSize: 20)),
-
                   ),
                 ),
               ),
-              Positioned(child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0, )),
-//                  color: Color(0xFFFF2929),
-                  onPressed: () async {
-                    await Auth().logOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return MyApp();
-                      }),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Logout',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color:  Color(0xFFFF2929),
-                        ),),
-                    ),
-                  ),
-                ),
-              ),),
               Positioned(
                 child: Align(
                     alignment: Alignment.bottomCenter,
@@ -270,7 +252,6 @@ class _Perfil extends State<Perfil> {
 //                      heightFactor:0.4 ,
                         child: CompanheiroMessage())),
               ),
-
             ],
           )),
     );

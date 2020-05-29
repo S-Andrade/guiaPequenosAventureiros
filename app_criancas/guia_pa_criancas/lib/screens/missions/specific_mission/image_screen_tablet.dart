@@ -1,12 +1,12 @@
 import 'dart:async';
-
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
 
 class ImageScreenTabletPortrait extends StatefulWidget {
@@ -133,11 +133,11 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
 //                        height: 130,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_white.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
                   ),
                 ),
               ),
@@ -151,18 +151,16 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-
-                    Text(
-                      mission.title,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 28,
-                            color: Colors.white),
+                      Text(
+                        mission.title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 28,
+                              color: Colors.white),
+                        ),
                       ),
-                    ),
-
                       SingleChildScrollView(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
@@ -259,7 +257,8 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
               fontWeight: FontWeight.normal,
               fontSize: 18,
               color: Colors.white,
-            ),),
+            ),
+          ),
         );
       } else
         return ColorLoader();
@@ -283,10 +282,111 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async{
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
+    }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 }
