@@ -107,7 +107,7 @@ getUserInfo(String email) async {
   bool data = await user.get().then((value) {
     bool dataSaved;
     if (value['dataNascimentoAluno'] != null &&
-        (value['genero'] == 'Masculino' || value['genero'] == 'Feminino')) {
+        (value['generoAluno'] == 'Masculino' || value['generoAluno'] == 'Feminino')) {
       dataSaved = true;
     } else {
       dataSaved = false;

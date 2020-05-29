@@ -191,8 +191,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       ),
                     ),
                   ),
-                  ChewieDemo(
-                    link: mission.linkVideo,
+                   Expanded(
+                    child: chewieDemo,
                   ),
                   FractionallySizedBox(
                     widthFactor: 0.5,
