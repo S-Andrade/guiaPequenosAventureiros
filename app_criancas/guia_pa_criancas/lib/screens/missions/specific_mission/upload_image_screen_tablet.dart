@@ -1,20 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
-import 'dart:math' as math;
-
 
 class UploadImageScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -82,8 +80,7 @@ class _UploadImageScreenTabletPortraitState
       decoration: BoxDecoration(
         image: DecorationImage(
           colorFilter: new ColorFilter.mode(
-           Colors.blueAccent.withOpacity(0.5),
-              BlendMode.darken),
+              Colors.blueAccent.withOpacity(0.5), BlendMode.darken),
           image: AssetImage("assets/images/59721.png"),
           fit: BoxFit.cover,
         ),
@@ -120,16 +117,15 @@ class _UploadImageScreenTabletPortraitState
 //                        height: 130,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/clouds_bottom_navigation_white.png'),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                          )),
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
                     ),
                   ),
                 ),
               ),
-
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.center,
@@ -164,11 +160,16 @@ class _UploadImageScreenTabletPortraitState
                           Builder(
                               builder: (BuildContext) => _loaded
                                   ? Container(
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                                clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      clipBehavior: Clip.antiAlias,
                                       height: 100,
                                       width: 100,
-                                      child: Image.file(image, fit: BoxFit.cover,),
+                                      child: Image.file(
+                                        image,
+                                        fit: BoxFit.cover,
+                                      ),
                                     )
                                   : Container()),
                           Row(
@@ -179,40 +180,45 @@ class _UploadImageScreenTabletPortraitState
                                   child: Builder(
                                       builder: (BuildContext) => _done
                                           ? FlatButton(
-                                            padding: EdgeInsets.all(20),
+                                              padding: EdgeInsets.all(20),
                                               color: Color(0xFFFF5757),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(10.0)),
+                                                      BorderRadius.circular(
+                                                          10.0)),
                                               child: Text(
                                                 'Sair',
                                                 textAlign: TextAlign.center,
-                                                  style: GoogleFonts.quicksand(
-                                                    textStyle: TextStyle(
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                    ),),
+                                                style: GoogleFonts.quicksand(
+                                                  textStyle: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                               ),
                                               onPressed: () => _loadButton())
                                           : FlatButton(
-                                            padding: EdgeInsets.all(20),
-
-                                            color: Color(0xFF9CE9BF),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0)),
-                                            child: Text(
-                                              'Escolher foto',
-                                              style: GoogleFonts.quicksand(
-                                                textStyle: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                ),),
-                                            ),
-                                            onPressed: getImage,
-                                          )),
+                                              padding: EdgeInsets.all(20),
+                                              color: Color(0xFF9CE9BF),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              child: Text(
+                                                'Escolher foto',
+                                                style: GoogleFonts.quicksand(
+                                                  textStyle: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: getImage,
+                                            )),
                                 ),
                               ),
                               Expanded(
@@ -232,17 +238,20 @@ class _UploadImageScreenTabletPortraitState
                                             color: Color(0xFFEF6EA5),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10.0)))
+                                                    BorderRadius.circular(
+                                                        10.0)))
                                         : FlatButton(
-                                      disabledTextColor: Colors.grey,
-                                      disabledColor: Color(0xFFEBECEC).withOpacity(0.8),
-                                        child: setButton(),
-                                        onPressed: null,
-                                        padding: EdgeInsets.all(20),
-                                        color: Color(0xFFEF6EA5),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10.0))),
+                                            disabledTextColor: Colors.grey,
+                                            disabledColor: Color(0xFFEBECEC)
+                                                .withOpacity(0.8),
+                                            child: setButton(),
+                                            onPressed: null,
+                                            padding: EdgeInsets.all(20),
+                                            color: Color(0xFFEF6EA5),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0))),
                                   ),
                                 ),
                               ),
@@ -256,8 +265,6 @@ class _UploadImageScreenTabletPortraitState
 //                                      size: 50.0,
 //                                    )
 //                                  : Container()),
-
-
                         ]),
                   ),
                 ),
@@ -317,7 +324,8 @@ class _UploadImageScreenTabletPortraitState
               fontWeight: FontWeight.normal,
               fontSize: 18,
               color: Colors.white,
-            ),),
+            ),
+          ),
         );
       } else
         return ColorLoader();
@@ -329,7 +337,8 @@ class _UploadImageScreenTabletPortraitState
             fontWeight: FontWeight.normal,
             fontSize: 18,
             color: Colors.white,
-          ),),
+          ),
+        ),
       );
     }
   }
@@ -341,10 +350,111 @@ class _UploadImageScreenTabletPortraitState
         Navigator.pop(context);
       });
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
         _upload();
+        await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
+    }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 

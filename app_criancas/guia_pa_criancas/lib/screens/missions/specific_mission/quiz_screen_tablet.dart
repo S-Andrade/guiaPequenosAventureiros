@@ -80,7 +80,6 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                       width: double.infinity,
                       height: 65,
                       child: FlatButton(
-
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {

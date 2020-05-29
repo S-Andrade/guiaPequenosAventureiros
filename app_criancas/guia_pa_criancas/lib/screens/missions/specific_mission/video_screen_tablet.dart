@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/video_player.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -207,11 +209,12 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                         },
                         color: Color(0xFFF3C463),
                         shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(10.0)),     
+                            borderRadius: new BorderRadius.circular(10.0)),
                       ),
                     ),
                   ),
                   //AQUI É ONDE APARECE OS RESULTADOS
+                  //Alterar frontend
                   Text(resultado.toString())
                 ],
               ),
@@ -262,17 +265,18 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     );
   }
 
- Widget setButton() {
+  Widget setButton() {
     if (_done == false) {
       if (_state == 0) {
         return new Text(
           "Okay",
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-                color: Colors.white,
-              ),),
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
         );
       } else
         return ColorLoader();
@@ -284,7 +288,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             fontWeight: FontWeight.normal,
             fontSize: 20,
             color: Colors.white,
-          ),),
+          ),
+        ),
       );
     }
   }
@@ -294,46 +299,146 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePoints(_userID, mission.points, context);
         Navigator.pop(context);
       });
     }
   }
 
-   void checkForFace() async{
-      try {
-            await _initializeControllerFuture;
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points, BuildContext context) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
 
-            final path = join(
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             );
-
-            await _cameracontroller.takePicture(path);
-
-            getResult(path);
-            
-      } catch (e) {
-        print(e);
+          },
+        );
       }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 
-  void getResult(String imagePath) async{
+  void checkForFace() async {
+    try {
+      await _initializeControllerFuture;
+
+      final path = join(
+        (await getTemporaryDirectory()).path,
+        '${DateTime.now()}.png',
+      );
+
+      await _cameracontroller.takePicture(path);
+
+      getResult(path);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void getResult(String imagePath) async {
     final File imageFile = File(imagePath);
-    final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(imageFile);
-    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector(FaceDetectorOptions(
-        mode: FaceDetectorMode.accurate,
-        enableLandmarks: true,
-        enableClassification: true
-        ));
+    final FirebaseVisionImage visionImage =
+        FirebaseVisionImage.fromFile(imageFile);
+    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector(
+        FaceDetectorOptions(
+            mode: FaceDetectorMode.accurate,
+            enableLandmarks: true,
+            enableClassification: true));
     final List<Face> faces = await faceDetector.processImage(visionImage);
-   /* print(faces);
+    /* print(faces);
     setState(() {
       carinhas = faces.length;
     });*/
 
-    if(faces.length == 0){
+    if (faces.length == 0) {
       print("helllllooooooooooooooooooooo");
       setState(() {
         if (chewieDemo.isPlaying()) {
@@ -346,57 +451,54 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     }
 
     for (Face face in faces) {
-       
-        //List olhos = [];
-        var olhoesquerdo = face.getLandmark(FaceLandmarkType.leftEye).position;
-        double olhoesquerdox = olhoesquerdo.dx;
-        double olhoesquerdoy = olhoesquerdo.dy;
-        var olhodireito = face.getLandmark(FaceLandmarkType.rightEye).position;
-        double olhodireitox = olhodireito.dx;
-        double olhodireitoy = olhodireito.dy;
+      //List olhos = [];
+      var olhoesquerdo = face.getLandmark(FaceLandmarkType.leftEye).position;
+      double olhoesquerdox = olhoesquerdo.dx;
+      double olhoesquerdoy = olhoesquerdo.dy;
+      var olhodireito = face.getLandmark(FaceLandmarkType.rightEye).position;
+      double olhodireitox = olhodireito.dx;
+      double olhodireitoy = olhodireito.dy;
 
-        //olhos.add(olhoesquerdo);
-        //olhos.add(olhodireito);
+      //olhos.add(olhoesquerdo);
+      //olhos.add(olhodireito);
 
-        //List<double> cabecorra = []; 
-        double cabecay = face.headEulerAngleY;
-        double cabecaz = face.headEulerAngleZ;
-        //cabecorra.add(cabecay);
-        //cabecorra.add(cabecaz);
+      //List<double> cabecorra = [];
+      double cabecay = face.headEulerAngleY;
+      double cabecaz = face.headEulerAngleZ;
+      //cabecorra.add(cabecay);
+      //cabecorra.add(cabecaz);
 
-        var focinho = face.getLandmark(FaceLandmarkType.noseBase).position;
-        double narizx = focinho.dx;
-        double narizy = focinho.dy;
+      var focinho = face.getLandmark(FaceLandmarkType.noseBase).position;
+      double narizx = focinho.dx;
+      double narizy = focinho.dy;
 
-       /* setState(() {  
+      /* setState(() {  
           olhinhos.add(olhos);
           cabeca.add(cabecorra);
           nariz.add(focinho);
         });*/
 
-
-        if((-20 <= olhoesquerdox && olhoesquerdox <= 500) 
-          && (0 <= olhoesquerdoy && olhoesquerdoy <= 650)
-          && (50 <= olhodireitox && olhodireitox <= 700)
-          && (0 <= olhodireitoy && olhodireitoy <= 650)
-          && (-50 <= cabecay && cabecay <= 50)
-          && (-100 <= cabecaz && cabecaz <= 100)
-          && (0 <= narizx && narizx <= 700)
-          && (0 <= narizy && narizy <= 700)){
-            setState(() {
-              resultado.add(true); 
-            });
-        }else{
-          setState(() {
-            if (chewieDemo.isPlaying()) {
-              chewieDemo.pauseVideo();
-              //O VIDEO PAROU AQUI
-              _counterPause += 1;
-            }
-            resultado.add(false);
-          });
-        }
-
+      if ((-20 <= olhoesquerdox && olhoesquerdox <= 500) &&
+          (0 <= olhoesquerdoy && olhoesquerdoy <= 650) &&
+          (50 <= olhodireitox && olhodireitox <= 700) &&
+          (0 <= olhodireitoy && olhodireitoy <= 650) &&
+          (-50 <= cabecay && cabecay <= 50) &&
+          (-100 <= cabecaz && cabecaz <= 100) &&
+          (0 <= narizx && narizx <= 700) &&
+          (0 <= narizy && narizy <= 700)) {
+        setState(() {
+          resultado.add(true);
+        });
+      } else {
+        setState(() {
+          if (chewieDemo.isPlaying()) {
+            chewieDemo.pauseVideo();
+            //O VIDEO PAROU AQUI
+            _counterPause += 1;
+          }
+          resultado.add(false);
+        });
+      }
     }
 
     faceDetector.close();

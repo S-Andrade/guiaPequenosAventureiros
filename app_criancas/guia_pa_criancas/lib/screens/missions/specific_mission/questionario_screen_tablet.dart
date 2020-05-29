@@ -1,6 +1,5 @@
 import 'package:app_criancas/models/mission.dart';
 import 'package:app_criancas/notifier/missions_notifier.dart';
-import 'package:app_criancas/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -89,11 +88,11 @@ class _QuestionarioScreenState extends State<QuestionarioScreen> {
 //                        height: 130,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_white.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
                   ),
                 ),
               ),
@@ -118,7 +117,8 @@ class _QuestionarioScreenState extends State<QuestionarioScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left:40.0, right: 40, top:0, bottom: 20),
+                    padding: const EdgeInsets.only(
+                        left: 40.0, right: 40, top: 0, bottom: 20),
                     child: Flexible(
                       child: Text(
                         'Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

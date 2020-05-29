@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../../models/mission.dart';
@@ -31,7 +33,7 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
   AudioPlayer advancedPlayer = AudioPlayer();
   String localFilePath;
   int _state = 0;
-  
+
   String _userID;
   Map resultados;
   bool _done;
@@ -46,7 +48,6 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
 
   @override
   void initState() {
-   
     if (Platform.isIOS) {
       if (audioCache.fixedPlayer != null) {
         audioCache.fixedPlayer.startHeadlessService();
@@ -54,28 +55,27 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
       advancedPlayer.startHeadlessService();
     }
     Auth().getUser().then((user) {
-                  setState(() {
-                    _userID = user.email;
-                    for (var a in mission.resultados) {
-                      if (a["aluno"] == _userID) {
-                        resultados = a;
-                        _done = resultados["done"];
-                        _counterVisited=resultados["counterVisited"];
-                        _timeVisited=resultados["timeVisited"];
-                      }
-                    }
-                  });
-                });
+      setState(() {
+        _userID = user.email;
+        for (var a in mission.resultados) {
+          if (a["aluno"] == _userID) {
+            resultados = a;
+            _done = resultados["done"];
+            _counterVisited = resultados["counterVisited"];
+            _timeVisited = resultados["timeVisited"];
+          }
+        }
+      });
+    });
 
     WidgetsBinding.instance.addObserver(this);
-   
-    _start=DateTime.now();
+
+    _start = DateTime.now();
     super.initState();
   }
 
   @override
   void dispose() {
-    
     print('dispose');
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -85,31 +85,26 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
 
   @override
   void deactivate() {
-     _counterVisited=_counterVisited+1;
-    _end=DateTime.now();
-    _timeSpentOnThisScreen=_end.difference(_start).inSeconds;
-    _timeVisited=_timeVisited+_timeSpentOnThisScreen;
-    updateMissionTimeAndCounterVisitedInFirestore(mission,_userID,_timeVisited,_counterVisited);
+    _counterVisited = _counterVisited + 1;
+    _end = DateTime.now();
+    _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
+    _timeVisited = _timeVisited + _timeSpentOnThisScreen;
+    updateMissionTimeAndCounterVisitedInFirestore(
+        mission, _userID, _timeVisited, _counterVisited);
     super.deactivate();
-    
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state==AppLifecycleState.paused){
-      _paused=DateTime.now();
+    if (state == AppLifecycleState.paused) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
+      _returned = DateTime.now();
+    }
 
-    }
-    else if(state==AppLifecycleState.resumed){
-      _returned=DateTime.now();
-    }
-    
-    _totalPaused=_returned.difference(_paused).inSeconds;
-    _timeVisited=_timeVisited-_totalPaused;
-    
+    _totalPaused = _returned.difference(_paused).inSeconds;
+    _timeVisited = _timeVisited - _totalPaused;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -205,10 +200,111 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
+    }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return AlertDialog(
+          title: new Text("Ganhas-te pontos"),
+          content: new Text("+$points"),
+          actions: <Widget>[
+            // define os botões na base do dialogo
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a tua caderneta"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return AlertDialog(
+              title: new Text("Ganhas-te um cromo para a caderneta da turma"),
+              content: image,
+              actions: <Widget>[
+                // define os botões na base do dialogo
+                new FlatButton(
+                  child: new Text("Fechar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 }

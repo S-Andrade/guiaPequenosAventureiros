@@ -6,7 +6,6 @@ import '../../../services/missions_api.dart';
 import 'package:file_picker/file_picker.dart';
 
 class UploadExampleScreenTabletPortrait extends StatefulWidget {
-
   Mission mission;
 
   UploadExampleScreenTabletPortrait(this.mission);
@@ -18,7 +17,6 @@ class UploadExampleScreenTabletPortrait extends StatefulWidget {
 
 class _UploadExampleScreenTabletPortraitState
     extends State<UploadExampleScreenTabletPortrait> {
-
   Mission mission;
 
   _UploadExampleScreenTabletPortraitState(this.mission);
@@ -32,7 +30,6 @@ class _UploadExampleScreenTabletPortraitState
   var video;
   var image;
   var audio;
-
 
   @override
   void initState() {

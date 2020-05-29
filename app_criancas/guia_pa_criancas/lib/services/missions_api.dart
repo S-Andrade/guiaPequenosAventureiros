@@ -106,7 +106,8 @@ getUserInfo(String email) async {
       Firestore.instance.collection('aluno').document(email);
   bool data = await user.get().then((value) {
     bool dataSaved;
-    if (value['dataNascimentoAluno'] != null) {
+    if (value['dataNascimentoAluno'] != null &&
+        (value['genero'] == 'Masculino' || value['genero'] == 'Feminino')) {
       dataSaved = true;
     } else {
       dataSaved = false;
@@ -326,8 +327,8 @@ updateMissionTimeAndCounterVisitedInFirestore(
       .updateData({'resultados': mission.resultados});
 }
 
-updateMissionTimeAndCounterVisitedInFirestoreVideo(
-  Mission mission, String id, int timeVisited, int counterVisited, int counterPause) async {
+updateMissionTimeAndCounterVisitedInFirestoreVideo(Mission mission, String id,
+    int timeVisited, int counterVisited, int counterPause) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
