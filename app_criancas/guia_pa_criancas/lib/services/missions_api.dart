@@ -13,7 +13,6 @@ import '../models/activity.dart';
 // API FIRESTORE AND STORAGE FUNCTIONS FOR MISSIONS PAGE
 
 ///////// BUSCAR TODAS AS MISSÕES NO FIRESTORE E CRIAR UMA LISTA COM INSTÂNCIAS DELAS
-
 MissionsNotifier missionNotifier;
 getMissions(
     MissionsNotifier missionsNotifier, List missions, String _userID) async {
@@ -118,7 +117,6 @@ getUserInfo(String email) async {
 }
 
 /////// UPLOAD DE UMA IMAGEM PARA O FIREBASE STORAGE
-
 addUploadedImageToFirebaseStorage(File localFile, titulo) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
@@ -144,7 +142,6 @@ addUploadedImageToFirebaseStorage(File localFile, titulo) async {
 }
 
 /////// UPLOAD DE UM VIDEO PARA O FIREBASE STORAGE
-
 addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
@@ -169,7 +166,6 @@ addUploadedVideoToFirebaseStorage(File localFile, String titulo) async {
 }
 
 /////// UPLOAD DE UM AUDIO PARA O FIREBASE STORAGE
-
 addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
@@ -193,7 +189,6 @@ addUploadedAudioToFirebaseStorage(File localFile, String titulo) async {
 }
 
 //////// ATUALIZAR A MISSÃO COM DONE ( FEITA )
-
 updateMissionDoneInFirestore(Mission mission, String id) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
@@ -323,6 +318,27 @@ updateMissionTimeAndCounterVisitedInFirestore(
       mapa["counterVisited"] = counterVisited;
 
       mapa["timeVisited"] = timeVisited;
+    }
+  });
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
+}
+
+updateMissionTimeAndCounterVisitedInFirestoreVideo(
+  Mission mission, String id, int timeVisited, int counterVisited, int counterPause) async {
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["counterVisited"] = counterVisited;
+      mapa["timeVisited"] = timeVisited;
+      mapa["counterPause"] = counterPause;
     }
   });
 

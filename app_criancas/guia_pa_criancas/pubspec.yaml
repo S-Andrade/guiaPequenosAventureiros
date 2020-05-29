@@ -60,6 +60,9 @@ dependencies:
   flutter_material_color_picker: ^1.0.5
   smooth_page_indicator: ^0.1.5
   simple_animations: ^2.2.1
+  camera: ^0.5.2+1
+  firebase_ml_vision: ^0.9.3+8
+  firebase_core: ^0.4.0
 
 
 

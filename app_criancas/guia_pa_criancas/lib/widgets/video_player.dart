@@ -1,17 +1,27 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+
 
 class ChewieDemo extends StatefulWidget {
   String link;
 
   ChewieDemo({this.link});
 
+    _ChewieDemoState _chewieDemoState;
+
   @override
   State<StatefulWidget> createState() {
-    return _ChewieDemoState(link: this.link);
+    _chewieDemoState = _ChewieDemoState(link:this.link);
+    return _chewieDemoState;
+  }
+  void pauseVideo(){
+    _chewieDemoState.pauseVideo();
+  }
+
+  bool isPlaying(){
+    return _chewieDemoState.isPlaying();
   }
 }
 
@@ -26,8 +36,9 @@ class _ChewieDemoState extends State<ChewieDemo> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController1 = VideoPlayerController.network(link);
-
+    _videoPlayerController1 = VideoPlayerController.network(
+        link);
+    
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
       aspectRatio: 3 / 2,
@@ -36,15 +47,15 @@ class _ChewieDemoState extends State<ChewieDemo> {
       // Try playing around with some of these other options:
 
       // showControls: false,
-//       materialProgressColors: ChewieProgressColors(
-//         playedColor: Colors.red,
-//         handleColor: Colors.blue,
-//         backgroundColor: Colors.yellow,
-//         bufferedColor: Colors.lightGreen,
-//       ),
-      placeholder: Container(
-        color: Colors.transparent,
-      ),
+      // materialProgressColors: ChewieProgressColors(
+      //   playedColor: Colors.red,
+      //   handleColor: Colors.blue,
+      //   backgroundColor: Colors.grey,
+      //   bufferedColor: Colors.lightGreen,
+      // ),
+      // placeholder: Container(
+      //   color: Colors.grey,
+      // ),
       // autoInitialize: true,
     );
   }
@@ -52,36 +63,43 @@ class _ChewieDemoState extends State<ChewieDemo> {
   @override
   void dispose() {
     _videoPlayerController1.dispose();
-
+  
     _chewieController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Center(
-          child: Chewie(
-            controller: _chewieController,
-          ),
-        ),
-        FlatButton(
-          onPressed: () {
-            _chewieController.enterFullScreen();
-          },
-          child: Text(
-            'Ver ecrã inteiro',
-            style: GoogleFonts.pangolin(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-                color: Colors.black,
+    return Scaffold(
+       
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Chewie(
+                  controller: _chewieController,
+                ),
               ),
             ),
-          ),
+            FlatButton(
+              onPressed: () {
+                _chewieController.enterFullScreen();
+              },
+              child: Text('Ecrã inteiro'),
+            ),
+            
+            
+          ],
         ),
-      ],
-    );
+      );
+    
+  }
+
+  void pauseVideo(){
+    _chewieController.pause();
+  }
+
+  bool isPlaying(){
+    return _videoPlayerController1.value.isPlaying;
   }
 }
