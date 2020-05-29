@@ -215,7 +215,12 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                   ),
                   //AQUI É ONDE APARECE OS RESULTADOS
                   //Alterar frontend
-                  Text(resultado.toString())
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+
+                      child: Text(resultado.toString())),
                 ],
               ),
             ),

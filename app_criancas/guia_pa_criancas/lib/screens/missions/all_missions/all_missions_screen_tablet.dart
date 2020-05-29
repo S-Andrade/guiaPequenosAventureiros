@@ -143,7 +143,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                             }
 
                             if (_done == true)
-                              _completada = 0.8;
+                              _completada = 0.6;
                             else if (_done == false) _completada = 1;
 
                             if (mission.type == 'Text')
