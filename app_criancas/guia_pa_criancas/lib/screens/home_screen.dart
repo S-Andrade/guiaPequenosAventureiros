@@ -39,7 +39,7 @@ class _HomeScreen extends State<HomeScreen> {
             decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
-                  image: AssetImage('assets/images/background_app.png'),
+                  image: AssetImage('assets/images/background_app_4.png'),
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter,
                 )),
@@ -60,7 +60,7 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                 ),
                 elevation: 0,
-                backgroundColor: Colors.white.withOpacity(0.7),
+                backgroundColor: Colors.white.withOpacity(0.0),
               ),
               body: Center(
                 child: Stack(children: <Widget>[
@@ -69,9 +69,8 @@ class _HomeScreen extends State<HomeScreen> {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FractionallySizedBox(
-                        heightFactor: 0.25,
+                        heightFactor: 0.15,
                         child: Container(
-//                        height: 130,
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
@@ -115,7 +114,6 @@ class _HomeScreen extends State<HomeScreen> {
 //                              ),
 //                            ),
 //                            duration: Duration(seconds: 2),
-
                           ),
                         ),
                       ],
@@ -124,9 +122,44 @@ class _HomeScreen extends State<HomeScreen> {
                   // Companheiro
 
                   Positioned(
-//                    top: 10,
-//                    right: 30,
-                    child: CompanheiroAppwide(),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: FractionallySizedBox(
+                        heightFactor: 0.15,
+                        widthFactor: 0.8,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black45.withOpacity(0.8),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(5))),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Text(
+                                  "Vamos escolher uma aventura para começar a diversão?",
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.pangolin(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 18,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    child: Align(
+                        alignment: Alignment.topRight, child: CompanheiroAppwide()),
                   ),
                 ]),
               ),

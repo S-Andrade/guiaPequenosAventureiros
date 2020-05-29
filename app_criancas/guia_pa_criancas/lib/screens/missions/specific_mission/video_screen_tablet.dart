@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/widgets/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,17 +101,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           fit: BoxFit.cover,
         ),
       ),
-//      decoration: BoxDecoration(
-//        gradient: LinearGradient(
-//          begin: Alignment.topLeft,
-//          end: Alignment.bottomCenter,
-//          stops: [0.0, 1.0],
-//          colors: [
-//            Color(0xFFFCF477),
-//            Color(0xFFF6A51E),
-//          ],
-//        ),
-//      ),
       child: Scaffold(
         extendBody: true,
         backgroundColor: Colors.transparent,
@@ -119,7 +109,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             color: Colors.black, //change your color here
           ),
           title: Text(
-            "Video",
+            "Ver Video",
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
@@ -131,9 +121,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Stack(
-            alignment: Alignment.center,
-            children: [
+        body: Stack(alignment: Alignment.center, children: [
           Positioned(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -143,58 +131,103 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 //                        height: 130,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/clouds_bottom_navigation_white.png'),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      )),
+                    image: AssetImage(
+                        'assets/images/clouds_bottom_navigation_white.png'),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  )),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+              child: Align(
+            alignment: Alignment.center,
+            child: FractionallySizedBox(
+              heightFactor: 0.7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      mission.title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 28,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  ChewieDemo(
+                    link: mission.linkVideo,
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FlatButton(
+                        padding: EdgeInsets.all(20),
+                        child: setButton(),
+                        onPressed: () {
+                          setState(() {
+                            _state = 1;
+                            _loadButton();
+                          });
+                        },
+                        color: Color(0xFFF3C463),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )),
+          Positioned(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: FractionallySizedBox(
+                heightFactor: 0.15,
+                widthFactor: 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black45.withOpacity(0.8),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(5))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(
+                        child: Text(
+                          "Vamos estar atentos para o quiz que vem ai...",
+                          textAlign: TextAlign.right,
+                          style: GoogleFonts.pangolin(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
           Positioned(
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:20.0),
-                      child: Text(
-                        mission.title,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 36,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    ChewieDemo(link: mission.linkVideo, ),
-                    FractionallySizedBox(
-                      widthFactor: 0.5,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 65,
-                        child: FlatButton(
-                          child: setButton(),
-                          onPressed: () {
-                            setState(() {
-                              _state = 1;
-                              _loadButton();
-                            });
-                          },
-                          color: Color(0xFFF3C463),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+            child: Align(
+                alignment: Alignment.topRight, child: CompanheiroAppwide()),
+          ),
         ]),
       ),
     );
@@ -205,12 +238,13 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       if (_state == 0) {
         return new Text(
           "Okay",
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-                color: Colors.white,
-              ),),
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
         );
       } else
         return ColorLoader();
@@ -222,7 +256,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             fontWeight: FontWeight.normal,
             fontSize: 20,
             color: Colors.white,
-          ),),
+          ),
+        ),
       );
     }
   }

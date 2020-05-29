@@ -21,16 +21,21 @@ class _CapituloListState extends State<CapituloList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: getCapitulos(),
-      builder: (context, AsyncSnapshot<void> snapshot) {
-        return ListView.builder(
-          itemCount: cap.length,
-          itemBuilder: (context,index) {
-            return CapituloTile(capitulo: cap[index]);
-          }
-        );
-      }
-    ); 
+        future: getCapitulos(),
+        builder: (context, AsyncSnapshot<void> snapshot) {
+          return GridView.builder(
+              padding: EdgeInsets.symmetric(vertical: 100),
+              itemCount: cap.length,
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.8,
+              ),
+              itemBuilder: (context,index) {
+                return CapituloTile(capitulo: cap[index]);
+              }
+          );
+        }
+    );
   }
 
   Future<void> getCapitulos() async{
@@ -44,3 +49,4 @@ class _CapituloListState extends State<CapituloList> {
   }
 
 }
+

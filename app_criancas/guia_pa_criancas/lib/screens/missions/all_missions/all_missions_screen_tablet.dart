@@ -131,7 +131,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.symmetric(vertical: 130),
+                          padding: EdgeInsets.only(bottom: 160, top:100),
                           itemBuilder: (BuildContext context, int index) {
                             Mission mission =
                                 missionsNotifier.missionsList[index];
@@ -143,7 +143,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                             }
 
                             if (_done == true)
-                              _completada = 0.4;
+                              _completada = 0.8;
                             else if (_done == false) _completada = 1;
 
                             if (mission.type == 'Text')
@@ -327,21 +327,59 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                 ),
                 Positioned(
                   child: Align(
-                      alignment: Alignment.topLeft,
-                      child: CompanheiroAppwide()),
+                    alignment: Alignment.topRight,
+                    child: FractionallySizedBox(
+                      heightFactor: 0.15,
+                      widthFactor: 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black45.withOpacity(0.8),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(5),
+                                  bottomRight: Radius.circular(20))),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text(
+                                "Aqui estou a dizer algo mesmo muito pertinente",
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Align(
+                      alignment: Alignment.topLeft, child: CompanheiroAppwide()),
                 ),
                 Positioned(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 130,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/clouds_bottom_navigation_purple.png'),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      )),
+                    child: FractionallySizedBox(
+                      heightFactor: 0.25,
+                      child: Container(
+//                        height: 130,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/clouds_bottom_navigation_purple2.png'),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            )),
+                      ),
                     ),
                   ),
                 ),

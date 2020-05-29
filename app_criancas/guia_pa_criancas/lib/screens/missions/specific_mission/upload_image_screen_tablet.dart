@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +13,8 @@ import '../../../widgets/color_loader.dart';
 import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
+import 'dart:math' as math;
+
 
 class UploadImageScreenTabletPortrait extends StatefulWidget {
   Mission mission;
@@ -77,7 +81,10 @@ class _UploadImageScreenTabletPortraitState
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/yellow_camera.png"),
+          colorFilter: new ColorFilter.mode(
+           Colors.blueAccent.withOpacity(0.5),
+              BlendMode.darken),
+          image: AssetImage("assets/images/59721.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -90,7 +97,7 @@ class _UploadImageScreenTabletPortraitState
               color: Color(0xFF30246A), //change your color here
             ),
             title: Text(
-              mission.title,
+              "Carregar Foto",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -104,106 +111,6 @@ class _UploadImageScreenTabletPortraitState
           ),
           body: Stack(
             children: [
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Column(children: <Widget>[
-                    Text(
-                      mission.title,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                            color: Color(0xFF30246A)),
-                      ),
-                    ),
-                    Flexible(
-                      child: Text(
-                        mission.content,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 24,
-                              color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    Builder(
-                        builder: (BuildContext) => _loaded
-                            ? Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.file(image),
-                        )
-                            : Container()),
-                    Builder(
-                        builder: (BuildContext) => _done
-                            ? Center(
-                          child: MaterialButton(
-                              height: 60,
-                              minWidth: double.infinity,
-                              color: parseColor('#320a5c'),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(20.0)),
-                              child: Text(
-                                'Foto já carregada',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Amatic SC',
-                                    color: Colors.white,
-                                    letterSpacing: 4),
-                              ),
-                              onPressed: () => _loadButton()),
-                        )
-                            : Center(
-                          child: MaterialButton(
-                            height: 90,
-                            minWidth: 300,
-                            color: parseColor('#320a5c'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Text(
-                              'Escolher foto',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Amatic SC',
-                                  color: Colors.white,
-                                  letterSpacing: 4),
-                            ),
-                            onPressed: getImage,
-                          ),
-                        )),
-                    Builder(
-                        builder: (BuildContext) => _loaded
-                            ? Icon(
-                          FontAwesomeIcons.checkCircle,
-                          color: Colors.green,
-                          size: 50.0,
-                        )
-                            : Container()),
-                    Builder(
-                      builder: (BuildContext) => _loaded
-                          ? MaterialButton(
-                          child: setButton(),
-                          onPressed: () {
-                            setState(() {
-                              _state = 1;
-                              _loadButton();
-                            });
-                          },
-                          height: 90,
-                          minWidth: 300,
-                          color: parseColor('#320a5c'),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)))
-                          : Container(),
-                    )
-                  ]),
-                ),
-              ),
               Positioned(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -213,14 +120,187 @@ class _UploadImageScreenTabletPortraitState
 //                        height: 130,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/clouds_bottom_navigation_white.png'),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      )),
+                            image: AssetImage(
+                                'assets/images/clouds_bottom_navigation_white.png'),
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          )),
                     ),
                   ),
                 ),
+              ),
+
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.9,
+                    heightFactor: 0.6,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            mission.title,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              mission.content,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 24,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Builder(
+                              builder: (BuildContext) => _loaded
+                                  ? Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                                clipBehavior: Clip.antiAlias,
+                                      height: 100,
+                                      width: 100,
+                                      child: Image.file(image, fit: BoxFit.cover,),
+                                    )
+                                  : Container()),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Builder(
+                                      builder: (BuildContext) => _done
+                                          ? FlatButton(
+                                            padding: EdgeInsets.all(20),
+                                              color: Color(0xFFFF5757),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10.0)),
+                                              child: Text(
+                                                'Sair',
+                                                textAlign: TextAlign.center,
+                                                  style: GoogleFonts.quicksand(
+                                                    textStyle: TextStyle(
+                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                    ),),
+                                              ),
+                                              onPressed: () => _loadButton())
+                                          : FlatButton(
+                                            padding: EdgeInsets.all(20),
+
+                                            color: Color(0xFF9CE9BF),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0)),
+                                            child: Text(
+                                              'Escolher foto',
+                                              style: GoogleFonts.quicksand(
+                                                textStyle: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),),
+                                            ),
+                                            onPressed: getImage,
+                                          )),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Builder(
+                                    builder: (BuildContext) => _loaded
+                                        ? FlatButton(
+                                            child: setButton(),
+                                            onPressed: () {
+                                              setState(() {
+                                                _state = 1;
+                                                _loadButton();
+                                              });
+                                            },
+                                            padding: EdgeInsets.all(20),
+                                            color: Color(0xFFEF6EA5),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(10.0)))
+                                        : FlatButton(
+                                      disabledTextColor: Colors.grey,
+                                      disabledColor: Color(0xFFEBECEC).withOpacity(0.8),
+                                        child: setButton(),
+                                        onPressed: null,
+                                        padding: EdgeInsets.all(20),
+                                        color: Color(0xFFEF6EA5),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10.0))),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+//                          Builder(
+//                              builder: (BuildContext) => _loaded
+//                                  ? Icon(
+//                                      FontAwesomeIcons.checkCircle,
+//                                      color: Colors.green,
+//                                      size: 50.0,
+//                                    )
+//                                  : Container()),
+
+
+                        ]),
+                  ),
+                ),
+              ),
+              Positioned(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.15,
+                    widthFactor: 0.8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black45.withOpacity(0.8),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(5))),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Center(
+                            child: Text(
+                              "Pede a um adulto para autorizar o carregamento",
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.pangolin(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                child: Align(
+                    alignment: Alignment.topRight, child: CompanheiroAppwide()),
               ),
             ],
           )),
@@ -231,25 +311,25 @@ class _UploadImageScreenTabletPortraitState
     if (_done == false) {
       if (_state == 0) {
         return Text(
-          "Carregar",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
+          "Enviar",
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 18,
+              color: Colors.white,
+            ),),
         );
       } else
         return ColorLoader();
     } else {
       return Text(
-        "foto já carregada",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
-        ),
+        "Já enviada",
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 18,
+            color: Colors.white,
+          ),),
       );
     }
   }

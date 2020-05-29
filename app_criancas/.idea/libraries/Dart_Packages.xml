@@ -103,7 +103,7 @@
         <entry key="crypto">
           <value>
             <list>
-              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-2.1.4/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-2.1.3/lib" />
             </list>
           </value>
         </entry>
@@ -467,7 +467,35 @@
         <entry key="quiver">
           <value>
             <list>
-              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.3/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.0.5/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="sa_anicoto">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_anicoto-1.0.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="sa_multi_tween">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_multi_tween-1.1.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="sa_stateless_animation">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_stateless_animation-1.0.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="sa_v1_migration">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_v1_migration-1.1.2/lib" />
             </list>
           </value>
         </entry>
@@ -503,6 +531,13 @@
           <value>
             <list>
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+4/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="simple_animations">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_animations-2.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -573,6 +608,13 @@
           <value>
             <list>
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.0.5/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="supercharged">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/supercharged-1.6.0/lib" />
             </list>
           </value>
         </entry>
@@ -649,7 +691,7 @@
         <entry key="xml">
           <value>
             <list>
-              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xml-3.6.1/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xml-3.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -677,7 +719,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.14.12/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/convert-2.1.1/lib" />
-      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-2.1.4/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-2.1.3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file_picker-1.6.2/lib" />
@@ -725,12 +767,17 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/provider-4.0.4/lib" />
-      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.3/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.0.5/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_anicoto-1.0.2/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_multi_tween-1.1.1/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_stateless_animation-1.0.1/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sa_v1_migration-1.1.2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sensors-0.4.1+10/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.6+3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+6/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_platform_interface-1.0.3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+4/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_animations-2.2.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/smooth_page_indicator-0.1.5/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/soundpool-1.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/soundpool_macos-0.2.2/lib" />
@@ -740,6 +787,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.9.3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.0.5/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/supercharged-1.6.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.15/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.1.6/lib" />
@@ -750,7 +798,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_web-0.1.2+1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock-0.1.4+1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/webview_media-0.1.1+3/lib" />
-      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xml-3.6.1/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xml-3.5.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/youtube_player_flutter-6.1.0+4/lib" />
       <root url="file://C:/src/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://C:/src/flutter/packages/flutter/lib" />

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
@@ -109,7 +110,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             color: Color(0xFF30246A), //change your color here
           ),
           title: Text(
-            mission.title,
+            "Espreita",
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
@@ -141,60 +142,105 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                 ),
               ),
             ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: FractionallySizedBox(
+                  widthFactor: 0.9,
+                  heightFactor: 0.7,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.start,
-//                  children: <Widget>[
-////                    Text(
-////                      mission.title,
-////                      style: TextStyle(
-////                          fontSize: 24,
-////                          fontFamily: 'Amatic SC',
-////                          color: Colors.white,
-////                          letterSpacing: 4),
-////                    )
-//                  ],
-//                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
+                    Text(
+                      mission.title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 28,
+                            color: Colors.white),
+                      ),
+                    ),
+
+                      SingleChildScrollView(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Align(
+                            alignment: Alignment.topCenter,
 //                      heightFactor: 0.8,
 //                      widthFactor: 0.8,
-                      child: Image(
-
-                        image: _image,
-//                        fit: BoxFit.fitHeight,
+                            child: Image(
+                              image: _image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: 0.5,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: FlatButton(
+                              padding: EdgeInsets.all(20),
+                              child: setButton(),
+                              onPressed: () {
+                                setState(() {
+                                  _state = 1;
+                                  _loadButton();
+                                });
+                              },
+//                    height: 90,
+//                    minWidth: 300,
+                              color: Color(0xFFFF418E),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FractionallySizedBox(
+                  heightFactor: 0.15,
+                  widthFactor: 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black45.withOpacity(0.8),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50),
+                              bottomLeft: Radius.circular(50),
+                              bottomRight: Radius.circular(10))),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "Aqui estou a dizer algo mesmo muito pertinente",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 65,
-                    child: FlatButton(
-                        child: setButton(),
-                        onPressed: () {
-                          setState(() {
-                            _state = 1;
-                            _loadButton();
-                          });
-                        },
-//                    height: 90,
-//                    minWidth: 300,
-                        color: Color(0xFF0050B8),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0))),
-                  ),
-                ),
-              ],
+              ),
+            ),
+            Positioned(
+              child: Align(
+                  alignment: Alignment.topRight, child: CompanheiroAppwide()),
             ),
           ],
         ),
@@ -206,23 +252,25 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
-          ),
+          "Okay",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 18,
+              color: Colors.white,
+            ),),
         );
       } else
         return ColorLoader();
     } else {
       return Text(
         "Feita",
+        textAlign: TextAlign.center,
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 24,
+            fontSize: 18,
             color: Colors.white,
           ),
         ),

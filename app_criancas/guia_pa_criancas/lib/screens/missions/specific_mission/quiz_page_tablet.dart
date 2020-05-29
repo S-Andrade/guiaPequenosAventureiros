@@ -250,8 +250,44 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 //Companheiro fundo
                 Positioned(
                   child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: CompanheiroAppwide()),
+                    alignment: Alignment.bottomRight,
+                    child: FractionallySizedBox(
+                      heightFactor: 0.15,
+                      widthFactor: 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black45.withOpacity(0.8),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Center(
+                              child: Text(
+                                "Já assististe ao video nas tuas missões?",
+                                textAlign: TextAlign.left,
+                                maxLines: 2,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Align(
+                      alignment: Alignment.bottomLeft, child: CompanheiroAppwide()),
                 ),
               ],
             ),
