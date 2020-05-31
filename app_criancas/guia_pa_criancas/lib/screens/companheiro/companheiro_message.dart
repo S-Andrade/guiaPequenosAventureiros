@@ -21,6 +21,7 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
   String companheiroHeadTop;
   String companheiroBodyPart;
   int companheiroColour;
+  bool flag;
 
 
 
@@ -92,24 +93,37 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
 
   @override
   Widget build(BuildContext context) {
-    numberEyes = companheiro.eyes;
-    companheiroColour = companheiro.color;
-    companheiroHeadTop = companheiro.headTop;
-    companheiroMouth = companheiro.mouth;
-    companheiroBodyPart = companheiro.bodyPart;
-    _setEyes(numberEyes);
-    _setColour(companheiroColour);
-    _selectHeadTop(companheiroHeadTop);
-    _setMouth(companheiroMouth);
-    _setBodyPart(companheiroBodyPart);
+    flag = false;
 
-    return FlareActor(
-      "assets/animation/shapes3.flr",
-      animation: "animation",
-      fit: BoxFit.fitWidth,
-      alignment: Alignment.topCenter,
-      controller: _controller,
-      artboard: companheiro.shape,
-    );
+    if (companheiro != null) {
+      numberEyes = companheiro.eyes;
+      companheiroColour = companheiro.color;
+      companheiroHeadTop = companheiro.headTop;
+      companheiroMouth = companheiro.mouth;
+      companheiroBodyPart = companheiro.bodyPart;
+      setState(() {
+        flag = true;
+      });
+    }
+
+    if (flag) {
+      _setEyes(numberEyes);
+      _setColour(companheiroColour);
+      _selectHeadTop(companheiroHeadTop);
+      _setMouth(companheiroMouth);
+      _setBodyPart(companheiroBodyPart);
+      return FlareActor(
+        "assets/animation/shapes3.flr",
+        animation: "animation",
+        fit: BoxFit.fitWidth,
+        alignment: Alignment.topCenter,
+        controller: _controller,
+        artboard: companheiro.shape,
+      );
+    } else {
+      return Container();
+    }
+
+
   }
 }

@@ -21,8 +21,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
   String companheiroHeadTop;
   String companheiroBodyPart;
   int companheiroColour;
-
-
+  bool flag;
 
   getComp() async {
     Companheiro tempCompanheiro = await getCompanheiro(userID);
@@ -92,34 +91,64 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
 
   @override
   Widget build(BuildContext context) {
-    numberEyes = companheiro.eyes;
-    companheiroColour = companheiro.color;
-    companheiroHeadTop = companheiro.headTop;
-    companheiroMouth = companheiro.mouth;
-    companheiroBodyPart = companheiro.bodyPart;
-    _setEyes(numberEyes);
-    _setColour(companheiroColour);
-    _selectHeadTop(companheiroHeadTop);
-    _setMouth(companheiroMouth);
-    _setBodyPart(companheiroBodyPart);
 
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: FractionallySizedBox(
-        widthFactor: 0.3,
-        heightFactor: 0.2,
-        child: GestureDetector(
-          child:
-          FlareActor(
-            "assets/animation/shapes3.flr",
-            animation: "animation",
-            fit: BoxFit.contain,
-            alignment: Alignment.topCenter,
-            controller: _controller,
-            artboard: companheiro.shape,
+    flag = false;
+
+    if (companheiro != null) {
+      numberEyes = companheiro.eyes;
+      companheiroColour = companheiro.color;
+      companheiroHeadTop = companheiro.headTop;
+      companheiroMouth = companheiro.mouth;
+      companheiroBodyPart = companheiro.bodyPart;
+      setState(() {
+        flag = true;
+      });
+    }
+
+    if (flag) {
+      _setEyes(numberEyes);
+      _setColour(companheiroColour);
+      _selectHeadTop(companheiroHeadTop);
+      _setMouth(companheiroMouth);
+      _setBodyPart(companheiroBodyPart);
+      return Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: FractionallySizedBox(
+          widthFactor: 0.3,
+          heightFactor: 0.2,
+          child: GestureDetector(
+            child:
+            FlareActor(
+              "assets/animation/shapes3.flr",
+              animation: "animation",
+              fit: BoxFit.contain,
+              alignment: Alignment.topCenter,
+              controller: _controller,
+              artboard: companheiro.shape,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
+//    return Padding(
+//      padding: const EdgeInsets.all(0.0),
+//      child: FractionallySizedBox(
+//        widthFactor: 0.3,
+//        heightFactor: 0.2,
+//        child: GestureDetector(
+//          child:
+//          FlareActor(
+//            "assets/animation/shapes3.flr",
+//            animation: "animation",
+//            fit: BoxFit.contain,
+//            alignment: Alignment.topCenter,
+//            controller: _controller,
+//            artboard: companheiro.shape,
+//          ),
+//        ),
+//      ),
+//    );
   }
 }

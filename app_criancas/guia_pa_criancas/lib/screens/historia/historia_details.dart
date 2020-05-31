@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'historia.dart';
 import 'historia_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../widgets/color_loader.dart';
+
 
 
 
@@ -18,12 +18,18 @@ class HistoriaDetails extends StatelessWidget {
     return FutureBuilder<void>(
       future: getHistoria(),
       builder: (context, AsyncSnapshot<void> snapshot) {
-        if(!flag){
-          //inserir loader
-          return ColorLoader();
-        }else{
+       switch (snapshot.connectionState) {
+           case ConnectionState.done:
+           if(snapshot.hasError)
+           return new Text("Erro");
+           else
           return HistoriaTile(historia: historia);
-        }
+           break;
+            default:
+            return Container();
+
+        
+      }
       }
     );
   }

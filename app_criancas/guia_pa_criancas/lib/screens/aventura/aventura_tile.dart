@@ -1,4 +1,4 @@
-import 'package:app_criancas/models/mission.dart';
+
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:app_criancas/widgets/color_loader.dart';

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../aventura/aventura.dart';
 import 'capitulo_tile.dart';
 import '../historia/historia.dart';
-import '../../widgets/color_loader.dart';
 
 class CapituloList extends StatefulWidget {
   Aventura aventura;

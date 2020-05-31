@@ -1,11 +1,12 @@
 import 'dart:async';
-
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
 
 class ImageScreenTabletPortrait extends StatefulWidget {
@@ -109,7 +110,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             color: Color(0xFF30246A), //change your color here
           ),
           title: Text(
-            mission.title,
+            "Espreita",
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
@@ -132,69 +133,112 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
 //                        height: 130,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_white.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
                   ),
                 ),
               ),
             ),
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.start,
-//                  children: <Widget>[
-////                    Text(
-////                      mission.title,
-////                      style: TextStyle(
-////                          fontSize: 24,
-////                          fontFamily: 'Amatic SC',
-////                          color: Colors.white,
-////                          letterSpacing: 4),
-////                    )
-//                  ],
-//                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: FractionallySizedBox(
+                  widthFactor: 0.9,
+                  heightFactor: 0.7,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        mission.title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 28,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Align(
+                            alignment: Alignment.topCenter,
 //                      heightFactor: 0.8,
 //                      widthFactor: 0.8,
-                      child: Image(
-
-                        image: _image,
-//                        fit: BoxFit.fitHeight,
+                            child: Image(
+                              image: _image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: 0.5,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: FlatButton(
+                              padding: EdgeInsets.all(20),
+                              child: setButton(),
+                              onPressed: () {
+                                setState(() {
+                                  _state = 1;
+                                  _loadButton();
+                                });
+                              },
+//                    height: 90,
+//                    minWidth: 300,
+                              color: Color(0xFFFF418E),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FractionallySizedBox(
+                  heightFactor: 0.15,
+                  widthFactor: 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black45.withOpacity(0.8),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50),
+                              bottomLeft: Radius.circular(50),
+                              bottomRight: Radius.circular(10))),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "Aqui estou a dizer algo mesmo muito pertinente",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 65,
-                    child: FlatButton(
-                        child: setButton(),
-                        onPressed: () {
-                          setState(() {
-                            _state = 1;
-                            _loadButton();
-                          });
-                        },
-//                    height: 90,
-//                    minWidth: 300,
-                        color: Color(0xFF0050B8),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0))),
-                  ),
-                ),
-              ],
+              ),
+            ),
+            Positioned(
+              child: Align(
+                  alignment: Alignment.topRight, child: CompanheiroAppwide()),
             ),
           ],
         ),
@@ -206,12 +250,14 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
+          "Okay",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 18,
+              color: Colors.white,
+            ),
           ),
         );
       } else
@@ -219,10 +265,11 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
     } else {
       return Text(
         "Feita",
+        textAlign: TextAlign.center,
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 24,
+            fontSize: 18,
             color: Colors.white,
           ),
         ),
@@ -235,10 +282,254 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async{
         updateMissionDoneInFirestore(mission, _userID);
+        await updatePoints(_userID, mission.points);
         Navigator.pop(context);
       });
+    }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+          ),
+          child: AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text("Ganhas-te pontos",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    color: Colors.white),
+              ),
+            ),
+            content: FractionallySizedBox(
+              heightFactor: 0.3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("+$points",  textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 50,
+                              color: Color(0xFFffcc00)),
+                        ),),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FlatButton(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                          color: Color(0xFFEF807A),
+                          child: new Text("Fechar",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
+                ),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo\npara a turma",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
+                ),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+
+          },
+        );
+      }
     }
   }
 }

@@ -16,9 +16,7 @@ class CapitulosDetails extends StatelessWidget {
   Widget build(context) {
     return StreamProvider<List<Capitulo>>.value(
       value : DatabaseService().capitulo,
-      child: Scaffold( 
-        body: CapituloList(capitulos: capitulos)
-      )
+      child: CapituloList(capitulos: capitulos)
     );
   }
 }

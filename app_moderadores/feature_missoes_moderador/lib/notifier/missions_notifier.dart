@@ -19,8 +19,7 @@ class MissionsNotifier with ChangeNotifier {
       UnmodifiableListView(_missionsList);
   UnmodifiableListView<Question> get allQuestions =>
       UnmodifiableListView(_allQuestions);
-  UnmodifiableListView<Question> get selectedQuestions =>
-      UnmodifiableListView(_selectedQuestion);
+  List<Question> get selectedQuestions =>_selectedQuestion;
 
   bool get completed => _completed;
   int get currentScore => _currentScore;

@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/activity.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import '../../../auth.dart';
 
 class ActivityScreenTabletPortrait extends StatefulWidget {
@@ -37,6 +39,8 @@ class _ActivityScreenTabletPortraitState
   DateTime _start;
   DateTime _end;
   bool _imageExists;
+
+  int _speechHeight;
 
   _ActivityScreenTabletPortraitState(this.mission);
 
@@ -97,6 +101,9 @@ class _ActivityScreenTabletPortraitState
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+    ));
 //    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
 //      statusBarColor: Colors.transparent,
 //      systemNavigationBarColor: Colors.white,
@@ -109,7 +116,7 @@ class _ActivityScreenTabletPortraitState
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/yellow2.png"),
+          image: AssetImage("assets/images/yellow3.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -118,7 +125,7 @@ class _ActivityScreenTabletPortraitState
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             iconTheme: IconThemeData(
-              color: Color(0xFF30246A), //change your color here
+              color: Colors.black, //change your color here
             ),
             title: Text(
               mission.title,
@@ -127,7 +134,7 @@ class _ActivityScreenTabletPortraitState
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
-                    color: Color(0xFF30246A)),
+                    color: Colors.black),
               ),
             ),
             elevation: 0,
@@ -135,9 +142,110 @@ class _ActivityScreenTabletPortraitState
           ),
           body: Stack(
             children: [
-//              Text(
-//                mission.title,
-//              ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            children: <Widget>[
+                              SingleChildScrollView(
+                                padding: EdgeInsets.symmetric(vertical: 95),
+                                child: Column(
+                                  children:
+                                      List.generate(activities.length, (index) {
+                                    return FractionallySizedBox(
+                                      widthFactor: 0.90,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.2),
+                                                  blurRadius:
+                                                      2.0, // has the effect of softening the shadow
+                                                  spreadRadius:
+                                                      1.0, // has the effect of extending the shadow
+                                                  offset: Offset(
+                                                    0.0, // horizontal
+                                                    3, // vertical
+                                                  ),
+                                                )
+                                              ]),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            child: Container(
+                                              color: Colors.white,
+                                              child: Wrap(children: [
+                                                SizedBox(
+                                                  width: double.infinity,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Text(
+                                                      activities[index]
+                                                          .description,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.quicksand(
+                                                        textStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 20,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: double.infinity,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topCenter,
+//                                      heightFactor: 0.4,
+//                                              widthFactor: 1,
+                                                    child: (activities[index]
+                                                                .linkImage !=
+                                                            null)
+                                                        ? Image(
+                                                            image: NetworkImage(
+                                                                activities[
+                                                                        index]
+                                                                    .linkImage),
+                                                            fit: BoxFit.contain,
+                                                          )
+                                                        : Container(),
+                                                  ),
+                                                ),
+                                              ]),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Positioned(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -155,78 +263,71 @@ class _ActivityScreenTabletPortraitState
                   ),
                 ),
               ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
+              Positioned(
+                  child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: FractionallySizedBox(
-                    widthFactor: 0.9,
-                    child: Container(
-//                      height: 700,
-                      child: Column(
-//                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: ListView(
-                              children: <Widget>[
-                                Column(
-                                  children: List.generate(activities.length, (index) {
-                                    return Row(children: [
-                                        Flexible(
-                                          child: Text(
-                                            activities[index].description,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w900,
-                                                fontFamily: 'Amatic SC',
-                                                letterSpacing: 2,
-                                                fontSize: 20),
-                                          ),
-                                        ),
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          child: Align(
-                                            alignment: Alignment.topCenter,
-//                                      heightFactor: 0.4,
-//                                      widthFactor: 0.8,
-                                            child: (activities[index].linkImage != null)
-                                                ? Image(
-                                                    height: 150,
-                                                    image: NetworkImage(
-                                                        activities[index].linkImage),
-                                                    fit: BoxFit.contain,
-                                                  )
-                                                : Container(),
-                                          ),
-                                        ),
-                                    ]);
-                                  }),
-                                ),
-                              ],
+                    widthFactor: 0.5,
+                    child: SizedBox(
+                      child: FlatButton(
+                          padding: EdgeInsets.all(20),
+//                          enableFeedback: true,
+                          highlightColor: Colors.blue,
+                          child: setButton(),
+                          onPressed: () {
+                            setState(() {
+                              _state = 1;
+                              _loadButton();
+                            });
+                          },
+                          color: Color(0xFF59BBA6),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0))),
+                    ),
+                  ),
+                ),
+              )),
+              Positioned(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.15,
+                    widthFactor: 0.8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black45.withOpacity(0.8),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(5))),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Center(
+                            child: Text(
+                              "Prepara os ingredientes, e mãos na massa!",
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.pangolin(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
-                          FractionallySizedBox(
-                            widthFactor: 0.6,
-                            child: FlatButton(
-                                child: setButton(),
-                                onPressed: () {
-                                  setState(() {
-                                    _state = 1;
-                                    _loadButton();
-                                  });
-                                },
-                                color: parseColor('#320a5c'),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    new BorderRadius.circular(10.0))),
-                          )
-
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
+              ),
+              Positioned(
+                child: Align(
+                    alignment: Alignment.topRight, child: CompanheiroAppwide()),
               ),
             ],
           )),
@@ -234,39 +335,282 @@ class _ActivityScreenTabletPortraitState
   }
 
   Widget setButton() {
+    HapticFeedback.vibrate();
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            color: Colors.white,
-            fontSize: 20.0,
+          "Okay",
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
           ),
         );
       } else
         return ColorLoader();
     } else {
       return new Text(
-        "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          color: Colors.white,
-          fontSize: 20.0,
+        "Feito",
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
         ),
       );
     }
   }
 
   void _loadButton() {
+    HapticFeedback.vibrate();
     if (_done == true) {
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () {
+      Timer(Duration(milliseconds: 3000), () async {
+        await updatePoints(_userID, mission.points);
         updateMissionDoneInFirestore(mission, _userID);
         Navigator.pop(context);
       });
+    }
+  }
+
+  //adiciona a pontuação e os cromos ao aluno e turma
+  //melhorar frontend
+  updatePoints(String aluno, int points) async {
+    List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+          ),
+          child: AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text("Ganhas-te pontos",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    color: Colors.white),
+              ),
+            ),
+            content: FractionallySizedBox(
+              heightFactor: 0.3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("+$points",  textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 50,
+                              color: Color(0xFFffcc00)),
+                        ),),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FlatButton(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                          color: Color(0xFFEF807A),
+                          child: new Text("Fechar",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    if (cromos[0] != []) {
+      for (String i in cromos[0]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
+                ),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo\npara a turma",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
+                ),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text("Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+
+          },
+        );
+      }
     }
   }
 }

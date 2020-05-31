@@ -35,13 +35,14 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
 
   @override
   void initState() {
-    super.initState();
     if (capitulo.missoes.length != 0) {
       MissionsNotifier missionsNotifier =
           Provider.of<MissionsNotifier>(context, listen: false);
       getMissions(missionsNotifier, capitulo.missoes);
     } else
       print("vazio");
+    super.initState();
+    
   }
 
   _getCurrentCapitulo(capituloId) async {

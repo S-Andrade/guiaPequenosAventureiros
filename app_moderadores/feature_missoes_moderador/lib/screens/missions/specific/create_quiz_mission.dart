@@ -35,18 +35,26 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   @override
   void initState() {
     _titulo = "";
-    _perguntas = [];
+    _perguntas = getPerguntas();
     super.initState();
+  }
+
+  getPerguntas() {
+    if (missionNotifier.currentQuestion != null) {
+      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
+        _perguntas.add(missionNotifier.currentQuestion);
+      }
+    } else {
+      _perguntas = _perguntas;
+    }
+    return _perguntas;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (missionNotifier.currentQuestion != null) {
-      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
-        _perguntas.add(missionNotifier.currentQuestion);
-        //perguntas.add(missionNotifier.currentQuestion);
-      }
-    }
+    setState(() {
+      _perguntas = getPerguntas();
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -64,8 +72,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 85.0, right: 50.0, left: 0.0),
+                    padding: EdgeInsets.only(top: 85.0, right: 50.0, left: 0.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
@@ -108,6 +115,13 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           FlatButton(
                             color: parseColor("F4F19C"),
                             onPressed: () {
+                              setState(() {
+                                _perguntas = [];
+                                _text.clear();
+                                _textPontos.clear();
+                                missionNotifier.currentQuestion = null;
+                              });
+
                               Navigator.pop(context);
                             },
                             child: Text(
@@ -196,7 +210,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 00.0,left:0),
+                            padding:
+                                const EdgeInsets.only(right: 00.0, left: 0),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -264,11 +279,11 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                         height: 10,
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(right:0.0,top:10),
-                          child: Container(width:480,
-
+                          padding: const EdgeInsets.only(right: 0.0, top: 10),
+                          child: Container(
+                              width: 480,
                               decoration: BoxDecoration(
-                                color:Colors.white,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(20.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -284,15 +299,15 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                     )
                                   ]),
                               child: Padding(
-                                padding: const EdgeInsets.only(right:30.0),
+                                padding: const EdgeInsets.only(right: 30.0),
                                 child: Column(children: [
                                   Container(
                                       height: 250,
-                                      color:Colors.white,
-                                width:430,
+                                      color: Colors.white,
+                                      width: 430,
                                       child: ListView.separated(
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
                                             return Column(children: [
                                               Padding(
                                                 padding:
@@ -301,7 +316,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                   children: <Widget>[
                                                     IconButton(
                                                       icon: Icon(
-                                                          FontAwesomeIcons.check),
+                                                          FontAwesomeIcons
+                                                              .check),
                                                       iconSize: 20,
                                                       color: Colors.blue,
                                                       onPressed: null,
@@ -315,7 +331,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                           child: Row(children: [
                                                             Flexible(
                                                               child: Text(
-                                                                _perguntas[index]
+                                                                _perguntas[
+                                                                        index]
                                                                     .question,
                                                                 style: TextStyle(
                                                                     color: Colors
@@ -327,14 +344,16 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                                         'Monteserrat',
                                                                     letterSpacing:
                                                                         2,
-                                                                    fontSize: 10),
+                                                                    fontSize:
+                                                                        10),
                                                               ),
                                                             ),
                                                           ])),
                                                     ),
                                                     IconButton(
                                                       icon: Icon(
-                                                          FontAwesomeIcons.trash),
+                                                          FontAwesomeIcons
+                                                              .trash),
                                                       iconSize: 20,
                                                       color: Colors.red,
                                                       onPressed: () {
@@ -353,7 +372,8 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                             ]);
                                           },
                                           separatorBuilder:
-                                              (BuildContext context, int index) {
+                                              (BuildContext context,
+                                                  int index) {
                                             return Divider(
                                                 height: 70,
                                                 color: Colors.black12);
@@ -388,17 +408,16 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: FlatButton(
-                                          child: Icon(FontAwesomeIcons.plusCircle,
+                                          child: Icon(
+                                              FontAwesomeIcons.plusCircle,
                                               color: parseColor("#FFCE02"),
                                               size: 30),
                                           onPressed: () {
-                                            //setState(() {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         CreateQuestion()));
-                                            // });
                                           },
                                         ),
                                       ),
@@ -508,6 +527,12 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
       onPressed: () {
         createMissionQuiz(
             titulo, questions, aventuraId.id, capitulo.id, pontos);
+        setState(() {
+          _perguntas = [];
+          _text.clear();
+          _textPontos.clear();
+          missionNotifier.currentQuestion = null;
+        });
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) =>
                 TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
