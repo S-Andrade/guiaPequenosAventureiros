@@ -1,5 +1,4 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
-import 'package:app_criancas/services/missions_api.dart';
 import 'package:app_criancas/widgets/color_loader.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
