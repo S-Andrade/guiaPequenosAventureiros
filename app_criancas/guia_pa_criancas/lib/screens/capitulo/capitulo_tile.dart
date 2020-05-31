@@ -13,38 +13,30 @@ class CapituloTile extends StatelessWidget {
     if (!capitulo.bloqueado) {
       return GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AllMissionsScreen(capitulo.missoes)));
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-              clipBehavior: Clip.none,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-//                color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.8),
-                  image: DecorationImage(
-                    colorFilter: new ColorFilter.mode(
-                        Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                            .withOpacity(0.8),
-                        BlendMode.overlay),
-                    image: AssetImage('assets/images/blue.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Expanded(
-                  child: Center(
-                child: Text(capitulo.id,
-                    textAlign: TextAlign.right,
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 70,
-                          color: Colors.white.withOpacity(0.5)),
-                    )),
-              ))),
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AllMissionsScreen(capitulo.missoes)));
+        } ,
+        child:Container(
+          child: Card(
+            margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+
+            child: ListTile(
+              title: Text(capitulo.id, style: TextStyle(color: Colors.blue)),
+              subtitle: Text(capitulo.bloqueado.toString(),style: TextStyle(color: Colors.blue)),
+            ),
+          ),
+        ),
+      );
+    }else{
+      return  Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Container(
+          child: Card(
+            margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+            child: ListTile(
+              title: Text(capitulo.nome.toString()),
+              subtitle: Text(capitulo.bloqueado.toString()),
+            ),
+          ),
         ),
       );
     } else {

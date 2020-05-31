@@ -40,7 +40,7 @@ class _CapituloList extends State<CapituloList> {
                   itemCount: capitulos.length,
                   itemBuilder: (context,index) {
                    
-                  return CapituloTile(capituloId:capitulos[index],aventura:aventura,index:index);
+                  return CapituloTile(capituloId:capitulos[index],aventura:aventura);
                   
                   }
               );

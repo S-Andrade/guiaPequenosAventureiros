@@ -338,7 +338,7 @@ class _AventuraEdit extends State<AventuraEdit> {
        
 
         //back to homepage
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user:user)));
       }
     }
       

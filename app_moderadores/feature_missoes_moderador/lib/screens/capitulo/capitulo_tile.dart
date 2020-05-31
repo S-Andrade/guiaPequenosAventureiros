@@ -9,9 +9,8 @@ import 'capitulo_details.dart';
 class CapituloTile extends StatelessWidget {
   String capituloId;
   Aventura aventura;
-  int index;
 
-  CapituloTile({this.capituloId, this.aventura, this.index});
+  CapituloTile({this.capituloId, this.aventura});
 
   Capitulo capitulo;
   bool flag = false;
@@ -52,7 +51,7 @@ class CapituloTile extends StatelessWidget {
                                   children: <Widget>[
                                     Flexible(
                                       child: Text(
-                                          "Capítulo " + index.toString(),
+                                          "Capítulo " + capitulo.nome.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 40.0,
@@ -92,7 +91,7 @@ class CapituloTile extends StatelessWidget {
                             color: Colors.white,
                             image: DecorationImage(
                               image: AssetImage("assets/images/chapter_" +
-                                  index.toString() +
+                                  capitulo.nome.toString() +
                                   ".png"),
                               fit: BoxFit.fitHeight,
                               alignment: Alignment.topCenter,
@@ -117,7 +116,8 @@ class CapituloTile extends StatelessWidget {
         capitulo = Capitulo(
             id: datasnapshot.data['id'] ?? '',
             bloqueado: datasnapshot.data['bloqueado'] ?? null,
-            missoes: datasnapshot.data['missoes'] ?? []);
+            missoes: datasnapshot.data['missoes'] ?? [],
+            nome: datasnapshot.data['nome'] ?? 0);
         flag = true;
       } else {
         print("No such capitulo");
