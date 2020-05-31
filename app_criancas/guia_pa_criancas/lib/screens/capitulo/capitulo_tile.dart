@@ -40,7 +40,7 @@ class CapituloTile extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
             child: ListTile(
-              title: Text(capitulo.id),
+              title: Text(capitulo.nome.toString()),
               subtitle: Text(capitulo.bloqueado.toString()),
             ),
           ),

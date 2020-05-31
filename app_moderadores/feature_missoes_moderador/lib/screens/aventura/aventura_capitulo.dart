@@ -97,6 +97,22 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
     await getHistoria();
     await getCapitulos(context);
 
+    int nome_capitulo = 0;
+    if(historia.capitulos.isNotEmpty){
+      List<int> capitulos_historia = [];
+      for (String c in historia.capitulos){
+        DocumentReference documentReference = Firestore.instance.collection("capitulo").document(c);
+        await documentReference.get().then((datasnapshot) async {
+          if (datasnapshot.exists) {
+            int nome = datasnapshot.data['nome'];
+            capitulos_historia.add(nome);
+          }});
+          
+        }
+      capitulos_historia.sort();
+      nome_capitulo = capitulos_historia.last +1;
+    }
+
     List ids_c = [];
         for(Capitulo c in capitulos_bd){
           ids_c.add(int.parse(c.id));
@@ -104,7 +120,7 @@ class _AventuraCapitulo extends State< AventuraCapitulo> {
         ids_c.sort();
         var id = (ids_c.last + 1).toString();
 
-    DatabaseService().updateCapituloData(id, true, []);
+    DatabaseService().updateCapituloData(id, true, [], nome_capitulo);
     List novos_capitulos= historia.capitulos;
     novos_capitulos.add(id);
     DatabaseService().updateHistoriaData(historia.id, historia.titulo, novos_capitulos, historia.capa);

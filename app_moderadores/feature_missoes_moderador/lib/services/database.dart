@@ -79,11 +79,12 @@ class DatabaseService {
 //capitulo 
   final CollectionReference capituloCollection = Firestore.instance.collection('capitulo');
 
-  Future<void> updateCapituloData(String id , bool bloquado, List missoes) async {
+  Future<void> updateCapituloData(String id , bool bloquado, List missoes, int nome) async {
     return await capituloCollection.document(id).setData({
       'id': id,
       'bloqueado' : bloquado,
       'missoes' : missoes,
+      'nome': nome
     });
   }
    List<Capitulo> _capituloListFRomSnapshot(QuerySnapshot snapshot){
@@ -91,7 +92,8 @@ class DatabaseService {
       return Capitulo(
         id: doc.data['id'] ?? '',
         bloqueado: doc.data['bloqueado'] ?? null,
-        missoes: doc.data['missoes'] ?? []
+        missoes: doc.data['missoes'] ?? [],
+        nome: doc.data['nome'] ?? 0
       );
     }).toList();
   }

@@ -66,11 +66,12 @@ class DatabaseService {
       Firestore.instance.collection('capitulo');
 
   Future<void> updateCapituloData(
-      String id, bool bloquado, List missoes) async {
+      String id, bool bloquado, List missoes, int nome) async {
     return await capituloCollection.document(id).setData({
       'id': id,
       'bloqueado': bloquado,
       'missoes': missoes,
+      'nome': nome
     });
   }
 
@@ -79,7 +80,8 @@ class DatabaseService {
       return Capitulo(
           id: doc.data['id'] ?? '',
           bloqueado: doc.data['bloqueado'] ?? null,
-          missoes: doc.data['missoes'] ?? []);
+          missoes: doc.data['missoes'] ?? [],
+          nome: doc.data['nome'] ?? 0);
     }).toList();
   }
 
