@@ -1,6 +1,7 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -464,7 +465,6 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                       ),
                       onPressed: () async {
                         int respondidas = 0;
-                        await updatePoints(_userID, points);
                         allQuestions.forEach((element) {
                           element.resultados.forEach((aluno) {
                             if (aluno['aluno'] == _userID) {
@@ -476,6 +476,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                           });
                         });
                         if (respondidas == allQuestions.length) {
+                          await updatePoints(_userID, points);
                           updateMissionCounterInFirestore(
                               missionNotifier.currentMission, _userID, 1);
                           updateMissionDoneInFirestore(
@@ -485,6 +486,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                               _userID,
                               _movementData,
                               _lightData);
+                          saveMissionData(missionNotifier.currentMission, _userID, Timestamp.now());
                           for (StreamSubscription<dynamic> subscription
                               in _streamSubscriptions) {
                             subscription.cancel();
