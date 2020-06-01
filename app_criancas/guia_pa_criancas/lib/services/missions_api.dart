@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app_criancas/models/questionario.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import '../models/question.dart';
 import '../models/quiz.dart';
@@ -360,6 +361,23 @@ saveMissionMovementAndLightDataInFirestore(
     if (mapa["aluno"] == id) {
       mapa["movementData"] = movementData;
       mapa["lightData"] = lightData;
+    }
+  });
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
+}
+
+saveMissionData(Mission mission, String id, Timestamp day) async {
+   Map<String, dynamic> mapa;
+   CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["dataDone"] = day;
     }
   });
 
