@@ -5,7 +5,6 @@ import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 
 class IdleControls extends FlareController {
-
   FlutterActorArtboard myartboard;
 
   // EYES
@@ -32,8 +31,12 @@ class IdleControls extends FlareController {
   // BODY PARTS
   FlutterColorFill _fillBody;
   FlutterColorFill _fillWings;
+  FlutterColorFill _fillTentacles;
+  FlutterColorFill _fillArms;
   Color _fillBodyColor = Color(0xFFE5E5E5);
   Color _fillWingsColor = Color(0x00E5E5E5);
+  Color _fillTentaclesColor = Color(0x00E5E5E5);
+  Color _fillArmsColor = Color(0x00E5E5E5);
 
   void initialize(FlutterActorArtboard artboard) {
     myartboard = artboard;
@@ -54,18 +57,23 @@ class IdleControls extends FlareController {
     // BODY PARTS
     FlutterActorShape body = myartboard.getNode("body");
     FlutterActorShape wings = myartboard.getNode("bat_wings");
+    FlutterActorShape tentacles = myartboard.getNode("tentacles");
+    FlutterActorShape arms = myartboard.getNode("arms");
     _fillBody = body?.fill as FlutterColorFill;
     _fillWings = wings?.fill as FlutterColorFill;
-
+    _fillTentacles = tentacles?.fill as FlutterColorFill;
+    _fillArms = arms?.fill as FlutterColorFill;
   }
+
   void setViewTransform(Mat2D viewTransform) {}
 
   bool advance(FlutterActorArtboard artboard, double elapsed) {
-
     if (_fillBody != null) {
       // BODY PARTS
       _fillBody.uiColor = _fillBodyColor;
       _fillWings.uiColor = _fillWingsColor;
+      _fillTentacles.uiColor = _fillTentaclesColor;
+      _fillArms.uiColor = _fillArmsColor;
       // HEAD
       _fillPineapple.uiColor = _fillPineappleColor;
       _fillAntenas.uiColor = _fillAntenasColor;
@@ -91,7 +99,6 @@ class IdleControls extends FlareController {
     Color(0xffFB637E),
   ];
 
-
   void changeShapeColour(int selectColour) {
     _fillBodyColor = availableColours[selectColour];
 //      _fillBodyColor = Color(selectColour);
@@ -100,18 +107,18 @@ class IdleControls extends FlareController {
     isActive.value = true;
   }
 
-  void changeEye(String numberEyes) {
-    if (numberEyes == 'one_eye') {
+  void changeEye(String howManyEyes) {
+    if (howManyEyes == 'one_eye') {
       oneEyeOpacity = 1.0;
       twoEyesOpacity = 0.0;
       threeEyesOpacity = 0.0;
       multiEyesOpacity = 0.0;
-    } else if (numberEyes == 'two_eyes') {
+    } else if (howManyEyes == 'two_eyes') {
       oneEyeOpacity = 0.0;
       twoEyesOpacity = 1.0;
       threeEyesOpacity = 0.0;
       multiEyesOpacity = 0.0;
-    } else if (numberEyes == 'three_eyes') {
+    } else if (howManyEyes == 'three_eyes') {
       oneEyeOpacity = 0.0;
       twoEyesOpacity = 0.0;
       threeEyesOpacity = 1.0;
@@ -137,21 +144,36 @@ class IdleControls extends FlareController {
   }
 
   void changeBodyPart(String selectBodyPart) {
-    if (selectBodyPart == 'bat_wings'){
+    if (selectBodyPart == 'bat_wings') {
       _fillWingsColor = _fillBodyColor;
+      _fillTentaclesColor = Color(0x00E5E5E5);
+      _fillArmsColor = Color(0x00E5E5E5);
+    } else if (selectBodyPart == 'tentacles') {
+      _fillTentaclesColor = _fillBodyColor;
+      _fillArmsColor = Color(0x00E5E5E5);
+      _fillWingsColor = Color(0x00E5E5E5);
+    } else if (selectBodyPart == 'arms') {
+      _fillArmsColor = _fillBodyColor;
+      _fillTentaclesColor = Color(0x00E5E5E5);
+      _fillWingsColor = Color(0x00E5E5E5);
+    } else {
+      _fillArmsColor = Color(0x00E5E5E5);
+      _fillTentaclesColor = Color(0x00E5E5E5);
+      _fillWingsColor = Color(0x00E5E5E5);
     }
-
     isActive.value = true;
   }
 
-  void changeHeadTop(String selectedHeadTop){
-    if (selectedHeadTop == 'antenas'){
+  void changeHeadTop(String selectedHeadTop) {
+    if (selectedHeadTop == 'antenas') {
       _fillAntenasColor = _fillBodyColor;
       _fillPineappleColor = Color(0x00E5E5E5);
     } else if (selectedHeadTop == 'pineapple') {
       _fillPineappleColor = _fillBodyColor;
       _fillAntenasColor = Color(0x00E5E5E5);
-
+    } else {
+      _fillPineappleColor = Color(0x00E5E5E5);
+      _fillAntenasColor = Color(0x00E5E5E5);
     }
     isActive.value = true;
   }

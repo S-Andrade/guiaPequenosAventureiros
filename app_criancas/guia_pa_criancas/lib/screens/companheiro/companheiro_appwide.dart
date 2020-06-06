@@ -16,7 +16,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
   // Companheiro
   IdleControls _controller;
   Companheiro companheiro;
-  String numberEyes;
+  String companheiroNumberEyes;
   String companheiroMouth;
   String companheiroHeadTop;
   String companheiroBodyPart;
@@ -95,7 +95,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
     flag = false;
 
     if (companheiro != null) {
-      numberEyes = companheiro.eyes;
+      companheiroNumberEyes = companheiro.eyes;
       companheiroColour = companheiro.color;
       companheiroHeadTop = companheiro.headTop;
       companheiroMouth = companheiro.mouth;
@@ -106,7 +106,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
     }
 
     if (flag) {
-      _setEyes(numberEyes);
+      _setEyes(companheiroNumberEyes);
       _setColour(companheiroColour);
       _selectHeadTop(companheiroHeadTop);
       _setMouth(companheiroMouth);
