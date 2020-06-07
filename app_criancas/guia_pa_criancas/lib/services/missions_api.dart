@@ -100,18 +100,39 @@ getMissions(
   });
 }
 
-//get das informações do user
+//get das informações do user e verifica se já preencheu os dados sociodemográficos
 getUserInfo(String email) async {
   print(email);
   DocumentReference user =
       Firestore.instance.collection('aluno').document(email);
   bool data = await user.get().then((value) {
     bool dataSaved;
-    if (value['dataNascimentoAluno'] != null &&
-        (value['generoAluno'] == 'Masculino' || value['generoAluno'] == 'Feminino')) {
+    if (value['dataNascimentoAluno'] != null &&  value['generoAluno']!= 'generoAluno'){
       dataSaved = true;
     } else {
       dataSaved = false;
+    }
+    return dataSaved;
+  });
+  return data;
+}
+
+//get das informações dos pais e ee do user
+getUserInfoEEPaiMae(String email) async {
+  print(email);
+  DocumentReference user =
+      Firestore.instance.collection('aluno').document(email);
+  List data = await user.get().then((value) {
+    List dataSaved;
+    if (value['idadeEE'] != null &&  value['idadeEE'] != "idadeEE"){
+      DateTime dataN = value['idadeEE'];
+      dataSaved.add(dataN.year);
+    }else if (value['idadePai'] != null &&  value['idadePai'] != "idadePai") {
+      DateTime dataN = value['idadePai'];
+      dataSaved.add(dataN.year);
+    }else if (value['idadeMae'] != null &&  value['idadeMae'] != "idadeMae") {
+      DateTime dataN = value['idadePai'];
+      dataSaved.add(dataN.year);
     }
     return dataSaved;
   });
