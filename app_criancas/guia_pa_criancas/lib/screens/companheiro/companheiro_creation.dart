@@ -560,7 +560,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xffFE595A),
+                                                    color: Color(0xfff24e4e),
                                                     onPressed: () =>
                                                         _changeColour(0),
                                                     padding: EdgeInsets.all(16),
@@ -572,7 +572,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xffFF842A),
+                                                    color: Color(0xffff9d47),
                                                     onPressed: () =>
                                                         _changeColour(1),
                                                     padding: EdgeInsets.all(16),
@@ -584,7 +584,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xffFEE32B),
+                                                    color: Color(0xffffea5c),
                                                     onPressed: () =>
                                                         _changeColour(2),
                                                     padding: EdgeInsets.all(16),
@@ -608,7 +608,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xff00B5E2),
+                                                    color: Color(0xff3bd8ff),
                                                     onPressed: () =>
                                                         _changeColour(4),
                                                     padding: EdgeInsets.all(16),
@@ -620,7 +620,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xff825DC7),
+                                                    color: Color(0xffb38aff),
                                                     onPressed: () =>
                                                         _changeColour(5),
                                                     padding: EdgeInsets.all(16),
@@ -632,7 +632,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                             ? 6
                                                             : 0,
                                                     child: Text(''),
-                                                    color: Color(0xffFB637E),
+                                                    color: Color(0xffff96bb),
                                                     onPressed: () =>
                                                         _changeColour(6),
                                                     padding: EdgeInsets.all(16),

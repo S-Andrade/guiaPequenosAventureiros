@@ -90,13 +90,13 @@ class IdleControls extends FlareController {
   }
 
   List<Color> availableColours = <Color>[
-    Color(0xffFE595A),
-    Color(0xffFF842A),
-    Color(0xffFEE32B),
+    Color(0xfff24e4e),
+    Color(0xffff9d47),
+    Color(0xffffea5c),
     Color(0xff48D597),
-    Color(0xff00B5E2),
-    Color(0xff825DC7),
-    Color(0xffFB637E),
+    Color(0xff3bd8ff),
+    Color(0xffb38aff),
+    Color(0xffff96bb),
   ];
 
   void changeShapeColour(int selectColour) {
