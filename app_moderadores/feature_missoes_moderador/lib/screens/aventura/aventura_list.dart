@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:firebase/firebase.dart';
+
 import 'package:feature_missoes_moderador/screens/aventura/aventura_capitulo.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_details.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_edit.dart';
@@ -69,6 +69,7 @@ class _AventuraListState extends State<AventuraList> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             itemCount: aventuras.length,
             itemBuilder: (BuildContext context, int index) {
+              /*
               return FutureBuilder<void>(
                 future:  getImage(aventuras[index], index),
                 builder: (context, AsyncSnapshot<void> snapshot) {
@@ -77,18 +78,18 @@ class _AventuraListState extends State<AventuraList> {
               if (snapshot.hasError)
                 return new Text('Erro: ${snapshot.error}');
               else
-                
+                */
                     return GestureDetector(
                         onTap: () {
                           showOptions(aventuras[index]);
                         },
-                        child: Card(aventura: aventuras[index], image_capa: images[index]));
-                break;
+                        child: Card(aventura: aventuras[index], image_capa: null));
+              /*  break;
             default:
               return Container();
           }
                
-              });
+              });*/
             }
       ),
     ));
@@ -395,7 +396,7 @@ class _CardState extends State<Card> {
             )
           ],
           image: DecorationImage(
-            image: image_capa.image,
+            image:AssetImage("assets/images/story_1.png"),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ));
@@ -417,7 +418,7 @@ class _CardState extends State<Card> {
   @override
   Widget build(BuildContext context) {
 
-    if (image_capa != null){
+   // if (image_capa != null){
       return Container(
         width: 230.0,
         padding: const EdgeInsets.all(8.0),
@@ -427,9 +428,10 @@ class _CardState extends State<Card> {
           Flexible(flex: 2, child: _buildInfo()),
         ]));
     }
-    else{
+    /*else{
       return ColorLoader();
     }
     
-  }
+    
+  }*/
 }
