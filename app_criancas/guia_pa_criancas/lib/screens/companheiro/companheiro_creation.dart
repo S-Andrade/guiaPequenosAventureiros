@@ -459,14 +459,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     ],
                                   ),
                                 ),
-                                Text(
-                                  _shapeName,
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
-                                        color: Color(0x99FFFFFF)),
+                                InkWell(
+                                  onTap: () => reader.synthesizeText(
+                                      _shapeName),
+                                  child: Text(
+                                    _shapeName,
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20,
+                                          color: Color(0x99FFFFFF)),
+                                    ),
                                   ),
                                 ),
                               ])),
@@ -527,7 +531,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     child: Center(
                                       child: InkWell(
                                         onTap: () => reader.synthesizeText(
-                                            'para escolher toca na forma'),
+                                            'toca na cor para me pintar'),
                                         child: Flexible(
                                           child: Text(
                                             'Escolhe uma cor para pintar',
@@ -672,7 +676,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       left: 30, right: 30, bottom: 10),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText(
-                                        'Quantos olhos preciso?'),
+                                        'Temos de estar atentos nas Aventuras!'),
                                     child: Flexible(
                                       child: Text(
                                         'Temos de estar atentos nas Aventuras!',
@@ -723,14 +727,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Escolhe quantos olhos',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.pangolin(
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 22,
-                                          color: Colors.black),
+                                  child: InkWell(
+                                    onTap: () => reader.synthesizeText(
+                                        'Toca para escolher quantos olhos'),
+                                    child: Text(
+                                      'Escolhe quantos olhos',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.pangolin(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 22,
+                                            color: Colors.black),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -895,14 +903,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 10),
                                   child: Flexible(
-                                    child: Text(
-                                      'Um sorriso é sempre muito importante!',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 28,
-                                            color: Colors.white),
+                                    child: InkWell(
+                                      onTap: () => reader.synthesizeText(
+                                          'Um sorriso é sempre muito importante!'),
+                                      child: Text(
+                                        'Um sorriso é sempre muito importante!',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 28,
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -943,14 +955,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Escolhe o teu favorito',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.pangolin(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 22,
-                                              color: Colors.black),
+                                      child: InkWell(
+                                        onTap: () => reader.synthesizeText(
+                                            'toca no teu favorito'),
+                                        child: Text(
+                                          'Escolhe o teu favorito',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.pangolin(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 22,
+                                                color: Colors.black),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1076,14 +1092,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 10),
                                   child: Flexible(
-                                    child: Text(
-                                      'Acho que me falta alguma coisa...',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 28,
-                                            color: Colors.white),
+                                    child: InkWell(
+                                      onTap: () => reader.synthesizeText(
+                                          'Acho que me falta alguma coisa'),
+                                      child: Text(
+                                        'Acho que me falta alguma coisa...',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 28,
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1092,7 +1112,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 30),
                                   child: Flexible(
-                                    child: Center(
+                                    child: InkWell(
+                                      onTap: () => reader.synthesizeText(
+                                          'Já sei, que tal algo para a cabeça?'),
                                       child: Text(
                                         'Já sei, que tal algo para a cabeça?',
                                         textAlign: TextAlign.center,
@@ -1124,14 +1146,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'O que achas dá mais jeito?',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.pangolin(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 22,
-                                              color: Colors.black),
+                                      child: InkWell(
+                                        onTap: () => reader.synthesizeText(
+                                            'O que achas mais bonito?'),
+                                        child: Text(
+                                            'O que achas mais bonito?',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.pangolin(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 22,
+                                                color: Colors.black),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1264,14 +1290,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 10),
                                   child: Flexible(
-                                    child: Text(
-                                      'Vou precisar de uma mãozinha...',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 28,
-                                            color: Colors.white),
+                                    child: InkWell(
+                                      onTap: () => reader.synthesizeText(
+                                          'Vou precisar de uma mãozinha...'),
+                                      child: Text(
+                                        'Vou precisar de uma mãozinha...',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 28,
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1280,7 +1310,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 30),
                                   child: Flexible(
-                                    child: Center(
+                                    child: InkWell(
+                                      onTap: () => reader.synthesizeText(
+                                          '... ou quem sabe umas asas?'),
                                       child: Text(
                                         '... ou quem sabe umas asas?',
                                         textAlign: TextAlign.center,
@@ -1312,14 +1344,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'O que achas dá mais jeito?',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.pangolin(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 22,
-                                              color: Colors.black),
+                                      child: InkWell(
+                                        onTap: () => reader.synthesizeText(
+                                            'O que achas que dá mais jeito?'),
+                                        child: Text(
+                                          'O que achas que dá mais jeito?',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.pangolin(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 22,
+                                                color: Colors.black),
+                                          ),
                                         ),
                                       ),
                                     ),
