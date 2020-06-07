@@ -20,6 +20,12 @@ class CreateCompanheiro extends StatefulWidget {
 }
 
 class CreateCompanheiroState extends State<CreateCompanheiro> {
+
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
+
   String userID;
   String _bodyPart = 'nothing';
   int _colour = 5;
@@ -222,6 +228,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
 
   @override
   Widget build(BuildContext context) {
+
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    print(screenWidth);
+    print(screenHeight);
+
     return Scaffold(
 //        resizeToAvoidBottomInset: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -264,7 +277,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 10, top: 0),
+                                      left: 30, right: 30, bottom: 10, top: 10),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText('Olá!'),
                                     child: Flexible(
@@ -275,7 +288,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           textStyle: TextStyle(
                                               height: 1,
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 30,
+                                              fontSize: screenHeight < 700 ? 26 : 30,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -296,7 +309,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           textStyle: TextStyle(
                                               height: 1,
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 24,
+                                              fontSize: screenHeight < 700 ? 20 : 24,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -318,7 +331,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             textStyle: TextStyle(
                                                 height: 1,
                                                 fontWeight: FontWeight.w700,
-                                                fontSize: 22,
+                                                fontSize: screenHeight < 700 ? 18 : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -327,11 +340,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                  color: Colors.blueGrey,
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 270,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "animation",
@@ -351,7 +360,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: 22,
+                                            fontSize: screenHeight < 700 ? 18 : 22,
                                             color: Colors.black),
                                       ),
                                     ),
@@ -468,7 +477,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 20,
+                                          fontSize: screenHeight < 700 ? 16 : 20,
                                           color: Color(0x99FFFFFF)),
                                     ),
                                   ),
@@ -503,7 +512,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 28,
+                                              fontSize: screenHeight < 700 ? 24 : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -511,10 +520,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -539,7 +545,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 24,
+                                                  fontSize: screenHeight < 700 ? 20 : 24,
                                                   color: Colors.black),
                                             ),
                                           ),
@@ -549,8 +555,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenHeight < 700 ? 20 : 40),
                                   child: Row(
                                     children: <Widget>[
                                       Expanded(
@@ -560,7 +566,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             Wrap(
                                                 direction: Axis.horizontal,
                                                 alignment: WrapAlignment.center,
-                                                spacing: 10.0,
+                                                spacing: screenHeight < 700 ? 6 : 10,
                                                 runSpacing: 5.0,
                                                 children: <Widget>[
                                                   MaterialButton(
@@ -572,7 +578,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xfff24e4e),
                                                     onPressed: () =>
                                                         _changeColour(0),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -584,7 +590,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffff9d47),
                                                     onPressed: () =>
                                                         _changeColour(1),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -596,7 +602,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffffea5c),
                                                     onPressed: () =>
                                                         _changeColour(2),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -608,7 +614,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xff48D597),
                                                     onPressed: () =>
                                                         _changeColour(3),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -620,7 +626,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xff3bd8ff),
                                                     onPressed: () =>
                                                         _changeColour(4),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -632,7 +638,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffb38aff),
                                                     onPressed: () =>
                                                         _changeColour(5),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -644,7 +650,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffff96bb),
                                                     onPressed: () =>
                                                         _changeColour(6),
-                                                    padding: EdgeInsets.all(16),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                 ]),
@@ -684,7 +690,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 28,
+                                              fontSize: screenHeight < 700 ? 24 : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -693,7 +699,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 30),
+                                      left: 30, right: 30, bottom: screenHeight < 700 ? 10 : 30),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText(
                                         'Muitos pares de olhos ou um muito grande?'),
@@ -704,7 +710,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 22,
+                                              fontSize: screenHeight < 700 ? 18 : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -712,10 +718,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -736,7 +739,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: 22,
+                                            fontSize: screenHeight < 700 ? 18 : 22,
                                             color: Colors.black),
                                       ),
                                     ),
@@ -751,7 +754,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             MainAxisAlignment.spaceEvenly,
 //                                        mainAxisSize: MainAxisSize.max,
 //                                        layoutBehavior: ButtonBarLayoutBehavior.padded,
-                                        buttonHeight: 40,
+                                        buttonHeight: screenHeight < 700 ? 20 : 40,
                                         children: <Widget>[
                                           Row(
                                             children: [
@@ -771,7 +774,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     textStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 18,
+                                                        fontSize: screenHeight < 700 ? 14 : 18,
                                                         color:
                                                             _isSelectedEyes[0]
                                                                 ? Colors
@@ -801,7 +804,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     textStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 18,
+                                                        fontSize: screenHeight < 700 ? 14 : 18,
                                                         color:
                                                             _isSelectedEyes[1]
                                                                 ? Colors
@@ -831,7 +834,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     textStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 18,
+                                                        fontSize: screenHeight < 700 ? 14 : 18,
                                                         color:
                                                             _isSelectedEyes[2]
                                                                 ? Colors
@@ -861,7 +864,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     textStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 18,
+                                                        fontSize: screenHeight < 700 ? 14 : 18,
                                                         color:
                                                             _isSelectedEyes[3]
                                                                 ? Colors
@@ -901,7 +904,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 10),
+                                      left: 30, right: 30, bottom: screenHeight < 700 ? 5 : 10),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -912,36 +915,15 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 28,
+                                              fontSize: screenHeight < 700 ? 24 : 28,
                                               color: Colors.white),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-//                              Padding(
-//                                padding: EdgeInsets.only(
-//                                    left: 30, right: 30, bottom: 30),
-//                                child: Flexible(
-//                                  child: Center(
-//                                    child: Text(
-//                                      '... ou quem sabe umas asas?',
-//                                      textAlign: TextAlign.center,
-//                                      style: GoogleFonts.quicksand(
-//                                        textStyle: TextStyle(
-//                                            fontWeight: FontWeight.w700,
-//                                            fontSize: 22,
-//                                            color: Colors.black),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -964,7 +946,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 22,
+                                                fontSize: screenHeight < 700 ? 18 : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -990,7 +972,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                                  fontSize: screenHeight < 700 ? 14 : 18,
                                                   color: _isSelectedSmile[0]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1024,7 +1006,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                                  fontSize: screenHeight < 700 ? 14 : 18,
                                                   color: _isSelectedSmile[1]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1101,7 +1083,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 28,
+                                              fontSize: screenHeight < 700 ? 24 : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -1110,7 +1092,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 30),
+                                      left: 30, right: 30, bottom: screenHeight < 700 ? 10 : 30),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1121,7 +1103,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 22,
+                                              fontSize: screenHeight < 700 ? 18 : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -1129,10 +1111,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -1155,18 +1134,18 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 22,
+                                                fontSize: screenHeight < 700 ? 18 : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(20.0),
+                                      padding: EdgeInsets.all(screenHeight < 700 ? 5 : 20.0),
                                       child: Wrap(
                                         direction: Axis.horizontal,
                                         alignment: WrapAlignment.spaceAround,
-                                        spacing: 10.0,
+                                        spacing: screenHeight < 700 ? 8 : 10,
                                         runSpacing: 5.0,
                                         children: <Widget>[
                                           OutlineButton(
@@ -1183,7 +1162,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                                  fontSize: screenHeight < 700 ? 14 : 18,
                                                   color: _isSelectedHeadTop[0]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1214,7 +1193,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                                  fontSize: screenHeight < 700 ? 14 : 18,
                                                   color: _isSelectedHeadTop[1]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1246,7 +1225,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
+                                                  fontSize: screenHeight < 700 ? 14 : 18,
                                                   color: _isSelectedHeadTop[2]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1299,7 +1278,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 28,
+                                              fontSize: screenHeight < 700 ? 24 : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -1308,7 +1287,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 30),
+                                      left: 30, right: 30, bottom: screenHeight < 700 ? 10 : 30),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1319,7 +1298,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 22,
+                                              fontSize: screenHeight < 700 ? 18 : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -1327,10 +1306,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
+                                  height: screenHeight/2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -1353,7 +1329,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 22,
+                                                fontSize: screenHeight < 700 ? 18 : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -1364,8 +1340,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       runAlignment: WrapAlignment.center,
                                       crossAxisAlignment:
                                           WrapCrossAlignment.center,
-                                      spacing: 10.0,
-                                      runSpacing: 5.0,
+                                      spacing: screenHeight < 700 ? 5 : 10,
+                                      runSpacing: screenHeight < 700 ? 0 : 5,
                                       children: <Widget>[
                                         OutlineButton(
                                           borderSide: BorderSide(
@@ -1381,7 +1357,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 18,
+                                                fontSize: screenHeight < 700 ? 14 : 18,
                                                 color: _isSelectedBodyParts[0]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1412,7 +1388,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 18,
+                                                fontSize: screenHeight < 700 ? 14 : 18,
                                                 color: _isSelectedBodyParts[1]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1444,7 +1420,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 18,
+                                                fontSize: screenHeight < 700 ? 14 : 18,
                                                 color: _isSelectedBodyParts[2]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1476,7 +1452,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 18,
+                                                fontSize: screenHeight < 700 ? 14 : 18,
                                                 color: _isSelectedBodyParts[3]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1511,186 +1487,97 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               ],
                             ),
                           ),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 10),
-                                  child: Flexible(
-                                    child: InkWell(
-                                      onTap: () => reader.synthesizeText(
-                                          'Wow... Estou perfeito!'),
-                                      child: Text(
-                                        'Wow... Estou perfeito!',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 28,
-                                              color: Colors.white),
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.only(top: screenHeight/5),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 30, right: 30, bottom: 10),
+                                    child: Flexible(
+                                      child: InkWell(
+                                        onTap: () => reader.synthesizeText(
+                                            'Wow... Estou perfeito!'),
+                                        child: Text(
+                                          'Wow... Estou perfeito!',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: screenHeight < 700 ? 24 : 28,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 30, right: 30),
-                                  child: Flexible(
-                                    child: InkWell(
-                                      onTap: () => reader.synthesizeText(
-                                          'como é que os teus amigos te costumam chamar?'),
-                                      child: Text(
-                                        'E como é que os teus amigos te costumam chamar?',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.pangolin(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 22,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-//                                border: Border.all(width: 1),
-                                      ),
-                                  height: 300,
-                                  child: FlareActor(
-                                    "assets/animation/shapes3.flr",
-                                    animation: "standby",
-                                    fit: BoxFit.contain,
-                                    alignment: Alignment.center,
-                                    controller: _flareController,
-                                    artboard: _selectedShape,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 60.0),
-                                  child: Column(
-                                    children: [
-//
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 0.0),
-                                        child: TextField(
-                                          autofocus: true,
-                                          maxLength: 30,
-                                          controller: myController,
-                                          decoration: InputDecoration(
-                                              hintText: 'Escreve aqui...',
-                                              labelStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.0)),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 30, right: 30),
+                                    child: Flexible(
+                                      child: InkWell(
+                                        onTap: () => reader.synthesizeText(
+                                            'como é que os teus amigos te costumam chamar?'),
+                                        child: Text(
+                                          'E como é que os teus amigos te costumam chamar?',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 22,
+                                                fontSize: screenHeight < 700 ? 18 : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
                                       ),
-
-                                      Container(
-                                        height: 50,
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ])),
-//                    Container(
-//                        decoration: BoxDecoration(
-//                          gradient: LinearGradient(
-//                            begin: Alignment.topLeft,
-//                            end: Alignment.bottomCenter,
-//                            stops: [0.0, 1.0],
-//                            colors: [
-//                              Color(0xFFff6e4a),
-//                              Color(0xFFf03333),
-//                            ],
-//                          ),
-//                        ),
-//                        child: Column(
-//                            crossAxisAlignment: CrossAxisAlignment.stretch,
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              Padding(
-//                                padding: EdgeInsets.only(
-//                                    left: 30, right: 30, bottom: 10),
-//                                child: Flexible(
-//                                  child: Text(
-//                                    'Name',
-//                                    textAlign: TextAlign.center,
-//                                    style: GoogleFonts.quicksand(
-//                                      textStyle: TextStyle(
-//                                          fontWeight: FontWeight.w900,
-//                                          fontSize: 28,
-//                                          color: Colors.white),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ),
-//                              Padding(
-//                                padding: EdgeInsets.only(
-//                                    left: 30, right: 30, bottom: 30),
-//                                child: Flexible(
-//                                  child: Center(
-//                                    child: Text(
-//                                      '... ou quem sabe umas asas?',
-//                                      textAlign: TextAlign.center,
-//                                      style: GoogleFonts.quicksand(
-//                                        textStyle: TextStyle(
-//                                            fontWeight: FontWeight.w700,
-//                                            fontSize: 22,
-//                                            color: Colors.black),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ),
-//                              Container(
-//                                decoration: BoxDecoration(
-////                                border: Border.all(width: 1),
-//                                    ),
-//                                height: 300,
-//                                child: FlareActor(
-//                                  "assets/animation/shapes3.flr",
-//                                  animation: "standby",
-//                                  fit: BoxFit.contain,
-//                                  alignment: Alignment.center,
-//                                  controller: _flareController,
-//                                  artboard: _selectedShape,
-//                                ),
-//                              ),
-//                              Column(
-//                                children: [
-//                                  Padding(
-//                                    padding: const EdgeInsets.all(8.0),
-//                                    child: Text(
-//                                      'O que achas dá mais jeito?',
-//                                      textAlign: TextAlign.center,
-//                                      style: GoogleFonts.pangolin(
-//                                        textStyle: TextStyle(
-//                                            fontWeight: FontWeight.normal,
-//                                            fontSize: 22,
-//                                            color: Colors.black),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                  Center(
-//                                    child: TextField(
-//                                      decoration:
-//                                          InputDecoration(hintText: 'Name'),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ])),
+                                  Container(
+                                    height: screenHeight/2.7,
+                                    child: FlareActor(
+                                      "assets/animation/shapes3.flr",
+                                      animation: "standby",
+                                      fit: BoxFit.contain,
+                                      alignment: Alignment.center,
+                                      controller: _flareController,
+                                      artboard: _selectedShape,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 60.0),
+                                    child: Column(
+                                      children: [
+//
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 0.0),
+                                          child: TextField(
+                                            autofocus: true,
+                                            maxLength: 30,
+                                            controller: myController,
+                                            decoration: InputDecoration(
+                                                hintText: 'Escreve aqui...',
+                                                labelStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: screenHeight < 700 ? 10 : 16.0)),
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.pangolin(
+                                              textStyle: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: screenHeight < 700 ? 16 : 22,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+
+                                        Container(
+                                            height: screenHeight < 700 ? 0 : 50 ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )),
                     ],
                   ),
                 ),
@@ -1721,7 +1608,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                   bottom: 0,
                   child: Align(
                       alignment: Alignment.bottomRight,
-                      child: _currentPage == 6
+                      child: _currentPage == 6 && MediaQuery.of(context).viewInsets.bottom == 0
                           ? Container(
                               child: FlatButton(
                                 onPressed: () =>
@@ -1738,7 +1625,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   style: GoogleFonts.pangolin(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 26,
+                                        fontSize: screenHeight < 700 ? 20 : 26,
                                         color: Colors.white),
                                   ),
                                 ),
@@ -1751,7 +1638,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                   left: 20,
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: _currentPage == 0
+                    child: _currentPage == 0 || MediaQuery.of(context).viewInsets.bottom != 0
                         ? Container()
                         :
 //                           IconButton(
