@@ -13,25 +13,26 @@ getCompanheiro(String userEmail) async {
   return comp;
 }
 
-////CRIAR COMPANHEIRO
-//  createCompanheiro(String bodyPart, String color, String eyes, String headTop,
-//      String userEmail, String shape) async {
-//    CollectionReference companheiroRef =
-//        Firestore.instance.collection('companheiro');
-//    CollectionReference alunoRef = Firestore.instance.collection('aluno');
-//    DocumentReference companheiroDocRef = companheiroRef.document(userEmail);
-//    DocumentReference owner = alunoRef.document(userEmail);
-//    Companheiro companheiro = new Companheiro();
-//    companheiro.bodyPart = bodyPart;
-//    companheiro.color = color;
-//    companheiro.eyes = eyes;
-//    companheiro.headTop = headTop;
-//    companheiro.id = userEmail;
-//    companheiro.shape = shape;
-//    companheiro.owner = owner;
-//    companheiro.mouth = mouth;
-//    await companheiroDocRef.setData(companheiro.toMap());
-//  }
+//CRIAR COMPANHEIRO
+  createCompanheiro(String bodyPart, int color, String eyes, String headTop,
+      String userEmail, String mouth, String shape) async {
+    CollectionReference companheiroRef =
+        Firestore.instance.collection('companheiro');
+    CollectionReference alunoRef = Firestore.instance.collection('aluno');
+    DocumentReference companheiroDocRef = companheiroRef.document(userEmail);
+    DocumentReference owner = alunoRef.document(userEmail);
+    Companheiro companheiro = new Companheiro();
+    companheiro.bodyPart = bodyPart;
+    companheiro.color = color;
+    companheiro.eyes = eyes;
+    companheiro.headTop = headTop;
+    companheiro.id = userEmail;
+    companheiro.shape = shape;
+    companheiro.owner = owner;
+    companheiro.mouth = mouth;
+
+    await companheiroDocRef.setData(companheiro.toMap());
+  }
 //
 ////UPDATE COMPANHEIRO
 //  updateCompanheiroBody(String userEmail, String bodyPart) async {

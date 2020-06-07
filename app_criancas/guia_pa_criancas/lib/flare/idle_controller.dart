@@ -120,8 +120,6 @@ class IdleControls extends FlareController {
       _fillAntenasColor = availableColours[selectColour];
     }
 
-
-
     isActive.value = true;
   }
 
