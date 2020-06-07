@@ -57,6 +57,7 @@ dependencies:
   flutter_beautiful_popup: ^1.5.0 
   giffy_dialog: ^1.7.0
   intl: ^0.16.1
+  firebase: ^7.3.0
 
 
 dev_dependencies:

@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:firebase/firebase.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_capitulo.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_details.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_edit.dart';
@@ -59,7 +59,7 @@ class _AventuraListState extends State<AventuraList> {
     );
   }
 
-  Widget _buildVideoScroller(aventuras) {
+  Widget _buildAventuraScroller(aventuras) {
     return Padding(
       padding: const EdgeInsets.only(bottom:130.0,left:50),
       child: SizedBox.fromSize(
@@ -72,14 +72,21 @@ class _AventuraListState extends State<AventuraList> {
               return FutureBuilder<void>(
                 future:  getImage(aventuras[index], index),
                 builder: (context, AsyncSnapshot<void> snapshot) {
-                 
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return new Text('Erro: ${snapshot.error}');
+              else
                 
                     return GestureDetector(
                         onTap: () {
                           showOptions(aventuras[index]);
                         },
                         child: Card(aventura: aventuras[index], image_capa: images[index]));
-                  
+                break;
+            default:
+              return Container();
+          }
                
               });
             }
@@ -132,7 +139,7 @@ class _AventuraListState extends State<AventuraList> {
                   child: Column(
                     children: <Widget>[
                       _buildInfo(),
-                      _buildVideoScroller(aventuras),
+                      _buildAventuraScroller(aventuras),
                     ],
                   )),
             ),
