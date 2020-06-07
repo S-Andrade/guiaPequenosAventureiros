@@ -92,7 +92,7 @@ class IdleControls extends FlareController {
   List<Color> availableColours = <Color>[
     Color(0xfff24e4e),
     Color(0xffff9d47),
-    Color(0xffffea5c),
+    Color(0xffffd83d),
     Color(0xff48D597),
     Color(0xff3bd8ff),
     Color(0xffb38aff),

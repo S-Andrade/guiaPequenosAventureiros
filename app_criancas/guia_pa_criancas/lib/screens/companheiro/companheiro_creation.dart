@@ -21,11 +21,11 @@ class CreateCompanheiro extends StatefulWidget {
 
 class CreateCompanheiroState extends State<CreateCompanheiro> {
   String userID;
-  String _bodyPart;
-  int _colour;
-  String _eyes;
-  String _headTop;
-  String _mouth;
+  String _bodyPart = 'nothing';
+  int _colour = 5;
+  String _eyes = 'two_eyes';
+  String _headTop = '';
+  String _mouth = 'silly';
   String _selectedShape = 'square';
   String _shapeName = 'Quadrado';
 
@@ -37,7 +37,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
   IdleControls _flareController;
 
   final myController = TextEditingController();
-  List<bool> _isSelectedEyes = [false, false, false, false];
+  List<bool> _isSelectedEyes = [false, true, false, false];
   List<bool> _isSelectedShape = [false, true, false, false, false, false];
   List<bool> _isSelectedColor = [
     false,
@@ -45,11 +45,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
     false,
     false,
     false,
-    false,
+    true,
     false
   ];
-  List<bool> _isSelectedSmile = [false, false];
-  List<bool> _isSelectedHeadTop = [false, false, false];
+  List<bool> _isSelectedSmile = [true, false];
+  List<bool> _isSelectedHeadTop = [false, false, true];
   List<bool> _isSelectedBodyParts = [false, false, false, false];
 
   @override
@@ -57,6 +57,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
     _flareController = IdleControls();
 //    effectsPlayer.loadAll(['button_click_drop.mp3','cartoon_bubble_pop_007','cartoon_bubble_001']);
     _controller = PageController(initialPage: 0);
+    _flareController.changeShapeColour(_colour);
+    _flareController.changeHeadTop(_headTop);
+    _flareController.changeBodyPart(_bodyPart);
+    _flareController.changeEye(_eyes);
+    _flareController.changeMouth(_mouth);
     Auth().getUser().then((user) {
       setState(() {
         userID = user.email;
