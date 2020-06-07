@@ -119,20 +119,22 @@ getUserInfo(String email) async {
 
 //get das informações dos pais e ee do user
 getUserInfoEEPaiMae(String email) async {
-  print(email);
   DocumentReference user =
       Firestore.instance.collection('aluno').document(email);
+  List dataSaved=[];
   List data = await user.get().then((value) {
-    List dataSaved;
     if (value['idadeEE'] != null &&  value['idadeEE'] != "idadeEE"){
-      DateTime dataN = value['idadeEE'];
-      dataSaved.add(dataN.year);
-    }else if (value['idadePai'] != null &&  value['idadePai'] != "idadePai") {
-      DateTime dataN = value['idadePai'];
-      dataSaved.add(dataN.year);
-    }else if (value['idadeMae'] != null &&  value['idadeMae'] != "idadeMae") {
-      DateTime dataN = value['idadePai'];
-      dataSaved.add(dataN.year);
+      Timestamp dataN = value['idadeEE'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }if (value['idadePai'] != null &&  value['idadePai'] != "idadePai") {
+      Timestamp dataN = value['idadePai'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }if (value['idadeMae'] != null &&  value['idadeMae'] != "idadeMae") {
+      Timestamp dataN = value['idadeMae'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
     }
     return dataSaved;
   });
