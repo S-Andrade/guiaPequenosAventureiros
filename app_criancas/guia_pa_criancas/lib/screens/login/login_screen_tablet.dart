@@ -242,9 +242,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   }
 
   getInfo(email) async {
-    print('entrei');
     bool data = await getUserInfo(email);
-    print('looool');
     print(data);
     return data;
   }
@@ -259,12 +257,19 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
       result = await auth.signInWithEmailAndPassword(
           email: userId, password: password);
       FirebaseUser user = result.user;
+      bool flag = await getInfo(userId);
+      if (flag) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UserData(user: user)));
+        }
+      print(flag);
       setState(() {
         email = userId;
         pass = password;
         isLoggedIn = true;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
       });
       return;
     }

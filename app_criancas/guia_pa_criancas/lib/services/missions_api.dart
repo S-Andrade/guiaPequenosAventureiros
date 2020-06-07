@@ -100,18 +100,41 @@ getMissions(
   });
 }
 
-//get das informações do user
+//get das informações do user e verifica se já preencheu os dados sociodemográficos
 getUserInfo(String email) async {
   print(email);
   DocumentReference user =
       Firestore.instance.collection('aluno').document(email);
   bool data = await user.get().then((value) {
     bool dataSaved;
-    if (value['dataNascimentoAluno'] != null &&
-        (value['generoAluno'] == 'Masculino' || value['generoAluno'] == 'Feminino')) {
+    if (value['dataNascimentoAluno'] != null &&  value['generoAluno']!= 'generoAluno'){
       dataSaved = true;
     } else {
       dataSaved = false;
+    }
+    return dataSaved;
+  });
+  return data;
+}
+
+//get das informações dos pais e ee do user
+getUserInfoEEPaiMae(String email) async {
+  DocumentReference user =
+      Firestore.instance.collection('aluno').document(email);
+  List dataSaved=[];
+  List data = await user.get().then((value) {
+    if (value['idadeEE'] != null &&  value['idadeEE'] != "idadeEE"){
+      Timestamp dataN = value['idadeEE'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }if (value['idadePai'] != null &&  value['idadePai'] != "idadePai") {
+      Timestamp dataN = value['idadePai'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }if (value['idadeMae'] != null &&  value['idadeMae'] != "idadeMae") {
+      Timestamp dataN = value['idadeMae'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
     }
     return dataSaved;
   });
