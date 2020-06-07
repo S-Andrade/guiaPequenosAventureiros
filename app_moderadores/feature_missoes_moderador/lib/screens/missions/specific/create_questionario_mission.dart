@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
@@ -443,6 +444,7 @@ class _CreateQuestionarioMissionScreenState
                                               template: TemplateTerm,
                                             );
                                             popup.show(
+                                            
                                                 title: Text(""),
                                                 close: Container(),
                                                 content: Column(
@@ -486,11 +488,10 @@ class _CreateQuestionarioMissionScreenState
                                                         ),
                                                         onPressed: () {
                                                           Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          CreateQuestionarioQuestion()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CapituloDetails(
+                                    capitulo: capitulo, aventura: aventuraId)));
                                                         },
                                                       ),
                                                     ),
@@ -680,6 +681,7 @@ class _CreateQuestionarioMissionScreenState
     );
 
     popup.show(
+      close: Container(),
       title: Text(
         "",
         style: TextStyle(

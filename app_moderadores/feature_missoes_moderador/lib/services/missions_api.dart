@@ -4,6 +4,7 @@ import 'package:feature_missoes_moderador/models/aluno.dart';
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/models/questionario.dart';
 import 'package:feature_missoes_moderador/models/quiz.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
@@ -327,7 +328,7 @@ createMissionQuestinario(String titulo, List questoes, String aventuraId,
       Map<String, dynamic> mapa = {};
       mapa['aluno'] = element;
       mapa['respostaEscolhida'] = "";
-      mapa['respostaNumerica'] = 0;
+      mapa['respostaNumerica'] = 66;
       res.add(mapa);
     });
 
@@ -516,7 +517,7 @@ createMissionVideoInFirestore(String videoUrl, String titulo, String descricao,
     Map<String, dynamic> mapa = {};
     mapa['aluno'] = element;
     mapa['counter'] = 0;
-    mapa['counterPause'] = 0;
+    mapa['counterPause'] = null;
     mapa['counterVisited'] = 0;
     mapa['done'] = false;
     mapa['timeVisited'] = 0;
@@ -1004,9 +1005,9 @@ getQuizLargerId() async {
   int _largerId = 0;
 
   _quizList.forEach((element) {
-    print(element);
+
     int _idNumber = int.parse(element);
-    print(_idNumber.toString());
+   
     if (_idNumber > _largerId) {
       _largerId = _idNumber;
     }
@@ -1020,9 +1021,9 @@ getQuestionarioLargerId() async {
   int _largerId = 0;
 
   _qList.forEach((element) {
-    print(element);
+  
     int _idNumber = int.parse(element);
-    print(_idNumber.toString());
+   
     if (_idNumber > _largerId) {
       _largerId = _idNumber;
     }
@@ -1099,6 +1100,8 @@ getPerguntasDoQuestionario(content) async {
 
 getPerguntasDoQuestionarioForAventura(List contents) async {
   List<Question> perguntas = [];
+  contents.sort((a, b) => a.documentID.compareTo(b.documentID));
+  
   for (var content in contents) {
     DocumentReference questionarioReference = content;
 
@@ -1110,8 +1113,10 @@ getPerguntasDoQuestionarioForAventura(List contents) async {
       } else
         print("bad");
     });
+    
 
     for (var p in questionario.questions) {
+      
       DocumentReference questionReference = p;
       Question pergunta;
       await questionReference.get().then((questionSnapshot) {
@@ -1123,6 +1128,7 @@ getPerguntasDoQuestionarioForAventura(List contents) async {
       perguntas.add(pergunta);
     }
   }
+  
 
   return perguntas;
 }
@@ -1433,11 +1439,12 @@ getDoneByCapituloForTurma(escolaId, turmas) async {
 
 getQuestionarioRespostasGeralDaAventura(List perguntas, List alunos) {
   Map perguntaRespostas = {};
-  List lista = [];
-  print(alunos);
+  
+ 
 
-  int i = 0;
   for (var pergunta in perguntas) {
+        
+  
     List respostas = [];
     for (var campo in pergunta.resultados) {
       if (alunos.contains(campo['aluno'])) if (campo['respostaNumerica'] !=
@@ -1450,6 +1457,8 @@ getQuestionarioRespostasGeralDaAventura(List perguntas, List alunos) {
       perguntaRespostas[pergunta.question] = [];
       perguntaRespostas[pergunta.question].add(respostas);
     }
+   
+    
   }
 
   return perguntaRespostas;
@@ -1498,3 +1507,25 @@ getEscolaNome(String escolaId) async {
 
   return nome;
 }
+
+
+
+// DESBLOQUEIA O CAPITULO PARA UMA TURMA
+
+
+desbloquearCapituloParaTurma(capitulo,turma) async {
+  CollectionReference capituloRef = Firestore.instance.collection('capitulo');
+
+
+  capitulo.disponibilidade.forEach((k,v) {
+  
+    if(k==turma) capitulo.disponibilidade[k]=true;
+  });
+  
+
+  await capituloRef
+      .document(capitulo.id)
+      .updateData({'disponibilidade': capitulo.disponibilidade});
+}
+
+

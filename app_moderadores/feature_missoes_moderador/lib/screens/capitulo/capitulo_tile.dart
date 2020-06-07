@@ -58,15 +58,7 @@ class CapituloTile extends StatelessWidget {
                                               color: Colors.black,
                                               fontFamily: 'Amatic SC')),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:408.0),
-                                      child: IconButton(
-                                          icon: Icon(FontAwesomeIcons.unlock),
-                                          iconSize: 30,
-                                          color: Colors.red,
-                                          tooltip: 'Desbloquear',
-                                          onPressed: () {}),
-                                    ),
+                                    
                                   ],
                                 ),
                               ),
@@ -117,7 +109,8 @@ class CapituloTile extends StatelessWidget {
             id: datasnapshot.data['id'] ?? '',
             bloqueado: datasnapshot.data['bloqueado'] ?? null,
             missoes: datasnapshot.data['missoes'] ?? [],
-            nome: datasnapshot.data['nome'] ?? 0);
+            nome: datasnapshot.data['nome'] ?? 0,
+            disponibilidade: datasnapshot.data['disponibilidade'] ?? {});
         flag = true;
       } else {
         print("No such capitulo");

@@ -72,15 +72,15 @@ class _AventuraListState extends State<AventuraList> {
               return FutureBuilder<void>(
                 future:  getImage(aventuras[index], index),
                 builder: (context, AsyncSnapshot<void> snapshot) {
-                  
+                 
+                
                     return GestureDetector(
                         onTap: () {
                           showOptions(aventuras[index]);
                         },
                         child: Card(aventura: aventuras[index], image_capa: images[index]));
                   
-                
-                  
+               
               });
             }
       ),

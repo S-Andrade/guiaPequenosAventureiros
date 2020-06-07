@@ -198,7 +198,7 @@ class _ResultsByMissionUploadForTurmaState
                                                           fontSize: 15)),
                                                 ),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.green[300],
+                                                    color: Colors.green,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
@@ -230,7 +230,7 @@ class _ResultsByMissionUploadForTurmaState
                                                 ),
                                                 width: 100,
                                                 decoration: BoxDecoration(
-                                                    color: Colors.red[300],
+                                                    color: Colors.red,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),

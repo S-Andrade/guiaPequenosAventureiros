@@ -8,6 +8,7 @@ import 'package:feature_missoes_moderador/widgets/color_loader.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:feature_missoes_moderador/widgets/video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PerfilAlunoScreen extends StatefulWidget {
   String alunoId;
@@ -79,23 +80,22 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
           Map<String, List> perguntaRespostas = {};
           Map<String, List> respostas = {};
           List lista = [];
+         
           if (value2[1] != []) {
-            for (var i = 0; i < value2[1].length; i++) {
-              getPerguntasDoQuestionario(value2[1][i]).then((perguntas) {
-                respostas = getQuestionarioRespostas(
-                    perguntas, alunoId, perguntaRespostas);
-                if (i == (value2[1].length - 1))
-                  for (var a in respostas.entries) {
-                    lista.add([a.key, a.value]);
-                    while (a.value.length != 3) a.value.add("");
-                  }
+            getPerguntasDoQuestionarioForAventura(value2[1]).then((perguntas) {
+              respostas = getQuestionarioRespostas(
+                  perguntas, alunoId, perguntaRespostas);
+              for (var a in respostas.entries) {
+                lista.add([a.key, a.value]);
+              }
 
-                if (lista.length != 0)
-                  setState(() {
-                    respostasFinal = lista;
-                  });
-              });
-            }
+              if (lista.length != 0) {
+                for (var a in lista) while (a[1].length != 3) a[1].add("");
+                setState(() {
+                  respostasFinal = lista;
+                });
+              }
+            });
           } else
             setState(() {
               respostasFinal = ["null"];
@@ -112,6 +112,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
       if (aluno.idadeAluno != 'idade') {
         if (resultsByCapitulo.length != 0) {
           if (respostasFinal.length != 0) {
+            print(respostasFinal);
             if (respostasFinal[0] == "null")
               setState(() {
                 _questExists = false;
@@ -167,23 +168,21 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                               padding: const EdgeInsets.all(20.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(20.0),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(0.1),
-                                                      blurRadius:
-                                                          5.0, // has the effect of softening the shadow
-                                                      spreadRadius:
-                                                          2.0, // has the effect of extending the shadow
-                                                      offset: Offset(
-                                                        0.0, // horizontal
-                                                        2.5, // vertical
-                                                      ),
-                                                    )
-                                                  ]),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius:
+                                            5.0, // has the effect of softening the shadow
+                                        spreadRadius:
+                                            2.0, // has the effect of extending the shadow
+                                        offset: Offset(
+                                          0.0, // horizontal
+                                          2.5, // vertical
+                                        ),
+                                      )
+                                    ]),
                                 child: Column(
                                   children: <Widget>[
                                     Padding(
@@ -211,12 +210,14 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                   const EdgeInsets
                                                                           .only(
                                                                       left: 30,
-                                                                      bottom: 20,
+                                                                      bottom:
+                                                                          20,
                                                                       top: 20),
                                                               child: Text(
                                                                 aluno.id,
                                                                 style: TextStyle(
-                                                                    fontSize: 25,
+                                                                    fontSize:
+                                                                        25,
                                                                     color: parseColor(
                                                                         "#f4a09c"),
                                                                     letterSpacing:
@@ -236,12 +237,15 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                           .only(
-                                                                      left: 30.0,
-                                                                      bottom: 15),
+                                                                      left:
+                                                                          30.0,
+                                                                      bottom:
+                                                                          15),
                                                               child: Text(
                                                                 aluno.idadeAluno +
                                                                     " anos",
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize: 20,
                                                                   letterSpacing:
                                                                       1,
@@ -258,12 +262,15 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                           .only(
-                                                                      left: 30.0,
-                                                                      bottom: 10),
+                                                                      left:
+                                                                          30.0,
+                                                                      bottom:
+                                                                          10),
                                                               child: Text(
                                                                 "Turma " +
                                                                     aluno.turma,
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize: 20,
                                                                   letterSpacing:
                                                                       1,
@@ -280,14 +287,17 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                           .only(
-                                                                      left: 33.0,
-                                                                      bottom: 0),
+                                                                      left:
+                                                                          33.0,
+                                                                      bottom:
+                                                                          0),
                                                               child: Text(
                                                                   "Escola " +
                                                                       escolaNome,
                                                                   style:
                                                                       TextStyle(
-                                                                    fontSize: 20,
+                                                                    fontSize:
+                                                                        20,
                                                                     letterSpacing:
                                                                         1,
                                                                   )),
@@ -301,8 +311,9 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                   left: 0.0, right: 40),
                                               child: Column(children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 30.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 30.0),
                                                   child: Row(children: <Widget>[
                                                     Text(
                                                       'Dados sócio-demográficos',
@@ -324,26 +335,28 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                     child: Center(
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: Text("  Ver ",
                                                             style: TextStyle(
                                                               fontSize: 20,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               letterSpacing: 1,
                                                             )),
                                                       ),
                                                     ),
                                                     decoration: BoxDecoration(
-                                                        color:
-                                                            parseColor("#f4a09c"),
+                                                        color: parseColor(
+                                                            "#f4a09c"),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                20.0),
+                                                            BorderRadius
+                                                                .circular(20.0),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color: Colors.black
-                                                                .withOpacity(0.1),
+                                                                .withOpacity(
+                                                                    0.1),
                                                             blurRadius:
                                                                 5.0, // has the effect of softening the shadow
                                                             spreadRadius:
@@ -397,26 +410,31 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ]),
                                               ),
                                               Row(children: <Widget>[
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 30.0, right: 40),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 30.0,
+                                                          right: 40),
                                                   child: Container(
-                                                      height: 130,
-                                                      width: 170,
+                                                      height: 150,
+                                                      width: 200,
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(20.0),
+                                                                  .circular(
+                                                                      20.0),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                              color: Colors.black
+                                                              color: Colors
+                                                                  .black
                                                                   .withOpacity(
                                                                       0.1),
                                                               blurRadius:
@@ -437,8 +455,9 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                     .all(8.0),
                                                             child: Text(
                                                                 "Total Capítulos",
-                                                                style: TextStyle(
-                                                                  fontSize: 18,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
                                                                   color: parseColor(
                                                                       "#f4a09c"),
                                                                   letterSpacing:
@@ -453,7 +472,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                 resultsByCapitulo
                                                                     .length
                                                                     .toString(),
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize: 60,
                                                                   color: Colors
                                                                       .black,
@@ -465,19 +485,22 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                       )),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 0.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 0.0),
                                                   child: Container(
-                                                      height: 130,
-                                                      width: 170,
+                                                      height: 150,
+                                                      width: 200,
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(20.0),
+                                                                  .circular(
+                                                                      20.0),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                              color: Colors.black
+                                                              color: Colors
+                                                                  .black
                                                                   .withOpacity(
                                                                       0.1),
                                                               blurRadius:
@@ -497,9 +520,10 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                 const EdgeInsets
                                                                     .all(8.0),
                                                             child: Text(
-                                                                "Atual",
-                                                                style: TextStyle(
-                                                                  fontSize: 18,
+                                                                "Nº de Cromos ganhos",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
                                                                   color: parseColor(
                                                                       "#f4a09c"),
                                                                   letterSpacing:
@@ -511,8 +535,11 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                 const EdgeInsets
                                                                     .all(10.0),
                                                             child: Text(
-                                                               "3",
-                                                                style: TextStyle(
+                                                                aluno.cromos
+                                                                    .length
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
                                                                   fontSize: 60,
                                                                   color: Colors
                                                                       .black,
@@ -531,18 +558,21 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                             child: Column(children: <Widget>[
                                               Row(children: <Widget>[
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 40.0, right: 20),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40.0,
+                                                          right: 20),
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                20.0),
+                                                            BorderRadius
+                                                                .circular(20.0),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color: Colors.black
-                                                                .withOpacity(0.1),
+                                                                .withOpacity(
+                                                                    0.1),
                                                             blurRadius:
                                                                 5.0, // has the effect of softening the shadow
                                                             spreadRadius:
@@ -603,7 +633,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                         child: _questExists
                                             ? Container(
                                                 height: 600,
-                                                width: 850,
+                                                width: 920,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
@@ -635,14 +665,15 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                         color: Colors.white,
                                                         child: Row(children: [
                                                           Text(
-                                                            '     Questão                                                              Q 1      Q 2     Q 3',
+                                                            '     Questão                                                                1º           2º         3º',
                                                             style: TextStyle(
                                                               fontSize: 25,
                                                               letterSpacing: 1,
                                                               color: parseColor(
                                                                   "#f4a09c"),
                                                               fontWeight:
-                                                                  FontWeight.w700,
+                                                                  FontWeight
+                                                                      .w700,
                                                             ),
                                                           )
                                                         ])),
@@ -663,8 +694,10 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                           .only(
-                                                                      left: 10.0,
-                                                                      right: 10),
+                                                                      left:
+                                                                          10.0,
+                                                                      right:
+                                                                          10),
                                                               child: Column(
                                                                   children: [
                                                                     Container(
@@ -674,37 +707,36 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                             .white,
                                                                         child:
                                                                             Container(
-                                                                          child: Row(
-                                                                              children: [
-                                                                                Container(
-                                                                                 
-                                                                                  width: 500,
-                                                                                  child: Row(children: [
-                                                                                    Expanded(
-                                                                                        child: ListView(children: [
-                                                                                      Text(
-                                                                                        respostasFinal[index][0],
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 18,
-                                                                                          letterSpacing: 1,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ])),
-                                                                                  ]),
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.only(left: 30.0),
-                                                                                  child: Text(respostasFinal[index][1][0], style: const TextStyle(fontSize: 15.0)),
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.only(left: 10.0),
-                                                                                  child: Text(respostasFinal[index][1][1], style: const TextStyle(fontSize: 15.0)),
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.only(left: 10.0),
-                                                                                  child: Text(respostasFinal[index][1][2], style: const TextStyle(fontSize: 15.0)),
-                                                                                )
+                                                                          child:
+                                                                              Row(children: [
+                                                                            Container(
+                                                                              width: 520,
+                                                                              child: Row(children: [
+                                                                                Expanded(
+                                                                                    child: ListView(children: [
+                                                                                  Text(
+                                                                                    respostasFinal[index][0],
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      letterSpacing: 1,
+                                                                                    ),
+                                                                                  ),
+                                                                                ])),
                                                                               ]),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 30.0),
+                                                                              child: Text(respostasFinal[index][1][0], style: const TextStyle(fontSize: 15.0)),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 20.0),
+                                                                              child: Text(respostasFinal[index][1][1], style: const TextStyle(fontSize: 15.0)),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left:20.0),
+                                                                              child: Text(respostasFinal[index][1][2], style: const TextStyle(fontSize: 15.0)),
+                                                                            )
+                                                                          ]),
                                                                         ))
                                                                   ]),
                                                             );
@@ -726,7 +758,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                               )
                                             : Container(
                                                 height: 250,
-                                                width: 1100,
+                                                width: 920,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
@@ -748,14 +780,13 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                     ]),
                                                 child: Center(
                                                   child: Text(
-                                                    "Ainda não foram feitos questonários..",
+                                                    "Ainda não foram feitos questonários.",
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w900,
-                                                        fontFamily: 'Amatic SC',
+                                                        
+                                                        fontFamily: 'Monteserrat',
                                                         letterSpacing: 2,
-                                                        fontSize: 30),
+                                                        fontSize: 20),
                                                   ),
                                                 )),
                                       )
@@ -781,11 +812,12 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                               top: 30.0, bottom: 30, left: 30),
                                           child: Container(
                                               height: _little ? 350 : 700,
-                                              width: 850,
+                                              width: 920,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(20.0),
+                                                      BorderRadius.circular(
+                                                          20.0),
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black
@@ -833,8 +865,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                             height: 200,
                                                             width: 200,
                                                             decoration: BoxDecoration(
-                                                                color:
-                                                                    Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -921,11 +953,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
               return Scaffold(
                   body: Container(
                       color: Colors.transparent,
-                      child: Center(
-                          child: Container(
-                              child: ColorLoader(
-                       
-                      )))));
+                      child: Center(child: Container(child: ColorLoader()))));
           } else
             return Scaffold(
                 body: Container(
@@ -936,11 +964,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    child: Center(
-                        child: Container(
-                            child: ColorLoader(
-                    
-                    )))));
+                    child: Center(child: Container(child: ColorLoader()))));
         } else
           return Scaffold(
               body: Container(
@@ -951,11 +975,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: Center(
-                      child: Container(
-                          child: ColorLoader(
-                    
-                  )))));
+                  child: Center(child: Container(child: ColorLoader()))));
       } else
         return Scaffold(
             body: Container(
@@ -970,21 +990,21 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                     child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 170.0, right: 250),
+                      padding: const EdgeInsets.only(top: 230.0, right: 250),
                       child: Text(
-                        "\n\n\n\n\n\n\n\nAinda não há dados para este aluno...\n\nIsto significa que ele ainda não fez uma única vez login.",
+                        "\n\n\n\n\n\n\n\nAinda não há dados para esta criança.\n\nIsto significa que ele ainda não fez uma única vez login.",
                         style: TextStyle(
                             color: Colors.black,
-                            fontWeight: FontWeight.w900,
+                            
                             fontFamily: 'Monteserrat',
                             letterSpacing: 2,
-                            fontSize: 30),
+                            fontSize: 20),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 80.0,
-                        right: 950,
+                        right: 500,
                       ),
                       child: FlatButton(
                         color: parseColor("F4F19C"),
@@ -1005,19 +1025,15 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                 ))));
     }
     return Scaffold(
-              body: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/12.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Center(
-                      child: Container(
-                          child: ColorLoader(
-                   
-                  )))));
+        body: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage("assets/images/12.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(child: Container(child: ColorLoader()))));
   }
 
   _openImage(BuildContext context, link) {
@@ -1127,10 +1143,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                               fontSize: 15),
                         ),
                         Text(
-                          (DateTime.parse(aluno.dataNascimentoAluno
-                                  .toDate()
-                                  .toString()))
-                              .toString(),
+                          DateFormat('yyyy-MM-dd')
+                              .format(aluno.dataNascimentoAluno.toDate()),
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
@@ -1199,7 +1213,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                               fontSize: 15),
                         ),
                         Text(
-                          aluno.frequentouPre.toString(),
+                          (aluno.frequentouPre == true) ? "Sim" : "Não",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',

@@ -27,6 +27,7 @@ class Aluno {
   Aluno();
 
   Aluno.fromMap(Map<String, dynamic> data) {
+ 
     dataNascimentoAluno = data['dataNascimentoAluno'];
     generoAluno = data['generoAluno'];
     habilitacoesMae = data['habilitacoesMae'];

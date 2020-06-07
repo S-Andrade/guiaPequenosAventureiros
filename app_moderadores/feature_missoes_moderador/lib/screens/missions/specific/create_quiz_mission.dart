@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
@@ -507,7 +508,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -522,7 +523,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         createMissionQuiz(
@@ -533,13 +534,16 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
           _textPontos.clear();
           missionNotifier.currentQuestion = null;
         });
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) =>
-                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
+         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CapituloDetails(
+                                    capitulo: capitulo, aventura: aventuraId)));
       },
     );
 
     popup.show(
+      close:Container(),
       title: Text(
         "",
         style: TextStyle(
@@ -556,7 +560,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       actions: [
         cancelaButton,

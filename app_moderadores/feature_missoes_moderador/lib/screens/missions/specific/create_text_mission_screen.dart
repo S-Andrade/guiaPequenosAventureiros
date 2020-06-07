@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
@@ -394,9 +395,11 @@ final _textPontos = TextEditingController();
       ),
       onPressed: () {
         createMissionTextInFirestore(titulo, conteudo, aventuraId.id, capitulo.id,pontos);
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventura: aventuraId)));
+        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CapituloDetails(
+                                    capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

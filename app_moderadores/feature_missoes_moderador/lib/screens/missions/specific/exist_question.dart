@@ -44,10 +44,10 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
       });
       nSelected = selected.length;
     });
-    print('lololololololoololol');
+  
     print(missionNotifier.selectedQuestions.toString());
     missionNotifier.selectedQuestions.clear();
-    print('lel');
+    
     print(missionNotifier.selectedQuestions.toString());
     print(selected.toString());
     return Scaffold(
