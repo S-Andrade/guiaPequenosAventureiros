@@ -13,20 +13,20 @@ import '../../synthesizeText.dart';
 // MOVER AO MERGE
 import 'package:audioplayers/audio_cache.dart';
 
-
 class CreateCompanheiro extends StatefulWidget {
   CreateCompanheiroState createState() => CreateCompanheiroState();
 }
 
 class CreateCompanheiroState extends State<CreateCompanheiro> {
   // Sound Effects
-  static AudioCache effectsPlayer = AudioCache(prefix: 'assets/audio/');
+  static AudioCache effectsPlayer = AudioCache(prefix: 'audio/');
   // Text to Speech Synth
   Synth reader = Synth(); //
 
   IdleControls _flareController;
 
   final myController = TextEditingController();
+  List<bool> _isSelectedEyes = [false, false, false, false];
 
   @override
   initState() {
@@ -55,8 +55,15 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
     });
   }
 
-  void _selectEye(String howManyEyes) {
+  void _selectEye(String howManyEyes, int index) {
     setState(() {
+        for (int i = 0;i < _isSelectedEyes.length;i++) {
+          if (i == index) {
+            _isSelectedEyes[i] = true;
+          } else {
+            _isSelectedEyes[i] = false;
+          }
+        }
       effectsPlayer.play('cartoon_bubble_pop_007.mp3');
       _flareController.changeEye(howManyEyes);
       _flareController.isActive.value = true;
@@ -128,7 +135,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
           //Center(
-          child: GestureDetector(  behavior: HitTestBehavior.opaque,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onPanDown: (_) {
               FocusScope.of(context).requestFocus(FocusNode());
             },
@@ -262,7 +270,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   child: Wrap(
                                     alignment: WrapAlignment.center,
                                     runAlignment: WrapAlignment.center,
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -279,7 +288,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: GestureDetector(
-                                          onTap: () => _selectArtboard('square'),
+                                          onTap: () =>
+                                              _selectArtboard('square'),
                                           child: SvgPicture.asset(
                                             assetSquare,
                                             color: Color(0x99FFFFFF),
@@ -290,7 +300,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: GestureDetector(
-                                          onTap: () => _selectArtboard('circle'),
+                                          onTap: () =>
+                                              _selectArtboard('circle'),
                                           child: SvgPicture.asset(
                                             assetCircle,
                                             color: Color(0x99FFFFFF),
@@ -324,7 +335,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: GestureDetector(
-                                          onTap: () => _selectArtboard('diamond'),
+                                          onTap: () =>
+                                              _selectArtboard('diamond'),
                                           child: SvgPicture.asset(
                                             assetDiamond,
                                             matchTextDirection: false,
@@ -390,10 +402,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: BoxDecoration(
-//                              border: Border.all(width: 1),
-                                        ),
-//                          height: 500,
+                                    decoration: BoxDecoration(),
                                     child: Center(
                                       child: InkWell(
                                         onTap: () => reader.synthesizeText(
@@ -415,23 +424,22 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40.0),
                                   child: Row(
                                     children: <Widget>[
                                       Expanded(
                                         child: ButtonBar(
-                                          alignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          //mainAxisSize: MainAxisSize.max,
-                                          //layoutBehavior: ButtonBarLayoutBehavior.padded,
-                                          buttonHeight: 40,
+                                          alignment: MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
+                                            Wrap(
+                                                direction: Axis.horizontal,
+                                                alignment: WrapAlignment.center,
+                                                spacing: 10.0,
+                                                runSpacing: 5.0,
                                                 children: <Widget>[
                                                   FlatButton(
-                                                    //child: Text('Ok'),
+                                                    child: Text(''),
                                                     color: Color(0xffFE595A),
                                                     onPressed: () =>
                                                         _changeColour(0),
@@ -439,7 +447,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     shape: CircleBorder(),
                                                   ),
                                                   FlatButton(
-                                                    //child: Text(''),
+                                                    child: Text(''),
                                                     color: Color(0xffFF842A),
                                                     onPressed: () =>
                                                         _changeColour(1),
@@ -447,7 +455,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     shape: CircleBorder(),
                                                   ),
                                                   FlatButton(
-                                                    //child: Text(''),
+                                                    child: Text(''),
                                                     color: Color(0xffFEE32B),
                                                     onPressed: () =>
                                                         _changeColour(2),
@@ -455,20 +463,15 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     shape: CircleBorder(),
                                                   ),
                                                   FlatButton(
-                                                    //child: Text('Ok'),
+                                                    child: Text(''),
                                                     color: Color(0xff48D597),
                                                     onPressed: () =>
                                                         _changeColour(3),
                                                     padding: EdgeInsets.all(16),
                                                     shape: CircleBorder(),
                                                   ),
-                                                ]),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
-                                                children: <Widget>[
                                                   FlatButton(
-                                                    //child: Text(''),
+                                                    child: Text(''),
                                                     color: Color(0xff00B5E2),
                                                     onPressed: () =>
                                                         _changeColour(4),
@@ -476,7 +479,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     shape: CircleBorder(),
                                                   ),
                                                   FlatButton(
-                                                    //child: Text(''),
+                                                    child: Text(''),
                                                     color: Color(0xff825DC7),
                                                     onPressed: () =>
                                                         _changeColour(5),
@@ -484,7 +487,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     shape: CircleBorder(),
                                                   ),
                                                   FlatButton(
-                                                    //child: Text(''),
+                                                    child: Text(''),
                                                     color: Color(0xffFB637E),
                                                     onPressed: () =>
                                                         _changeColour(6),
@@ -519,8 +522,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 10),
                                   child: InkWell(
-                                    onTap: () => reader
-                                        .synthesizeText('Quantos olhos preciso?'),
+                                    onTap: () => reader.synthesizeText(
+                                        'Quantos olhos preciso?'),
                                     child: Flexible(
                                       child: Text(
                                         'Temos de estar atentos nas Aventuras!',
@@ -583,20 +586,27 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Expanded(
                                       child: ButtonBar(
-                                        alignment: MainAxisAlignment.spaceEvenly,
-                                        //mainAxisSize: MainAxisSize.max,
-                                        //layoutBehavior: ButtonBarLayoutBehavior.padded,
+                                        alignment:
+                                            MainAxisAlignment.spaceEvenly,
+//                                        mainAxisSize: MainAxisSize.max,
+//                                        layoutBehavior: ButtonBarLayoutBehavior.padded,
                                         buttonHeight: 40,
                                         children: <Widget>[
                                           Row(
                                             children: [
                                               OutlineButton(
                                                 borderSide: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white),
+                                                  width: _isSelectedEyes[0]
+                                                      ? 4
+                                                      : 2,
+                                                  color: _isSelectedEyes[0]
+                                                      ? Colors.greenAccent
+                                                      : Colors.white,
+                                                ),
                                                 child: Text(
                                                   '1',
                                                   textAlign: TextAlign.center,
@@ -605,18 +615,25 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 18,
-                                                        color: Colors.white),
+                                                        color:  _isSelectedEyes[0]
+                                                            ? Colors.greenAccent
+                                                            : Colors.white),
                                                   ),
                                                 ),
                                                 color: Color(0xffFE595A),
-                                                onPressed: () => _selectEye('one_eye'),
+                                                onPressed: () =>
+                                                    _selectEye('one_eye', 0),
                                                 padding: EdgeInsets.all(12),
                                                 shape: CircleBorder(),
                                               ),
                                               OutlineButton(
                                                 borderSide: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white),
+                                                  width: _isSelectedEyes[1]
+                                                      ? 4
+                                                      : 2,
+                                                  color: _isSelectedEyes[1]
+                                                      ? Colors.greenAccent
+                                                      : Colors.white,),
                                                 child: Text(
                                                   '2',
                                                   textAlign: TextAlign.center,
@@ -625,18 +642,25 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 18,
-                                                        color: Colors.white),
+                                                        color:  _isSelectedEyes[1]
+                                                            ? Colors.greenAccent
+                                                            : Colors.white),
                                                   ),
                                                 ),
                                                 color: Color(0xffFE595A),
-                                                onPressed: () => _selectEye('two_eyes'),
+                                                onPressed: () =>
+                                                    _selectEye('two_eyes', 1),
                                                 padding: EdgeInsets.all(12),
                                                 shape: CircleBorder(),
                                               ),
                                               OutlineButton(
                                                 borderSide: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white),
+                                                  width: _isSelectedEyes[2]
+                                                      ? 4
+                                                      : 2,
+                                                  color: _isSelectedEyes[2]
+                                                      ? Colors.greenAccent
+                                                      : Colors.white,),
                                                 child: Text(
                                                   '3',
                                                   textAlign: TextAlign.center,
@@ -645,18 +669,25 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 18,
-                                                        color: Colors.white),
+                                                        color:  _isSelectedEyes[2]
+                                                            ? Colors.greenAccent
+                                                            : Colors.white),
                                                   ),
                                                 ),
                                                 color: Color(0xffFE595A),
-                                                onPressed: () => _selectEye('three_eyes'),
+                                                onPressed: () =>
+                                                    _selectEye('three_eyes', 2),
                                                 padding: EdgeInsets.all(12),
                                                 shape: CircleBorder(),
                                               ),
                                               OutlineButton(
                                                 borderSide: BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white),
+                                                  width: _isSelectedEyes[3]
+                                                      ? 4
+                                                      : 2,
+                                                  color: _isSelectedEyes[3]
+                                                      ? Colors.greenAccent
+                                                      : Colors.white,),
                                                 child: Text(
                                                   '+',
                                                   textAlign: TextAlign.center,
@@ -665,11 +696,14 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 18,
-                                                        color: Colors.white),
+                                                        color:  _isSelectedEyes[3]
+                                                            ? Colors.greenAccent
+                                                            : Colors.white),
                                                   ),
                                                 ),
                                                 color: Color(0xffFE595A),
-                                                onPressed: () => _selectEye('multi_eyes'),
+                                                onPressed: () =>
+                                                    _selectEye('multi_eyes', 3),
                                                 padding: EdgeInsets.all(12),
                                                 shape: CircleBorder(),
                                               ),
@@ -761,7 +795,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       ),
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -771,7 +806,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.black),
                                               ),
@@ -781,7 +817,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   BorderRadius.circular(30.0),
                                             ),
                                             color: Colors.white,
-                                            onPressed: () => _selectMouth('silly'),
+                                            onPressed: () =>
+                                                _selectMouth('silly'),
                                             padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                           ),
@@ -794,7 +831,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.black),
                                               ),
@@ -805,7 +843,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             ),
 
                                             color: Colors.white,
-                                            onPressed: () => _selectMouth('vampire'),
+                                            onPressed: () =>
+                                                _selectMouth('vampire'),
                                             padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                           ),
@@ -932,7 +971,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.black),
                                               ),
@@ -942,7 +982,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   BorderRadius.circular(30.0),
                                             ),
                                             color: Colors.white,
-                                            onPressed: () => _selectHeadTop('antenas'),
+                                            onPressed: () =>
+                                                _selectHeadTop('antenas'),
                                             padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                           ),
@@ -952,7 +993,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.black),
                                               ),
@@ -963,7 +1005,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             ),
 
                                             color: Colors.white,
-                                            onPressed: () => _selectHeadTop('pineapple'),
+                                            onPressed: () =>
+                                                _selectHeadTop('pineapple'),
                                             padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                           ),
@@ -973,7 +1016,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.black),
                                               ),
@@ -984,7 +1028,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             ),
 
                                             color: Colors.white,
-                                            onPressed: () => _selectHeadTop('bald'),
+                                            onPressed: () =>
+                                                _selectHeadTop('bald'),
                                             padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                           ),
@@ -1076,7 +1121,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     Wrap(
                                       alignment: WrapAlignment.center,
                                       runAlignment: WrapAlignment.center,
-                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
                                       spacing: 10.0,
                                       runSpacing: 5.0,
                                       children: <Widget>[
@@ -1096,7 +1142,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 BorderRadius.circular(30.0),
                                           ),
                                           color: Colors.white,
-                                          onPressed: () => _selectBodyPart('bat_wings'),
+                                          onPressed: () =>
+                                              _selectBodyPart('bat_wings'),
                                           padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                         ),
@@ -1117,7 +1164,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           ),
 
                                           color: Colors.white,
-                                          onPressed: () => _selectBodyPart('tentacles'),
+                                          onPressed: () =>
+                                              _selectBodyPart('tentacles'),
                                           padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                         ),
@@ -1138,7 +1186,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           ),
 
                                           color: Colors.white,
-                                          onPressed: () => _selectBodyPart('arms'),
+                                          onPressed: () =>
+                                              _selectBodyPart('arms'),
                                           padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                         ),
@@ -1159,7 +1208,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           ),
 
                                           color: Colors.white,
-                                          onPressed: () => _selectBodyPart('nothing'),
+                                          onPressed: () =>
+                                              _selectBodyPart('nothing'),
                                           padding: EdgeInsets.all(10),
 //                                              shape: CircleBorder(),
                                         ),
@@ -1252,8 +1302,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         autofocus: true,
                                         maxLength: 30,
                                         controller: myController,
-                                        decoration:
-                                            InputDecoration(hintText: 'Escreve aqui...'),
+                                        decoration: InputDecoration(
+                                            hintText: 'Escreve aqui...'),
                                       ),
                                     ),
                                   ],
@@ -1380,7 +1430,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                       child: _currentPage == 6
                           ? Container(
                               child: FlatButton(
-                                onPressed: () => _saveNameSharedPref(myController.text),
+                                onPressed: () =>
+                                    _saveNameSharedPref(myController.text),
                                 color: Colors.transparent,
                                 textColor: Colors.white,
 //                              disabledColor: Colors.white,

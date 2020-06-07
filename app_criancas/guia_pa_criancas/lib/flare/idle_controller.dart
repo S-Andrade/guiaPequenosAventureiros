@@ -100,10 +100,28 @@ class IdleControls extends FlareController {
   ];
 
   void changeShapeColour(int selectColour) {
+    // BODY
     _fillBodyColor = availableColours[selectColour];
-//      _fillBodyColor = Color(selectColour);
-//    if _fillPineappleColor > Color(0x00E5E5E5);)
-    // advance the controller
+    if (_fillWingsColor.value > Color(0x00E5E5E5).value) {
+      _fillWingsColor = availableColours[selectColour];
+    }
+    if (_fillArmsColor.value > Color(0x00E5E5E5).value) {
+      _fillArmsColor = availableColours[selectColour];
+    }
+    if (_fillTentaclesColor.value > Color(0x00E5E5E5).value) {
+      _fillTentaclesColor = availableColours[selectColour];
+    }
+
+    //HEAD
+    if (_fillPineappleColor.value > Color(0x00E5E5E5).value) {
+      _fillPineappleColor = availableColours[selectColour];
+    }
+    if (_fillAntenasColor.value > Color(0x00E5E5E5).value) {
+      _fillAntenasColor = availableColours[selectColour];
+    }
+
+
+
     isActive.value = true;
   }
 
