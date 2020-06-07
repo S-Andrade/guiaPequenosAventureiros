@@ -119,6 +119,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   void dispose() {
     timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
+    _cameracontroller.dispose();
     super.dispose();
   }
 
