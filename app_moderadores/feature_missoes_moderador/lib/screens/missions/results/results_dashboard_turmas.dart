@@ -399,7 +399,7 @@ class _ResultsDashboardTurmasScreenState
                                                 ),
                                                
                                                 GestureDetector(
-                                                  onTap: () {showConfirmar(context,turmas[index].nome,capitulo,aventuraId);}, 
+                                                  onTap: () {showConfirmar(context,turmas[index].nome,turmas[index].id,capitulo,aventuraId);}, 
                                                                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(top:120.0),
@@ -518,7 +518,7 @@ class _ResultsDashboardTurmasScreenState
   }
 
   showConfirmar(BuildContext context, 
-      String turma,Capitulo capitulo,Aventura aventura) {
+      String turma,String turmaId,Capitulo capitulo,Aventura aventura) {
     final popup = BeautifulPopup.customize(
       context: context,
       build: (options) => MyTemplateConfirmation(options),
@@ -548,7 +548,8 @@ class _ResultsDashboardTurmasScreenState
             fontSize: 20),
       ),
       onPressed: () async {
-        await desbloquearCapituloParaTurma(capitulo,turma);
+        print(turmaId);
+        await desbloquearCapituloParaTurma(capitulo,turmaId);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) =>
                 TabBarMissions(capitulo: capitulo, aventura: aventura)));
