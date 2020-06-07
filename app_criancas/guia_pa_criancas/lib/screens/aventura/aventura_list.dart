@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'aventura.dart';
 import 'package:provider/provider.dart';
 import 'aventura_tile.dart';
@@ -89,6 +90,7 @@ class _AventuraListState extends State<AventuraList> {
   Future<void> getAllAventuras(BuildContext context) async{aventura = Provider.of<List<Aventura>>(context);}
   Future<void> getAllTurmas(BuildContext context) async{turma = Provider.of<List<Turma>>(context);}
   Future<void> getAllEscolas(BuildContext context) async{escola = Provider.of<List<Escola>>(context);}
+  
   Future<void> getTurma() async{
     if(turma != null){
       for (Turma t in turma){
@@ -97,6 +99,8 @@ class _AventuraListState extends State<AventuraList> {
         //print(user.email);
         if(t.alunos.contains(user.email)){
           turmaIn = t;
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("turma", turmaIn.id);
         }
       }
     }
