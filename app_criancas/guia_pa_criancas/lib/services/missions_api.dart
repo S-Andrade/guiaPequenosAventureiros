@@ -123,7 +123,7 @@ getUserAmigo(String email) async {
       await Firestore.instance.collection('companheiro').getDocuments();
       bool dataSaved;
   companheiros.documents.forEach((element) {
-    if (element.documentID == 'email') {
+    if (element.documentID == email) {
       dataSaved= true;
     } else {
       dataSaved= false;
