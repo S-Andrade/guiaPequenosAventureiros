@@ -5,6 +5,7 @@ import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../models/mission.dart';
@@ -141,7 +142,7 @@ class _UploadImageScreenTabletPortraitState
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 30,
                                   color: Colors.white),
                             ),
                           ),
@@ -221,6 +222,7 @@ class _UploadImageScreenTabletPortraitState
                                             )),
                                 ),
                               ),
+
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -257,14 +259,6 @@ class _UploadImageScreenTabletPortraitState
                               ),
                             ],
                           ),
-//                          Builder(
-//                              builder: (BuildContext) => _loaded
-//                                  ? Icon(
-//                                      FontAwesomeIcons.checkCircle,
-//                                      color: Colors.green,
-//                                      size: 50.0,
-//                                    )
-//                                  : Container()),
                         ]),
                   ),
                 ),
@@ -350,12 +344,73 @@ class _UploadImageScreenTabletPortraitState
         Navigator.pop(context);
       });
     } else {
-      Timer(Duration(milliseconds: 3000), () async {
-        _upload();
-        await updatePoints(_userID, mission.points);
-        Navigator.pop(context);
-      });
+      enviarDialog();
     }
+  }
+
+  enviarDialog() {
+    final TextEditingController _pin = TextEditingController();
+    int _pinIntro = 0;
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Enviar imagem'),
+            content: FractionallySizedBox(
+                heightFactor: 0.4,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: TextField(
+                        controller: _pin,
+                        onChanged: (value) {
+                          setState(() {
+                            _pinIntro = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          hintText: "Insira o ano em que nasceu",
+                        ),
+                      )),
+                )),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("Não enviar"),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () async {
+                  List datas = await getUserInfoEEPaiMae(_userID);
+                  if (datas.contains(_pinIntro)) {
+                    Timer(Duration(milliseconds: 3000), () async {
+                      _upload();
+                      await updatePoints(_userID, mission.points);
+                      Navigator.pop(context);
+                    });
+                    Navigator.pop(context);
+                    setState(() {
+                      _done =true;
+                      _loadButton();
+                    });
+                    
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Verifique se inseriu o pin correto",
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white);
+                  }
+                },
+                child: Text("Enviar"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 
   //adiciona a pontuação e os cromos ao aluno e turma
@@ -376,7 +431,8 @@ class _UploadImageScreenTabletPortraitState
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -398,13 +454,16 @@ class _UploadImageScreenTabletPortraitState
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -412,20 +471,21 @@ class _UploadImageScreenTabletPortraitState
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -461,7 +521,8 @@ class _UploadImageScreenTabletPortraitState
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -489,22 +550,24 @@ class _UploadImageScreenTabletPortraitState
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -512,7 +575,6 @@ class _UploadImageScreenTabletPortraitState
                 ),
               ),
             );
-
           },
         );
       }
@@ -543,7 +605,8 @@ class _UploadImageScreenTabletPortraitState
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -571,22 +634,24 @@ class _UploadImageScreenTabletPortraitState
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -594,7 +659,6 @@ class _UploadImageScreenTabletPortraitState
                 ),
               ),
             );
-
           },
         );
       }

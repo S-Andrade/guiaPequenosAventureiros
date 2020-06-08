@@ -1,5 +1,7 @@
+import 'package:app_criancas/screens/companheiro/companheiro_creation.dart';
 import 'package:app_criancas/services/database.dart';
 import 'package:app_criancas/widgets/color_parser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +27,15 @@ class _UserDataState extends State<UserData> {
   String _genero;
   String _idade;
   String _grauParentesco;
-  String _idadeEE;
+  DateTime _idadeEE;
   String _profissaoEE;
   String _habilitacoesEE;
   String _nacionalidadeEE;
-  String _idadeMae;
+  DateTime _idadeMae;
   String _profissaoMae;
   String _habilitacoesMae;
   String _nacionalidadeMae;
-  String _idadePai;
+  DateTime _idadePai;
   String _profissaoPai;
   String _habilitacoesPai;
   String _nacionalidadePai;
@@ -85,7 +87,7 @@ class _UserDataState extends State<UserData> {
                       Text(
                         _dateTime == null
                             ? ''
-                            : '_dateTime.toString().split(' ')[0]',
+                            : _dateTime.toString().split(' ')[0],
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -321,17 +323,59 @@ class _UserDataState extends State<UserData> {
                 new Text('Outro'),
               ],
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Idade',
-                  hintText:
-                      _idadeEE == null ? 'Insira a sua idade' : 'exemplo: 39'),
-              onChanged: (String idade) {
-                setState(() {
-                  _idadeEE = idade;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: new Row(
+                children: <Widget>[
+                  Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.spaceEvenly,
+                    runAlignment: WrapAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Data de Nascimento: ',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _idadeEE == null
+                            ? ''
+                            : _idadeEE.toString().split(' ')[0],
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.calendarDay),
+                        color: parseColor("320a5c"),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate:
+                                _idadeEE == null ? DateTime.now() : _idadeEE,
+                            firstDate: DateTime(1920),
+                            lastDate: DateTime(2021),
+                            locale: const Locale('pt', 'PT'),
+                          ).then((date) {
+                            setState(() {
+                              _idadeEE = date;
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             TextFormField(
               decoration: InputDecoration(
@@ -374,17 +418,59 @@ class _UserDataState extends State<UserData> {
         state: StepState.indexed,
         content: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Idade',
-                  hintText:
-                      _idadeMae == null ? 'Insira a sua idade' : 'exemplo: 39'),
-              onChanged: (String idade) {
-                setState(() {
-                  _idadeMae = idade;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: new Row(
+                children: <Widget>[
+                  Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.spaceEvenly,
+                    runAlignment: WrapAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Data de Nascimento: ',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _idadeMae == null
+                            ? ''
+                            : _idadeMae.toString().split(' ')[0],
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.calendarDay),
+                        color: parseColor("320a5c"),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate:
+                                _idadeMae == null ? DateTime.now() : _idadeMae,
+                            firstDate: DateTime(1920),
+                            lastDate: DateTime(2021),
+                            locale: const Locale('pt', 'PT'),
+                          ).then((date) {
+                            setState(() {
+                              _idadeMae = date;
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             TextFormField(
               decoration: InputDecoration(
@@ -427,17 +513,59 @@ class _UserDataState extends State<UserData> {
         state: StepState.indexed,
         content: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Idade',
-                  hintText:
-                      _idadePai == null ? 'Insira a sua idade' : 'exemplo: 39'),
-              onChanged: (String idade) {
-                setState(() {
-                  _idadePai = idade;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: new Row(
+                children: <Widget>[
+                  Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.spaceEvenly,
+                    runAlignment: WrapAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Data de Nascimento: ',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _idadePai == null
+                            ? ''
+                            : _idadePai.toString().split(' ')[0],
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.calendarDay),
+                        color: parseColor("320a5c"),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate:
+                                _idadePai == null ? DateTime.now() : _idadePai,
+                            firstDate: DateTime(1920),
+                            lastDate: DateTime(2021),
+                            locale: const Locale('pt', 'PT'),
+                          ).then((date) {
+                            setState(() {
+                              _idadePai = date;
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             TextFormField(
               decoration: InputDecoration(
@@ -657,7 +785,7 @@ class _UserDataState extends State<UserData> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => HomeScreen(user: user)));
+                    builder: (context) =>CreateCompanheiro()));
           }
           currentStep + 1 != steps.length
               ? goTo(currentStep + 1)

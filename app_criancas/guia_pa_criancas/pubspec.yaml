@@ -87,7 +87,13 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/animation/
+#    - assets/audio
   #  - images/a_dot_ham.jpeg
+
+    # Audio Effects
+    - assets/audio/button_click_drop.mp3
+    - assets/audio/cartoon_bubble_001.mp3
+    - assets/audio/cartoon_bubble_pop_007.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

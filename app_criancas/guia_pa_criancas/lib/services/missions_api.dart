@@ -100,7 +100,7 @@ getMissions(
   });
 }
 
-//get das informações do user
+//get das informações do user e verifica se já preencheu os dados sociodemográficos
 getUserInfo(String email) async {
   print(email);
   DocumentReference user =
@@ -108,10 +108,50 @@ getUserInfo(String email) async {
   bool data = await user.get().then((value) {
     bool dataSaved;
     if (value['dataNascimentoAluno'] != null &&
-        (value['generoAluno'] == 'Masculino' || value['generoAluno'] == 'Feminino')) {
+        value['generoAluno'] != 'generoAluno') {
       dataSaved = true;
     } else {
       dataSaved = false;
+    }
+    return dataSaved;
+  });
+  return data;
+}
+
+getUserAmigo(String email) async {
+  final QuerySnapshot companheiros =
+      await Firestore.instance.collection('companheiro').getDocuments();
+      bool dataSaved;
+  companheiros.documents.forEach((element) {
+    if (element.documentID == email) {
+      dataSaved= true;
+    } else {
+      dataSaved= false;
+    }
+  });
+  return dataSaved;
+}
+
+//get das informações dos pais e ee do user
+getUserInfoEEPaiMae(String email) async {
+  DocumentReference user =
+      Firestore.instance.collection('aluno').document(email);
+  List dataSaved = [];
+  List data = await user.get().then((value) {
+    if (value['idadeEE'] != null && value['idadeEE'] != "idadeEE") {
+      Timestamp dataN = value['idadeEE'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }
+    if (value['idadePai'] != null && value['idadePai'] != "idadePai") {
+      Timestamp dataN = value['idadePai'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
+    }
+    if (value['idadeMae'] != null && value['idadeMae'] != "idadeMae") {
+      Timestamp dataN = value['idadeMae'];
+      print(dataN);
+      dataSaved.add(dataN.toDate().year);
     }
     return dataSaved;
   });
@@ -370,8 +410,8 @@ saveMissionMovementAndLightDataInFirestore(
 }
 
 saveMissionData(Mission mission, String id, Timestamp day) async {
-   Map<String, dynamic> mapa;
-   CollectionReference missionRef = Firestore.instance.collection('mission');
+  Map<String, dynamic> mapa;
+  CollectionReference missionRef = Firestore.instance.collection('mission');
 
   mission.resultados.forEach((element) {
     mapa = element;

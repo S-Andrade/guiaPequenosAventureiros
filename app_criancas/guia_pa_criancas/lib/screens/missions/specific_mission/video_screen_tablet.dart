@@ -99,8 +99,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _end = DateTime.now();
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
-    updateMissionTimeAndCounterVisitedInFirestore(
-        mission, _userID, _timeVisited, _counterVisited);
+    updateMissionTimeAndCounterVisitedInFirestoreVideo(
+        mission, _userID, _timeVisited, _counterVisited, _counterPause);
     super.deactivate();
   }
 
@@ -119,6 +119,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   void dispose() {
     timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
+    _cameracontroller.dispose();
     super.dispose();
   }
 

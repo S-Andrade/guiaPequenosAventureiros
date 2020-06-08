@@ -1,3 +1,4 @@
+import 'package:app_criancas/screens/companheiro/companheiro_creation.dart';
 import 'package:app_criancas/screens/login/user_data_screen_tablet.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -242,9 +243,14 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   }
 
   getInfo(email) async {
-    print('entrei');
     bool data = await getUserInfo(email);
-    print('looool');
+    print(data);
+    return data;
+  }
+
+  getCompInfo(email) async {
+    bool data = await getUserAmigo(email);
+    print('Amigo');
     print(data);
     return data;
   }
@@ -259,12 +265,24 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
       result = await auth.signInWithEmailAndPassword(
           email: userId, password: password);
       FirebaseUser user = result.user;
+      bool flag = await getInfo(userId);
+      bool flag2 = await getCompInfo(userId);
+      if (flag) {
+        if (flag2) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateCompanheiro()));
+        }
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => UserData(user: user)));
+      }
       setState(() {
         email = userId;
         pass = password;
         isLoggedIn = true;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
       });
       return;
     }
@@ -286,14 +304,19 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
       print(pass);
     });
     bool flag = await getInfo(email);
-    print(flag);
-    if (flag) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
-    } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => UserData(user: user)));
-    }
+    bool flag2 = await getCompInfo(email);
+      if (flag) {
+        if (flag2) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateCompanheiro()));
+        }
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => UserData(user: user)));
+      }
     myControllerEmail.clear();
     myControllerPass.clear();
   }

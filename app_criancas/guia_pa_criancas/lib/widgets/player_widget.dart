@@ -75,31 +75,31 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             IconButton(
               key: Key('play_button'),
               onPressed: _isPlaying ? null : () => _play(),
-              iconSize: 64.0,
+              iconSize: 40.0,
               icon: Icon(Icons.play_arrow),
-              color: Colors.white,
+              color: Colors.indigo,
             ),
             IconButton(
               key: Key('pause_button'),
               onPressed: _isPlaying ? () => _pause() : null,
-              iconSize: 64.0,
+              iconSize: 40.0,
               icon: Icon(Icons.pause),
-              color: Colors.white,
+              color: Colors.indigo,
             ),
             IconButton(
               key: Key('stop_button'),
               onPressed: _isPlaying || _isPaused ? () => _stop() : null,
-              iconSize: 64.0,
+              iconSize: 40.0,
               icon: Icon(Icons.stop),
-              color: Colors.white,
+              color: Colors.indigo,
             ),
             IconButton(
               onPressed: _earpieceOrSpeakersToggle,
-              iconSize: 64.0,
+              iconSize: 40.0,
               icon: _isPlayingThroughEarpiece
                   ? Icon(Icons.volume_up)
                   : Icon(Icons.hearing),
-              color: Colors.white,
+              color: Colors.indigo,
             ),
           ],
         ),
@@ -130,7 +130,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               _position != null
                   ? '${_positionText ?? ''} / ${_durationText ?? ''}'
                   : _duration != null ? _durationText : '',
-              style: TextStyle(fontSize: 24.0,color:Colors.white),
+              style: TextStyle(fontSize: 24.0,color:Colors.indigo),
             ),
           ],
         ),
