@@ -54,10 +54,9 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('quiz');
     missionsNotifier = Provider.of<MissionsNotifier>(context);
-    setState(() {
-       _perguntas = getPerguntas(missionsNotifier);
-    });
+    _perguntas = getPerguntas(missionsNotifier);
    
     return Scaffold(
       backgroundColor: Colors.white,
