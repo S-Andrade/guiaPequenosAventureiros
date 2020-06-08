@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:app_criancas/models/cromos.dart';
+import 'package:app_criancas/screens/aventura/aventura.dart';
+import 'package:app_criancas/services/missions_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app_criancas/screens/turma/turma.dart';
 
@@ -184,11 +186,22 @@ getCromosTurma() async {
 }
 
 //-----outras funções
-getAllTurmasPontuacao() async {
+
+getAllTurmasPontuacao(Aventura aventura) async {
+  List escolas = aventura.escolas;
+  List turmas = [];
+  for (String e in escolas) {
+    DocumentReference escola =
+        Firestore.instance.collection('escola').document(e);
+    await escola.get().then((turma) {
+      turmas.addAll(turma.data['turmas']);
+    });
+  }
   final QuerySnapshot turmaRef =
       await Firestore.instance.collection('turma').getDocuments();
-  List<Turma> temp = [];
+  print(turmas);
   List listaTurmas = turmaRef.documents.toList();
+  List<Turma> temp = [];
   listaTurmas.forEach((doc) {
     Turma t = Turma(
         id: doc.data['id'] ?? '',
@@ -198,7 +211,9 @@ getAllTurmasPontuacao() async {
         nome: doc.data['nome'] ?? "",
         pontuacao: doc.data['pontuacao'] ?? 0,
         cromos: doc.data['cromos'] = []);
-    temp.add(t);
+    if (turmas.contains(t.id)) {
+      temp.add(t);
+    }
     return temp;
   });
   return temp;
