@@ -1,3 +1,4 @@
+import 'package:app_criancas/screens/companheiro/companheiro_creation.dart';
 import 'package:app_criancas/services/database.dart';
 import 'package:app_criancas/widgets/color_parser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -784,7 +785,7 @@ class _UserDataState extends State<UserData> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => HomeScreen(user: user)));
+                    builder: (context) =>CreateCompanheiro()));
           }
           currentStep + 1 != steps.length
               ? goTo(currentStep + 1)

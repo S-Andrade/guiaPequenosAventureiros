@@ -1,5 +1,6 @@
 import 'package:app_criancas/flare/idle_controller.dart';
 import 'package:app_criancas/services/companheiro_api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,8 @@ import '../../synthesizeText.dart';
 // MOVER AO MERGE
 import 'package:audioplayers/audio_cache.dart';
 
+import '../home_screen.dart';
+
 class CreateCompanheiro extends StatefulWidget {
   CreateCompanheiroState createState() => CreateCompanheiroState();
 }
@@ -27,6 +30,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
 
 
   String userID;
+  FirebaseUser user;
   String _bodyPart = 'nothing';
   int _colour = 5;
   String _eyes = 'two_eyes';
@@ -58,6 +62,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
   List<bool> _isSelectedHeadTop = [false, false, true];
   List<bool> _isSelectedBodyParts = [false, false, false, false];
 
+  getUserI() async {
+    FirebaseUser temp =  await Auth().getUser();
+    print(temp.email);
+    setState(() {
+      user = temp;
+    });
+  }
   @override
   initState() {
     _flareController = IdleControls();
@@ -74,6 +85,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
         print('este é o user'+userID);
       });
     });
+    getUserI();
     super.initState();
   }
 
@@ -1623,8 +1635,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                       child: _currentPage == 6 && MediaQuery.of(context).viewInsets.bottom == 0
                           ? Container(
                               child: FlatButton(
-                                onPressed: () =>
-                                    _submitCreation(myController.text),
+                                onPressed: (){
+                                    _submitCreation(myController.text);
+                                    print(user.email);
+                                    Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));},
                                 color: Colors.transparent,
                                 textColor: Colors.white,
 //                              disabledColor: Colors.white,
