@@ -1,4 +1,5 @@
 import 'package:app_criancas/screens/capitulo/capitulo.dart';
+import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../missions/all_missions/all_missions_screen.dart';
 import 'dart:math' as math;
@@ -20,9 +21,14 @@ class _CapituloTile extends State<CapituloTile>{
   _CapituloTile({this.capitulo});
 
   bool bloqueado;
+  bool flag = false;
 
 
   Widget build(BuildContext context) {
+    if(!flag){
+      getBloqueado();
+      return ColorLoader5();
+    }else{
     return FutureBuilder<void>(
             future: getBloqueado(),
             builder: (context, AsyncSnapshot<void> snapshot) {
@@ -91,7 +97,7 @@ class _CapituloTile extends State<CapituloTile>{
           //                    )),
                         ))));
               }
-            });
+            });}
 
   }
 
@@ -103,7 +109,8 @@ class _CapituloTile extends State<CapituloTile>{
       bloqueado = all[turma];
     }
     print(capitulo.id);
-    print(bloqueado); 
+    print(bloqueado);
+    flag = true; 
   }
 
 }
