@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -110,60 +112,149 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
   @override
   Widget build(BuildContext context) {
     String audioUrl = mission.linkAudio;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Audio Example'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/back6.jpg"),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/movie.png"),
+          fit: BoxFit.cover,
         ),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 108.0),
-            child: Text(
-              mission.title,
-              style: TextStyle(
-                  fontSize: 70,
-                  fontFamily: 'Amatic SC',
-                  color: Colors.white,
-                  letterSpacing: 4),
+      ),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Audio Example',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Colors.black),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 120.0, left: 30, right: 30),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: parseColor("#320a5c"),
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: parseColor("#320a5c"),
-                        blurRadius: 10.0,
-                      )
-                    ]),
-                child: PlayerWidget(url: audioUrl)),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
           ),
-          Padding(
-            padding: const EdgeInsets.all(100.0),
-            child: MaterialButton(
-                child: setButton(),
-                onPressed: () {
-                  setState(() {
-                    _state = 1;
-                    _loadButton();
-                  });
-                },
-                height: 90,
-                minWidth: 300,
-                color: parseColor('#320a5c'),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0))),
-          )
+        ),
+        body: Stack(children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.25,
+                child: Container(
+//                        height: 130,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(child: Align(
+            alignment: Alignment.center,
+            child: FractionallySizedBox(
+              heightFactor: 0.6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    mission.title,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15.0),
+//                          boxShadow: [
+//                            BoxShadow(
+//                              color: parseColor("#320a5c"),
+//                              blurRadius: 10.0,
+//                            )
+//                          ]
+                        ),
+                        child: PlayerWidget(url: audioUrl)),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FlatButton(
+                        padding: EdgeInsets.all(20),
+                        child: setButton(),
+                        onPressed: () {
+                          setState(() {
+                            _state = 1;
+                            _loadButton();
+                          });
+                        },
+                        color: Color(0xFFF3C463),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )),
+          Positioned(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: FractionallySizedBox(
+                heightFactor: 0.15,
+                widthFactor: 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black45.withOpacity(0.8),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(5))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(
+                        child: Text(
+                          'text',
+                          textAlign: TextAlign.right,
+                          style: GoogleFonts.pangolin(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            child: Align(
+                alignment: Alignment.topRight, child: CompanheiroAppwide()),
+          ),
+
         ]),
       ),
     );
@@ -173,12 +264,13 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "okay",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
+          "Acabei",
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: Colors.white,
+            ),
           ),
         );
       } else
@@ -186,11 +278,12 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
     } else {
       return new Text(
         "Feita",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+            color: Colors.white,
+          ),
         ),
       );
     }
