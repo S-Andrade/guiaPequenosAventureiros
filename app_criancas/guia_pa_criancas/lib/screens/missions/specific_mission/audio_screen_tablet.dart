@@ -27,6 +27,10 @@ class AudioScreenTabletPortrait extends StatefulWidget {
 
 class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
     with WidgetsBindingObserver {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   Mission mission;
 
   _AudioScreenTabletPortraitState(this.mission);
@@ -111,6 +115,10 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     String audioUrl = mission.linkAudio;
     return Container(
       decoration: BoxDecoration(
@@ -171,14 +179,14 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 30,
+                          fontSize: screenHeight < 700 ? 26 : 30,
                           color: Colors.white),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(screenHeight < 700 ? 10 : 20),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
@@ -192,11 +200,11 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                         child: PlayerWidget(url: audioUrl)),
                   ),
                   FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: screenHeight < 700 ? 0.4 : 0.5,
                     child: SizedBox(
                       width: double.infinity,
                       child: FlatButton(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                         child: setButton(),
                         onPressed: () {
                           setState(() {
@@ -268,7 +276,7 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 20,
+              fontSize: screenHeight < 700 ? 16 : 20,
               color: Colors.white,
             ),
           ),
@@ -281,7 +289,7 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 20,
+            fontSize: screenHeight < 700 ? 16 : 20,
             color: Colors.white,
           ),
         ),

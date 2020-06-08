@@ -68,7 +68,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     String _imagem;
     flag = false;
 
-    if (missoes.length == missionsNotifier.missionsList.length ) {
+    if (missoes.length == missionsNotifier.missionsList.length) {
       setState(() {
         flag = true;
       });
@@ -118,7 +118,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.only(bottom: 160, top:100),
+                          padding: EdgeInsets.only(bottom: 160, top: 100),
                           itemBuilder: (BuildContext context, int index) {
                             Mission mission =
                                 missionsNotifier.missionsList[index];
@@ -153,15 +153,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                               _imagem = 'assets/images/grass_green.png';
 
                             return Padding(
-                              padding: const EdgeInsets.only(
+                              padding: EdgeInsets.only(
                                 left: 20,
                                 right: 20,
-                                top: 10,
-                                bottom: 10,
+                                top: screenHeight < 700 ? 8 : 10,
+                                bottom: screenHeight < 700 ? 8 : 10,
                               ),
                               child: Container(
                                   key: UniqueKey(),
-//                                  height: 120,
                                   decoration: BoxDecoration(
                                       image: new DecorationImage(
                                         image: ExactAssetImage(_imagem),
@@ -179,17 +178,21 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                         BoxShadow(
                                           color: Colors.black.withOpacity(0.1),
                                           blurRadius:
-                                              5.0, // has the effect of softening the shadow
+                                              2.0, // has the effect of softening the shadow
                                           spreadRadius:
                                               2.0, // has the effect of extending the shadow
                                           offset: Offset(
                                             0.0, // horizontal
-                                            2.5, // vertical
+                                            3, // vertical
                                           ),
                                         )
                                       ]),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
+                                    padding: EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: screenHeight < 700 ? 16 : 20.0,
+                                        bottom: screenHeight < 700 ? 12 : 20.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
@@ -212,15 +215,26 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                 padding:
                                                     const EdgeInsets.all(4.0),
                                                 child: Text(
-                                                  mission.type == 'UploadVideo' ? ' Carregar Vídeo ' :
-                                                  mission.type == 'UploadImage' ? ' Carregar Imagem ' :
-                                                  mission.type == 'Audio' ? ' Áudio ' :
-                                                  mission.type == 'Text' ? ' Mensagem ' :
-                                                  mission.type == 'Quiz' ? ' Quiz ' :
-                                                  mission.type == 'Activity' ? ' Actividade ' :
-                                                  mission.type == 'Video' ? ' Vídeo ' :
-                                                  mission.type == 'Questionario' ? ' Questionário ' :
-                                                  mission.type == 'Image' ? ' Imagem ' : mission.type,
+                                                  mission.type == 'UploadVideo'
+                                                      ? ' Carregar Vídeo '
+                                                      : mission.type ==
+                                                              'UploadImage'
+                                                          ? ' Carregar Imagem '
+                                                          : mission.type ==
+                                                                  'Audio'
+                                                              ? ' Áudio '
+                                                              : mission.type ==
+                                                                      'Text'
+                                                                  ? ' Mensagem '
+                                                                  : mission.type ==
+                                                                          'Quiz'
+                                                                      ? ' Quiz '
+                                                                      : mission.type ==
+                                                                              'Activity'
+                                                                          ? ' Actividade '
+                                                                          : mission.type == 'Video'
+                                                                              ? ' Vídeo '
+                                                                              : mission.type == 'Questionario' ? ' Questionário ' : mission.type == 'Image' ? ' Imagem ' : mission.type,
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
                                                         fontWeight:
@@ -237,8 +251,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                   ' pontos',
                                               style: GoogleFonts.quicksand(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 16,
                                                     color: Colors.yellow),
                                               ),
                                               textAlign: TextAlign.left,
@@ -256,7 +270,10 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                   textStyle: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      fontSize: screenHeight < 700 ? 20 : 22,
+                                                      fontSize:
+                                                          screenHeight < 700
+                                                              ? 20
+                                                              : 22,
                                                       color: Colors.black),
                                                 ),
                                                 textAlign: TextAlign.left,
@@ -338,7 +355,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                   bottomRight: Radius.circular(20))),
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Text(
                                 "Aqui estou a dizer algo mesmo muito pertinente",
                                 textAlign: TextAlign.left,
@@ -358,7 +376,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                 ),
                 Positioned(
                   child: Align(
-                      alignment: Alignment.topLeft, child: CompanheiroAppwide()),
+                      alignment: Alignment.topLeft,
+                      child: CompanheiroAppwide()),
                 ),
                 Positioned(
                   child: Align(
@@ -369,11 +388,11 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 //                        height: 130,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/clouds_bottom_navigation_purple2.png'),
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            )),
+                          image: AssetImage(
+                              'assets/images/clouds_bottom_navigation_purple2.png'),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                        )),
                       ),
                     ),
                   ),

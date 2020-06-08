@@ -64,8 +64,16 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     super.dispose();
   }
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -75,27 +83,27 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             IconButton(
               key: Key('play_button'),
               onPressed: _isPlaying ? null : () => _play(),
-              iconSize: 40.0,
+              iconSize: screenHeight < 700 ? 36 : 40.0,
               icon: Icon(Icons.play_arrow),
               color: Colors.indigo,
             ),
             IconButton(
               key: Key('pause_button'),
               onPressed: _isPlaying ? () => _pause() : null,
-              iconSize: 40.0,
+              iconSize: screenHeight < 700 ? 36 :40.0,
               icon: Icon(Icons.pause),
               color: Colors.indigo,
             ),
             IconButton(
               key: Key('stop_button'),
               onPressed: _isPlaying || _isPaused ? () => _stop() : null,
-              iconSize: 40.0,
+              iconSize: screenHeight < 700 ? 36 :40.0,
               icon: Icon(Icons.stop),
               color: Colors.indigo,
             ),
             IconButton(
               onPressed: _earpieceOrSpeakersToggle,
-              iconSize: 40.0,
+              iconSize: screenHeight < 700 ? 36 :40.0,
               icon: _isPlayingThroughEarpiece
                   ? Icon(Icons.volume_up)
                   : Icon(Icons.hearing),
@@ -107,7 +115,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(screenHeight < 700 ? 0 : 12.0),
               child: Stack(
                 children: [
                   Slider(
@@ -130,7 +138,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               _position != null
                   ? '${_positionText ?? ''} / ${_durationText ?? ''}'
                   : _duration != null ? _durationText : '',
-              style: TextStyle(fontSize: 24.0,color:Colors.indigo),
+              style: TextStyle(fontSize: screenHeight < 700 ? 20 :24.0,color:Colors.indigo),
             ),
           ],
         ),

@@ -8,8 +8,12 @@ import 'package:app_criancas/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottomBar extends StatelessWidget {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
   Color _navIconBarColor;
   int index;
   Aventura aventura;
@@ -22,10 +26,23 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     if (index == 1) {
       _navIconBarColor = Colors.white;
     }
     return BottomNavigationBar(
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      selectedLabelStyle: GoogleFonts.quicksand(
+        textStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+      ),
+      unselectedLabelStyle: GoogleFonts.quicksand(
+        textStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+      ),
+      iconSize: screenHeight < 700 ? 22 : 24.0,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.transparent,
       selectedItemColor: Colors.black54,
