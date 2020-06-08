@@ -44,9 +44,7 @@ class _CreateQuestionarioMissionScreenState
 
   @override
   void initState() {
-    print('aqui');
     _titulo = "";
-    
     super.initState();
   }
 
@@ -62,7 +60,6 @@ class _CreateQuestionarioMissionScreenState
     _perguntasRepetidas = [];
     if (missionsNotifier.selectedQuestions != null &&
         missionsNotifier.selectedQuestions.isNotEmpty) {
-      print('eheheheh');
       selectedQ = missionsNotifier.selectedQuestions;
       selectedQ.forEach((f) {
         _perguntasRepetidas.add(f);
@@ -78,11 +75,7 @@ class _CreateQuestionarioMissionScreenState
   @override
   Widget build(BuildContext context) {
     missionsNotifier = Provider.of<MissionsNotifier>(context);
-    print('questionariooooooooooooooooooooooooooo');
-    print('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
     _perguntas = getPerguntas(missionsNotifier);
-    print(_perguntas);
-    print(missionsNotifier.selectedQuestions.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -587,7 +580,6 @@ class _CreateQuestionarioMissionScreenState
                           FlatButton(
                             color: const Color(0xff72d8bf),
                             onPressed: () async {
-                              //missionNotifier.currentQuestion = null;
                               if (_text.text.length > 0 &&
                                   _perguntas.length != 0 &&
                                   _textPontos.text.length > 0)

@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:feature_missoes_moderador/models/question.dart';
-import 'package:feature_missoes_moderador/services/missions_api.dart';
+import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateQuestion extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
   final _textQuestion = TextEditingController();
   final _textAnsCorrect = TextEditingController();
   Question q = new Question();
+  MissionsNotifier missionsNotifier;
   @override
   void initState() {
     _respostasErradas = [];
@@ -33,14 +34,15 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   @override
   Widget build(BuildContext context) {
+    missionsNotifier = Provider.of<MissionsNotifier>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/19.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+          image: DecorationImage(
+            image: AssetImage("assets/images/19.png"),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Form(
           child: Builder(
             builder: (BuildContext context) {
@@ -56,7 +58,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width:220,
+                              width: 220,
                               child: Text(
                                 "Pergunta",
                                 textAlign: TextAlign.left,
@@ -76,7 +78,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
-                              color:  parseColor("F4F19C"),
+                              color: parseColor("F4F19C"),
                             ),
                             child: TextField(
                               controller: _textQuestion,
@@ -130,7 +132,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                               height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
-                               color: parseColor("F4F19C"),
+                                color: parseColor("F4F19C"),
                               ),
                               child: TextField(
                                 controller: _textAnsCorrect,
@@ -192,9 +194,12 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left:50.0),
+                            padding: const EdgeInsets.only(left: 50.0),
                             child: FlatButton(
-                                child: Icon(FontAwesomeIcons.plus,color: parseColor("F4F19C"),),
+                                child: Icon(
+                                  FontAwesomeIcons.plus,
+                                  color: parseColor("F4F19C"),
+                                ),
                                 onPressed: () {
                                   addAnsRow();
                                 }),
@@ -205,20 +210,26 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           FlatButton(
-                              child: Text('Submeter',style:TextStyle(
+                              child: Text(
+                                'Submeter',
+                                style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w900,
                                     fontFamily: 'Monteserrat',
                                     letterSpacing: 2,
-                                    fontSize: 20),),
+                                    fontSize: 20),
+                              ),
                               onPressed: addQuestionToQuiz),
                           FlatButton(
-                              child: Text('Cancelar',style:TextStyle(
+                              child: Text(
+                                'Cancelar',
+                                style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w900,
                                     fontFamily: 'Monteserrat',
                                     letterSpacing: 2,
-                                    fontSize: 20),),
+                                    fontSize: 20),
+                              ),
                               onPressed: () => Navigator.pop(context))
                         ],
                       )
@@ -237,7 +248,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     if (widgetsAns.isNotEmpty &&
         q.correctAnswer.length > 0 &&
         q.question.length > 0) {
-      missionNotifier.currentQuestion = q;
+      missionsNotifier.currentQuestion = q;
       for (RowAnswer r in widgetsAns) {
         if (r._textAnsWrong.text.length > 0) {
           _respostasErradas.add(r._textAnsWrong.text);
@@ -267,8 +278,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
         },
       );
       Timer(Duration(seconds: 2), () async {
-      Navigator.of(context, rootNavigator: true).pop();
-    });
+        Navigator.of(context, rootNavigator: true).pop();
+      });
     }
   }
 }
@@ -287,7 +298,7 @@ class RowAnswer extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
-            color:  parseColor("F4F19C"),
+            color: parseColor("F4F19C"),
           ),
           child: TextField(
             controller: _textAnsWrong,
@@ -300,7 +311,6 @@ class RowAnswer extends StatelessWidget {
                 color: Colors.black,
                 fontFamily: 'Monteserrat',
                 letterSpacing: 2,
-            
                 fontSize: 20),
             maxLines: 1,
             decoration: InputDecoration(
