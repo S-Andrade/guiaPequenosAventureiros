@@ -24,6 +24,10 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
   final FirebaseUser user;
   _HomeScreen({this.user});
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
 //  AnimationController widthController;
 //  Animation<double> sizeWidth;
 //  Animation<double> sizeHeight;
@@ -111,6 +115,10 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Color(0xFFBBA9F9),

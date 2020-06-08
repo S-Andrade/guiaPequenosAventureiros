@@ -244,8 +244,6 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
-    print(screenWidth);
-    print(screenHeight);
 
     return Scaffold(
 //        resizeToAvoidBottomInset: false,

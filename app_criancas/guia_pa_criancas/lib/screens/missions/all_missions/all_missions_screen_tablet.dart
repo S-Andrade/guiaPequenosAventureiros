@@ -46,8 +46,16 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     super.initState();
   }
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.white,
@@ -73,28 +81,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
     if (flag) {
       return Container(
-//        decoration: BoxDecoration(
-//          gradient: LinearGradient(
-//            begin: Alignment.topCenter,
-//            end: Alignment.bottomCenter,
-//            stops: [0.0, 1.0],
-//            colors: [
-//              Color(0xFF62D7A2),
-//              Color(0xFF00C9C9),
-//            ],
-//          ),
-//        ),
-//        decoration: BoxDecoration(
-//          gradient: LinearGradient(
-//            begin: Alignment.topLeft,
-//            end: Alignment.bottomCenter,
-//            stops: [0.0, 1.0],
-//            colors: [
-//              Color(0xFFFCF477),
-//              Color(0xFFF6A51E),
-//            ],
-//          ),
-//        ),
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
@@ -226,7 +212,15 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                 padding:
                                                     const EdgeInsets.all(4.0),
                                                 child: Text(
-                                                  mission.type + ": ",
+                                                  mission.type == 'UploadVideo' ? ' Carregar Vídeo ' :
+                                                  mission.type == 'UploadImage' ? ' Carregar Imagem ' :
+                                                  mission.type == 'Audio' ? ' Áudio ' :
+                                                  mission.type == 'Text' ? ' Mensagem ' :
+                                                  mission.type == 'Quiz' ? ' Quiz ' :
+                                                  mission.type == 'Activity' ? ' Actividade ' :
+                                                  mission.type == 'Video' ? ' Vídeo ' :
+                                                  mission.type == 'Questionario' ? ' Questionário ' :
+                                                  mission.type == 'Image' ? ' Imagem ' : mission.type,
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
                                                         fontWeight:
@@ -262,7 +256,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                   textStyle: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      fontSize: 22,
+                                                      fontSize: screenHeight < 700 ? 20 : 22,
                                                       color: Colors.black),
                                                 ),
                                                 textAlign: TextAlign.left,
