@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:feature_missoes_moderador/models/question.dart';
-import 'package:feature_missoes_moderador/services/missions_api.dart';
+import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateQuestionarioQuestion extends StatefulWidget {
   @override
@@ -23,6 +23,7 @@ class _CreateQuestionarioQuestionState
   String valorMax;
   int max = 0;
   Question q = new Question();
+  MissionsNotifier missionsNotifier;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _CreateQuestionarioQuestionState
 
   @override
   Widget build(BuildContext context) {
+    missionsNotifier = Provider.of<MissionsNotifier>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -291,7 +293,7 @@ class _CreateQuestionarioQuestionState
         }
       }
       q.answers = _respostas;
-      missionNotifier.currentQuestion = q;
+      missionsNotifier.currentQuestion = q;
       _respostas = [];
       _textQuestion.clear();
       _numeroRespotas.clear();
