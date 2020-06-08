@@ -26,6 +26,10 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   void initState() {
     autoLogIn();
@@ -45,8 +49,11 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return Scaffold(
-//        resizeToAvoidBottomInset : false,
         key: _scaffoldKey,
         body: Form(
             key: _formKey,
@@ -55,15 +62,6 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                   image: DecorationImage(
                       image: AssetImage('assets/images/background_sky.png'),
                       fit: BoxFit.cover)
-//                gradient: LinearGradient(
-//                  begin: Alignment.topCenter,
-//                  end: Alignment.bottomCenter,
-//                  stops: [0.0, 1.0],
-//                  colors: [
-//                    Color(0xFF62D7A2),
-//                    Color(0xFF00C9C9),
-//                  ],
-//                ),
                   ),
               padding: const EdgeInsets.all(20.0),
               child: Center(
@@ -76,7 +74,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                         // Filling c/ 1
                         widthFactor: 1,
                         child: FractionallySizedBox(
-                          widthFactor: 0.8,
+                          widthFactor: screenHeight < 700 ? 0.7 : 0.8,
                           child: SvgPicture.asset(
                             'assets/images/logo_temp.svg',
 //                            width: 50,
@@ -94,7 +92,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                   style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 28,
+                                      fontSize: screenHeight < 700 ? 24 : 28,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -109,21 +107,21 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                   style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 18,
+                                      fontSize: screenHeight < 700 ? 16 : 18,
                                       color: Colors.black,
                                     ),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10.0),
                                 child: TextFormField(
                                     controller: myControllerEmail,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 18,
+                                        fontSize: screenHeight < 700 ? 16 : 18,
                                       ),
                                     ),
                                     validator: (input) {
@@ -161,14 +159,14 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                         )),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10),
                                 child: TextFormField(
                                     controller: myControllerPass,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 18,
+                                        fontSize: screenHeight < 700 ? 16 :18,
                                       ),
                                     ),
                                     validator: (input) {
@@ -207,7 +205,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                         )),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10.0),
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: FlatButton(
@@ -223,7 +221,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                       style: GoogleFonts.quicksand(
                                         textStyle: TextStyle(
                                           fontWeight: FontWeight.w900,
-                                          fontSize: 20,
+                                          fontSize: screenHeight < 700 ? 16 : 20,
                                         ),
                                       ),
                                     ),
