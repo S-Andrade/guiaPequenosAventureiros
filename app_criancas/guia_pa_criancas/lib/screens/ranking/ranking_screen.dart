@@ -1,9 +1,13 @@
+import 'package:app_criancas/notifier/missions_notifier.dart';
+import 'package:app_criancas/screens/aventura/aventura.dart';
+import 'package:app_criancas/services/missions_api.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/color_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app_criancas/screens/turma/turma.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../auth.dart';
 
@@ -16,8 +20,10 @@ class _RankingScreenState extends State<RankingScreen> {
   List<Turma> turmas = [];
   String userId = "";
   FirebaseUser user;
+  Aventura aventura;
   @override
   initState() {
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context, listen: false);
     getAll();
     super.initState();
   }
@@ -29,6 +35,8 @@ class _RankingScreenState extends State<RankingScreen> {
 
   @override
   Widget build(BuildContext context) {
+     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+     aventura = missionsNotifier.currentAventura;
     if (turmas.isEmpty) {
       return ColorLoader();
     } else {
@@ -202,7 +210,7 @@ class _RankingScreenState extends State<RankingScreen> {
   getAll() async {
     print('entreiiiiii');
     user = await Auth().getUser();
-    List<Turma> temp = await getAllTurmasPontuacao();
+    List<Turma> temp = await getAllTurmasPontuacao(aventura);
     setState(() {
       turmas = temp;
       userId = user.email;
