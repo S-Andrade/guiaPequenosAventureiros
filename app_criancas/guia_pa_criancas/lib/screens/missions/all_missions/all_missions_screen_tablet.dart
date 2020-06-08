@@ -150,7 +150,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                             if (mission.type == 'Text')
                               _imagem = 'assets/images/background.png';
                             else if (mission.type == 'Audio')
-                              _imagem = 'assets/images/audio.png';
+                              _imagem = 'assets/images/audio_back.png';
                             else if (mission.type == 'Video')
                               _imagem = 'assets/images/movie.png';
                             else if (mission.type == 'Quiz')
@@ -160,7 +160,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                             else if (mission.type == 'Activity')
                               _imagem = 'assets/images/yellow2.png';
                             else if (mission.type == 'UploadVideo')
-                              _imagem = 'assets/images/upload.png';
+                              _imagem = 'assets/images/green.png';
                             else if (mission.type == 'UploadImage')
                               _imagem = 'assets/images/green.png';
                             else if (mission.type == 'Image')
