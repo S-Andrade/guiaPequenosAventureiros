@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -75,153 +76,279 @@ class _UploadVideoScreenTabletPortraitState
   Widget build(BuildContext context) {
     _titulo = 'upload_video_crianca_' + mission.id;
 
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text('Upload Video Example'),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          colorFilter: new ColorFilter.mode(
+              Colors.blueAccent.withOpacity(0.5), BlendMode.darken),
+          image: AssetImage("assets/images/59721.png"),
+          fit: BoxFit.cover,
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/back6.jpg"),
-              fit: BoxFit.cover,
+      ),
+      child: Scaffold(
+          key: _scaffoldKey,
+          extendBody: true,
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: Color(0xFF30246A), //change your color here
             ),
+            title: Text('Carregar Vídeo'),
           ),
-          child: Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 70.0, left: 30),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    mission.title,
-                    style: TextStyle(
-                        fontSize: 70,
-                        fontFamily: 'Amatic SC',
-                        color: Colors.white,
-                        letterSpacing: 4),
-                  )
-                ],
+          body: Stack(
+              children: <Widget>[
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: 0.25,
+                  child: Container(
+//                        height: 130,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/clouds_bottom_navigation_white.png'),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                        )),
+                  ),
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 130.0, left: 35),
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      mission.content,
-                      style: TextStyle(
-                          fontSize: 45,
-                          fontFamily: 'Amatic SC',
-                          color: Colors.white,
-                          letterSpacing: 4),
+            Positioned.fill(child: Align(
+              alignment: Alignment.center,
+              child: FractionallySizedBox(
+                widthFactor: 0.9,
+                heightFactor: 0.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                          mission.title,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30,
+                                color: Colors.white),
+                          ),
+                  ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            mission.content,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 150.0),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                new Builder(
-                    builder: (BuildContext) => _done
-                        ? Center(
-                            child: MaterialButton(
-                                height: 90,
-                                minWidth: 300,
-                                color: parseColor('#320a5c'),
+                    // 2 Exp
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+//                      Expanded(
+//                        child: Padding(
+//                          padding: const EdgeInsets.all(8.0),
+//                          child: Builder(
+//                            builder: (BuildContext) => _loaded
+//                                ? FlatButton(
+//                                child: setButton(),
+//                                onPressed: () {
+//                                  setState(() {
+//                                    _state = 1;
+//                                    _loadButton();
+//                                  });
+//                                },
+//                                padding: EdgeInsets.all(20),
+//                                color: Color(0xFFEF6EA5),
+//                                shape: RoundedRectangleBorder(
+//                                    borderRadius:
+//                                    BorderRadius.circular(
+//                                        10.0)))
+//                                : Container(),
+//                          ),
+//                        ),
+//                      ),
+                      Builder(
+                          builder: (BuildContext) => _loaded
+                              ? new Icon(
+                            FontAwesomeIcons.checkCircle,
+                            color: Colors.lightGreenAccent,
+                            size: 30.0,
+                          )
+                              : Container()),
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Builder(
+                            builder: (BuildContext) => _done
+                                ? FlatButton(
+                                    padding: EdgeInsets.all(20),
+                                    color: Color(0xFFEBECEC)
+                                        .withOpacity(0.8),
+                                disabledTextColor: Colors.grey,
+                                disabledColor: Color(0xFFEBECEC)
+                                    .withOpacity(0.8),
+                                shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            10.0)),
+                                    child: Text(
+                                      'Já carregado',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                          fontWeight:
+                                          FontWeight.normal,
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () => _loadButton())
+                                : FlatButton(
+                                  padding: EdgeInsets.all(20),
+                                  color: Color(0xFF1e85e6),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(
+                                          10.0)),
+                                  child: Text(
+                                    'Escolher',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                        fontWeight:
+                                        FontWeight.normal,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: getVideo,
+                                )),
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Builder(
+                            builder: (BuildContext) => _loaded
+                                ? FlatButton(
+                                child: setButton(),
+                                onPressed: () {
+                                  setState(() {
+                                    _state = 1;
+                                    _loadButton();
+                                  });
+                                },
+                                padding: EdgeInsets.all(20),
+                                color: Color(0xFF5de8c5),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        new BorderRadius.circular(20.0)),
-                                child: Text(
-                                  'Vídeo já carregado',
-                                  style: TextStyle(
-                                      fontSize: 45,
-                                      fontFamily: 'Amatic SC',
-                                      color: Colors.white,
-                                      letterSpacing: 4),
-                                ),
-                                onPressed: () => _loadButton()),
-                          )
-                        : Center(
-                            child: MaterialButton(
-                              height: 90,
-                              minWidth: 300,
-                              color: parseColor('#320a5c'),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(20.0)),
-                              child: Text(
-                                'Escolher vídeo',
-                                style: TextStyle(
-                                    fontSize: 45,
-                                    fontFamily: 'Amatic SC',
-                                    color: Colors.white,
-                                    letterSpacing: 4),
-                              ),
-                              onPressed: getVideo,
-                            ),
-                          )),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
-                  child: new Builder(
-                      builder: (BuildContext) => _loaded
-                          ? new Icon(
-                              FontAwesomeIcons.checkCircle,
-                              color: Colors.green,
-                              size: 50.0,
-                            )
-                          : Container()),
-                ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 130.0, right: 70),
-              child: new Builder(
-                builder: (BuildContext) => _loaded
-                    ? MaterialButton(
-                        child: setButton(),
-                        onPressed: () {
-                          setState(() {
-                            _state = 1;
-                            _loadButton();
-                          });
-                        },
-                        height: 90,
-                        minWidth: 300,
-                        color: parseColor('#320a5c'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0)))
-                    : Container(),
+                                    BorderRadius.circular(
+                                        10.0)))
+                               :Container(),
+//                                : FlatButton(
+//                                disabledTextColor: Colors.grey,
+//                                disabledColor: Color(0xFFEBECEC)
+//                                    .withOpacity(0.8),
+//                                child: setButton(),
+//                                onPressed: null,
+//                                padding: EdgeInsets.all(20),
+//                                color: Color(0xFFEF6EA5),
+//                                shape: RoundedRectangleBorder(
+//                                    borderRadius:
+//                                    BorderRadius.circular(
+//                                        10.0))),
+                          ),
+                        ),
+                      ),
+                  ]),
+                ],),
               ),
-            )
-          ]),
-        ));
+            )),
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: FractionallySizedBox(
+                      heightFactor: 0.15,
+                      widthFactor: 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black45.withOpacity(0.8),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(5))),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Center(
+                              child: Text(
+                                "Pede a um adulto para autorizar o carregamento",
+                                textAlign: TextAlign.right,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Align(
+                      alignment: Alignment.topRight, child: CompanheiroAppwide()),
+                ),
+          ])),
+    );
   }
 
   Widget setButton() {
     if (_done == false) {
       if (_state == 0) {
-        return new Text(
+        return Text(
           "Carregar",
-          style: const TextStyle(
-            fontFamily: 'Amatic SC',
-            letterSpacing: 4,
-            color: Colors.white,
-            fontSize: 40.0,
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.white,
+            ),
           ),
         );
       } else
         return ColorLoader();
     } else {
-      return new Text(
-        "Vídeo já carregado",
-        style: const TextStyle(
-          fontFamily: 'Amatic SC',
-          letterSpacing: 4,
-          color: Colors.white,
-          fontSize: 40.0,
+      return Text(
+        "Já carregado",
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 18,
+            color: Colors.white,
+          ),
         ),
       );
     }
@@ -229,7 +356,6 @@ class _UploadVideoScreenTabletPortraitState
 
   void _loadButton() {
     if (_done == true) {
-      print('back');
       Timer(Duration(milliseconds: 500), () {
         Navigator.pop(context);
       });

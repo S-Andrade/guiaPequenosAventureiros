@@ -142,7 +142,7 @@ class _UploadImageScreenTabletPortraitState
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 30,
                                   color: Colors.white),
                             ),
                           ),
@@ -222,6 +222,7 @@ class _UploadImageScreenTabletPortraitState
                                             )),
                                 ),
                               ),
+
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -258,14 +259,6 @@ class _UploadImageScreenTabletPortraitState
                               ),
                             ],
                           ),
-//                          Builder(
-//                              builder: (BuildContext) => _loaded
-//                                  ? Icon(
-//                                      FontAwesomeIcons.checkCircle,
-//                                      color: Colors.green,
-//                                      size: 50.0,
-//                                    )
-//                                  : Container()),
                         ]),
                   ),
                 ),
