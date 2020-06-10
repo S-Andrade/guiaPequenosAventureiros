@@ -17,6 +17,10 @@ class CadernetaTurma extends StatefulWidget {
 }
 
 class _CadernetaTurmaState extends State<CadernetaTurma> {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   FirebaseUser user;
   String _userID;
   String _urlImage;
@@ -36,6 +40,10 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     if (_cromos.length != imageCromo.length && (_cromos[0] != '')) {
       return ColorLoader5();
     } else if (imageCromo.isEmpty && _cromos.isNotEmpty) {
@@ -118,67 +126,70 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                 ),
               ),
               Positioned.fill(
-                child: FractionallySizedBox(
-                  heightFactor: 0.7,
-                  widthFactor: 0.9,
-                  child: RefreshIndicator(
-                      onRefresh: _refreshList,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: GridView.count(
-                                crossAxisCount: 2,
-                                children:
-                                    List.generate(imageCromo.length, (index) {
-                                  return Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image:
-                                              NetworkImage(imageCromo[index]),
-                                          fit: BoxFit.cover,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.8,
+                    widthFactor: 0.9,
+                    child: RefreshIndicator(
+                        onRefresh: _refreshList,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: GridView.count(
+                                  crossAxisCount: 2,
+                                  children:
+                                      List.generate(imageCromo.length, (index) {
+                                    return Padding(
+                                      padding: EdgeInsets.all(screenHeight < 700 ? 6 : 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            image:
+                                                NetworkImage(imageCromo[index]),
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                })),
-                          ),
-                          FractionallySizedBox(
-                            widthFactor: 0.6,
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: FlatButton(
-                                  padding: EdgeInsets.all(10.0),
-                                  color: Color(0xFFF3C463),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  child: Text(
-                                    'A minha caderneta',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return MinhaCaderneta();
-                                      }),
                                     );
-                                  }),
+                                  })),
                             ),
-                          ),
-                        ],
-                      )),
+                            FractionallySizedBox(
+                              widthFactor: 0.6,
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: FlatButton(
+                                    padding: EdgeInsets.all(16.0),
+                                    color: Color(0xFFF3C463),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Text(
+                                      'A minha caderneta',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: screenHeight < 700 ? 16 : 18,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) {
+                                          return MinhaCaderneta();
+                                        }),
+                                      );
+                                    }),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
                 ),
               ),
               Positioned(
