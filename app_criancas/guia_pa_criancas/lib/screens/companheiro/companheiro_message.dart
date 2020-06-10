@@ -112,13 +112,16 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
       _selectHeadTop(companheiroHeadTop);
       _setMouth(companheiroMouth);
       _setBodyPart(companheiroBodyPart);
-      return FlareActor(
-        "assets/animation/shapes3.flr",
-        animation: "animation",
-        fit: BoxFit.fitWidth,
-        alignment: Alignment.topCenter,
-        controller: _controller,
-        artboard: companheiro.shape,
+      return Container(
+
+        child: FlareActor(
+          "assets/animation/shapes3.flr",
+          animation: "animation",
+          fit: BoxFit.fitWidth,
+          alignment: Alignment.topCenter,
+          controller: _controller,
+          artboard: companheiro.shape,
+        ),
       );
     } else {
       return Container();

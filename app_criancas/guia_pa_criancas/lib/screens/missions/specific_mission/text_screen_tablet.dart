@@ -89,8 +89,16 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
     _timeVisited = _timeVisited - _totalPaused;
   }
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -107,8 +115,8 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
           ),
           title: Flexible(
             child: Text(
-              'Mensagem',
-//              mission.title,
+//              'Mensagem',
+              mission.title,
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -144,51 +152,44 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
             ),
             Positioned(
                 child: Align(
-              alignment: Alignment.center,
-              child: Center(
-                child: FractionallySizedBox(
-                  widthFactor: 0.9,
-                  heightFactor: 0.7,
-                  child: Container(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                widthFactor: 0.9,
+                heightFactor: 0.6,
+                child: Container(
+                  child: SingleChildScrollView(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Flexible(
-                          child: Text(
-                            mission.title,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 28,
-                                  color: Colors.white),
-                            ),
+//                        Flexible(
+//                          child: Text(
+//                            mission.title,
+//                            textAlign: TextAlign.center,
+//                            style: GoogleFonts.quicksand(
+//                              textStyle: TextStyle(
+//                                  fontWeight: FontWeight.w700,
+//                                  fontSize: 28,
+//                                  color: Colors.white),
+//                            ),
+//                          ),
+//                        ),
+                        Container(
+                          margin: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
+                          padding: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16)),
+                            color: Colors.white.withOpacity(0.6),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: SingleChildScrollView(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
-                                color: Colors.white.withOpacity(0.6),
-                              ),
-//                        height: 500,
-                              child: Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Flexible(
-                                  child: Center(
-                                    child: Text(
-                                      mission.content,
-                                      style: GoogleFonts.pangolin(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 22,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
+                          child: Flexible(
+                            child: Center(
+                              child: Text(
+                                mission.content,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: screenHeight < 700 ? 18 : 22,
+                                      color: Colors.black),
                                 ),
                               ),
                             ),
@@ -197,11 +198,11 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: FractionallySizedBox(
-                            widthFactor: 0.5,
+                            widthFactor: 0.4,
                             child: SizedBox(
                               width: double.infinity,
                               child: FlatButton(
-                                  padding: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                   child: setButton(),
                                   onPressed: () {
                                     setState(() {
@@ -224,10 +225,10 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
             )),
             Positioned(
               child: Align(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
                       widthFactor: 0.6,
-//                      heightFactor:0.4 ,
+                      heightFactor:0.5 ,
                       child: CompanheiroMessage())),
             ),
           ],
@@ -244,7 +245,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 20,
+              fontSize: screenHeight < 700 ? 16 : 20,
               color: Colors.white,
             ),
           ),
@@ -257,7 +258,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 20,
+            fontSize: screenHeight < 700 ? 16 : 20,
             color: Colors.white,
           ),
         ),

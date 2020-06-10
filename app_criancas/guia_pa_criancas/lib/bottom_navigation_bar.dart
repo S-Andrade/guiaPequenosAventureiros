@@ -7,6 +7,7 @@ import 'package:app_criancas/screens/ranking/ranking_screen.dart';
 import 'package:app_criancas/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +15,7 @@ class BottomBar extends StatelessWidget {
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
+  
   Color _navIconBarColor;
   int index;
   Aventura aventura;

@@ -27,6 +27,11 @@ class UploadImageScreenTabletPortrait extends StatefulWidget {
 
 class _UploadImageScreenTabletPortraitState
     extends State<UploadImageScreenTabletPortrait> {
+
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   Mission mission;
 
   _UploadImageScreenTabletPortraitState(this.mission);
@@ -75,6 +80,10 @@ class _UploadImageScreenTabletPortraitState
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     _titulo = 'upload_foto_crianca_' + mission.id;
 
     return Container(
@@ -136,27 +145,35 @@ class _UploadImageScreenTabletPortraitState
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            mission.title,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 30,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              mission.content,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 24,
-                                    color: Colors.white),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  mission.title,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: screenHeight < 700 ? 26 : 30,
+                                        color: Colors.white),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  mission.content,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: screenHeight < 700 ? 18 : 20,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           Builder(
                               builder: (BuildContext) => _loaded
@@ -181,7 +198,7 @@ class _UploadImageScreenTabletPortraitState
                                   child: Builder(
                                       builder: (BuildContext) => _done
                                           ? FlatButton(
-                                              padding: EdgeInsets.all(20),
+                                              padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                               color: Color(0xFFFF5757),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
@@ -194,7 +211,7 @@ class _UploadImageScreenTabletPortraitState
                                                   textStyle: TextStyle(
                                                     fontWeight:
                                                         FontWeight.normal,
-                                                    fontSize: 18,
+                                                    fontSize: screenHeight < 700 ? 16 : 18,
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -222,7 +239,6 @@ class _UploadImageScreenTabletPortraitState
                                             )),
                                 ),
                               ),
-
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -236,7 +252,7 @@ class _UploadImageScreenTabletPortraitState
                                                 _loadButton();
                                               });
                                             },
-                                            padding: EdgeInsets.all(20),
+                                            padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                             color: Color(0xFFEF6EA5),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -248,7 +264,7 @@ class _UploadImageScreenTabletPortraitState
                                                 .withOpacity(0.8),
                                             child: setButton(),
                                             onPressed: null,
-                                            padding: EdgeInsets.all(20),
+                                        padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                             color: Color(0xFFEF6EA5),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -316,7 +332,7 @@ class _UploadImageScreenTabletPortraitState
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 18,
+              fontSize: screenHeight < 700 ? 16 : 18,
               color: Colors.white,
             ),
           ),
@@ -329,7 +345,7 @@ class _UploadImageScreenTabletPortraitState
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 18,
+            fontSize: screenHeight < 700 ? 16 : 18,
             color: Colors.white,
           ),
         ),

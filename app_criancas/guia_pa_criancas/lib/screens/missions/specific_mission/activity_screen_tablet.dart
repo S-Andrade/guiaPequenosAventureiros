@@ -99,8 +99,16 @@ class _ActivityScreenTabletPortraitState
     _timeVisited = _timeVisited - _totalPaused;
   }
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
     ));
@@ -191,7 +199,7 @@ class _ActivityScreenTabletPortraitState
                                                 SizedBox(
                                                   width: double.infinity,
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(20),
+                                                    padding: EdgeInsets.all(screenHeight < 700 ? 10 : 20),
                                                     child: Text(
                                                       activities[index]
                                                           .description,
@@ -202,7 +210,7 @@ class _ActivityScreenTabletPortraitState
                                                         textStyle: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
-                                                          fontSize: 20,
+                                                          fontSize: screenHeight < 700 ? 18 : 20,
                                                           color: Colors.black,
                                                         ),
                                                       ),
@@ -269,10 +277,10 @@ class _ActivityScreenTabletPortraitState
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: 0.4,
                     child: SizedBox(
                       child: FlatButton(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
 //                          enableFeedback: true,
                           highlightColor: Colors.blue,
                           child: setButton(),
@@ -342,7 +350,7 @@ class _ActivityScreenTabletPortraitState
           "Okay",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                fontWeight: FontWeight.bold, fontSize: screenHeight < 700 ? 16 : 18, color: Colors.white),
           ),
         );
       } else
@@ -352,7 +360,7 @@ class _ActivityScreenTabletPortraitState
         "Feito",
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+              fontWeight: FontWeight.bold, fontSize: screenHeight < 700 ? 16 : 18, color: Colors.white),
         ),
       );
     }
@@ -395,7 +403,7 @@ class _ActivityScreenTabletPortraitState
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 28,
+                    fontSize: screenHeight < 700 ? 24 : 28,
                     color: Colors.white),
               ),
             ),

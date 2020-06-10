@@ -204,7 +204,6 @@ class _UploadVideoScreenTabletPortraitState
                             size: 30.0,
                           )
                               : Container()),
-
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -257,7 +256,6 @@ class _UploadVideoScreenTabletPortraitState
                                 )),
                         ),
                       ),
-
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
