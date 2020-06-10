@@ -328,7 +328,7 @@ createMissionQuestinario(String titulo, List questoes, String aventuraId,
       Map<String, dynamic> mapa = {};
       mapa['aluno'] = element;
       mapa['respostaEscolhida'] = "";
-      mapa['respostaNumerica'] = 66;
+      mapa['respostaNumerica'] = 0;
       res.add(mapa);
     });
 
