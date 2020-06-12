@@ -131,7 +131,7 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
         extendBody: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Audio Example',
+          title: Text('Áudio',
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(

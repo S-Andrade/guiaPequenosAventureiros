@@ -1,5 +1,6 @@
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/widgets/color_loader_5.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +14,7 @@ import '../../../services/missions_api.dart';
 import '../../../widgets/color_parser.dart';
 import '../../../widgets/color_loader.dart';
 import 'package:provider/provider.dart';
+import 'package:delayed_display/delayed_display.dart';
 
 class AllMissionsTabletPortrait extends StatefulWidget {
   List missoes;
@@ -55,6 +57,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
+//    print(screenHeight);
+//    print(screenWidth);
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -84,7 +88,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-              image: AssetImage('assets/images/.png'),
+              image: AssetImage('assets/images/background_sky2.png'),
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
             )),
@@ -104,7 +108,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: 24,
+                      fontSize: screenWidth > 800 ? 30 : 24,
                       color: Color(0xFF30246A)),
                 ),
               ),
@@ -118,7 +122,11 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.only(bottom: 160, top: 100),
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  screenHeight > 1000 ? screenHeight / 4 : 160,
+                              top:
+                                  screenHeight > 1000 ? screenHeight / 6 : 100),
                           itemBuilder: (BuildContext context, int index) {
                             Mission mission =
                                 missionsNotifier.missionsList[index];
@@ -154,45 +162,53 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
                             return Padding(
                               padding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: screenHeight < 700 ? 8 : 10,
-                                bottom: screenHeight < 700 ? 8 : 10,
+                                left: screenWidth > 800 ? screenWidth / 8 : 20,
+                                right: screenWidth > 800 ? screenWidth / 8 : 20,
+                                top: screenWidth > 800
+                                    ? 16
+                                    : screenHeight < 700 ? 8 : 10,
+                                bottom: screenWidth > 800
+                                    ? 16
+                                    : screenHeight < 700 ? 8 : 10,
                               ),
                               child: Container(
                                   key: UniqueKey(),
                                   decoration: BoxDecoration(
-                                      image: new DecorationImage(
-                                        image: ExactAssetImage(_imagem),
-                                        colorFilter: new ColorFilter.mode(
-                                            Colors.white
-                                                .withOpacity(_completada),
-                                            BlendMode.dstIn),
-                                        fit: BoxFit.fitWidth,
-                                        alignment: Alignment.center,
-                                      ),
+                                    image: new DecorationImage(
+                                      image: ExactAssetImage(_imagem),
+                                      colorFilter: new ColorFilter.mode(
+                                          Colors.white.withOpacity(_completada),
+                                          BlendMode.dstIn),
+                                      fit: BoxFit.fitWidth,
+                                      alignment: Alignment.center,
+                                    ),
 //                                      color: Color(0xFF01BBB6),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius:
-                                              2.0, // has the effect of softening the shadow
-                                          spreadRadius:
-                                              2.0, // has the effect of extending the shadow
-                                          offset: Offset(
-                                            0.0, // horizontal
-                                            3, // vertical
-                                          ),
-                                        )
-                                      ]),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16.0),
+//                                      boxShadow: [
+//                                        BoxShadow(
+//                                          color: Colors.black.withOpacity(0.1),
+//                                          blurRadius:
+//                                              2.0, // has the effect of softening the shadow
+//                                          spreadRadius:
+//                                              2.0, // has the effect of extending the shadow
+//                                          offset: Offset(
+//                                            0.0, // horizontal
+//                                            3, // vertical
+//                                          ),
+//                                        )
+//                                      ]
+                                  ),
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: screenHeight < 700 ? 16 : 20.0,
-                                        bottom: screenHeight < 700 ? 12 : 20.0),
+                                        left: screenWidth > 800 ? 30 : 20,
+                                        right: screenWidth > 800 ? 30 : 20,
+                                        top: screenWidth > 800
+                                            ? 30
+                                            : screenHeight < 700 ? 16 : 20.0,
+                                        bottom: screenWidth > 800
+                                            ? 30
+                                            : screenHeight < 700 ? 12 : 20.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
@@ -239,7 +255,10 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                     textStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w700,
-                                                        fontSize: 14,
+                                                        fontSize:
+                                                            screenWidth > 800
+                                                                ? 20
+                                                                : 14,
                                                         color: Colors.white),
                                                   ),
                                                   textAlign: TextAlign.left,
@@ -252,7 +271,9 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                               style: GoogleFonts.quicksand(
                                                 textStyle: TextStyle(
                                                     fontWeight: FontWeight.w900,
-                                                    fontSize: 16,
+                                                    fontSize: screenWidth > 800
+                                                        ? 22
+                                                        : 16,
                                                     color: Colors.yellow),
                                               ),
                                               textAlign: TextAlign.left,
@@ -270,8 +291,10 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                   textStyle: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      fontSize:
-                                                          screenHeight < 700
+                                                      fontSize: screenWidth >
+                                                              800
+                                                          ? 28
+                                                          : screenHeight < 700
                                                               ? 20
                                                               : 22,
                                                       color: Colors.black),
@@ -339,45 +362,56 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                 ),
                 Positioned(
                   child: Align(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.topCenter,
                     child: FractionallySizedBox(
-                      heightFactor: 0.15,
-                      widthFactor: 0.8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black45.withOpacity(0.8),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text(
-                                "Aqui estou a dizer algo mesmo muito pertinente",
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.pangolin(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                      color: Colors.white),
+                      widthFactor: screenWidth > 800 ? 0.75 : 0.9,
+                      heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                      child: Stack(
+                        children: [
+                          FlareActor(
+                            "assets/animation/dialog.flr",
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.center,
+//                        controller: _controller,
+                            artboard: 'Artboard',
+                            animation: 'open_dialog',
+                          ),
+                          Center(
+                            child: DelayedDisplay(
+                              delay: Duration(seconds: 1),
+                              fadingDuration: const Duration(milliseconds: 800),
+                              slidingBeginOffset: const Offset(0, 0.0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:100.0, right: 60),
+                                child: Text(
+                                  "Aqui estou a dizer algo mesmo muito pertinente",
+                                  textAlign: TextAlign.left,
+                                  style: GoogleFonts.pangolin(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: screenHeight < 1000 ? 18 : 28,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
                 ),
+
                 Positioned(
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: CompanheiroAppwide()),
+                      child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                          fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                          child: CompanheiroAppwide()
+                      )
+                  ),
                 ),
                 Positioned(
                   child: Align(
@@ -389,7 +423,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                           image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_purple2.png'),
+                              'assets/images/clouds_bottom_navigation_white.png'),
                           fit: BoxFit.cover,
                           alignment: Alignment.topCenter,
                         )),

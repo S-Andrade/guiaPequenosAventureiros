@@ -15,7 +15,7 @@ class BottomBar extends StatelessWidget {
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
-  
+
   Color _navIconBarColor;
   int index;
   Aventura aventura;
@@ -33,8 +33,12 @@ class BottomBar extends StatelessWidget {
     screenHeight = _mediaQueryData.size.height;
 
     if (index == 1) {
-      _navIconBarColor = Colors.white;
+      _navIconBarColor = Colors.grey;
     }
+//    else if (index == 3) {
+//      _navIconBarColor = Colors.lightGreen;
+//    }
+
     return BottomNavigationBar(
       selectedFontSize: 12,
       unselectedFontSize: 12,
@@ -44,7 +48,7 @@ class BottomBar extends StatelessWidget {
       unselectedLabelStyle: GoogleFonts.quicksand(
         textStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
       ),
-      iconSize: screenHeight < 700 ? 22 : 24.0,
+      iconSize: screenWidth > 800 ? 30 : screenHeight < 700 ? 22 : 24.0,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.transparent,
       selectedItemColor: Colors.black54,

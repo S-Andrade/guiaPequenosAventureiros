@@ -112,7 +112,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
       _setMouth(companheiroMouth);
       _setBodyPart(companheiroBodyPart);
       return Padding(
-        padding: const EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(6.0),
         child: FractionallySizedBox(
           widthFactor: 0.3,
           heightFactor: 0.2,
@@ -120,7 +120,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
             child:
             FlareActor(
               "assets/animation/shapes3.flr",
-              animation: "animation",
+              animation: "standby",
               fit: BoxFit.contain,
               alignment: Alignment.topCenter,
               controller: _controller,

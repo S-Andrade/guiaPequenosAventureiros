@@ -1,4 +1,6 @@
 import 'package:app_criancas/services/missions_api.dart';
+import 'package:delayed_display/delayed_display.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -119,10 +121,10 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Color(0xFFBBA9F9),
-    ));
+//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//      statusBarColor: Colors.transparent,
+//      systemNavigationBarColor: Color(0xFFBBA9F9),
+//    ));
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: MaterialApp(
@@ -137,7 +139,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
               decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(
-                    image: AssetImage('assets/images/background_app_4.png'),
+                    image: AssetImage('assets/images/background_sky.png'),
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
                   )),
@@ -172,7 +174,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/clouds_bottom_navigation_purple2.png'),
+                                  'assets/images/clouds_bottom_navigation_white.png'),
                               fit: BoxFit.cover,
                               alignment: Alignment.topCenter,
                             )),
@@ -217,43 +219,43 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                         ],
                       ),
                     )),
-                    // Companheiro
-
                     Positioned(
                       child: Align(
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.topCenter,
                         child: FractionallySizedBox(
-                          heightFactor: 0.15,
-//                        heightFactor: sizeHeight.value,
-//                        widthFactor: sizeWidth.value,
-                          widthFactor: 0.8,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black45.withOpacity(0.8),
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                      bottomLeft: Radius.circular(20),
-                                      bottomRight: Radius.circular(5))),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: Text(
+                          widthFactor: screenWidth > 800 ? 0.75 : 0.9,
+                          heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                          child: Stack(
+                            children: [
+                              FlareActor(
+                                "assets/animation/dialog.flr",
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.center,
+//                        controller: _controller,
+                                artboard: 'Artboard',
+                                animation: 'open_dialog',
+                              ),
+                              Center(
+                                child: DelayedDisplay(
+                                  delay: Duration(seconds: 1),
+                                  fadingDuration: const Duration(milliseconds: 800),
+                                  slidingBeginOffset: const Offset(0, 0.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left:60.0, right: 100),
+                                    child: Text(
                                     "Vamos escolher uma aventura para começar a diversão?",
-                                    textAlign: TextAlign.right,
-                                    style: GoogleFonts.pangolin(
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18,
-                                          color: Colors.white),
+                                      textAlign: TextAlign.right,
+                                      style: GoogleFonts.pangolin(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: screenHeight < 1000 ? 18 : 28,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
@@ -261,7 +263,11 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                     Positioned(
                       child: Align(
                           alignment: Alignment.topRight,
-                          child: CompanheiroAppwide()),
+                          child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                              fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                              child: CompanheiroAppwide())),
                     ),
                   ]),
                 ),

@@ -100,7 +100,7 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize: screenWidth > 800 ? 30 : 24,
                     color: Color(0xFF30246A)),
               ),
             ),
@@ -130,7 +130,7 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                   alignment: Alignment.bottomCenter,
                   child: FractionallySizedBox(
                     heightFactor: 0.8,
-                    widthFactor: 0.9,
+                    widthFactor: screenWidth > 800 ? 0.8 : 0.9,
                     child: RefreshIndicator(
                         onRefresh: _refreshList,
                         child: Column(
@@ -139,11 +139,11 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                           children: <Widget>[
                             Expanded(
                               child: GridView.count(
-                                  crossAxisCount: 2,
+                                  crossAxisCount: screenWidth > 800 ? 3 : 2,
                                   children:
                                       List.generate(imageCromo.length, (index) {
                                     return Padding(
-                                      padding: EdgeInsets.all(screenHeight < 700 ? 6 : 10),
+                                      padding: EdgeInsets.all(screenWidth > 800 ? 16 : screenHeight < 700 ? 6 : 10),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(10),
@@ -157,34 +157,37 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                                     );
                                   })),
                             ),
-                            FractionallySizedBox(
-                              widthFactor: 0.6,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: FlatButton(
-                                    padding: EdgeInsets.all(16.0),
-                                    color: Color(0xFFF3C463),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Text(
-                                      'A minha caderneta',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: screenHeight < 700 ? 16 : 18,
-                                            color: Colors.white),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical:screenHeight > 1000 ? 40 : screenHeight<700?16.0:20),
+                              child: FractionallySizedBox(
+                                widthFactor: screenWidth > 800 ? 0.5 : 0.7,
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: FlatButton(
+                                      padding: EdgeInsets.all(screenWidth > 800 ? 22 : 16.0),
+                                      color: Color(0xFFF3C463),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Text(
+                                        'A minha caderneta',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
+                                              color: Colors.white),
+                                        ),
                                       ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return MinhaCaderneta();
-                                        }),
-                                      );
-                                    }),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return MinhaCaderneta();
+                                          }),
+                                        );
+                                      }),
+                                ),
                               ),
                             ),
                           ],

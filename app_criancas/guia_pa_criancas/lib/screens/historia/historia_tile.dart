@@ -1,3 +1,5 @@
+import 'package:google_fonts/google_fonts.dart';
+
 import 'historia.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,8 +11,16 @@ class HistoriaTile extends StatelessWidget {
   String url = "";
   bool flag = false;
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
     /*return FutureBuilder<void>(
         future: loadImage(),
         builder: (context, AsyncSnapshot<void> snapshot) {
@@ -19,18 +29,32 @@ class HistoriaTile extends StatelessWidget {
            if(snapshot.hasError)
            return new Text("Erro");
            else */
-    return Column(
-//                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-//                crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: screenHeight > 1000 ? screenHeight/6 : 110),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
 //                  Image.network(url),
 //                  Text(historia.titulo),
 //                  Text('Capítulos'),
-        Expanded(
-          child: CapitulosDetails(capitulos: historia.capitulos),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              "Toca e escolhe o capítulo:",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
+              ),
+            ),
+          ),
+          Expanded(
+            child: CapitulosDetails(capitulos: historia.capitulos),
+          ),
+        ],
+      ),
     );
 
     /* break;

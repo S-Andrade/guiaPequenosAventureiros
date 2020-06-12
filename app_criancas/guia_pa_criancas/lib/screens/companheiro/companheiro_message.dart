@@ -90,9 +90,16 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
 //  }
 
   // SVG ARROWS
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     flag = false;
 
     if (companheiro != null) {
@@ -113,11 +120,12 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
       _setMouth(companheiroMouth);
       _setBodyPart(companheiroBodyPart);
       return Container(
+        margin: EdgeInsets.only(top: screenHeight > 100 ? 100 : 0),
 
         child: FlareActor(
           "assets/animation/shapes3.flr",
           animation: "animation",
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.contain,
           alignment: Alignment.topCenter,
           controller: _controller,
           artboard: companheiro.shape,

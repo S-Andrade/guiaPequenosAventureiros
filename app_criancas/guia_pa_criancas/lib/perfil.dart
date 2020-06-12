@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 
 class Perfil extends StatefulWidget {
@@ -22,6 +23,8 @@ class _Perfil extends State<Perfil> {
   FirebaseUser user;
   _Perfil({this.user});
 
+  String nomeUser;
+
   int pontuacao_aluno;
   int pontuacao_turma;
   String id_turma;
@@ -31,15 +34,18 @@ class _Perfil extends State<Perfil> {
   @override
   void initState() {
     getInfo();
+    _getNomeUser();
     super.initState();
+  }
+
+  _getNomeUser() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    nomeUser = sp.getString('myName');
   }
 
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +90,7 @@ class _Perfil extends State<Perfil> {
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FractionallySizedBox(
-                        heightFactor: 0.35,
+                        heightFactor: screenWidth > 800 ? 0.25 : 0.35,
                         child: Container(
 //                        height: 130,
                           decoration: BoxDecoration(
@@ -100,20 +106,20 @@ class _Perfil extends State<Perfil> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: FractionallySizedBox(
-                    heightFactor: 0.6,
-                    widthFactor: 0.9,
+                    heightFactor: screenHeight > 1000 ? 0.55 : 0.6,
+                    widthFactor: screenWidth > 800 ? 0.8 : 0.9,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Column(
                             children: [
                               Text(
-                                "Olá, $aa!",
+                                (nomeUser != null) ? "Olá, $aa!" : "Olá, $nomeUser!",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.pangolin(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: screenHeight < 700 ? 26 : 30,
+                                    fontSize: screenWidth > 800 ? 40 : screenHeight < 700 ? 26 : 30,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -124,7 +130,7 @@ class _Perfil extends State<Perfil> {
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 700 ? 20 : 24,
+                                        fontSize: screenWidth > 800 ? 34 : screenHeight < 700 ? 20 : 24,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -135,7 +141,7 @@ class _Perfil extends State<Perfil> {
                                           textStyle: TextStyle(
                                             fontWeight: FontWeight.w900,
                                             fontSize:
-                                                screenHeight < 700 ? 20 : 24,
+                                            screenWidth > 800 ? 38 : screenHeight < 700 ? 20 : 24,
                                             color: Color(0xFFF3C463),
                                           ),
                                         ),
@@ -148,7 +154,7 @@ class _Perfil extends State<Perfil> {
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 700 ? 20 : 24,
+                                        fontSize: screenWidth > 800 ? 34 : screenHeight < 700 ? 20 : 22,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -159,7 +165,7 @@ class _Perfil extends State<Perfil> {
                                           textStyle: TextStyle(
                                             fontWeight: FontWeight.w900,
                                             fontSize:
-                                                screenHeight < 700 ? 20 : 24,
+                                            screenWidth > 800 ? 38 : screenHeight < 700 ? 20 : 22,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -174,7 +180,7 @@ class _Perfil extends State<Perfil> {
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(screenWidth > 800 ? 20 : 8.0),
                                     child: FlatButton(
                                       color: Color(0xFFF3C463),
                                       shape: RoundedRectangleBorder(
@@ -199,7 +205,7 @@ class _Perfil extends State<Perfil> {
                                             textStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize:
-                                                  screenHeight < 700 ? 16 : 18,
+                                              screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -210,7 +216,7 @@ class _Perfil extends State<Perfil> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(screenWidth > 800 ? 20 : 8.0),
                                     child: FlatButton(
                                       color: Color(0xFF01BBB6),
                                       shape: RoundedRectangleBorder(
@@ -236,7 +242,7 @@ class _Perfil extends State<Perfil> {
                                             textStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize:
-                                                  screenHeight < 700 ? 16 : 18,
+                                              screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -293,7 +299,7 @@ class _Perfil extends State<Perfil> {
                 child: Align(
                     alignment: Alignment.topCenter,
                     child: FractionallySizedBox(
-                        widthFactor: 0.6,
+                        widthFactor:  0.6,
                         heightFactor: 0.4,
                         child: CompanheiroMessage())),
               ),
