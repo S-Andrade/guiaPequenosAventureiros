@@ -3,6 +3,7 @@ import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
 import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,6 @@ class _Perfil extends State<Perfil> {
   int pontuacao_turma;
   String id_turma;
   String aa;
-
 
   @override
   void initState() {
@@ -105,156 +105,188 @@ class _Perfil extends State<Perfil> {
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: FractionallySizedBox(
-                    heightFactor: screenHeight > 1000 ? 0.55 : 0.6,
-                    widthFactor: screenWidth > 800 ? 0.8 : 0.9,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                (nomeUser != null) ? "Olá, $aa!" : "Olá, $nomeUser!",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.pangolin(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: screenWidth > 800 ? 40 : screenHeight < 700 ? 26 : 30,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    text: " A tua pontuação é de ",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: screenWidth > 800 ? 34 : screenHeight < 700 ? 20 : 24,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: pontuacao_aluno.toString(),
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize:
-                                            screenWidth > 800 ? 38 : screenHeight < 700 ? 20 : 24,
-                                            color: Color(0xFFF3C463),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    text: " A pontuação da tua turma ",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: screenWidth > 800 ? 34 : screenHeight < 700 ? 20 : 22,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: pontuacao_turma.toString(),
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize:
-                                            screenWidth > 800 ? 38 : screenHeight < 700 ? 20 : 22,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: Row(
+                  child: DelayedDisplay(
+                    delay: Duration(milliseconds: 400),
+                    fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                    child: FractionallySizedBox(
+                      heightFactor: screenHeight > 1000 ? 0.55 : 0.6,
+                      widthFactor: screenWidth > 800 ? 0.8 : 0.9,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
                               children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(screenWidth > 800 ? 20 : 8.0),
-                                    child: FlatButton(
-                                      color: Color(0xFFF3C463),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0)),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MinhaCaderneta()),
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical:
-                                                screenHeight < 700 ? 10 : 20.0),
-                                        child: Text(
-                                          'Minha Caderneta',
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.quicksand(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize:
-                                              screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                Text(
+                                  (nomeUser != null)
+                                      ? "Olá, $aa!"
+                                      : "Olá, $nomeUser!",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.pangolin(
+                                    textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: screenWidth > 800
+                                          ? 40
+                                          : screenHeight < 700 ? 26 : 30,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(screenWidth > 800 ? 20 : 8.0),
-                                    child: FlatButton(
-                                      color: Color(0xFF01BBB6),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0)),
-                                      onPressed: () {
-                                        //ir para a caderneta da turma
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CadernetaTurma()),
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical:
-                                                screenHeight < 700 ? 10 : 20.0),
-                                        child: Text(
-                                          'Caderneta de turma',
-                                          textAlign: TextAlign.center,
+                                RichText(
+                                  text: TextSpan(
+                                      text: " A tua pontuação é de ",
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: screenWidth > 800
+                                              ? 34
+                                              : screenHeight < 700 ? 20 : 24,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: pontuacao_aluno.toString(),
                                           style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize:
-                                              screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: screenWidth > 800
+                                                  ? 38
+                                                  : screenHeight < 700
+                                                      ? 20
+                                                      : 24,
+                                              color: Color(0xFFF3C463),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      text: " A pontuação da tua turma ",
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: screenWidth > 800
+                                              ? 34
+                                              : screenHeight < 700 ? 20 : 22,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: pontuacao_turma.toString(),
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: screenWidth > 800
+                                                  ? 38
+                                                  : screenHeight < 700
+                                                      ? 20
+                                                      : 22,
                                               color: Colors.white,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
+                                      ]),
                                 ),
                               ],
                             ),
-                          ),
-                        ]),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(
+                                          screenWidth > 800 ? 20 : 8.0),
+                                      child: FlatButton(
+                                        color: Color(0xFFF3C463),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(
+                                                    10.0)),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MinhaCaderneta()),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: screenHeight < 700
+                                                  ? 10
+                                                  : 20.0),
+                                          child: Text(
+                                            'Minha Caderneta',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: screenWidth > 800
+                                                    ? 24
+                                                    : screenHeight < 700
+                                                        ? 16
+                                                        : 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(
+                                          screenWidth > 800 ? 20 : 8.0),
+                                      child: FlatButton(
+                                        color: Color(0xFF01BBB6),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(
+                                                    10.0)),
+                                        onPressed: () {
+                                          //ir para a caderneta da turma
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CadernetaTurma()),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: screenHeight < 700
+                                                  ? 10
+                                                  : 20.0),
+                                          child: Text(
+                                            'Caderneta de turma',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: screenWidth > 800
+                                                    ? 24
+                                                    : screenHeight < 700
+                                                        ? 16
+                                                        : 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    ),
                   ),
                 ),
               ),
@@ -262,32 +294,35 @@ class _Perfil extends State<Perfil> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Expanded(
-                    child: OutlineButton.icon(
-                      icon: Icon(Icons.exit_to_app,
-                      color: Colors.grey, size:16),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: screenHeight > 700 ? 10 : 0 ),
+                      child: OutlineButton.icon(
+                        icon:
+                            Icon(Icons.exit_to_app, color: Colors.grey, size: 16),
 
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                        5.0,
-                      )),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                          5.0,
+                        )),
 //                  color: Color(0xFFFF2929),
-                      onPressed: () async {
-                        await Auth().logOut();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return MyApp();
-                          }),
-                        );
-                      },
-                      label: Text(
-                        'Terminar sessão',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: screenHeight < 700 ? 12 : 16,
-                            color: Colors.grey,
+                        onPressed: () async {
+                          await Auth().logOut();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return MyApp();
+                            }),
+                          );
+                        },
+                        label: Text(
+                          'Terminar sessão',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight < 700 ? 12 : 16,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ),
@@ -298,10 +333,15 @@ class _Perfil extends State<Perfil> {
               Positioned(
                 child: Align(
                     alignment: Alignment.topCenter,
-                    child: FractionallySizedBox(
-                        widthFactor:  0.6,
-                        heightFactor: 0.4,
-                        child: CompanheiroMessage())),
+                    child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                      fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                      child: FractionallySizedBox(
+                          widthFactor: 0.6,
+                          heightFactor: 0.4,
+                          child: CompanheiroMessage()),
+                    )),
               ),
             ],
           )),

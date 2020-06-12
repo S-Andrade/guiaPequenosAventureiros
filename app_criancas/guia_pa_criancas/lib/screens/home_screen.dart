@@ -13,6 +13,8 @@ import 'aventura/aventura_list.dart';
 import 'companheiro/companheiro_appwide.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final FirebaseUser user;
@@ -121,10 +123,11 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
 
-//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//      statusBarColor: Colors.transparent,
-//      systemNavigationBarColor: Color(0xFFBBA9F9),
-//    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Color(0xFFBBA9F9),
+    ));
+
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: MaterialApp(
@@ -154,7 +157,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 24,
+                            fontSize: screenHeight > 1000 ? 32 : 24,
                             color: Color(0xFF30246A)),
                       ),
                     ),
@@ -169,7 +172,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: FractionallySizedBox(
-                          heightFactor: 0.17,
+                          heightFactor: 0.20,
                           child: Container(
                             decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -223,8 +226,8 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: FractionallySizedBox(
-                          widthFactor: screenWidth > 800 ? 0.75 : 0.9,
-                          heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                          widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                          heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
                           child: Stack(
                             children: [
                               FlareActor(
@@ -241,14 +244,14 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                                   fadingDuration: const Duration(milliseconds: 800),
                                   slidingBeginOffset: const Offset(0, 0.0),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:20.0, right: 100),
+                                    padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
                                     child: Text(
                                     "Vamos escolher uma aventura para começar a diversão?",
                                       textAlign: TextAlign.right,
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: screenHeight < 1000 ? 20 : 28,
+                                            fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
                                             color: Colors.white),
                                       ),
                                     ),

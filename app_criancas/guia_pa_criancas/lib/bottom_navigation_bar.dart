@@ -39,86 +39,93 @@ class BottomBar extends StatelessWidget {
 //      _navIconBarColor = Colors.lightGreen;
 //    }
 
-    return BottomNavigationBar(
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
-      selectedLabelStyle: GoogleFonts.quicksand(
-        textStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+    return Padding(
+      padding: EdgeInsets.only(
+          left: screenWidth > 800 ? 100.0 : 0.0,
+          right: screenWidth > 800 ? 100.0 : 0.0,
+          bottom: screenWidth > 800 ? 20.0 : 0.0,
       ),
-      unselectedLabelStyle: GoogleFonts.quicksand(
-        textStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+      child: BottomNavigationBar(
+        selectedFontSize: screenWidth > 800 ? 16 : 12,
+        unselectedFontSize: screenWidth > 800 ? 16 : 12,
+        selectedLabelStyle: GoogleFonts.quicksand(
+          textStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+        ),
+        unselectedLabelStyle: GoogleFonts.quicksand(
+          textStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+        ),
+        iconSize: screenWidth > 800 ? 36 : screenHeight < 700 ? 22 : 24.0,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.transparent,
+        selectedItemColor: Colors.black54,
+        unselectedItemColor: _navIconBarColor,
+        currentIndex: index,
+        onTap: (int i) async {
+          if (i == 0) {
+            user = await getUserA();
+            print(user.email);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return HomeScreen(user: user);
+              }),
+            );
+          } else if (i == 1) {
+            user = await getUserA();
+            print(user.email);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return AventuraDetails(aventura: aventura);
+              }),
+            );
+          } else if (i == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return Perfil(user: user);
+              }),
+            );
+          } else if (i == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return RankingScreen();
+              }),
+            );
+          } else if (i == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return MinhaCaderneta();
+              }),
+            );
+          }
+        },
+        elevation: 0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.list),
+            title: Text('Capítulos'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Perfil'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.trophy),
+            title: Text('Ranking'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.th),
+            title: Text('Caderneta'),
+          ),
+        ],
       ),
-      iconSize: screenWidth > 800 ? 30 : screenHeight < 700 ? 22 : 24.0,
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.transparent,
-      selectedItemColor: Colors.black54,
-      unselectedItemColor: _navIconBarColor,
-      currentIndex: index,
-      onTap: (int i) async {
-        if (i == 0) {
-          user = await getUserA();
-          print(user.email);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return HomeScreen(user: user);
-            }),
-          );
-        } else if (i == 1) {
-          user = await getUserA();
-          print(user.email);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return AventuraDetails(aventura: aventura);
-            }),
-          );
-        } else if (i == 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return Perfil(user: user);
-            }),
-          );
-        } else if (i == 3) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return RankingScreen();
-            }),
-          );
-        } else if (i == 4) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return MinhaCaderneta();
-            }),
-          );
-        }
-      },
-      elevation: 0,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text('Home'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.list),
-          title: Text('Capítulos'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          title: Text('Perfil'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.trophy),
-          title: Text('Ranking'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.th),
-          title: Text('Caderneta'),
-        ),
-      ],
     );
   }
 }

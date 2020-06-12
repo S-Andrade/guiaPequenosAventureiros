@@ -20,8 +20,16 @@ class _AventuraTile extends State<AventuraTile> {
 
   Image image_capa;
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     return FutureBuilder<void>(
         future: getImage(),
@@ -40,15 +48,13 @@ class _AventuraTile extends State<AventuraTile> {
                                 AventuraDetails(aventura: aventura)));
                   },
                   child: FractionallySizedBox(
-                    heightFactor: 0.7, //
+                    heightFactor: 0.6, //
                     child: Container(
-                      //              height: 560,
-                      //            constraints: BoxConstraints.expand(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: EdgeInsets.all(screenHeight > 1000 ? 40 : 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -59,7 +65,7 @@ class _AventuraTile extends State<AventuraTile> {
                                         textStyle: TextStyle(
                                             height: 1,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 24,
+                                            fontSize: screenHeight > 1000 ? 40 : screenHeight < 700 ? 20 : 24,
                                             color: Colors.white),
                                       )),
                                 ),
@@ -67,7 +73,7 @@ class _AventuraTile extends State<AventuraTile> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(screenHeight > 1000 ? 20 : 20.0),
                             child: RaisedButton(
                               onPressed: () {
                                 missionsNotifier.currentAventura = aventura;
@@ -81,14 +87,14 @@ class _AventuraTile extends State<AventuraTile> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Padding(
-                                padding: const EdgeInsets.all(20.0),
+                                padding: EdgeInsets.all(screenHeight > 1000 ? 30 : 20.0),
                                 child: Text(
-                                  "SEGUIR AVENTURA",
+                                  "Entrar na Aventura",
                                   style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         height: 1,
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 14,
+                                        fontSize: screenHeight > 1000 ? 20 : 14,
                                         color: Color(0xFF333351)),
                                   ),
                                 ),

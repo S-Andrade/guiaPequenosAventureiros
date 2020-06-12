@@ -127,7 +127,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                 bottom:
                                     screenHeight > 1000 ? screenHeight / 4 : 170,
                                 top:
-                                    screenHeight > 1000 ? screenHeight / 6 : 120),
+                                    screenHeight > 1000 ? screenHeight / 5.5 : 120),
                             itemBuilder: (BuildContext context, int index) {
                               Mission mission =
                                   missionsNotifier.missionsList[index];
@@ -371,8 +371,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: FractionallySizedBox(
-                      widthFactor: screenWidth > 800 ? 0.75 : 0.9,
-                      heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                      widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                      heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
                       child: Stack(
                         children: [
                           FlareActor(
@@ -389,14 +389,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                               fadingDuration: const Duration(milliseconds: 800),
                               slidingBeginOffset: const Offset(0, 0.0),
                               child: Padding(
-                                padding: const EdgeInsets.only(left:100.0, right: 20),
+                                padding: EdgeInsets.only(right: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, left: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
                                 child: Text(
                                   "Aqui estou a dizer algo mesmo muito pertinente",
                                   textAlign: TextAlign.left,
                                   style: GoogleFonts.pangolin(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 1000 ? 20 : 28,
+                                        fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
                                         color: Colors.white),
                                   ),
                                 ),
@@ -408,7 +408,6 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   child: Align(
                       alignment: Alignment.topLeft,

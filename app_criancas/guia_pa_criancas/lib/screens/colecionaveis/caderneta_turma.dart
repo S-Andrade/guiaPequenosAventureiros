@@ -3,8 +3,10 @@ import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
 import 'package:app_criancas/widgets/color_loader.dart';
 import 'package:app_criancas/widgets/color_loader_5.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +39,8 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
     getAll();
     print('refresh');
   }
+
+  final ScrollController _controllerScroll = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -138,24 +142,33 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              child: GridView.count(
-                                  crossAxisCount: screenWidth > 800 ? 3 : 2,
-                                  children:
-                                      List.generate(imageCromo.length, (index) {
-                                    return Padding(
-                                      padding: EdgeInsets.all(screenWidth > 800 ? 16 : screenHeight < 700 ? 6 : 10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            image:
-                                                NetworkImage(imageCromo[index]),
-                                            fit: BoxFit.cover,
+                              child: Scrollbar(
+                                controller: _controllerScroll,
+                                child: GridView.count(
+                                    crossAxisCount: screenWidth > 800 ? 3 : 2,
+                                    children:
+                                        List.generate(imageCromo.length, (index) {
+                                      return Padding(
+                                        padding: EdgeInsets.all(screenWidth > 800 ? 16 : screenHeight < 700 ? 6 : 10),
+                                        child: DelayedDisplay(
+                                          delay: Duration(milliseconds: 200*index),
+                                          fadingDuration:
+                                          const Duration(milliseconds: 800),
+                                          slidingBeginOffset:
+                                          const Offset(-0.0, 0.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image:
+                                                  NetworkImage(imageCromo[index]),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  })),
+                                        ),),
+                                      );
+                                    })),
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical:screenHeight > 1000 ? 40 : screenHeight<700?16.0:20),
@@ -197,36 +210,41 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
               ),
               Positioned(
                 child: Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
-                    heightFactor: 0.15,
-                    widthFactor: 0.8,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black45.withOpacity(0.8),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(5))),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Center(
-                            child: Text(
-                              "Bom trabalho de equipa!",
-                              textAlign: TextAlign.right,
-                              style: GoogleFonts.pangolin(
-                                textStyle: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 20,
-                                    color: Colors.white),
+                    widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                    heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                    child: Stack(
+                      children: [
+                        FlareActor(
+                          "assets/animation/dialog.flr",
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.center,
+//                        controller: _controller,
+                          artboard: 'Artboard',
+                          animation: 'open_dialog',
+                        ),
+                        Center(
+                          child: DelayedDisplay(
+                            delay: Duration(seconds: 1),
+                            fadingDuration: const Duration(milliseconds: 800),
+                            slidingBeginOffset: const Offset(0, 0.0),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                              child: Text(
+                                "Bom trabalho de equipa!",
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
