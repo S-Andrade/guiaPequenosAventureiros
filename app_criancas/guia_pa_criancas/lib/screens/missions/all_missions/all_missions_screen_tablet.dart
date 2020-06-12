@@ -116,75 +116,80 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
             key: _scaffoldKey,
             body: Stack(
               children: <Widget>[
-                RefreshIndicator(
-                  onRefresh: _refreshList,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(
-                              bottom:
-                                  screenHeight > 1000 ? screenHeight / 4 : 160,
-                              top:
-                                  screenHeight > 1000 ? screenHeight / 6 : 100),
-                          itemBuilder: (BuildContext context, int index) {
-                            Mission mission =
-                                missionsNotifier.missionsList[index];
-                            for (var a in mission.resultados) {
-                              if (a["aluno"] == _userID) {
-                                resultados = a;
-                                _done = resultados["done"];
+                Scrollbar(
+                  child: RefreshIndicator(
+                    onRefresh: _refreshList,
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: ListView.builder(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    screenHeight > 1000 ? screenHeight / 4 : 170,
+                                top:
+                                    screenHeight > 1000 ? screenHeight / 6 : 120),
+                            itemBuilder: (BuildContext context, int index) {
+                              Mission mission =
+                                  missionsNotifier.missionsList[index];
+                              for (var a in mission.resultados) {
+                                if (a["aluno"] == _userID) {
+                                  resultados = a;
+                                  _done = resultados["done"];
+                                }
                               }
-                            }
 
-                            if (_done == true)
-                              _completada = 0.5;
-                            else if (_done == false) _completada = 1;
+                              if (_done == true)
+                                _completada = 0.5;
+                              else if (_done == false) _completada = 1;
 
-                            if (mission.type == 'Text')
-                              _imagem = 'assets/images/background.png';
-                            else if (mission.type == 'Audio')
-                              _imagem = 'assets/images/audio_back.png';
-                            else if (mission.type == 'Video')
-                              _imagem = 'assets/images/movie.png';
-                            else if (mission.type == 'Quiz')
-                              _imagem = 'assets/images/quiz3.png';
-                            else if (mission.type == 'Questionario')
-                              _imagem = 'assets/images/green_question.png';
-                            else if (mission.type == 'Activity')
-                              _imagem = 'assets/images/yellow2.png';
-                            else if (mission.type == 'UploadVideo')
-                              _imagem = 'assets/images/green.png';
-                            else if (mission.type == 'UploadImage')
-                              _imagem = 'assets/images/green.png';
-                            else if (mission.type == 'Image')
-                              _imagem = 'assets/images/grass_green.png';
+                              if (mission.type == 'Text')
+                                _imagem = 'assets/images/background.png';
+                              else if (mission.type == 'Audio')
+                                _imagem = 'assets/images/audio_back.png';
+                              else if (mission.type == 'Video')
+                                _imagem = 'assets/images/movie.png';
+                              else if (mission.type == 'Quiz')
+                                _imagem = 'assets/images/quiz3.png';
+                              else if (mission.type == 'Questionario')
+                                _imagem = 'assets/images/green_question.png';
+                              else if (mission.type == 'Activity')
+                                _imagem = 'assets/images/yellow2.png';
+                              else if (mission.type == 'UploadVideo')
+                                _imagem = 'assets/images/green.png';
+                              else if (mission.type == 'UploadImage')
+                                _imagem = 'assets/images/green.png';
+                              else if (mission.type == 'Image')
+                                _imagem = 'assets/images/grass_green.png';
 
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                left: screenWidth > 800 ? screenWidth / 8 : 20,
-                                right: screenWidth > 800 ? screenWidth / 8 : 20,
-                                top: screenWidth > 800
-                                    ? 16
-                                    : screenHeight < 700 ? 8 : 10,
-                                bottom: screenWidth > 800
-                                    ? 16
-                                    : screenHeight < 700 ? 8 : 10,
-                              ),
-                              child: Container(
-                                  key: UniqueKey(),
-                                  decoration: BoxDecoration(
-                                    image: new DecorationImage(
-                                      image: ExactAssetImage(_imagem),
-                                      colorFilter: new ColorFilter.mode(
-                                          Colors.white.withOpacity(_completada),
-                                          BlendMode.dstIn),
-                                      fit: BoxFit.fitWidth,
-                                      alignment: Alignment.center,
-                                    ),
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  left: screenWidth > 800 ? screenWidth / 8 : 20,
+                                  right: screenWidth > 800 ? screenWidth / 8 : 20,
+                                  top: screenWidth > 800
+                                      ? 16
+                                      : screenHeight < 700 ? 8 : 10,
+                                  bottom: screenWidth > 800
+                                      ? 16
+                                      : screenHeight < 700 ? 8 : 10,
+                                ),
+                                child: DelayedDisplay(
+                                  delay: Duration(milliseconds: 600),
+                                  fadingDuration: const Duration(milliseconds: 800),
+                                  slidingBeginOffset: const Offset(0, 0.0),
+                                  child: Container(
+                                      key: UniqueKey(),
+                                      decoration: BoxDecoration(
+                                        image: new DecorationImage(
+                                          image: ExactAssetImage(_imagem),
+                                          colorFilter: new ColorFilter.mode(
+                                              Colors.white.withOpacity(_completada),
+                                              BlendMode.dstIn),
+                                          fit: BoxFit.fitWidth,
+                                          alignment: Alignment.center,
+                                        ),
 //                                      color: Color(0xFF01BBB6),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16.0),
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16.0),
 //                                      boxShadow: [
 //                                        BoxShadow(
 //                                          color: Colors.black.withOpacity(0.1),
@@ -198,166 +203,168 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 //                                          ),
 //                                        )
 //                                      ]
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: screenWidth > 800 ? 30 : 20,
-                                        right: screenWidth > 800 ? 30 : 20,
-                                        top: screenWidth > 800
-                                            ? 30
-                                            : screenHeight < 700 ? 16 : 20.0,
-                                        bottom: screenWidth > 800
-                                            ? 30
-                                            : screenHeight < 700 ? 12 : 20.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: screenWidth > 800 ? 30 : 20,
+                                            right: screenWidth > 800 ? 30 : 20,
+                                            top: screenWidth > 800
+                                                ? 30
+                                                : screenHeight < 700 ? 16 : 20.0,
+                                            bottom: screenWidth > 800
+                                                ? 30
+                                                : screenHeight < 700 ? 12 : 20.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.black
-                                                    .withOpacity(0.2),
-                                                borderRadius:
-                                                    BorderRadius.circular(6.0),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: Text(
-                                                  mission.type == 'UploadVideo'
-                                                      ? ' Carregar Vídeo '
-                                                      : mission.type ==
-                                                              'UploadImage'
-                                                          ? ' Carregar Imagem '
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.2),
+                                                    borderRadius:
+                                                        BorderRadius.circular(6.0),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(4.0),
+                                                    child: Text(
+                                                      mission.type == 'UploadVideo'
+                                                          ? ' Carregar Vídeo '
                                                           : mission.type ==
-                                                                  'Audio'
-                                                              ? ' Áudio '
+                                                                  'UploadImage'
+                                                              ? ' Carregar Imagem '
                                                               : mission.type ==
-                                                                      'Text'
-                                                                  ? ' Mensagem '
+                                                                      'Audio'
+                                                                  ? ' Áudio '
                                                                   : mission.type ==
-                                                                          'Quiz'
-                                                                      ? ' Quiz '
+                                                                          'Text'
+                                                                      ? ' Mensagem '
                                                                       : mission.type ==
-                                                                              'Activity'
-                                                                          ? ' Actividade '
-                                                                          : mission.type == 'Video'
-                                                                              ? ' Vídeo '
-                                                                              : mission.type == 'Questionario' ? ' Questionário ' : mission.type == 'Image' ? ' Imagem ' : mission.type,
+                                                                              'Quiz'
+                                                                          ? ' Quiz '
+                                                                          : mission.type ==
+                                                                                  'Activity'
+                                                                              ? ' Actividade '
+                                                                              : mission.type == 'Video'
+                                                                                  ? ' Vídeo '
+                                                                                  : mission.type == 'Questionario' ? ' Questionário ' : mission.type == 'Image' ? ' Imagem ' : mission.type,
+                                                      style: GoogleFonts.quicksand(
+                                                        textStyle: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize:
+                                                                screenWidth > 800
+                                                                    ? 20
+                                                                    : 14,
+                                                            color: Colors.white),
+                                                      ),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  mission.points.toString() +
+                                                      ' pontos',
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize:
-                                                            screenWidth > 800
-                                                                ? 20
-                                                                : 14,
-                                                        color: Colors.white),
+                                                        fontWeight: FontWeight.w900,
+                                                        fontSize: screenWidth > 800
+                                                            ? 22
+                                                            : 16,
+                                                        color: Colors.yellow),
                                                   ),
                                                   textAlign: TextAlign.left,
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                            Text(
-                                              mission.points.toString() +
-                                                  ' pontos',
-                                              style: GoogleFonts.quicksand(
-                                                textStyle: TextStyle(
-                                                    fontWeight: FontWeight.w900,
-                                                    fontSize: screenWidth > 800
-                                                        ? 22
-                                                        : 16,
-                                                    color: Colors.yellow),
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                mission.title,
-                                                style: GoogleFonts.quicksand(
-                                                  textStyle: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: screenWidth >
-                                                              800
-                                                          ? 28
-                                                          : screenHeight < 700
-                                                              ? 20
-                                                              : 22,
-                                                      color: Colors.black),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    mission.title,
+                                                    style: GoogleFonts.quicksand(
+                                                      textStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: screenWidth >
+                                                                  800
+                                                              ? 28
+                                                              : screenHeight < 700
+                                                                  ? 20
+                                                                  : 22,
+                                                          color: Colors.black),
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
                                                 ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ),
-                                            new Builder(
-                                              builder: (BuildContext context) =>
-                                                  _done
-                                                      ? IconButton(
-                                                          icon: Icon(
-                                                              FontAwesomeIcons
-                                                                  .redo),
-                                                          iconSize: 20,
-                                                          color: Colors.white,
-                                                          tooltip:
-                                                              'Repetir a missão',
-                                                          onPressed: () {
-                                                            missionsNotifier
-                                                                    .currentMission =
-                                                                mission;
-                                                            setState(() {
-                                                              _navegarParaMissao(
-                                                                  context,
-                                                                  mission);
-                                                            });
-                                                          },
-                                                        )
-                                                      : IconButton(
-                                                          icon: Icon(
-                                                              FontAwesomeIcons
-                                                                  .arrowRight),
-                                                          iconSize: 30,
-                                                          color: parseColor(
-                                                              "#320a5c"),
-                                                          tooltip:
-                                                              'Passar para a missão',
-                                                          onPressed: () {
-                                                            missionsNotifier
-                                                                    .currentMission =
-                                                                mission;
-                                                            setState(() {
-                                                              print(
-                                                                  'aquiiiiii');
-                                                              _navegarParaMissao(
-                                                                  context,
-                                                                  mission);
-                                                            });
-                                                          },
-                                                        ),
+                                                new Builder(
+                                                  builder: (BuildContext context) =>
+                                                      _done
+                                                          ? IconButton(
+                                                              icon: Icon(
+                                                                  FontAwesomeIcons
+                                                                      .redo),
+                                                              iconSize: 20,
+                                                              color: Colors.white,
+                                                              tooltip:
+                                                                  'Repetir a missão',
+                                                              onPressed: () {
+                                                                missionsNotifier
+                                                                        .currentMission =
+                                                                    mission;
+                                                                setState(() {
+                                                                  _navegarParaMissao(
+                                                                      context,
+                                                                      mission);
+                                                                });
+                                                              },
+                                                            )
+                                                          : IconButton(
+                                                              icon: Icon(
+                                                                  FontAwesomeIcons
+                                                                      .arrowRight),
+                                                              iconSize: 30,
+                                                              color: parseColor(
+                                                                  "#320a5c"),
+                                                              tooltip:
+                                                                  'Passar para a missão',
+                                                              onPressed: () {
+                                                                missionsNotifier
+                                                                        .currentMission =
+                                                                    mission;
+                                                                setState(() {
+                                                                  print(
+                                                                      'aquiiiiii');
+                                                                  _navegarParaMissao(
+                                                                      context,
+                                                                      mission);
+                                                                });
+                                                              },
+                                                            ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  )),
-                            );
-                          },
-                          itemCount: missoes.length,
+                                      )),
+                                ),
+                              );
+                            },
+                            itemCount: missoes.length,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
@@ -382,14 +389,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                               fadingDuration: const Duration(milliseconds: 800),
                               slidingBeginOffset: const Offset(0, 0.0),
                               child: Padding(
-                                padding: const EdgeInsets.only(left:100.0, right: 60),
+                                padding: const EdgeInsets.only(left:100.0, right: 20),
                                 child: Text(
                                   "Aqui estou a dizer algo mesmo muito pertinente",
                                   textAlign: TextAlign.left,
                                   style: GoogleFonts.pangolin(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 1000 ? 18 : 28,
+                                        fontSize: screenHeight < 1000 ? 20 : 28,
                                         color: Colors.white),
                                   ),
                                 ),

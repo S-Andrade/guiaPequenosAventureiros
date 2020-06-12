@@ -169,7 +169,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: FractionallySizedBox(
-                          heightFactor: 0.15,
+                          heightFactor: 0.17,
                           child: Container(
                             decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -241,14 +241,14 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                                   fadingDuration: const Duration(milliseconds: 800),
                                   slidingBeginOffset: const Offset(0, 0.0),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:60.0, right: 100),
+                                    padding: const EdgeInsets.only(left:20.0, right: 100),
                                     child: Text(
                                     "Vamos escolher uma aventura para começar a diversão?",
                                       textAlign: TextAlign.right,
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: screenHeight < 1000 ? 18 : 28,
+                                            fontSize: screenHeight < 1000 ? 20 : 28,
                                             color: Colors.white),
                                       ),
                                     ),

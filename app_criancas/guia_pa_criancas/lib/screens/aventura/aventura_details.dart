@@ -110,7 +110,7 @@ class AventuraDetails extends StatelessWidget {
                             slidingBeginOffset: const Offset(0, 0.0),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 60.0, right: 100),
+                                  const EdgeInsets.only(left: 20.0, right: 100),
                               child: Text(
                                     frases[
                                         math.Random().nextInt(frases.length)] +
@@ -119,7 +119,7 @@ class AventuraDetails extends StatelessWidget {
                                 style: GoogleFonts.pangolin(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: screenHeight < 1000 ? 18 : 28,
+                                      fontSize: screenHeight < 1000 ? 20 : 28,
                                       color: Colors.white),
                                 ),
                               ),

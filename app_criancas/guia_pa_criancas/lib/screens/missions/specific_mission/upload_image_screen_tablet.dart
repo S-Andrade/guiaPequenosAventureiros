@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -281,43 +283,54 @@ class _UploadImageScreenTabletPortraitState
               ),
               Positioned(
                 child: Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
-                    heightFactor: 0.15,
-                    widthFactor: 0.8,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black45.withOpacity(0.8),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(5))),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Center(
-                            child: Text(
-                              "Pede a um adulto para autorizar o carregamento",
-                              textAlign: TextAlign.right,
-                              style: GoogleFonts.pangolin(
-                                textStyle: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 20,
-                                    color: Colors.white),
+                    widthFactor: screenWidth > 800 ? 0.75 : 0.9,
+                    heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                    child: Stack(
+                      children: [
+                        FlareActor(
+                          "assets/animation/dialog.flr",
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.center,
+//                        controller: _controller,
+                          artboard: 'Artboard',
+                          animation: 'open_dialog',
+                        ),
+                        Center(
+                          child: DelayedDisplay(
+                            delay: Duration(seconds: 1),
+                            fadingDuration: const Duration(milliseconds: 800),
+                            slidingBeginOffset: const Offset(0, 0.0),
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.only(left: 60.0, right: 100),
+                              child: Text(
+                                "Pede a um adulto para autorizar o carregamento",
+                                textAlign: TextAlign.right,
+                                style: GoogleFonts.pangolin(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: screenHeight < 1000 ? 20 : 28,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
               Positioned(
                 child: Align(
-                    alignment: Alignment.topRight, child: CompanheiroAppwide()),
+                    alignment: Alignment.topRight,
+                    child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                        fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                        child: CompanheiroAppwide())),
               ),
             ],
           )),

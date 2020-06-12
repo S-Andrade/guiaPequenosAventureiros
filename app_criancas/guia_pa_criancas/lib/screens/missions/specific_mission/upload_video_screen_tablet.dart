@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -103,7 +105,8 @@ class _UploadVideoScreenTabletPortraitState
             iconTheme: IconThemeData(
               color: Color(0xFF30246A), //change your color here
             ),
-            title: Text('Carregar Vídeo',
+            title: Text(
+              'Carregar Vídeo',
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -113,8 +116,7 @@ class _UploadVideoScreenTabletPortraitState
               ),
             ),
           ),
-          body: Stack(
-              children: <Widget>[
+          body: Stack(children: <Widget>[
             Positioned(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -124,16 +126,17 @@ class _UploadVideoScreenTabletPortraitState
 //                        height: 130,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_white.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                      image: AssetImage(
+                          'assets/images/clouds_bottom_navigation_white.png'),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
                   ),
                 ),
               ),
             ),
-            Positioned.fill(child: Align(
+            Positioned.fill(
+                child: Align(
               alignment: Alignment.center,
               child: FractionallySizedBox(
                 widthFactor: 0.9,
@@ -146,15 +149,15 @@ class _UploadVideoScreenTabletPortraitState
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                          mission.title,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: screenHeight < 700 ? 26 : 30,
-                                color: Colors.white),
+                            mission.title,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenHeight < 700 ? 26 : 30,
+                                  color: Colors.white),
+                            ),
                           ),
-                  ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -199,61 +202,60 @@ class _UploadVideoScreenTabletPortraitState
                       Builder(
                           builder: (BuildContext) => _loaded
                               ? new Icon(
-                            FontAwesomeIcons.checkCircle,
-                            color: Colors.lightGreenAccent,
-                            size: 30.0,
-                          )
+                                  FontAwesomeIcons.checkCircle,
+                                  color: Colors.lightGreenAccent,
+                                  size: 30.0,
+                                )
                               : Container()),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Builder(
-                            builder: (BuildContext) => _done
-                                ? FlatButton(
-                                    padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
-                                    color: Color(0xFFEBECEC)
-                                        .withOpacity(0.8),
-                                disabledTextColor: Colors.grey,
-                                disabledColor: Color(0xFFEBECEC)
-                                    .withOpacity(0.8),
-                                shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            10.0)),
-                                    child: Text(
-                                      'Já carregado',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                          fontWeight:
-                                          FontWeight.normal,
-                                          fontSize: screenHeight < 700 ? 16 : 18,
-                                          color: Colors.white,
+                              builder: (BuildContext) => _done
+                                  ? FlatButton(
+                                      padding: EdgeInsets.all(
+                                          screenHeight < 700 ? 16 : 20),
+                                      color: Color(0xFFEBECEC).withOpacity(0.8),
+                                      disabledTextColor: Colors.grey,
+                                      disabledColor:
+                                          Color(0xFFEBECEC).withOpacity(0.8),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Text(
+                                        'Já carregado',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize:
+                                                screenHeight < 700 ? 16 : 18,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    onPressed: () => _loadButton())
-                                : FlatButton(
-                                  padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
-                                  color: Color(0xFF1e85e6),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          10.0)),
-                                  child: Text(
-                                    'Escolher',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                        fontWeight:
-                                        FontWeight.normal,
-                                        fontSize: screenHeight < 700 ? 16 : 18,
-                                        color: Colors.white,
+                                      onPressed: () => _loadButton())
+                                  : FlatButton(
+                                      padding: EdgeInsets.all(
+                                          screenHeight < 700 ? 16 : 20),
+                                      color: Color(0xFF1e85e6),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Text(
+                                        'Escolher',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize:
+                                                screenHeight < 700 ? 16 : 18,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  onPressed: getVideo,
-                                )),
+                                      onPressed: getVideo,
+                                    )),
                         ),
                       ),
                       Expanded(
@@ -262,20 +264,20 @@ class _UploadVideoScreenTabletPortraitState
                           child: Builder(
                             builder: (BuildContext) => _loaded
                                 ? FlatButton(
-                                child: setButton(),
-                                onPressed: () {
-                                  setState(() {
-                                    _state = 1;
-                                    _loadButton();
-                                  });
-                                },
-                                padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
-                                color: Color(0xFF5de8c5),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(
-                                        10.0)))
-                               :Container(),
+                                    child: setButton(),
+                                    onPressed: () {
+                                      setState(() {
+                                        _state = 1;
+                                        _loadButton();
+                                      });
+                                    },
+                                    padding: EdgeInsets.all(
+                                        screenHeight < 700 ? 16 : 20),
+                                    color: Color(0xFF5de8c5),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)))
+                                : Container(),
 //                                : FlatButton(
 //                                disabledTextColor: Colors.grey,
 //                                disabledColor: Color(0xFFEBECEC)
@@ -291,50 +293,62 @@ class _UploadVideoScreenTabletPortraitState
                           ),
                         ),
                       ),
-                  ]),
-                ],),
+                    ]),
+                  ],
+                ),
               ),
             )),
-                Positioned(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: FractionallySizedBox(
-                      heightFactor: 0.15,
-                      widthFactor: 0.8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black45.withOpacity(0.8),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(5))),
+            Positioned(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: FractionallySizedBox(
+                  widthFactor: screenWidth > 800 ? 0.75 : 0.9,
+                  heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                  child: Stack(
+                    children: [
+                      FlareActor(
+                        "assets/animation/dialog.flr",
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.center,
+//                        controller: _controller,
+                        artboard: 'Artboard',
+                        animation: 'open_dialog',
+                      ),
+                      Center(
+                        child: DelayedDisplay(
+                          delay: Duration(seconds: 1),
+                          fadingDuration: const Duration(milliseconds: 800),
+                          slidingBeginOffset: const Offset(0, 0.0),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Center(
-                              child: Text(
-                                "Pede a um adulto para autorizar o carregamento",
-                                textAlign: TextAlign.right,
-                                style: GoogleFonts.pangolin(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                      color: Colors.white),
-                                ),
+                            padding:
+                                const EdgeInsets.only(left: 60.0, right: 100),
+                            child: Text(
+                              "Pede a um adulto para autorizar o carregamento",
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.pangolin(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: screenHeight < 1000 ? 20 : 28,
+                                    color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                Positioned(
-                  child: Align(
-                      alignment: Alignment.topRight, child: CompanheiroAppwide()),
-                ),
+              ),
+            ),
+            Positioned(
+              child: Align(
+                  alignment: Alignment.topRight,
+                  child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                      fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                      child: CompanheiroAppwide())),
+            ),
           ])),
     );
   }
@@ -374,7 +388,7 @@ class _UploadVideoScreenTabletPortraitState
         Navigator.pop(context);
       });
     } else {
-       enviarDialog();
+      enviarDialog();
     }
   }
 

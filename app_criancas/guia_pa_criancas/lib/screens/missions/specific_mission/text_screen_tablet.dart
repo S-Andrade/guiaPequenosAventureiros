@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -173,47 +174,57 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
 //                            ),
 //                          ),
 //                        ),
-                        Container(
-                          margin: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
-                          padding: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16)),
-                            color: Colors.white.withOpacity(0.6),
-                          ),
-                          child: Flexible(
-                            child: Center(
-                              child: Text(
-                                mission.content,
-                                style: GoogleFonts.pangolin(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: screenHeight < 700 ? 18 : 22,
-                                      color: Colors.black),
+                        DelayedDisplay(
+                          delay: Duration(seconds: 1),
+                          fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                          child: Container(
+                            margin: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
+                            padding: EdgeInsets.all(screenHeight < 700 ? 16 : 30.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              color: Colors.white.withOpacity(0.6),
+                            ),
+                            child: Flexible(
+                              child: Center(
+                                child: Text(
+                                  mission.content,
+                                  style: GoogleFonts.pangolin(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: screenHeight < 700 ? 18 : 22,
+                                        color: Colors.black),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: FractionallySizedBox(
-                            widthFactor: 0.4,
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: FlatButton(
-                                  padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
-                                  child: setButton(),
-                                  onPressed: () {
-                                    setState(() {
-                                      _state = 1;
-                                      _loadButton();
-                                    });
-                                  },
-                                  color: Colors.indigo,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0))),
+                        DelayedDisplay(
+                          delay: Duration(milliseconds: 1500),
+                          fadingDuration: const Duration(milliseconds: 800),
+                          slidingBeginOffset: const Offset(0.0, 0.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.4,
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: FlatButton(
+                                    padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
+                                    child: setButton(),
+                                    onPressed: () {
+                                      setState(() {
+                                        _state = 1;
+                                        _loadButton();
+                                      });
+                                    },
+                                    color: Colors.indigo,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0))),
+                              ),
                             ),
                           ),
                         ),
@@ -229,7 +240,11 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                   child: FractionallySizedBox(
                       widthFactor: 0.6,
                       heightFactor:0.5 ,
-                      child: CompanheiroMessage())),
+                      child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                          fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                          child: CompanheiroMessage()))),
             ),
           ],
         ),
