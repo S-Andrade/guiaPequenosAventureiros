@@ -1299,7 +1299,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Idade : ",
+                          "Data nascimento da mãe : ",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
@@ -1307,7 +1307,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                               fontSize: 15),
                         ),
                         Text(
-                          aluno.idadeMae,
+                          DateFormat('yyyy-MM-dd')
+                              .format(aluno.dataNascimentoAluno.toDate()),
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
@@ -1416,7 +1417,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Idade : ",
+                          "Data de nascimento do pai : ",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
@@ -1424,7 +1425,8 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                               fontSize: 15),
                         ),
                         Text(
-                          aluno.idadePai,
+                          DateFormat('yyyy-MM-dd')
+                              .format(aluno.dataNascimentoAluno.toDate()),
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
