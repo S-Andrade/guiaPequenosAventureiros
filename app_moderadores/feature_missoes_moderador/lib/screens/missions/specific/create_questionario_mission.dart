@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:feature_missoes_moderador/models/question.dart';
+import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'create_questionario_question_screen.dart';
 import 'exist_question.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
@@ -34,6 +36,7 @@ class _CreateQuestionarioMissionScreenState
   List<Question> selectedQ = [];
   List<Question> _perguntasRepetidas = [];
   List<Question> q = [];
+  MissionsNotifier missionsNotifier;
 
   final _text = TextEditingController();
 
@@ -41,25 +44,23 @@ class _CreateQuestionarioMissionScreenState
 
   @override
   void initState() {
-    print('aqui');
     _titulo = "";
     super.initState();
   }
 
-  getPerguntas() {
-    if (missionNotifier.currentQuestion != null) {
+  getPerguntas(MissionsNotifier missionsNotifier) {
+    if (missionsNotifier.currentQuestion != null) {
       q = [];
-      print(missionNotifier.currentQuestion.question);
-      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
-        q.add(missionNotifier.currentQuestion);
-        missionNotifier.currentQuestion = null;
+      print(missionsNotifier.currentQuestion.question);
+      if (!_perguntas.contains(missionsNotifier.currentQuestion)) {
+        q.add(missionsNotifier.currentQuestion);
+        missionsNotifier.currentQuestion = null;
       }
     }
     _perguntasRepetidas = [];
-    if (missionNotifier.selectedQuestions != null &&
-        missionNotifier.selectedQuestions.isNotEmpty) {
-      print('eheheheh');
-      selectedQ = missionNotifier.selectedQuestions;
+    if (missionsNotifier.selectedQuestions != null &&
+        missionsNotifier.selectedQuestions.isNotEmpty) {
+      selectedQ = missionsNotifier.selectedQuestions;
       selectedQ.forEach((f) {
         _perguntasRepetidas.add(f);
       });
@@ -73,11 +74,8 @@ class _CreateQuestionarioMissionScreenState
 
   @override
   Widget build(BuildContext context) {
-    print('questionariooooooooooooooooooooooooooo');
-    print('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-    _perguntas = getPerguntas();
-    print(_perguntas);
-    print(missionNotifier.selectedQuestions.toString());
+    missionsNotifier = Provider.of<MissionsNotifier>(context);
+    _perguntas = getPerguntas(missionsNotifier);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -139,7 +137,7 @@ class _CreateQuestionarioMissionScreenState
                           FlatButton(
                             color: parseColor("F4F19C"),
                             onPressed: () {
-                              missionNotifier.selectedQuestions.clear();
+                              missionsNotifier.selectedQuestions.clear();
                               _perguntas = [];
                               _text.clear();
                               _textPontos.clear();
@@ -369,7 +367,7 @@ class _CreateQuestionarioMissionScreenState
                                                         parseColor("#320a5c"),
                                                     onPressed: () {
                                                       setState(() {
-                                                        missionNotifier
+                                                        missionsNotifier
                                                             .selectedQuestions
                                                             .removeWhere((element) =>
                                                                 element
@@ -528,7 +526,7 @@ class _CreateQuestionarioMissionScreenState
                                                                 MaterialPageRoute(
                                                                     builder: (context) =>
                                                                         QuestionarioQuestionExist(
-                                                                            missionNotifier.selectedQuestions)));
+                                                                            missionsNotifier.selectedQuestions)));
                                                           });
                                                         },
                                                       ),
@@ -555,7 +553,7 @@ class _CreateQuestionarioMissionScreenState
                                                               context);
                                                           setState(() {
                                                             selectedQ =
-                                                                missionNotifier
+                                                                missionsNotifier
                                                                     .selectedQuestions;
                                                           });
                                                         },
@@ -582,7 +580,6 @@ class _CreateQuestionarioMissionScreenState
                           FlatButton(
                             color: const Color(0xff72d8bf),
                             onPressed: () async {
-                              //missionNotifier.currentQuestion = null;
                               if (_text.text.length > 0 &&
                                   _perguntas.length != 0 &&
                                   _textPontos.text.length > 0)
@@ -666,11 +663,11 @@ class _CreateQuestionarioMissionScreenState
             fontSize: 20),
       ),
       onPressed: () {
-        missionNotifier.selectedQuestions.clear();
+        missionsNotifier.selectedQuestions.clear();
         _perguntas = [];
         _text.clear();
         _textPontos.clear();
-        missionNotifier.currentQuestion = null;
+        missionsNotifier.currentQuestion = null;
         createMissionQuestinario(
             titulo, questions, aventuraId.id, capitulo.id, pontos);
         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
@@ -680,6 +677,7 @@ class _CreateQuestionarioMissionScreenState
     );
 
     popup.show(
+      close: Container(),
       title: Text(
         "",
         style: TextStyle(

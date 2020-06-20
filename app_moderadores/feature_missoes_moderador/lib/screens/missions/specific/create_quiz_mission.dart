@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/missions/specific/create_question_screen.dart';
-import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
 import 'package:feature_missoes_moderador/widgets/popupConfirm.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
+import 'package:provider/provider.dart';
 
 class CreateQuizMissionScreen extends StatefulWidget {
   Aventura aventuraId;
@@ -29,32 +31,33 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
   final _text = TextEditingController();
   final _textPontos = TextEditingController();
   String _pontos;
+  MissionsNotifier missionsNotifier;
 
   _CreateQuizMissionScreenState(this.capitulo, this.aventuraId);
 
   @override
   void initState() {
     _titulo = "";
-    _perguntas = getPerguntas();
+    //missionsNotifier = Provider.of<MissionsNotifier>(context, listen: false);
+    //_perguntas = getPerguntas(missionsNotifier);
     super.initState();
   }
 
-  getPerguntas() {
-    if (missionNotifier.currentQuestion != null) {
-      if (!_perguntas.contains(missionNotifier.currentQuestion)) {
-        _perguntas.add(missionNotifier.currentQuestion);
+  getPerguntas(MissionsNotifier missionsNotifier) {
+    if (missionsNotifier.currentQuestion != null) {
+      if (!_perguntas.contains(missionsNotifier.currentQuestion)) {
+        _perguntas.add(missionsNotifier.currentQuestion);
       }
-    } else {
-      _perguntas = _perguntas;
     }
     return _perguntas;
   }
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      _perguntas = getPerguntas();
-    });
+    print('quiz');
+    missionsNotifier = Provider.of<MissionsNotifier>(context);
+    _perguntas = getPerguntas(missionsNotifier);
+   
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -119,7 +122,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                 _perguntas = [];
                                 _text.clear();
                                 _textPontos.clear();
-                                missionNotifier.currentQuestion = null;
+                                missionsNotifier.currentQuestion = null;
                               });
 
                               Navigator.pop(context);
@@ -360,7 +363,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                                         setState(() {
                                                           _perguntas
                                                               .removeAt(index);
-                                                          missionNotifier
+                                                          missionsNotifier
                                                                   .currentQuestion =
                                                               null;
                                                         });
@@ -439,7 +442,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                           FlatButton(
                             color: const Color(0xff72d8bf),
                             onPressed: () async {
-                              missionNotifier.currentQuestion = null;
+                              missionsNotifier.currentQuestion = null;
                               if (_text.text.length > 0 &&
                                   _perguntas.length != 0 &&
                                   _textPontos.text.length != 0)
@@ -507,7 +510,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -522,7 +525,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       onPressed: () {
         createMissionQuiz(
@@ -531,15 +534,18 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
           _perguntas = [];
           _text.clear();
           _textPontos.clear();
-          missionNotifier.currentQuestion = null;
+          missionsNotifier.currentQuestion = null;
         });
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) =>
-                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    CapituloDetails(capitulo: capitulo, aventura: aventuraId)));
       },
     );
 
     popup.show(
+      close: Container(),
       title: Text(
         "",
         style: TextStyle(
@@ -556,7 +562,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
             fontWeight: FontWeight.w900,
             fontFamily: 'Amatic SC',
             letterSpacing: 2,
-            fontSize: 30),
+            fontSize: 20),
       ),
       actions: [
         cancelaButton,

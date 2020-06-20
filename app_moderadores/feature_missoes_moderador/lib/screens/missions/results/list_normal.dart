@@ -134,7 +134,7 @@ class _ResultsByMissionNormalForTurmaState
                       ),
                       Text(
                         (mission.type == "Video")
-                            ? "    Nº de vezes que \nnão esteve atento"
+                            ? "             Nº de vezes que \n            não esteve atento"
                             : "",
                         style: TextStyle(
                             color: Colors.black,
@@ -210,7 +210,7 @@ class _ResultsByMissionNormalForTurmaState
                                                           fontSize: 15)),
                                                 ),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.green[300],
+                                                    color: Colors.green,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
@@ -242,7 +242,7 @@ class _ResultsByMissionNormalForTurmaState
                                                 ),
                                                 width: 100,
                                                 decoration: BoxDecoration(
-                                                    color: Colors.red[300],
+                                                    color: Colors.red,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
@@ -315,11 +315,11 @@ class _ResultsByMissionNormalForTurmaState
                                                   left: 50.0),
                                               child: results[alunos[index]]
                                                       ['done']
-                                                  ? Text(
+                                                  ? Text( results[alunos[index]]["counterPause"]!=null ? 
                                                       results[alunos[index]][
                                                                   "counterPause"]
                                                               .toString() +
-                                                          " vezes",
+                                                          " vezes" : "Vídeo não reproduzido",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:
@@ -337,7 +337,7 @@ class _ResultsByMissionNormalForTurmaState
                                                                 const EdgeInsets
                                                                         .only(
                                                                     left: 30.0),
-                                                            child: IconButton(
+                                                            child:  results[alunos[index]]["counterPause"]!=null ? IconButton(
                                                               icon: Icon(
                                                                   FontAwesomeIcons
                                                                       .infoCircle),
@@ -349,7 +349,7 @@ class _ResultsByMissionNormalForTurmaState
                                                               onPressed: () {
                                                                 _showInfo();
                                                               },
-                                                            ),
+                                                            ) : Container(),
                                                           )
                                                         : Container())
                                           ])
@@ -396,7 +396,7 @@ class _ResultsByMissionNormalForTurmaState
 
     popup.show(
       title: Text(
-        "EyeTracking",
+        "Reconhecimento Facial",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -406,7 +406,7 @@ class _ResultsByMissionNormalForTurmaState
       ),
       content: Center(
         child: Text(
-          "Este número corresponde ao número de vezes que o nosso senstor detetou que a criança estava desatenta, não estando a olhar para o ecrã do dispositivo.",
+          "Este número corresponde ao número de vezes que o nosso sensor de Reconhecimento Facial detetou que a criança estava desatenta, não estando com a face dirigida para o ecrã do dispositivo.",
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'Monteserrat',

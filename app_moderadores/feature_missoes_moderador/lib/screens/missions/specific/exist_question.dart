@@ -44,11 +44,11 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
       });
       nSelected = selected.length;
     });
-    print('lololololololoololol');
-    print(missionNotifier.selectedQuestions.toString());
-    missionNotifier.selectedQuestions.clear();
-    print('lel');
-    print(missionNotifier.selectedQuestions.toString());
+  
+    print(missionsNotifier.selectedQuestions.toString());
+    missionsNotifier.selectedQuestions.clear();
+    
+    print(missionsNotifier.selectedQuestions.toString());
     print(selected.toString());
     return Scaffold(
       body: Container(
@@ -189,8 +189,8 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                         onPressed: () {
                           questions.forEach((f) {
                             if (selected.contains(f.question)) {
-                              if(!missionNotifier.selectedQuestions.contains(f))
-                                missionNotifier.selectedQuestions.add(f);
+                              if(!missionsNotifier.selectedQuestions.contains(f))
+                                missionsNotifier.selectedQuestions.add(f);
                             }
                           });
                           Navigator.pop(context);
