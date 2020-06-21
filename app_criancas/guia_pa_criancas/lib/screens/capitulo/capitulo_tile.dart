@@ -21,7 +21,28 @@ class _CapituloTile extends State<CapituloTile> {
   bool bloqueado;
   bool flag = false;
 
+  List<Color> colors = [
+    Color(0xFFFF555E).withOpacity(0.9),
+    Color(0xFFFF7E47).withOpacity(0.9),
+    Color(0xFFFFE013).withOpacity(0.9),
+    Color(0xFF5CE5D3).withOpacity(0.9),
+    Color(0xFF9B6EF3),
+    Color(0xFF5842B3),
+    Color(0xFF3DBDFF),
+    Color(0xFF124CA2),
+    Color(0xFFF564A9),
+  ];
+
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
+  @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return FutureBuilder<void>(
         future: getBloqueado(),
         builder: (context, AsyncSnapshot<void> snapshot) {
@@ -38,21 +59,13 @@ class _CapituloTile extends State<CapituloTile> {
                               AllMissionsScreen(capitulo.missoes)));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(screenWidth > 800 ? 12 : 6.0),
                   child: Container(
                       clipBehavior: Clip.none,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          //                color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.8),
-                          image: DecorationImage(
-                            colorFilter: new ColorFilter.mode(
-                                Color((math.Random().nextDouble() * 0xFFFFFF)
-                                        .toInt())
-                                    .withOpacity(0.8),
-                                BlendMode.overlay),
-                            image: AssetImage('assets/images/blue.png'),
-                            fit: BoxFit.cover,
-                          ),
+                      color: colors[capitulo.nome.hashCode % colors.length],
+//                        color: colors[math.Random().nextInt(colors.length)],
+//                        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(15)),
                       child: Expanded(
                           child: Center(
@@ -62,27 +75,28 @@ class _CapituloTile extends State<CapituloTile> {
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 70,
-                                  color: Colors.white.withOpacity(0.5)),
+                                  color: Colors.white.withOpacity(0.6)),
                             )),
                       ))),
                 ),
               );
             } else {
               return Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(screenWidth > 800 ? 12 : 6.0),
                   child: Container(
                       clipBehavior: Clip.none,
                       decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/yellow2.png'),
-                            fit: BoxFit.cover,
-                          ),
+                          color: Colors.grey.withOpacity(0.7),
+//                          image: DecorationImage(
+//                            image: AssetImage('assets/images/yellow2.png'),
+//                            fit: BoxFit.cover,
+//                          ),
                           borderRadius: BorderRadius.circular(15)),
                       child: Expanded(
                           child: Center(
                         child: Icon(
                           Icons.lock,
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withOpacity(0.8),
                           size: 70.0,
                         ),
                         //                child: Text(capitulo.id,

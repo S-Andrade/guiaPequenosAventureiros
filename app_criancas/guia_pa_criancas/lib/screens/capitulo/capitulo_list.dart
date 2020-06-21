@@ -18,8 +18,16 @@ class _CapituloListState extends State<CapituloList> {
   _CapituloListState({this.capitulos});
   List<Capitulo> cap;
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     if (cap == null) {
       getCapitulos();
       return ColorLoader5();
@@ -28,10 +36,10 @@ class _CapituloListState extends State<CapituloList> {
           future: getCapitulos(),
           builder: (context, AsyncSnapshot<void> snapshot) {
             return GridView.builder(
-                padding: EdgeInsets.symmetric(vertical: 100),
+//                padding: EdgeInsets.symmetric(vertical: screenHeight > 1000 ? screenHeight/6 : 100),
                 itemCount: cap.length,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: screenWidth > 800 ? 4 : 3,
                   childAspectRatio: 0.8,
                 ),
                 itemBuilder: (context, index) {

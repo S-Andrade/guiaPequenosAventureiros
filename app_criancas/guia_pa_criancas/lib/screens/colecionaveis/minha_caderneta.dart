@@ -17,6 +17,10 @@ class MinhaCaderneta extends StatefulWidget {
 }
 
 class _MinhaCadernetaState extends State<MinhaCaderneta> {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   FirebaseUser user;
   String _userID;
   String _urlImage;
@@ -34,8 +38,15 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
     print('refresh');
   }
 
+  final ScrollController _controllerScroll = ScrollController();
+
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     if (_cromos.length != imageCromo.length && (_cromos[0] != '')) {
       return ColorLoader5();
     } else if (imageCromo.isEmpty && _cromos.isNotEmpty) {
@@ -91,7 +102,7 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize: screenWidth > 800 ? 30 : 24,
                     color: Color(0xFF30246A)),
               ),
             ),
@@ -117,66 +128,75 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
                 ),
               ),
               Positioned.fill(
-                child: FractionallySizedBox(
-                  heightFactor: 0.7,
-                  widthFactor: 0.9,
-                  child: RefreshIndicator(
-                      onRefresh: _refreshList,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: GridView.count(
-                                crossAxisCount: 2,
-                                children: List.generate(imageCromo.length, (index) {
-                                  return Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image:
-                                          NetworkImage(imageCromo[index]),
-                                          fit: BoxFit.cover,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.8,
+                    widthFactor: screenWidth > 800 ? 0.8 : 0.9,
+                    child: RefreshIndicator(
+                        onRefresh: _refreshList,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Scrollbar(
+                                controller: _controllerScroll,
+                                isAlwaysShown: true,
+                                child: GridView.count(
+                                    controller: _controllerScroll,
+                                    crossAxisCount: screenWidth > 800 ? 3 : 2,
+                                    children: List.generate(imageCromo.length, (index) {
+                                      return Padding(
+                                        padding: EdgeInsets.all(screenWidth > 800 ? 16 : screenHeight < 700 ? 6 : 10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image:
+                                              NetworkImage(imageCromo[index]),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical:screenHeight > 1000 ? 40 : screenHeight<700?16.0:20),
+                              child: FractionallySizedBox(
+                                widthFactor: screenWidth > 800 ? 0.5 : 0.7,
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: FlatButton(
+                                      padding: EdgeInsets.all(screenWidth > 800 ? 22 : 16.0),
+                                      color: Color(0xFFF3C463),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10.0)),
+                                      child: Text(
+                                        'Caderneta da turma',
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
+                                              color: Colors.white),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                })),
-                          ),
-                          FractionallySizedBox(
-                            widthFactor: 0.7,
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: FlatButton(
-                                  color: Color(0xFFF3C463),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      'Caderneta da turma',
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 18,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return CadernetaTurma();
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return CadernetaTurma();
+                                          }),
+                                        );
                                       }),
-                                    );
-                                  }),
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
+                          ],
+                        )),
+                  ),
                 ),
               ),
               Positioned(

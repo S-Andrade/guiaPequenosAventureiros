@@ -23,8 +23,16 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
     super.initState();
   }
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -69,16 +77,16 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 36,
+                            fontSize: screenHeight < 700 ? 32 : 36,
                             color: Colors.white),
                       ),
                     ),
                   ),
                   FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor:  screenHeight < 700 ? 0.4 : 0.5,
                     child: SizedBox(
                       width: double.infinity,
-                      height: 65,
+                      height:  screenHeight < 700 ? 55 : 65,
                       child: FlatButton(
                         onPressed: () {
                           Navigator.push(context,
@@ -94,7 +102,7 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontSize: 20,
+                              fontSize:  screenHeight < 700 ? 16 : 20,
                               color: Colors.white,
                             ),
                           ),

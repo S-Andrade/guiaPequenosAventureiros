@@ -16,6 +16,10 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   int nQuestion = 0;
   int score = 0;
   List allAnswers;
@@ -103,6 +107,10 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
       statusBarIconBrightness: Brightness.light,
     ));
 
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     mission = missionsNotifier.currentMission;
     quizQuestions = missionsNotifier.currentMission.content.questions;
@@ -170,68 +178,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
             body: Stack(
 //              fit: StackFit.loose,
               children: <Widget>[
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: FractionallySizedBox(
-                      widthFactor: 0.9,
-//                    heightFactor: 0.9,
-//                    padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        height: 700,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _listQuestions(),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-//                            color: Color(0xFF01BBB6).withOpacity(1),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child: Text(
-                                        allQuestions[nQuestion].question,
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-//                  RESPOSTAS
-                            FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: _listAnswers(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                //Bottom clouds
                 Positioned(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -241,11 +187,11 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
 //                        height: 130,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/clouds_bottom_navigation_white.png'),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        )),
+                              image: AssetImage(
+                                  'assets/images/clouds_bottom_navigation_white.png'),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            )),
                       ),
                     ),
                   ),
@@ -293,6 +239,68 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                       alignment: Alignment.bottomLeft,
                       child: CompanheiroAppwide()),
                 ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: FractionallySizedBox(
+                      widthFactor: 0.9,
+                      heightFactor: 0.9,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  (_listQuestions()),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      allQuestions[nQuestion].question,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          height: screenHeight < 700 ? 1 : 1.1,
+                                          fontSize:
+                                              screenHeight < 700 ? 20 : 25,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+//                  RESPOSTAS
+                          FractionallySizedBox(
+                            widthFactor: 0.9,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: screenHeight<700?0:20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: _listAnswers(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -339,7 +347,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                                 fontWeight: FontWeight.w300,
-                                fontSize: 20,
+                                fontSize: screenHeight < 700 ? 16 : 20,
                                 color: Color(0xFF30246A)),
                           ),
                         ),
@@ -369,7 +377,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 20,
+                                    fontSize: screenHeight < 700 ? 16 : 20,
                                     color: Colors.white),
                               ),
                             ),
@@ -408,7 +416,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 20,
+                                    fontSize: screenHeight < 700 ? 16 : 20,
                                     color: Colors.white),
                               ),
                             ),
@@ -450,7 +458,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
     List<Widget> lines = [];
     List<Widget> buttons = [];
     for (int n = 0; n < allAnswers.length; n++) {
-      Widget button = MaterialButton(
+      Widget button = FlatButton(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         onPressed: () {
@@ -501,14 +510,14 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
         },
         // Lista de RESPOSTAS
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(screenHeight < 700 ? 6 : 15.0),
           child: Text(
             allAnswers[n],
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 20,
+                  fontSize: screenHeight < 700 ? 16 : 20,
                   color: Colors.black),
             ),
           ),
@@ -519,7 +528,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
         children: <Widget>[button],
       ));
       buttons.add(new Padding(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(screenHeight < 700 ? 4 : 8),
       ));
     }
     lines = buttons;
@@ -530,100 +539,121 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
     List<Widget> questions = [];
     allQuestions.forEach((question) {
       if (question == allQuestions[nQuestion]) {
-        Widget button = FlatButton(
-          shape: CircleBorder(side: BorderSide(color: Colors.white, width: 3)),
-          color: Color(0xFF30246A),
-          onPressed: () {
-            setState(() {
-              missionNotifier.completed = true;
-              nQuestion = allQuestions.indexOf(question);
-              question.done = false;
-              updateMissionQuizQuestionDone(question, _userID);
-            });
-          },
-          child: Text(
-            (allQuestions.indexOf(question) + 1).toString(),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22,
+        Widget button = Container(
+            padding: const EdgeInsets.all(0.0),
+            width: screenWidth / 9,
+            child: FlatButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape:
+                  CircleBorder(side: BorderSide(color: Colors.white, width: 3)),
+              color: Color(0xFF30246A),
+              onPressed: () {
+                setState(() {
+                  missionNotifier.completed = true;
+                  nQuestion = allQuestions.indexOf(question);
+                  question.done = false;
+                  updateMissionQuizQuestionDone(question, _userID);
+                });
+              },
+              child: Text(
+                (allQuestions.indexOf(question) + 1).toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight < 700 ? 16 : 22,
 //              color: Color(0xFF30246A)),
-                  color: Colors.white),
-            ),
-          ),
-        );
+                      color: Colors.white),
+                ),
+              ),
+            ));
         questions.add(button);
       } else if (question.done == false) {
-        Widget button = FlatButton(
-          shape: CircleBorder(),
-          color: Colors.yellow,
-          onPressed: () {
-            setState(() {
-              missionNotifier.completed = true;
-              nQuestion = allQuestions.indexOf(question);
-              question.done = false;
-              updateMissionQuizQuestionDone(question, _userID);
-            });
-          },
-          child: Text(
-            (allQuestions.indexOf(question) + 1).toString(),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 20,
+        Widget button = Container(
+            padding: EdgeInsets.all(screenHeight < 700 ? 4.0 : 8.0),
+            width: screenWidth / 8,
+            child: FlatButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: CircleBorder(),
+              color: Colors.yellow,
+              onPressed: () {
+                setState(() {
+                  missionNotifier.completed = true;
+                  nQuestion = allQuestions.indexOf(question);
+                  question.done = false;
+                  updateMissionQuizQuestionDone(question, _userID);
+                });
+              },
+              child: Text(
+                (allQuestions.indexOf(question) + 1).toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: screenHeight < 700 ? 16 : 20,
 //              color: Color(0xFF30246A)),
-                  color: Color(0xFF30246A)),
-            ),
-          ),
-        );
+                      color: Color(0xFF30246A)),
+                ),
+              ),
+            ));
         questions.add(button);
       } else if (question.success == false) {
-        Widget button = FlatButton(
-          shape: CircleBorder(),
-          color: Colors.red,
-          onPressed: () {
-            setState(() {
-              missionNotifier.completed = true;
-              nQuestion = allQuestions.indexOf(question);
-              question.done = false;
-              updateMissionQuizQuestionDone(question, _userID);
-            });
-          },
-          child: Text(
-            (allQuestions.indexOf(question) + 1).toString(),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 20,
+        Widget button = Container(
+            padding: EdgeInsets.all(screenHeight < 700 ? 4.0 : 8.0),
+            width: screenWidth / 8,
+            child: FlatButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: CircleBorder(),
+              color: Colors.red,
+              onPressed: () {
+                setState(() {
+                  missionNotifier.completed = true;
+                  nQuestion = allQuestions.indexOf(question);
+                  question.done = false;
+                  updateMissionQuizQuestionDone(question, _userID);
+                });
+              },
+              child: Text(
+                (allQuestions.indexOf(question) + 1).toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: screenHeight < 700 ? 16 : 20,
 //              color: Color(0xFF30246A)),
-                  color: Colors.white),
-            ),
-          ),
-        );
+                      color: Colors.white),
+                ),
+              ),
+            ));
         questions.add(button);
       } else if (question.success == true) {
-        Widget button = FlatButton(
-          shape: CircleBorder(),
-          color: Colors.green,
-          onPressed: () {
-            setState(() {
-              missionNotifier.completed = true;
-              nQuestion = allQuestions.indexOf(question);
-              question.done = false;
-              updateMissionQuizQuestionDone(question, _userID);
-            });
-          },
-          child: Text(
-            (allQuestions.indexOf(question) + 1).toString(),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+        Widget button = Container(
+            padding: EdgeInsets.all(screenHeight < 700 ? 4.0 : 8.0),
+            width: screenWidth / 8,
+            child: FlatButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: CircleBorder(),
+              color: Colors.green,
+              onPressed: () {
+                setState(() {
+                  missionNotifier.completed = true;
+                  nQuestion = allQuestions.indexOf(question);
+                  question.done = false;
+                  updateMissionQuizQuestionDone(question, _userID);
+                });
+              },
+              child: Text(
+                (allQuestions.indexOf(question) + 1).toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight < 700 ? 16 : 20,
 //              color: Color(0xFF30246A)),
-                  color: Colors.white),
-            ),
-          ),
-        );
+                      color: Colors.white),
+                ),
+              ),
+            ));
         questions.add(button);
       }
     });
@@ -666,6 +696,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           ),
                         ),
                         FlatButton(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0)),
                           onPressed: () {
@@ -687,7 +719,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           },
                           color: Colors.red,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:
+                                EdgeInsets.all(screenHeight < 700 ? 4 : 8.0),
                             child: Text(
                               'Próxima',
                               style: GoogleFonts.quicksand(
@@ -700,6 +733,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           ),
                         ),
                         FlatButton(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0)),
                           onPressed: () {
@@ -709,7 +744,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           },
                           color: Colors.green,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:
+                                EdgeInsets.all(screenHeight < 700 ? 4 : 8.0),
                             child: Text(
                               "Tenta de novo",
                               style: GoogleFonts.quicksand(
@@ -775,7 +811,6 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
         });
   }
 
-
   updatePoints(String aluno, int points) async {
     List cromos = await updatePontuacao(aluno, points);
     await showDialog(
@@ -788,7 +823,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -810,13 +846,16 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -824,20 +863,21 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -872,7 +912,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -900,22 +941,24 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -952,7 +995,8 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -980,22 +1024,24 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),

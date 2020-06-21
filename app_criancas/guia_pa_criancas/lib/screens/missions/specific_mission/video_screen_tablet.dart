@@ -30,6 +30,10 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     with WidgetsBindingObserver {
   Mission mission;
 
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   _VideoScreenTabletPortraitState(this.mission);
   int _state = 0;
 
@@ -125,6 +129,10 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -188,7 +196,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 28,
+                            fontSize: screenHeight < 700 ? 24 : 28,
                             color: Colors.white),
                       ),
                     ),
@@ -197,11 +205,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
                     child: chewieDemo,
                   ),
                   FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: 0.4,
                     child: SizedBox(
                       width: double.infinity,
                       child: FlatButton(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                         child: setButton(),
                         onPressed: () {
                           setState(() {
@@ -279,7 +287,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 20,
+              fontSize: screenHeight < 700 ? 16 : 20,
               color: Colors.white,
             ),
           ),
@@ -292,7 +300,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 20,
+            fontSize: screenHeight < 700 ? 16 : 20,
             color: Colors.white,
           ),
         ),

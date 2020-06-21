@@ -28,6 +28,10 @@ class UploadVideoScreenTabletPortrait extends StatefulWidget {
 
 class _UploadVideoScreenTabletPortraitState
     extends State<UploadVideoScreenTabletPortrait> {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   Mission mission;
 
   _UploadVideoScreenTabletPortraitState(this.mission);
@@ -74,6 +78,10 @@ class _UploadVideoScreenTabletPortraitState
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     _titulo = 'upload_video_crianca_' + mission.id;
 
     return Container(
@@ -95,7 +103,15 @@ class _UploadVideoScreenTabletPortraitState
             iconTheme: IconThemeData(
               color: Color(0xFF30246A), //change your color here
             ),
-            title: Text('Carregar Vídeo'),
+            title: Text('Carregar Vídeo',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Color(0xFF30246A)),
+              ),
+            ),
           ),
           body: Stack(
               children: <Widget>[
@@ -121,7 +137,7 @@ class _UploadVideoScreenTabletPortraitState
               alignment: Alignment.center,
               child: FractionallySizedBox(
                 widthFactor: 0.9,
-                heightFactor: 0.5,
+                heightFactor: 0.6,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -135,7 +151,7 @@ class _UploadVideoScreenTabletPortraitState
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 30,
+                                fontSize: screenHeight < 700 ? 26 : 30,
                                 color: Colors.white),
                           ),
                   ),
@@ -148,7 +164,7 @@ class _UploadVideoScreenTabletPortraitState
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 20,
+                                  fontSize: screenHeight < 700 ? 18 : 20,
                                   color: Colors.white),
                             ),
                           ),
@@ -188,14 +204,13 @@ class _UploadVideoScreenTabletPortraitState
                             size: 30.0,
                           )
                               : Container()),
-
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Builder(
                             builder: (BuildContext) => _done
                                 ? FlatButton(
-                                    padding: EdgeInsets.all(20),
+                                    padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                     color: Color(0xFFEBECEC)
                                         .withOpacity(0.8),
                                 disabledTextColor: Colors.grey,
@@ -212,14 +227,14 @@ class _UploadVideoScreenTabletPortraitState
                                         textStyle: TextStyle(
                                           fontWeight:
                                           FontWeight.normal,
-                                          fontSize: 18,
+                                          fontSize: screenHeight < 700 ? 16 : 18,
                                           color: Colors.white,
                                         ),
                                       ),
                                     ),
                                     onPressed: () => _loadButton())
                                 : FlatButton(
-                                  padding: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                   color: Color(0xFF1e85e6),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
@@ -232,7 +247,7 @@ class _UploadVideoScreenTabletPortraitState
                                       textStyle: TextStyle(
                                         fontWeight:
                                         FontWeight.normal,
-                                        fontSize: 18,
+                                        fontSize: screenHeight < 700 ? 16 : 18,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -241,7 +256,6 @@ class _UploadVideoScreenTabletPortraitState
                                 )),
                         ),
                       ),
-
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -255,7 +269,7 @@ class _UploadVideoScreenTabletPortraitState
                                     _loadButton();
                                   });
                                 },
-                                padding: EdgeInsets.all(20),
+                                padding: EdgeInsets.all(screenHeight < 700 ? 16 : 20),
                                 color: Color(0xFF5de8c5),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -333,7 +347,7 @@ class _UploadVideoScreenTabletPortraitState
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: screenHeight < 700 ? 16 : 18,
               color: Colors.white,
             ),
           ),
@@ -346,7 +360,7 @@ class _UploadVideoScreenTabletPortraitState
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 18,
+            fontSize: screenHeight < 700 ? 16 : 18,
             color: Colors.white,
           ),
         ),

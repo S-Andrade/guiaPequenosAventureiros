@@ -21,6 +21,10 @@ class ImageScreenTabletPortrait extends StatefulWidget {
 
 class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
     with WidgetsBindingObserver {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   Mission mission;
   int _state = 0;
   String _userID;
@@ -92,6 +96,10 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     NetworkImage _image;
     if (mission.linkImage != null) _image = NetworkImage(mission.linkImage);
 
@@ -144,58 +152,75 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             ),
             Positioned.fill(
               child: Align(
-                alignment: Alignment.center,
+                alignment: Alignment.topCenter,
                 child: FractionallySizedBox(
                   widthFactor: 0.9,
-                  heightFactor: 0.7,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        mission.title,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 28,
-                              color: Colors.white),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Align(
-                            alignment: Alignment.topCenter,
-//                      heightFactor: 0.8,
-//                      widthFactor: 0.8,
-                            child: Image(
-                              image: _image,
-                              fit: BoxFit.cover,
+//                  heightFactor: 0.6,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(top: 100),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                              EdgeInsets.all(screenHeight < 700 ? 10 : 20.0),
+                          child: Text(
+                            mission.title,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenHeight < 700 ? 24 : 28,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
-                      ),
-                      FractionallySizedBox(
-                        widthFactor: 0.5,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: FlatButton(
-                              padding: EdgeInsets.all(20),
-                              child: setButton(),
-                              onPressed: () {
-                                setState(() {
-                                  _state = 1;
-                                  _loadButton();
-                                });
-                              },
+                        Container(
+                          width: screenHeight < 700
+                              ? screenWidth * 0.6
+                              : screenWidth * 0.7,
+                          height: screenHeight < 700
+                              ? screenWidth * 0.6
+                              : screenWidth * 0.7,
+//                          padding: EdgeInsets.all(20),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Image(
+//                              height:  screenHeight < 700 ? screenHeight/2.5 : screenHeight,
+                                image: _image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: screenHeight < 700 ? 16 : 20.0),
+                          child: FractionallySizedBox(
+                            widthFactor: 0.4,
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                  padding: EdgeInsets.all(
+                                      screenHeight < 700 ? 16 : 20),
+                                  child: setButton(),
+                                  onPressed: () {
+                                    setState(() {
+                                      _state = 1;
+                                      _loadButton();
+                                    });
+                                  },
 //                    height: 90,
 //                    minWidth: 300,
-                              color: Color(0xFFFF418E),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0))),
+                                  color: Color(0xFFFF418E),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0))),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -255,7 +280,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 18,
+              fontSize: screenHeight < 700 ? 16 : 18,
               color: Colors.white,
             ),
           ),
@@ -269,7 +294,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 18,
+            fontSize: screenHeight < 700 ? 16 : 18,
             color: Colors.white,
           ),
         ),
@@ -282,7 +307,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
       print('back');
       Navigator.pop(context);
     } else {
-      Timer(Duration(milliseconds: 3000), () async{
+      Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
         await updatePoints(_userID, mission.points);
         Navigator.pop(context);
@@ -308,7 +333,8 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -330,13 +356,16 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -344,20 +373,21 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -393,7 +423,8 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -421,22 +452,24 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -444,7 +477,6 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                 ),
               ),
             );
-
           },
         );
       }
@@ -475,7 +507,8 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -503,22 +536,24 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -526,7 +561,6 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                 ),
               ),
             );
-
           },
         );
       }

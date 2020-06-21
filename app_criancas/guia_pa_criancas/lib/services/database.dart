@@ -165,7 +165,7 @@ class DatabaseService {
 }
 
 //info Aluno
-void updateUserData(
+updateUserData(
     String id,
     String idade,
     String genero,

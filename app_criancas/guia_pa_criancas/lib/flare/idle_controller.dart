@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class IdleControls extends FlareController {
   FlutterActorArtboard myartboard;
 
+  ActorAnimation standby;
   // EYES
   ActorNode oneEye;
   ActorNode twoEyes;
@@ -39,8 +40,9 @@ class IdleControls extends FlareController {
   Color _fillArmsColor = Color(0x00E5E5E5);
 
   void initialize(FlutterActorArtboard artboard) {
-    myartboard = artboard;
+    standby = artboard.getAnimation("standby");
 
+    myartboard = artboard;
     // EYES
     oneEye = myartboard.getNode("1_eyes");
     twoEyes = myartboard.getNode("2_eyes");
@@ -63,6 +65,7 @@ class IdleControls extends FlareController {
     _fillWings = wings?.fill as FlutterColorFill;
     _fillTentacles = tentacles?.fill as FlutterColorFill;
     _fillArms = arms?.fill as FlutterColorFill;
+
   }
 
   void setViewTransform(Mat2D viewTransform) {}
