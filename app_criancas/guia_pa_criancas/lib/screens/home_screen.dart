@@ -92,6 +92,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       child: Form(
                         key: formKey,
                         child: PinCodeTextField(
+                          textInputType: TextInputType.number,
                           autoFocus: true,
                           length: 4,
                           obsecureText: false,
