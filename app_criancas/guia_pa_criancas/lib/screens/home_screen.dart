@@ -52,16 +52,15 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
 
   Future<bool> _onBackPressed() {
     final TextEditingController _pin = TextEditingController();
-      TextEditingController pinController = TextEditingController();
+     TextEditingController pinController = TextEditingController();
     errorController = StreamController<ErrorAnimationType>();
-
-
     int _pinIntro = 0;
 
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: Text('Sair da aplicação',
+            title: Text(
+              "Para sair da aplicação pede ajuda aos teus pais!",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -78,13 +77,13 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                 ),
                 child: Column(children: [
                   Text(
-                    "Para sair da aplicação deves pedir ajuda aos teus pais!",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
+                    '(Introduza o seu ano de nascimento para verificação)',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                          color: Color(0xFF30246A)),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 18,
+                          color: Colors.black45),
                     ),
                   ),
                   Padding(
