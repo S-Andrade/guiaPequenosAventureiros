@@ -58,121 +58,123 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
 
     return showDialog(
           context: context,
-          builder: (context) => new AlertDialog(
-            title: Text(
-              "Para sair da aplicação pede ajuda aos teus pais!",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFF30246A)),
-              ),
-            ),
-            content: Container(
-              height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+          builder: (context) => SingleChildScrollView(
+            child: new AlertDialog(
+              title: Text(
+                "Para sair da aplicação pede ajuda aos teus pais!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Color(0xFF30246A)),
                 ),
-                child: Column(children: [
-                  Text(
-                    '(Introduza o seu ano de nascimento para verificação)',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 18,
-                          color: Colors.black45),
-                    ),
+              ),
+              content: Container(
+//                height: 160,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Form(
-                      key: formKey,
-                      child: PinCodeTextField(
-                        length: 4,
-                        obsecureText: false,
-                        animationType: AnimationType.fade,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(5),
-                          fieldHeight: 50,
-                          fieldWidth: 40,
-                          activeFillColor:
-                          hasError ? Colors.yellowAccent : Colors.white,
+                  child: Column(children: [
+                    Text(
+                      '(Introduza o seu ano de nascimento para verificação)',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18,
+                            color: Colors.black45),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20,left: 20,right:20.0),
+                      child: Form(
+                        key: formKey,
+                        child: PinCodeTextField(
+                          autoFocus: true,
+                          length: 4,
+                          obsecureText: false,
+                          animationType: AnimationType.fade,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(5),
+                            fieldHeight: 50,
+                            fieldWidth: 40,
+                            activeFillColor:
+                            hasError ? Colors.yellowAccent : Colors.white,
+                          ),
+                          animationDuration: Duration(milliseconds: 300),
+                          enableActiveFill: true,
+                          errorAnimationController: errorController,
+                          controller: pinController,
+                          onCompleted: (v) {
+                            print("Completed");
+                            print(currentText);
+                            print(currentText.runtimeType);
+                          },
+                          onChanged: (value) {
+                            print(value);
+                            setState(() {
+                              currentText = value;
+                              _pinIntro = int.parse(currentText);
+                            });
+                          },
                         ),
-                        animationDuration: Duration(milliseconds: 300),
-                        enableActiveFill: true,
-                        errorAnimationController: errorController,
-                        controller: pinController,
-                        onCompleted: (v) {
-                          print("Completed");
-                          print(currentText);
-                          print(currentText.runtimeType);
-                        },
-                        onChanged: (value) {
-                          print(value);
-                          setState(() {
-                            currentText = value;
-                            _pinIntro = int.parse(currentText);
-                          });
-                        },
                       ),
                     ),
-                  ),
-                ])),
-            actions: <Widget>[
-              SizedBox(
-                width: 100,
-                child: FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  color: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  child: Text(
-                    "Não",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize:  16,
-                        color: Colors.white,
+                  ])),
+              actions: <Widget>[
+                SizedBox(
+                  width: 100,
+                  child: FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    color: Colors.deepPurple,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    child: Text(
+                      "Não",
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize:  16,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 100,
-                child: FlatButton(
-                  onPressed: () async {
-                    List datas = await getUserInfoEEPaiMae(user.email);
-                    if (datas.contains(_pinIntro)) {
-                      print('yes');
-                      Navigator.of(context).pop(true);
-                      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Verifique se inseriu o pin correto",
-                          backgroundColor: Colors.black,
-                          textColor: Colors.white);
-                    }
-                  },
-                  color: Colors.redAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  child: Text(
-                    "Sim",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize:  16,
-                        color: Colors.white,
+                SizedBox(
+                  width: 100,
+                  child: FlatButton(
+                    onPressed: () async {
+                      List datas = await getUserInfoEEPaiMae(user.email);
+                      if (datas.contains(_pinIntro)) {
+                        print('yes');
+                        Navigator.of(context).pop(true);
+                        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Verifique se inseriu o pin correto",
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white);
+                      }
+                    },
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    child: Text(
+                      "Sim",
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize:  16,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 //              new GestureDetector(
 //                onTap: () => Navigator.of(context).pop(false),
 //                child: Text("Não"),
@@ -194,7 +196,8 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
 //                },
 //                child: Text("Sim"),
 //              ),
-            ],
+              ],
+            ),
           ),
         ) ??
         Future.value(false);
