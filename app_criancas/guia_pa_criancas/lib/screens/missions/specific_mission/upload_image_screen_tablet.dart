@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../../../services/missions_api.dart';
@@ -38,8 +39,6 @@ class _UploadImageScreenTabletPortraitState
 
   _UploadImageScreenTabletPortraitState(this.mission);
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormState>();
   File _image;
   String _titulo;
   bool _loaded;
@@ -49,6 +48,14 @@ class _UploadImageScreenTabletPortraitState
   String _userID;
   Map resultados;
   bool _done;
+
+  // PIN PAD
+  String currentText  = "";
+  StreamController<ErrorAnimationType> errorController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+  bool hasError = false;
+  String errorMessage;
 
   @override
   void initState() {
@@ -380,62 +387,138 @@ class _UploadImageScreenTabletPortraitState
   enviarDialog() {
     final TextEditingController _pin = TextEditingController();
     int _pinIntro = 0;
+
+    TextEditingController pinController = TextEditingController();
+    errorController = StreamController<ErrorAnimationType>();
+
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('Enviar imagem'),
-            content: FractionallySizedBox(
-                heightFactor: 0.4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+            title: Text("Para enviar pede ajuda aos teus pais!",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF30246A)),
+              ),
+            ),
+            content: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    '(Introduza o seu ano de nascimento para verificação)',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 18,
+                          color: Colors.black45),
+                    ),
                   ),
-                  child: SizedBox(
-                      width: double.infinity,
-                      child: TextField(
-                        controller: _pin,
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Form(
+                      key: formKey,
+                      child: PinCodeTextField(
+                        length: 4,
+                        obsecureText: false,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 50,
+                          fieldWidth: 40,
+                          activeFillColor:
+                          hasError ? Colors.yellowAccent : Colors.white,
+                        ),
+                        animationDuration: Duration(milliseconds: 300),
+                        enableActiveFill: true,
+                        errorAnimationController: errorController,
+                        controller: pinController,
+//                    onCompleted: (v) {
+//                      print("Completed");
+//                      print(currentText);
+//                      print(currentText.runtimeType);
+//                    },
                         onChanged: (value) {
+                          print(value);
                           setState(() {
-                            _pinIntro = int.parse(value);
+                            currentText = value;
+                            _pinIntro = int.parse(currentText);
                           });
                         },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(10.0),
-                          hintText: "Insira o ano em que nasceu",
-                        ),
-                      )),
-                )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("Não enviar"),
+              SizedBox(
+                width: 100,
+                child: FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  color: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize:  16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(height: 16),
-              new GestureDetector(
-                onTap: () async {
-                  List datas = await getUserInfoEEPaiMae(_userID);
-                  if (datas.contains(_pinIntro)) {
-                    Timer(Duration(milliseconds: 3000), () async {
-                      _upload();
-                      await updatePoints(_userID, mission.points);
+              SizedBox(
+                width: 100,
+                child: FlatButton(
+                  onPressed: () async {
+                    List datas = await getUserInfoEEPaiMae(_userID);
+                    if (datas.contains(_pinIntro)) {
+                      Timer(Duration(milliseconds: 3000), () async {
+                        _upload();
+                        await updatePoints(_userID, mission.points);
+                        Navigator.pop(context);
+                      });
                       Navigator.pop(context);
-                    });
-                    Navigator.pop(context);
-                    setState(() {
-                      _done =true;
-                      _loadButton();
-                    });
-                    
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Verifique se inseriu o pin correto",
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white);
-                  }
-                },
-                child: Text("Enviar"),
+                      setState(() {
+                        _done =true;
+                        _loadButton();
+                      });
+
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Verifique se inseriu o pin correto",
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white);
+                    }
+                  },
+                  color: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  child: Text(
+                    "Enviar",
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize:  16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
+
             ],
           ),
         ) ??

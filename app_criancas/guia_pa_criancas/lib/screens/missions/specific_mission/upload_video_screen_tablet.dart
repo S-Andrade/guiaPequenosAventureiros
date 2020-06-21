@@ -500,7 +500,7 @@ class _UploadVideoScreenTabletPortraitState
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   child: Text(
-                    "Não Enviar",
+                    "Cancelar",
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.normal,
