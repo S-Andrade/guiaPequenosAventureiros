@@ -8,9 +8,9 @@ class Aluno {
   String id;
   String grauParentescoEE;
   String idadeAluno;
-  String idadeMae;
-  String idadePai;
-  String idadeEE;
+  Timestamp idadeMae;
+  Timestamp idadePai;
+  Timestamp idadeEE;
   String maisInfo;
   String nacionalidadeAluno;
   String nacionalidadeMae;
