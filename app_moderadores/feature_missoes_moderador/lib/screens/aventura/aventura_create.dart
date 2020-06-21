@@ -577,7 +577,7 @@ class _AventuraCreate extends State<AventuraCreate> {
               String id_aluno = letras_escola + numero_aluno;
               alunos.add(id_aluno);
             
-              DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", "idadeEE", "profissaoEE", "profissaoMae", "idadeMae", "nacionalidadeMae", "habilitacoesMae", "idadePai", "nacionalidadePai", "profissaoPai", "habilitacoesPai",id_turma,id_escola,[],0);
+              DatabaseService().updateUserData(id_aluno, "idade", "genero", DateTime.now(), false, "idadeIngresso", "maisInfo", "nacionalidade", "nacionalidadeEE", "grauParentesco", "habilitacoesEE", DateTime.now(), "profissaoEE", "profissaoMae", DateTime.now(), "nacionalidadeMae", "habilitacoesMae", DateTime.now(), "nacionalidadePai", "profissaoPai", "habilitacoesPai",id_turma,id_escola,[],0);
 
               var password = generatePassword(true, true, true, false, 10);
        
