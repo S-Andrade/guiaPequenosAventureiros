@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/models/mission.dart';
@@ -425,10 +426,11 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
         ),
         onPressed: () async {
           await deleteMissionInFirestore(mission, capitulo.id);
-          await _getCurrentCapitulo(capitulo.id);
-          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-              builder: (_) =>
-                  TabBarMissions(capitulo: this.capitulo, aventura: aventura)));
+          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CapituloDetails(
+                                    capitulo: capitulo, aventura: aventura)));
         });
 
     popup.show(

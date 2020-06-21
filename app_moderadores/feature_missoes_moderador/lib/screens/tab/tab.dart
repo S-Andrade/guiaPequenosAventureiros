@@ -46,9 +46,12 @@ class _TabBarMissionsState extends State<TabBarMissions>
           capitulo = new Capitulo(
               id: datasnapshot.data['id'] ?? '',
               bloqueado: datasnapshot.data['bloqueado'] ?? null,
-              missoes: datasnapshot.data['missoes'] ?? []);
+              missoes: datasnapshot.data['missoes'] ?? [],
+              disponibilidade: datasnapshot.data['disponibilidade'] ?? {} );
         });
       }
+      else
+      print("bad");
     });
   }
 
@@ -62,7 +65,9 @@ class _TabBarMissionsState extends State<TabBarMissions>
                             context,
                             MaterialPageRoute(
                                 builder: (_) => (this.capitulo,this.aventuraId)));*/
-    return Container(
+                            
+              
+   return Container(
        decoration:
               BoxDecoration(
               image: DecorationImage(
@@ -113,7 +118,7 @@ class _TabBarMissionsState extends State<TabBarMissions>
               controller: _tabController,
               children: [
                 ResultsDashboardTurmasScreen(
-                    aventuraId: this.aventura.id, capitulo: this.capitulo),
+                    aventuraId: this.aventura, capitulo: this.capitulo),
                 CreateMissionScreen(
                     aventura: this.aventura, capitulo: this.capitulo),
               ],
@@ -122,5 +127,8 @@ class _TabBarMissionsState extends State<TabBarMissions>
         ),
       ),
     );
+    
   }
+
+ 
 }
