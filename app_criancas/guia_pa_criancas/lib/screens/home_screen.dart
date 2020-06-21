@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'aventura/aventura.dart';
 import '../services/database.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +17,7 @@ import 'companheiro/companheiro_appwide.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +29,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> with AnimationMixin {
+  // PIN PAD
+  String currentText  = "";
+  StreamController<ErrorAnimationType> errorController;
+  final formKey = GlobalKey<FormState>();
+//  int pinLength = 4;
+  bool hasError = false;
+  String errorMessage;
+
+
   final FirebaseUser user;
   _HomeScreen({this.user});
 
@@ -32,63 +45,103 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
   static double screenWidth;
   static double screenHeight;
 
-//  AnimationController widthController;
-//  Animation<double> sizeWidth;
-//  Animation<double> sizeHeight;
-
-//  @override
-//  void initState() {
-//    widthController = createController()..mirror(duration: 2.seconds);
-//    sizeWidth = 0.0.tweenTo(0.8).animatedBy(widthController);
-//    sizeHeight = 0.0.tweenTo(0.15).animatedBy(controller);
-//    controller.play();
-//    widthController.play();
-//    super.initState();
-//  }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<bool> _onBackPressed() {
     final TextEditingController _pin = TextEditingController();
+      TextEditingController pinController = TextEditingController();
+    errorController = StreamController<ErrorAnimationType>();
+
+
     int _pinIntro = 0;
 
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('Sair da aplicação'),
+            title: Text('Sair da aplicação',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF30246A)),
+              ),
+            ),
             content: FractionallySizedBox(
-                heightFactor: 0.4,
+                heightFactor: 1,
                 child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
-                    child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(children: [
-                          Text(
-                            "Para sair da aplicação deves pedir ajuda aos teus pais!",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                  color: Color(0xFF30246A)),
-                            ),
+                    child: Column(children: [
+                      Text(
+                        "Para sair da aplicação deves pedir ajuda aos teus pais!",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 20,
+                              color: Color(0xFF30246A)),
+                        ),
+                      ),
+                      Form(
+                        key: formKey,
+                        child: PinCodeTextField(
+                          length: 4,
+                          obsecureText: false,
+                          animationType: AnimationType.fade,
+//                        validator: (v) {
+//                          if (v.length < 3) {
+//                            return "I'm from validator";
+//                          } else {
+//                            return null;
+//                          }
+//                        },
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(5),
+                            fieldHeight: 50,
+                            fieldWidth: 40,
+                            activeFillColor:
+                            hasError ? Colors.orange : Colors.white,
                           ),
-                          SizedBox(
-                              width: double.infinity,
-                              child: TextField(
-                                controller: _pin,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _pinIntro = int.parse(value);
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  hintText: "Insira o ano em que nasceu",
-                                ),
-                              )),
-                        ])))),
+                          animationDuration: Duration(milliseconds: 300),
+                          backgroundColor: Colors.blue.shade50,
+                          enableActiveFill: true,
+                          errorAnimationController: errorController,
+                          controller: pinController,
+                          onCompleted: (v) {
+                            print("Completed");
+                            print(currentText);
+                            print(currentText.runtimeType);
+                          },
+                          onChanged: (value) {
+                            print(value);
+                            setState(() {
+                              currentText = value;
+                            });
+                          },
+                        ),
+                      ),
+//                          SizedBox(
+//                              width: double.infinity,
+//                              child: TextField(
+//                                controller: _pin,
+//                                onChanged: (value) {
+//                                  setState(() {
+//                                    _pinIntro = int.parse(value);
+//                                  });
+//                                },
+//                                decoration: InputDecoration(
+//                                  contentPadding: EdgeInsets.all(10.0),
+//                                  hintText: "Insira o ano em que nasceu",
+//                                ),
+//                              )),
+                    ]))),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
