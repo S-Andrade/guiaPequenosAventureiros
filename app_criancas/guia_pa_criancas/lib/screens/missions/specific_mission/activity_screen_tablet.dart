@@ -122,6 +122,9 @@ class _ActivityScreenTabletPortraitState
 //    ));
 
     List<Activity> activities = mission.content;
+    setState(() {
+        activities.sort((a, b) => a.id.compareTo(b.id));
+    });
 
     return Container(
       decoration: BoxDecoration(
@@ -152,7 +155,7 @@ class _ActivityScreenTabletPortraitState
           ),
           body: Stack(
             children: [
-              Positioned.fill(
+              Positioned(
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
@@ -254,7 +257,9 @@ class _ActivityScreenTabletPortraitState
                                   }),
                                 ),
                               ),
+                              SizedBox(height: 100,),
                             ],
+                            
                           ),
                         ),
                       ],
