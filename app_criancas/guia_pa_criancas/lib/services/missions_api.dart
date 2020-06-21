@@ -122,14 +122,16 @@ getUserAmigo(String email) async {
   final QuerySnapshot companheiros =
       await Firestore.instance.collection('companheiro').getDocuments();
       bool dataSaved;
+      bool amigo = false;
   companheiros.documents.forEach((element) {
-    if (element.documentID == email) {
-      dataSaved= true;
-    } else {
-      dataSaved= false;
+    if(element.data['id']==email){
+      dataSaved =true;
+      amigo = dataSaved;
+    }else{
+      dataSaved =false;
     }
   });
-  return dataSaved;
+  return amigo;
 }
 
 //get das informações dos pais e ee do user
