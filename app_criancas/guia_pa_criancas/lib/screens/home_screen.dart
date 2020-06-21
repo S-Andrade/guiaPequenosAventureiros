@@ -70,100 +70,131 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                     color: Color(0xFF30246A)),
               ),
             ),
-            content: FractionallySizedBox(
-                heightFactor: 1,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+            content: Container(
+              height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Column(children: [
+                  Text(
+                    "Para sair da aplicação deves pedir ajuda aos teus pais!",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 20,
+                          color: Color(0xFF30246A)),
                     ),
-                    child: Column(children: [
-                      Text(
-                        "Para sair da aplicação deves pedir ajuda aos teus pais!",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 20,
-                              color: Color(0xFF30246A)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Form(
+                      key: formKey,
+                      child: PinCodeTextField(
+                        length: 4,
+                        obsecureText: false,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 50,
+                          fieldWidth: 40,
+                          activeFillColor:
+                          hasError ? Colors.yellowAccent : Colors.white,
                         ),
+                        animationDuration: Duration(milliseconds: 300),
+                        enableActiveFill: true,
+                        errorAnimationController: errorController,
+                        controller: pinController,
+                        onCompleted: (v) {
+                          print("Completed");
+                          print(currentText);
+                          print(currentText.runtimeType);
+                        },
+                        onChanged: (value) {
+                          print(value);
+                          setState(() {
+                            currentText = value;
+                            _pinIntro = int.parse(currentText);
+                          });
+                        },
                       ),
-                      Form(
-                        key: formKey,
-                        child: PinCodeTextField(
-                          length: 4,
-                          obsecureText: false,
-                          animationType: AnimationType.fade,
-//                        validator: (v) {
-//                          if (v.length < 3) {
-//                            return "I'm from validator";
-//                          } else {
-//                            return null;
-//                          }
-//                        },
-                          pinTheme: PinTheme(
-                            shape: PinCodeFieldShape.box,
-                            borderRadius: BorderRadius.circular(5),
-                            fieldHeight: 50,
-                            fieldWidth: 40,
-                            activeFillColor:
-                            hasError ? Colors.orange : Colors.white,
-                          ),
-                          animationDuration: Duration(milliseconds: 300),
-                          backgroundColor: Colors.blue.shade50,
-                          enableActiveFill: true,
-                          errorAnimationController: errorController,
-                          controller: pinController,
-                          onCompleted: (v) {
-                            print("Completed");
-                            print(currentText);
-                            print(currentText.runtimeType);
-                          },
-                          onChanged: (value) {
-                            print(value);
-                            setState(() {
-                              currentText = value;
-                            });
-                          },
-                        ),
-                      ),
-//                          SizedBox(
-//                              width: double.infinity,
-//                              child: TextField(
-//                                controller: _pin,
-//                                onChanged: (value) {
-//                                  setState(() {
-//                                    _pinIntro = int.parse(value);
-//                                  });
-//                                },
-//                                decoration: InputDecoration(
-//                                  contentPadding: EdgeInsets.all(10.0),
-//                                  hintText: "Insira o ano em que nasceu",
-//                                ),
-//                              )),
-                    ]))),
+                    ),
+                  ),
+                ])),
             actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("Não"),
+              SizedBox(
+                width: 100,
+                child: FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  color: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  child: Text(
+                    "Não",
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize:  16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(height: 16),
-              new GestureDetector(
-                onTap: () async {
-                  List datas = await getUserInfoEEPaiMae(user.email);
-                  if (datas.contains(_pinIntro)) {
-                    print('yes');
-                    Navigator.of(context).pop(true);
-                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Verifique se inseriu o pin correto",
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white);
-                  }
-                },
-                child: Text("Sim"),
+              SizedBox(
+                width: 100,
+                child: FlatButton(
+                  onPressed: () async {
+                    List datas = await getUserInfoEEPaiMae(user.email);
+                    if (datas.contains(_pinIntro)) {
+                      print('yes');
+                      Navigator.of(context).pop(true);
+                      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Verifique se inseriu o pin correto",
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white);
+                    }
+                  },
+                  color: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  child: Text(
+                    "Sim",
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize:  16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
+//              new GestureDetector(
+//                onTap: () => Navigator.of(context).pop(false),
+//                child: Text("Não"),
+//              ),
+//              SizedBox(height: 16),
+//              new GestureDetector(
+//                onTap: () async {
+//                  List datas = await getUserInfoEEPaiMae(user.email);
+//                  if (datas.contains(_pinIntro)) {
+//                    print('yes');
+//                    Navigator.of(context).pop(true);
+//                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+//                  } else {
+//                    Fluttertoast.showToast(
+//                        msg: "Verifique se inseriu o pin correto",
+//                        backgroundColor: Colors.black,
+//                        textColor: Colors.white);
+//                  }
+//                },
+//                child: Text("Sim"),
+//              ),
             ],
           ),
         ) ??
