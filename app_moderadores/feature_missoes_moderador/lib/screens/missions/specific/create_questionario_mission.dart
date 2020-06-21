@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:feature_missoes_moderador/models/question.dart';
 import 'package:feature_missoes_moderador/notifier/missions_notifier.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
@@ -50,7 +51,6 @@ class _CreateQuestionarioMissionScreenState
 
   getPerguntas(MissionsNotifier missionsNotifier) {
     if (missionsNotifier.currentQuestion != null) {
-      q = [];
       print(missionsNotifier.currentQuestion.question);
       if (!_perguntas.contains(missionsNotifier.currentQuestion)) {
         q.add(missionsNotifier.currentQuestion);
@@ -670,9 +670,11 @@ class _CreateQuestionarioMissionScreenState
         missionsNotifier.currentQuestion = null;
         createMissionQuestinario(
             titulo, questions, aventuraId.id, capitulo.id, pontos);
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) =>
-                TabBarMissions(capitulo: capitulo, aventura: aventuraId)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    CapituloDetails(capitulo: capitulo, aventura: aventuraId)));
       },
     );
 
