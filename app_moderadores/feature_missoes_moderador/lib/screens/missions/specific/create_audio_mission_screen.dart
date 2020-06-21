@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
+import 'package:feature_missoes_moderador/screens/capitulo/capitulo_details.dart';
 import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/screens/missions/all/create_mission_screen.dart';
@@ -466,9 +467,11 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
       onPressed: () {
         addUploadedAudioToFirebaseStorage(
             _titulo, _descricao, _audio, aventuraId.id, capitulo.id,pontos);
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => TabBarMissions(
-                capitulo: capitulo, aventura: aventuraId)));
+        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CapituloDetails(
+                                    capitulo: capitulo, aventura: aventuraId)));
       },
     );
 

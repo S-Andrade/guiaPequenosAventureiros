@@ -59,7 +59,7 @@ class _AventuraListState extends State<AventuraList> {
     );
   }
 
-  Widget _buildVideoScroller(aventuras) {
+  Widget _buildAventuraScroller(aventuras) {
     return Padding(
       padding: const EdgeInsets.only(bottom:130.0,left:50),
       child: SizedBox.fromSize(
@@ -69,19 +69,27 @@ class _AventuraListState extends State<AventuraList> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             itemCount: aventuras.length,
             itemBuilder: (BuildContext context, int index) {
+              /*
               return FutureBuilder<void>(
                 future:  getImage(aventuras[index], index),
                 builder: (context, AsyncSnapshot<void> snapshot) {
-                  
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return new Text('Erro: ${snapshot.error}');
+              else
+                */
                     return GestureDetector(
                         onTap: () {
                           showOptions(aventuras[index]);
                         },
-                        child: Card(aventura: aventuras[index], image_capa: images[index]));
-                  
-                
-                  
-              });
+                        child: Card(aventura: aventuras[index], image_capa: null));
+              /*  break;
+            default:
+              return Container();
+          }
+               
+              });*/
             }
       ),
     ));
@@ -132,7 +140,7 @@ class _AventuraListState extends State<AventuraList> {
                   child: Column(
                     children: <Widget>[
                       _buildInfo(),
-                      _buildVideoScroller(aventuras),
+                      _buildAventuraScroller(aventuras),
                     ],
                   )),
             ),
@@ -388,7 +396,7 @@ class _CardState extends State<Card> {
             )
           ],
           image: DecorationImage(
-            image: image_capa.image,
+            image:AssetImage("assets/images/story_1.png"),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ));
@@ -410,7 +418,7 @@ class _CardState extends State<Card> {
   @override
   Widget build(BuildContext context) {
 
-    if (image_capa != null){
+   // if (image_capa != null){
       return Container(
         width: 230.0,
         padding: const EdgeInsets.all(8.0),
@@ -420,9 +428,10 @@ class _CardState extends State<Card> {
           Flexible(flex: 2, child: _buildInfo()),
         ]));
     }
-    else{
+    /*else{
       return ColorLoader();
     }
     
-  }
+    
+  }*/
 }

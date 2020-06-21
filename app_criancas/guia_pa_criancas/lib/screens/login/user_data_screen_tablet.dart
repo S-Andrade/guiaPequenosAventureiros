@@ -853,8 +853,10 @@ class _UserDataState extends State<UserData> {
               _nacionalidadePai,
               _profissaoPai,
               _habilitacoesPai);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+           Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>CreateCompanheiro()));
         }
       }
     }

@@ -2,21 +2,24 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feature_missoes_moderador/models/mission.dart';
+import 'package:feature_missoes_moderador/screens/aventura/aventura.dart';
 import 'package:feature_missoes_moderador/screens/capitulo/capitulo.dart';
 import 'package:feature_missoes_moderador/screens/home_screen.dart';
 import 'package:feature_missoes_moderador/screens/missions/results/missions_turma.dart';
+import 'package:feature_missoes_moderador/screens/tab/tab.dart';
 import 'package:feature_missoes_moderador/screens/turma/turma.dart';
 import 'package:feature_missoes_moderador/services/missions_api.dart';
 import 'package:feature_missoes_moderador/widgets/color_loader.dart';
 import 'package:feature_missoes_moderador/widgets/color_parser.dart';
+import 'package:feature_missoes_moderador/widgets/popupConfirm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beautiful_popup/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:feature_missoes_moderador/screens/missions/results/results_turma_tab.dart';
 
 class ResultsDashboardTurmasScreen extends StatefulWidget {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
 
   ResultsDashboardTurmasScreen({this.capitulo, this.aventuraId});
@@ -29,7 +32,7 @@ class ResultsDashboardTurmasScreen extends StatefulWidget {
 
 class _ResultsDashboardTurmasScreenState
     extends State<ResultsDashboardTurmasScreen> {
-  String aventuraId;
+  Aventura aventuraId;
   Capitulo capitulo;
   Turma turma;
   List<Turma> turmas;
@@ -39,6 +42,7 @@ class _ResultsDashboardTurmasScreenState
   List<Mission> missionsList;
   Map alunosTurma;
   var user;
+
 
   _ResultsDashboardTurmasScreenState({this.capitulo, this.aventuraId});
 
@@ -53,8 +57,8 @@ class _ResultsDashboardTurmasScreenState
     getCurrentUser().then((userR) => setState(() {
           this.user = userR;
         }));
-    if (capitulo.missoes.length != 0) getTurmasForThisAventura(aventuraId);
-
+    if (capitulo.missoes.length != 0) getTurmasForThisAventura(aventuraId.id);
+    print(capitulo.disponibilidade.toString());
     super.initState();
   }
 
@@ -135,11 +139,12 @@ class _ResultsDashboardTurmasScreenState
         firstTime = true;
 
         print("refresh");
-        getTurmasForThisAventura(aventuraId);
+        getTurmasForThisAventura(aventuraId.id);
       });
     }
 
     if (user != null) {
+    
       if (capitulo.missoes.length != 0) {
         if (turmas.length != 0) {
           if (firstTime == true) {
@@ -153,6 +158,7 @@ class _ResultsDashboardTurmasScreenState
             });
           }
           if (percentagens.length == turmas.length) {
+    
             return Scaffold(
               backgroundColor: Colors.transparent,
               body: RefreshIndicator(
@@ -188,7 +194,7 @@ class _ResultsDashboardTurmasScreenState
                                     textColor: Colors.black,
                                     padding: EdgeInsets.all(8.0),
                                     onPressed: () {
-                                      print(this.user);
+                                  
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -245,7 +251,7 @@ class _ResultsDashboardTurmasScreenState
                                     // Generate 100 widgets that display their index in the List.
                                     children:
                                         List.generate(turmas.length, (index) {
-                                      return Padding(
+                                     return (capitulo.disponibilidade[turmas[index].id]==true) ? Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20.0,
                                             bottom: 20,
@@ -275,11 +281,11 @@ class _ResultsDashboardTurmasScreenState
                                                       10.0),
                                                   child: Text(
                                                       "Turma " +
-                                                          turmas[index].id,
+                                                          turmas[index].nome,
                                                       style: TextStyle(
                                                           fontSize: 20.0,
                                                           letterSpacing: 2,
-                                                          color: Colors.black,
+                                                          color: Colors.blue,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontFamily:
@@ -362,7 +368,78 @@ class _ResultsDashboardTurmasScreenState
                                                 ]),
                                           ),
                                         ),
-                                      );
+                                      ) 
+                                      :
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0,
+                                            bottom: 20,
+                                            top: 30,
+                                            right: 20),
+                                        
+                                          child: Container(
+                                          
+                                              
+                                            child: Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top:10.0),
+                                                  child: Text(
+                                                      "Turma " +
+                                                          turmas[index].nome,
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          letterSpacing: 2,
+                                                          color: Colors.blue,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily:
+                                                              'Monteserrat')),
+                                                ),
+                                               
+                                                GestureDetector(
+                                                  onTap: () {showConfirmar(context,turmas[index].nome,turmas[index].id,capitulo,aventuraId);}, 
+                                                                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(top:120.0),
+                                                    child: Text(
+                                                        "DESBLOQUEAR",
+                                                        style: TextStyle(
+                                                            fontSize:33.0,
+                                                            letterSpacing: 2,
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.w900,
+                                                            fontFamily:
+                                                                'Monteserrat')),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            decoration: BoxDecoration(
+                                                 image: DecorationImage(
+                    image: AssetImage("assets/images/unlock.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                    blurRadius:
+                                                        5.0, // has the effect of softening the shadow
+                                                    spreadRadius:
+                                                        2.0, // has the effect of extending the shadow
+                                                    offset: Offset(
+                                                      0.0, // horizontal
+                                                      2.5, // vertical
+                                                    ),
+                                                  )
+                                                ]),
+                                          ),
+                                        
+                                      ) ;
                                     }),
                                   ),
                                 )
@@ -376,8 +453,9 @@ class _ResultsDashboardTurmasScreenState
             return Center(child: ColorLoader());
         } else {
           return Center(child: ColorLoader());
-        }
-      } else
+        } 
+      } 
+        else
         return Scaffold(
             backgroundColor: Colors.transparent,
             body: RefreshIndicator(
@@ -390,7 +468,6 @@ class _ResultsDashboardTurmasScreenState
                         textColor: Colors.black,
                         padding: EdgeInsets.all(8.0),
                         onPressed: () {
-                          print(this.user);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -435,7 +512,77 @@ class _ResultsDashboardTurmasScreenState
                     )],
                 )));
     } else {
-      return Center(child: ColorLoader());
-    }
+          return Center(child: ColorLoader());
+        } 
+   
   }
+
+  showConfirmar(BuildContext context, 
+      String turma,String turmaId,Capitulo capitulo,Aventura aventura) {
+    final popup = BeautifulPopup.customize(
+      context: context,
+      build: (options) => MyTemplateConfirmation(options),
+    );
+
+    Widget cancelaButton = FlatButton(
+      child: Text(
+        "Cancelar",
+        style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2,
+            fontSize: 20),
+      ),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+
+    Widget continuaButton = FlatButton(
+      child: Text(
+        "Sim",
+        style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2,
+            fontSize: 20),
+      ),
+      onPressed: () async {
+        print(turmaId);
+        await desbloquearCapituloParaTurma(capitulo,turmaId);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) =>
+                TabBarMissions(capitulo: capitulo, aventura: aventura)));
+       
+
+      },
+    );
+
+    popup.show(
+      close: Container(),
+      title: Text(
+        "",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Amatic SC',
+            letterSpacing: 2,
+            fontSize: 30),
+      ),
+      content: Text(
+        "\nTem a certeza que pretende desbloquer o capítulo para a turma "+turma+"?",
+        style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Monteserrat',
+            letterSpacing: 2,
+            fontSize: 20),
+      ),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+  }
+
+  
 }

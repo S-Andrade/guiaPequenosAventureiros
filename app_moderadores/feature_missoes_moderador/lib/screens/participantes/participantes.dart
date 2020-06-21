@@ -82,14 +82,26 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
 
             for (var a in respostas.entries) {
               List novaLista = [];
+              List numeroRespostas = [];
               var media;
               for (List cada in a.value) {
                 media = 0;
-                media = getMedia(cada);
-                novaLista.add(media.round());
+                int nao = 0;
+                for (var ui in cada) {
+                  if (ui == 66) nao++;
+                }
+                if (nao != cada.length) {
+                  var resposta = getMedia(cada);
+                  media = resposta[0];
+                  numeroRespostas.add(resposta[1]);
+                  novaLista.add(media.round());
+                } else {
+                  novaLista.add("-");
+                  numeroRespostas.add(0);
+                }
               }
 
-              lista.add([a.key, novaLista]);
+              lista.add([a.key, novaLista, numeroRespostas]);
             }
 
             if (lista.length != 0) {
@@ -100,7 +112,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
             }
           });
         } else if (value[2].length == 0 && _umaVez == true) {
-          respostasFinal = ["null"];
+          respostasFinal = ["-"];
         }
         setState(() {
           _umaVez = false;
@@ -126,10 +138,11 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
   @override
   Widget build(BuildContext context) {
     if (user != null) {
-      if (mapaEscolas.length != 0) {
+      if (mapaEscolas.length >= 1) {
         if (alunosPorTurma.length != 0) {
-          if (mapaTurmas.length != 0) {
+          if (mapaTurmas.length >= 1) {
             if (respostasFinal.length != 0) {
+        
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -169,7 +182,6 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                     child: FlatButton(
                                       color: parseColor("F4F19C"),
                                       onPressed: () {
-                                        print(this.user);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -500,7 +512,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "São apresentados valores médios. ",
+                                        "São apresentados valores médios para cada um, tendo em conta o número de respostas dadas até ao momento.\n\n                                                           Clique numa média para ver número total de respostas. ",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'Monteserrat',
@@ -549,7 +561,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                     color: Colors.white,
                                                     child: Row(children: [
                                                       Text(
-                                                        '     Questão                                                                                             Q 1    Q 2    Q 3',
+                                                        '     Questão                                                                                               1º    2º   3º',
                                                         style: TextStyle(
                                                           fontSize: 20,
                                                           letterSpacing: 1,
@@ -603,23 +615,35 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                                               ),
                                                                             ]),
                                                                           ),
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 40.0),
+                                                                          Tooltip(
+                                                                            message: (respostasFinal[index][1][0].toString() == "")
+                                                                                ? "Sem Questionário ainda "
+                                                                                : respostasFinal[index][2][0].toString() + " resposta(s) no total",
                                                                             child:
-                                                                                Text(respostasFinal[index][1][0].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.only(left: 40.0),
+                                                                              child: Text(respostasFinal[index][1][0].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                            ),
                                                                           ),
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 30.0),
+                                                                          Tooltip(
+                                                                             message: (respostasFinal[index][1][1].toString() == "")
+                                                                                ? "Sem Questionário ainda "
+                                                                                : respostasFinal[index][2][1].toString() + " resposta(s) no total",
                                                                             child:
-                                                                                Text(respostasFinal[index][1][1].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.only(left: 30.0),
+                                                                              child: Text(respostasFinal[index][1][1].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                            ),
                                                                           ),
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 40.0),
+                                                                          Tooltip(
+                                                                            message: (respostasFinal[index][1][2].toString() == "")
+                                                                                ? "Sem Questionário ainda "
+                                                                                : respostasFinal[index][2][2].toString() + " resposta(s) no total",
                                                                             child:
-                                                                                Text(respostasFinal[index][1][2].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.only(left: 40.0),
+                                                                              child: Text(respostasFinal[index][1][2].toString(), style: const TextStyle(fontSize: 20.0)),
+                                                                            ),
                                                                           )
                                                                         ]))
                                                               ]),
@@ -655,7 +679,6 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      color: parseColor("#f4a09c"),
                       child: Center(child: Container(child: ColorLoader()))));
           } else
             return Scaffold(
@@ -666,7 +689,6 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    color: Colors.indigoAccent[50],
                     child: Center(child: Container(child: ColorLoader()))));
         } else
           return Scaffold(
@@ -677,7 +699,6 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  color: Colors.indigoAccent[50],
                   child: Center(child: Container(child: ColorLoader()))));
       } else
         return Scaffold(
@@ -703,9 +724,13 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
 
   getMedia(listaNums) {
     var sum = 0.0;
+    var length = 0;
     for (var i = 0; i < listaNums.length; i++) {
-      sum += listaNums[i];
+      if (listaNums[i] != 66) {
+        sum += listaNums[i];
+        length++;
+      }
     }
-    return sum / listaNums.length;
+    return [sum / length, length];
   }
 }
