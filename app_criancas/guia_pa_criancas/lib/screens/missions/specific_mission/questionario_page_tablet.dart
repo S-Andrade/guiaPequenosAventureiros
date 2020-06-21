@@ -255,7 +255,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
-                  5,
+                  allAnswers.length,
                   (index) => Text(
                     (index + 1).toString(),
                     style: GoogleFonts.quicksand(
@@ -465,7 +465,8 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                       ),
                       onPressed: () async {
                         int respondidas = 0;
-                        allQuestions.forEach((element) {
+                        missionsNotifier.currentMission.content.questions
+                            .forEach((element) {
                           element.resultados.forEach((aluno) {
                             if (aluno['aluno'] == _userID) {
                               if (aluno['respostaEscolhida'] != "" &&
@@ -475,7 +476,16 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                             }
                           });
                         });
+                        print(respondidas.toString());
+                        print('loooooooooooool');
+                        print(allQuestions.length.toString());
                         if (respondidas == allQuestions.length) {
+                          for (StreamSubscription<dynamic> subscription
+                              in _streamSubscriptions) {
+                            subscription.cancel();
+                          }
+                          stopListening();
+                          print('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
                           await updatePoints(_userID, points);
                           updateMissionCounterInFirestore(
                               missionNotifier.currentMission, _userID, 1);
@@ -486,14 +496,11 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                               _userID,
                               _movementData,
                               _lightData);
-                          saveMissionData(missionNotifier.currentMission, _userID, Timestamp.now());
-                          for (StreamSubscription<dynamic> subscription
-                              in _streamSubscriptions) {
-                            subscription.cancel();
-                          }
-                          stopListening();
+                          saveMissionData(missionNotifier.currentMission,
+                              _userID, Timestamp.now());
                           Navigator.pop(context);
                           Navigator.pop(context);
+                          
                         } else {
                           showDialog(
                               context: context,
@@ -531,7 +538,8 @@ class _QuestionarioPageState extends State<QuestionarioPage>
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -553,13 +561,16 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -567,20 +578,21 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -588,12 +600,12 @@ class _QuestionarioPageState extends State<QuestionarioPage>
             ),
           ),
         );
-
       },
     );
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -616,7 +628,8 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -644,22 +657,24 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -667,14 +682,14 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                 ),
               ),
             );
-
           },
-        );
+        );}
       }
     }
     if (cromos[1] != []) {
       for (String i in cromos[1]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -697,7 +712,8 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -725,22 +741,24 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -749,7 +767,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               ),
             );
           },
-        );
+        );}
       }
     }
   }
