@@ -30,7 +30,7 @@ class HistoriaTile extends StatelessWidget {
            return new Text("Erro");
            else */
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: screenHeight > 1000 ? screenHeight/6 : 110),
+      padding: EdgeInsets.symmetric(vertical:  screenHeight < 700 ? 90 : screenHeight > 1000 ? screenHeight/6 : 110),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -38,14 +38,14 @@ class HistoriaTile extends StatelessWidget {
 //                  Text(historia.titulo),
 //                  Text('Capítulos'),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all( screenHeight < 700 ? 10 : 20.0),
             child: Text(
               "Toca e escolhe o capítulo:",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize:  screenHeight > 1000 ? 30 :screenHeight < 700 ? 20 :24,
                     color: Color(0xFF30246A)),
               ),
             ),

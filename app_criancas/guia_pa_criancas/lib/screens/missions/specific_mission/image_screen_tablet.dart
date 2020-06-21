@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
@@ -153,108 +155,77 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             Positioned.fill(
               child: Align(
                 alignment: Alignment.topCenter,
-                child: FractionallySizedBox(
-                  widthFactor: 0.9,
+                child: DelayedDisplay(
+                  delay: Duration(milliseconds: 800),
+                  fadingDuration: const Duration(milliseconds: 800),
+                  slidingBeginOffset: const Offset(0.0, 0.0),
+                  child: FractionallySizedBox(
+                    widthFactor: 0.9,
 //                  heightFactor: 0.6,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.only(top: 100),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                              EdgeInsets.all(screenHeight < 700 ? 10 : 20.0),
-                          child: Text(
-                            mission.title,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: screenHeight < 700 ? 24 : 28,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: screenHeight < 700
-                              ? screenWidth * 0.6
-                              : screenWidth * 0.7,
-                          height: screenHeight < 700
-                              ? screenWidth * 0.6
-                              : screenWidth * 0.7,
-//                          padding: EdgeInsets.all(20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Image(
-//                              height:  screenHeight < 700 ? screenHeight/2.5 : screenHeight,
-                                image: _image,
-                                fit: BoxFit.cover,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                EdgeInsets.all(screenHeight < 700 ? 10 : 20.0),
+                            child: Text(
+                              mission.title,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: screenHeight < 700 ? 24 : 28,
+                                    color: Colors.white),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: screenHeight < 700 ? 16 : 20.0),
-                          child: FractionallySizedBox(
-                            widthFactor: 0.4,
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: FlatButton(
-                                  padding: EdgeInsets.all(
-                                      screenHeight < 700 ? 16 : 20),
-                                  child: setButton(),
-                                  onPressed: () {
-                                    setState(() {
-                                      _state = 1;
-                                      _loadButton();
-                                    });
-                                  },
+                          Container(
+                            width: screenHeight < 700
+                                ? screenWidth * 0.6
+                                : screenWidth * 0.7,
+                            height: screenHeight < 700
+                                ? screenWidth * 0.6
+                                : screenWidth * 0.7,
+//                          padding: EdgeInsets.all(20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Image(
+//                              height:  screenHeight < 700 ? screenHeight/2.5 : screenHeight,
+                                  image: _image,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: screenHeight < 700 ? 16 : 20.0),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.4,
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: FlatButton(
+                                    padding: EdgeInsets.all(
+                                        screenHeight < 700 ? 16 : 20),
+                                    child: setButton(),
+                                    onPressed: () {
+                                      setState(() {
+                                        _state = 1;
+                                        _loadButton();
+                                      });
+                                    },
 //                    height: 90,
 //                    minWidth: 300,
-                                  color: Color(0xFFFF418E),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0))),
+                                    color: Color(0xFFFF418E),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0))),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: FractionallySizedBox(
-                  heightFactor: 0.15,
-                  widthFactor: 0.8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black45.withOpacity(0.8),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              topRight: Radius.circular(50),
-                              bottomLeft: Radius.circular(50),
-                              bottomRight: Radius.circular(10))),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "Aqui estou a dizer algo mesmo muito pertinente",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -263,7 +234,54 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             ),
             Positioned(
               child: Align(
-                  alignment: Alignment.topRight, child: CompanheiroAppwide()),
+                alignment: Alignment.topCenter,
+                child: FractionallySizedBox(
+                  widthFactor: screenWidth > 800 ? 0.75 : 0.9,
+                  heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                  child: Stack(
+                    children: [
+                      FlareActor(
+                        "assets/animation/dialog.flr",
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.center,
+//                        controller: _controller,
+                        artboard: 'Artboard',
+                        animation: 'open_dialog',
+                      ),
+                      Center(
+                        child: DelayedDisplay(
+                          delay: Duration(seconds: 1),
+                          fadingDuration: const Duration(milliseconds: 800),
+                          slidingBeginOffset: const Offset(0, 0.0),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.only(left: 60.0, right: 100),
+                            child: Text(
+                              "Aqui estou a dizer algo mesmo muito pertinente",
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.pangolin(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: screenHeight < 1000 ? 20 : 28,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              child: Align(
+                  alignment: Alignment.topRight,
+                  child: DelayedDisplay(
+//                          delay: Duration(seconds: 1),
+                      fadingDuration: const Duration(milliseconds: 800),
+//                          slidingBeginOffset: const Offset(-0.5, 0.0),
+                      child: CompanheiroAppwide())),
             ),
           ],
         ),
