@@ -443,6 +443,7 @@ class _UploadVideoScreenTabletPortraitState
                       child: Form(
                         key: formKey,
                         child: PinCodeTextField(
+                          textInputType: TextInputType.number,
                           autoFocus: true,
                           length: 4,
                           obsecureText: false,
