@@ -186,9 +186,9 @@ void updateUserData(
     DateTime idadePai,
     String nacionalidadePai,
     String profissaoPai,
-    String habilitacoesPai) {
+    String habilitacoesPai) async {
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
-  alunoCollection.document(id).updateData({
+  await alunoCollection.document(id).updateData({
     'idadeAluno': idade,
     'generoAluno': genero,
     'dataNascimentoAluno': dateTime,
