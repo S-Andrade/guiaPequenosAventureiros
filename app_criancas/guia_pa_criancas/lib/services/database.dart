@@ -165,7 +165,7 @@ class DatabaseService {
 }
 
 //info Aluno
-void updateUserData(
+updateUserData(
     String id,
     String idade,
     String genero,
@@ -186,9 +186,10 @@ void updateUserData(
     DateTime idadePai,
     String nacionalidadePai,
     String profissaoPai,
-    String habilitacoesPai) {
+    String habilitacoesPai) async {
+  print('aquiiiiiiiiiiiiiiiiii');
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
-  alunoCollection.document(id).updateData({
+  await alunoCollection.document(id).updateData({
     'idadeAluno': idade,
     'generoAluno': genero,
     'dataNascimentoAluno': dateTime,
