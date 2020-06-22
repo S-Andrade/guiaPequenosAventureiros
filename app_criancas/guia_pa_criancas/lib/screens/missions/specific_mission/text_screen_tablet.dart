@@ -239,7 +239,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                   alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
                       widthFactor: 0.6,
-                      heightFactor:0.5 ,
+                      heightFactor:0.46 ,
                       child: DelayedDisplay(
 //                          delay: Duration(seconds: 1),
                           fadingDuration: const Duration(milliseconds: 800),

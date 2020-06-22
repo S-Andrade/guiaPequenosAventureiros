@@ -236,8 +236,8 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
               child: Align(
                 alignment: Alignment.topCenter,
                 child: FractionallySizedBox(
-                  widthFactor: screenWidth > 800 ? 0.75 : 0.9,
-                  heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
+                  widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                  heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
                   child: Stack(
                     children: [
                       FlareActor(
@@ -254,15 +254,14 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                           fadingDuration: const Duration(milliseconds: 800),
                           slidingBeginOffset: const Offset(0, 0.0),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.only(left: 60.0, right: 100),
+                            padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
                             child: Text(
                               "Aqui estou a dizer algo mesmo muito pertinente",
                               textAlign: TextAlign.right,
                               style: GoogleFonts.pangolin(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: screenHeight < 1000 ? 20 : 28,
+                                    fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
                                     color: Colors.white),
                               ),
                             ),
