@@ -377,7 +377,8 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text("Ganhas-te pontos",
+            title: Text(
+              "Ganhas-te pontos",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
@@ -399,13 +400,16 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("+$points",  textAlign: TextAlign.center,
+                      Text(
+                        "+$points",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 50,
                               color: Color(0xFFffcc00)),
-                        ),),
+                        ),
+                      ),
                       SizedBox(
                         width: double.infinity,
                         child: FlatButton(
@@ -413,20 +417,21 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
                           color: Color(0xFFEF807A),
-                          child: new Text("Fechar",
+                          child: new Text(
+                            "Fechar",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                   color: Colors.white),
-                            ),),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -439,6 +444,7 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -454,7 +460,6 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
@@ -462,7 +467,8 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo",
+                title: Text(
+                  "Ganhas-te um cromo",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -490,22 +496,24 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -513,14 +521,14 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                 ),
               ),
             );
-
           },
-        );
+        );}
       }
     }
     if (cromos[1] != []) {
       for (String i in cromos[1]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -536,7 +544,6 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
@@ -544,7 +551,8 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
               child: AlertDialog(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text("Ganhas-te um cromo\npara a turma",
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
@@ -572,22 +580,24 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                             child: FlatButton(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               color: Color(0xFFEF807A),
-                              child: new Text("Fechar",
+                              child: new Text(
+                                "Fechar",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: Colors.white),
-                                ),),
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -595,9 +605,8 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
                 ),
               ),
             );
-
           },
-        );
+        );}
       }
     }
   }

@@ -823,9 +823,13 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
 
   updatePoints(String aluno, int points) async {
     List cromos = await updatePontuacao(aluno, points);
+    print("tellle");
+    print(cromos);
+
     await showDialog(
       context: context,
       builder: (BuildContext context) {
+        // retorna um objeto do tipo Dialog
         return Container(
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.3),
@@ -900,89 +904,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
-
-        await FirebaseStorage.instance
-            .ref()
-            .child(i)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo\npara a turma",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
-                ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          image,
-                          SizedBox(
-                            width: double.infinity,
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(10.0)),
-                              color: Color(0xFFEF807A),
-                              child: new Text(
-                                "Fechar",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.white),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      }
-    }
-    if (cromos[1] != []) {
-      for (String i in cromos[1]) {
-        Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -1060,7 +982,91 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               ),
             );
           },
-        );
+        );}
+      }
+    }
+    if (cromos[1] != []) {
+      for (String i in cromos[1]) {
+        Image image;
+        if(i!=null){
+
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  "Ganhas-te um cromo\npara a turma",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
+                ),
+                content: FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          image,
+                          SizedBox(
+                            width: double.infinity,
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
+                              color: Color(0xFFEF807A),
+                              child: new Text(
+                                "Fechar",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );}
       }
     }
   }

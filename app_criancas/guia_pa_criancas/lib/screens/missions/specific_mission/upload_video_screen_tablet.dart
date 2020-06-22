@@ -39,7 +39,6 @@ class _UploadVideoScreenTabletPortraitState
 
   _UploadVideoScreenTabletPortraitState(this.mission);
 
-
   File _video;
   String _titulo;
   bool _loaded;
@@ -50,15 +49,13 @@ class _UploadVideoScreenTabletPortraitState
   Map resultados;
   bool _done;
 
-
   // PIN PAD
-  String currentText  = "";
+  String currentText = "";
   StreamController<ErrorAnimationType> errorController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   bool hasError = false;
   String errorMessage;
-
 
   @override
   void initState() {
@@ -312,8 +309,11 @@ class _UploadVideoScreenTabletPortraitState
               child: Align(
                 alignment: Alignment.topCenter,
                 child: FractionallySizedBox(
-                  widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                  heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.13 : 0.20,
+                  widthFactor:
+                      screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                  heightFactor: screenHeight < 700
+                      ? 0.14
+                      : screenHeight < 1000 ? 0.13 : 0.20,
                   child: Stack(
                     children: [
                       FlareActor(
@@ -330,14 +330,22 @@ class _UploadVideoScreenTabletPortraitState
                           fadingDuration: const Duration(milliseconds: 800),
                           slidingBeginOffset: const Offset(0, 0.0),
                           child: Padding(
-                            padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                            padding: EdgeInsets.only(
+                                left: screenHeight > 1000
+                                    ? 40
+                                    : screenHeight < 700 ? 16 : 20.0,
+                                right: screenHeight > 1000
+                                    ? 130
+                                    : screenHeight < 700 ? 60 : 100),
                             child: Text(
                               "Pede a um adulto para autorizar o carregamento",
                               textAlign: TextAlign.right,
                               style: GoogleFonts.pangolin(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                    fontSize: screenHeight < 700
+                                        ? 16
+                                        : screenHeight < 1000 ? 20 : 32,
                                     color: Colors.white),
                               ),
                             ),
@@ -412,7 +420,8 @@ class _UploadVideoScreenTabletPortraitState
           context: context,
           builder: (context) => SingleChildScrollView(
             child: new AlertDialog(
-              title: Text("Para enviar pede ajuda aos teus pais!",
+              title: Text(
+                "Para enviar pede ajuda aos teus pais!",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
@@ -439,7 +448,8 @@ class _UploadVideoScreenTabletPortraitState
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20,left: 20,right:20.0),
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20.0),
                       child: Form(
                         key: formKey,
                         child: PinCodeTextField(
@@ -454,7 +464,7 @@ class _UploadVideoScreenTabletPortraitState
                             fieldHeight: 50,
                             fieldWidth: 40,
                             activeFillColor:
-                            hasError ? Colors.yellowAccent : Colors.white,
+                                hasError ? Colors.yellowAccent : Colors.white,
                           ),
                           animationDuration: Duration(milliseconds: 300),
                           enableActiveFill: true,
@@ -506,7 +516,7 @@ class _UploadVideoScreenTabletPortraitState
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize:  16,
+                          fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -516,7 +526,7 @@ class _UploadVideoScreenTabletPortraitState
                 SizedBox(
                   width: 100,
                   child: FlatButton(
-                    onPressed:() async {
+                    onPressed: () async {
                       List datas = await getUserInfoEEPaiMae(_userID);
                       if (datas.contains(_pinIntro)) {
                         Timer(Duration(milliseconds: 3000), () async {
@@ -544,7 +554,7 @@ class _UploadVideoScreenTabletPortraitState
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize:  16,
+                          fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -643,169 +653,169 @@ class _UploadVideoScreenTabletPortraitState
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
+        if (i != null) {
+          await FirebaseStorage.instance
+              .ref()
+              .child(i)
+              .getDownloadURL()
+              .then((downloadUrl) {
+            image = Image.network(
+              downloadUrl.toString(),
+              fit: BoxFit.scaleDown,
+            );
+          });
 
-        await FirebaseStorage.instance
-            .ref()
-            .child(i)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          image,
-                          SizedBox(
-                            width: double.infinity,
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(10.0)),
-                              color: Color(0xFFEF807A),
-                              child: new Text(
-                                "Fechar",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.white),
+                  ),
+                  content: FractionallySizedBox(
+                    heightFactor: 0.6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            image,
+                            SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Color(0xFFEF807A),
+                                child: new Text(
+                                  "Fechar",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        );
+              );
+            },
+          );
+        }
       }
     }
     if (cromos[1] != []) {
       for (String i in cromos[1]) {
         Image image;
+        if (i != null) {
+          await FirebaseStorage.instance
+              .ref()
+              .child(i)
+              .getDownloadURL()
+              .then((downloadUrl) {
+            image = Image.network(
+              downloadUrl.toString(),
+              fit: BoxFit.scaleDown,
+            );
+          });
 
-        await FirebaseStorage.instance
-            .ref()
-            .child(i)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo\npara a turma",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo\npara a turma",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          image,
-                          SizedBox(
-                            width: double.infinity,
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(10.0)),
-                              color: Color(0xFFEF807A),
-                              child: new Text(
-                                "Fechar",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.white),
+                  ),
+                  content: FractionallySizedBox(
+                    heightFactor: 0.6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            image,
+                            SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Color(0xFFEF807A),
+                                child: new Text(
+                                  "Fechar",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        );
+              );
+            },
+          );
+        }
       }
     }
   }
