@@ -100,6 +100,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
     _timeVisited = _timeVisited - _totalPaused;
   }
 
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -199,43 +200,46 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                   ),
                 ),
                 //Companheiro fundo
-                Positioned(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FractionallySizedBox(
-                      widthFactor: screenWidth > 800 ? 0.75 : 0.9,
-                      heightFactor: screenHeight < 1000 ? 0.13 : 0.18,
-                      child: Stack(
-                        children: [
-                          FlareActor(
-                            "assets/animation/dialog.flr",
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.center,
+                Padding(
+                  padding: const EdgeInsets.only(bottom:10.0),
+                  child: Positioned(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FractionallySizedBox(
+                        widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
+                        heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                        child: Stack(
+                          children: [
+                            FlareActor(
+                              "assets/animation/dialog.flr",
+                              fit: BoxFit.fitWidth,
+                              alignment: Alignment.center,
 //                        controller: _controller,
-                            artboard: 'Artboard',
-                            animation: 'open_dialog',
-                          ),
-                          Center(
-                            child: DelayedDisplay(
-                              delay: Duration(seconds: 1),
-                              fadingDuration: const Duration(milliseconds: 800),
-                              slidingBeginOffset: const Offset(0, 0.0),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:100.0, right: 60),
-                                child: Text(
-                                  "Já assististe ao video nas tuas missões?",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.pangolin(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 1000 ? 20 : 28,
-                                        color: Colors.white),
+                              artboard: 'Artboard',
+                              animation: 'open_dialog',
+                            ),
+                            Center(
+                              child: DelayedDisplay(
+                                delay: Duration(seconds: 1),
+                                fadingDuration: const Duration(milliseconds: 800),
+                                slidingBeginOffset: const Offset(0, 0.0),
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, left: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                                  child: Text(
+                                    "Já assististe ao video nas tuas missões?",
+                                    textAlign: TextAlign.left,
+                                    style: GoogleFonts.pangolin(
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -336,12 +340,12 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: 40,
+                      fontSize: screenHeight < 700 ? 30 : 40,
                       color: Colors.yellow),
                 ),
               ),
               content: FractionallySizedBox(
-                heightFactor: 0.4,
+                heightFactor: screenHeight < 700 ? 0.6 : 0.45,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -350,15 +354,19 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "${missionNotifier.currentMission.content.result} %\n Esta é a tua tentativa número ${_counter + 1}.\n Queres repetir? ",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: screenHeight < 700 ? 16 : 20,
-                                color: Color(0xFF30246A)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${missionNotifier.currentMission.content.result} %\n Esta é a tua tentativa número ${_counter + 1}.\n Queres repetir? ",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: screenHeight < 700 ? 16 : 20,
+                                  color: Color(0xFF30246A)),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -700,7 +708,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 24,
+                                  fontSize: screenHeight < 700 ? 18 : 24,
                                   color: Color(0xFF30246A)),
                             ),
                           ),
@@ -736,7 +744,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 20,
+                                    fontSize: screenHeight < 700 ? 16 : 20,
                                     color: Colors.white),
                               ),
                             ),
@@ -761,7 +769,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 20,
+                                    fontSize: screenHeight < 700 ? 16 : 20,
                                     color: Colors.white),
                               ),
                             ),
@@ -848,7 +856,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
               ),
             ),
             content: FractionallySizedBox(
-              heightFactor: 0.3,
+              heightFactor: screenHeight < 700 ? 0.6 : 0.4,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -913,7 +921,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
             .then((downloadUrl) {
           image = Image.network(
             downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.fitWidth,
           );
         });
 
@@ -938,7 +946,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -1022,7 +1030,7 @@ class _QuizPageTabletState extends State<QuizPage> with WidgetsBindingObserver {
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,

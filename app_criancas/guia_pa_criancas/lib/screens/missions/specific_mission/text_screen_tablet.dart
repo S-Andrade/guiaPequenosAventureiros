@@ -242,7 +242,8 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                   alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
                       widthFactor: 0.6,
-                      heightFactor: 0.5,
+                      heightFactor:0.46 ,
+
                       child: DelayedDisplay(
 //                          delay: Duration(seconds: 1),
                           fadingDuration: const Duration(milliseconds: 800),
@@ -326,7 +327,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
               ),
             ),
             content: FractionallySizedBox(
-              heightFactor: 0.3,
+              heightFactor: screenHeight < 700 ? 0.6 : 0.4,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -394,24 +395,43 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
             );
           });
 
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
+        await FirebaseStorage.instance
+            .ref()
+            .child(i)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          image = Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.fitWidth,
+          );
+        });
+
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // retorna um objeto do tipo Dialog
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+              child: AlertDialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text("Ganhas-te um cromo",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        color: Color(0xFFffcc00)),
+                  ),
                 ),
-                child: AlertDialog(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    "Ganhas-te um cromo",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 28,
-                          color: Color(0xFFffcc00)),
+                content: FractionallySizedBox(
+                  heightFactor: 0.8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                   ),
                   content: FractionallySizedBox(
@@ -485,17 +505,12 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.3),
                 ),
-                child: AlertDialog(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    "Ganhas-te um cromo\npara a turma",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 28,
-                          color: Color(0xFFffcc00)),
+                content: FractionallySizedBox(
+                  heightFactor: 0.8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                   ),
                   content: FractionallySizedBox(

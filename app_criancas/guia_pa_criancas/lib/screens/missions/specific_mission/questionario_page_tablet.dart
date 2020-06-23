@@ -19,6 +19,11 @@ class QuestionarioPage extends StatefulWidget {
 
 class _QuestionarioPageState extends State<QuestionarioPage>
     with WidgetsBindingObserver {
+
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+
   int currentPage = 1;
   int currentStep = 0;
   List<Step> steps = [];
@@ -155,6 +160,10 @@ class _QuestionarioPageState extends State<QuestionarioPage>
 
   @override
   Widget build(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
     allQuestions = missionsNotifier.currentMission.content.questions;
     allAnswers = [];
@@ -549,7 +558,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
               ),
             ),
             content: FractionallySizedBox(
-              heightFactor: 0.3,
+              heightFactor: screenHeight < 700 ? 0.6 : 0.4,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -614,7 +623,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
             .then((downloadUrl) {
           image = Image.network(
             downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.fitWidth,
           );
         });
 
@@ -639,7 +648,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -723,7 +732,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
