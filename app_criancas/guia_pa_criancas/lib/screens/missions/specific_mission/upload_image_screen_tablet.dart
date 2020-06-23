@@ -613,6 +613,7 @@ class _UploadImageScreenTabletPortraitState
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -628,7 +629,6 @@ class _UploadImageScreenTabletPortraitState
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
@@ -691,12 +691,13 @@ class _UploadImageScreenTabletPortraitState
               ),
             );
           },
-        );
+        );}
       }
     }
     if (cromos[1] != []) {
       for (String i in cromos[1]) {
         Image image;
+        if(i!=null){
 
         await FirebaseStorage.instance
             .ref()
@@ -712,7 +713,6 @@ class _UploadImageScreenTabletPortraitState
         await showDialog(
           context: context,
           builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
@@ -775,7 +775,7 @@ class _UploadImageScreenTabletPortraitState
               ),
             );
           },
-        );
+        );}
       }
     }
   }
