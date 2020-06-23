@@ -728,7 +728,7 @@ class _ResultsByMissionQuestionarioForTurmaState
     for (var luz in graficos["lightData"]) {
       if ((luz >= 0) & (luz < 4))
         _nenhumaLuz++;
-      else if ((luz >= 3) & (luz < 20))
+      else if ((luz >= 4) & (luz < 20))
         _poucaLuz++;
       else if ((luz >= 20) & (luz < 40))
         _algumaLuz++;

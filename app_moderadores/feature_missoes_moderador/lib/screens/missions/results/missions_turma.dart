@@ -89,6 +89,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                               if (missions[index].type == 'Video' ||
                                   missions[index].type == 'Image' ||
                                   missions[index].type == 'Text' ||
+                                  missions[index].type == 'Audio' ||
                                   missions[index].type == 'Activity') {
                                 Navigator.push(
                                     context,

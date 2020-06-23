@@ -210,7 +210,7 @@ class _ResultsDashboardTurmasScreenState
                               ),
                             ])),
                         Container(
-                            height: 600 * (turmas.length / 4),
+                            height: 700 * (turmas.length / 4),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
@@ -236,7 +236,7 @@ class _ResultsDashboardTurmasScreenState
                                       top: 100,
                                       bottom: 50),
                                   child: Text(
-                                      "Percentagens de missões feitas por cada turma: ",
+                                      "Percentagens de Missões feitas por cada turma: ",
                                       style: TextStyle(
                                           fontSize: 20.0,
                                           letterSpacing: 2,
@@ -337,7 +337,7 @@ class _ResultsDashboardTurmasScreenState
                                                               .alunos
                                                               .length
                                                               .toString() +
-                                                          " alunos",
+                                                          " aluno(s)",
                                                       style: TextStyle(
                                                           fontSize: 15.0,
                                                           letterSpacing: 2,

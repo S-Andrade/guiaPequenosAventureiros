@@ -31,6 +31,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
   List respostasFinal = [];
   bool _umaVez = true;
   List todosAlunos = [];
+  Map nomes;
   var user;
 
   _ParticipantesScreenState({this.escolasId, this.aventuraId});
@@ -41,6 +42,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
     escolas = false;
     turmas = false;
     alunos = false;
+    nomes={};
 
     questionariosGeral = false;
 
@@ -53,9 +55,10 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
 
     for (var escola in escolasId) {
       getDoneByCapituloForEscola(escola).then((value) {
+        
         setState(() {
-          mapaEscolas[escola] = value[0];
-
+          nomes.addAll(value[3]);
+          mapaEscolas[value[4]] = value[0];
           escolasList = mapaEscolas.keys.toList();
         });
 
@@ -70,6 +73,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
         }
 
         getDoneByCapituloForTurma(escola, value[1]).then((value3) {
+          
           setState(() {
             mapaTurmas.addAll(value3[0]);
           });
@@ -88,7 +92,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                 media = 0;
                 int nao = 0;
                 for (var ui in cada) {
-                  if (ui == 66) nao++;
+                  if (ui == 0) nao++;
                 }
                 if (nao != cada.length) {
                   var resposta = getMedia(cada);
@@ -112,7 +116,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
             }
           });
         } else if (value[2].length == 0 && _umaVez == true) {
-          respostasFinal = ["-"];
+          respostasFinal = ["nada"];
         }
         setState(() {
           _umaVez = false;
@@ -140,9 +144,10 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
     if (user != null) {
       if (mapaEscolas.length >= 1) {
         if (alunosPorTurma.length != 0) {
-          if (mapaTurmas.length >= 1) {
+          if (mapaTurmas.length == nomes.length) {
+         
             if (respostasFinal.length != 0) {
-        
+              
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -323,7 +328,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                               left: 20.0,
                                               bottom: 30,
                                               top: 30,
-                                              right: 20),
+                                              right: 30),
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -386,7 +391,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                             bottom: 20),
                                                     child: Text(
                                                         "Turma " +
-                                                            turmasList[index],
+                                                            nomes[turmasList[index]],
                                                         style: TextStyle(
                                                           fontSize: 20,
                                                           letterSpacing: 1,
@@ -522,6 +527,10 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                   ),
                                 ),
                                 Row(children: [
+                                   new Builder(
+                                      builder: (BuildContext) => (
+                                              respostasFinal[0]!="nada")
+                                          ? 
                                   Container(
                                       height: 700,
                                       width: 950,
@@ -661,7 +670,47 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                     )),
                                               )
                                             ])),
-                                      )),
+                                      ))
+                                      :
+                                      Container(
+                                      height: 300,
+                                      width: 950,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0,
+                                            bottom: 30,
+                                            top: 30,
+                                            right: 20),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                    blurRadius:
+                                                        5.0, // has the effect of softening the shadow
+                                                    spreadRadius:
+                                                        2.0, // has the effect of extending the shadow
+                                                    offset: Offset(
+                                                      0.0, // horizontal
+                                                      2.5, // vertical
+                                                    ),
+                                                  )
+                                                ]),
+                                     
+                                                  child: Center(
+                                                    child: new Text(
+                                                      "Ainda não foram feitos Questionários.",
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontFamily: 'Monteserrat',
+                                                          letterSpacing: 4),
+                                                    ),
+                                                  )))))
+
                                 ])
                               ],
                             ),
@@ -726,7 +775,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
     var sum = 0.0;
     var length = 0;
     for (var i = 0; i < listaNums.length; i++) {
-      if (listaNums[i] != 66) {
+      if (listaNums[i] != 0) {
         sum += listaNums[i];
         length++;
       }

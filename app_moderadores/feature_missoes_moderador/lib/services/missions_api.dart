@@ -873,6 +873,8 @@ getTurmas(String aventuraId) async {
   return listaTurmas;
 }
 
+
+
 // RETORNA UMA LISTA DE ALUNOS DE TODAS AS TURMAS ASSOCIADAS À ESCOLA QUE ESTÁ ASSOCIADADA A UMA DADA AVENTURA
 
 getAlunos(String aventuraId) async {
@@ -1259,12 +1261,14 @@ getDoneByCapituloForEscola(escolaId) async {
   List<dynamic> finalList = [];
   List turmas = [];
   List alunos = [];
-
+  String nome="";
+  String nomeTurma="";
   Map<int, Map> mapa = {};
   List<dynamic> contents = [];
   double dones;
   int id = 0;
   List<dynamic> uploads = [];
+  Map nomes={};
 
   await Firestore.instance
       .collection('escola')
@@ -1272,8 +1276,18 @@ getDoneByCapituloForEscola(escolaId) async {
       .getDocuments()
       .then((doc) {
     turmas = doc.documents[0]['turmas'];
+    nome= doc.documents[0]['nome'];
   });
   for (var turma in turmas) {
+    await Firestore.instance
+      .collection('turma')
+      .where('id', isEqualTo: turma)
+      .getDocuments()
+      .then((doc) {
+    nomeTurma = doc.documents[0]['nome'];
+  });
+  
+    nomes[turma]=nomeTurma;
     getAlunosForTurma(turma)
         .then((value) => {for (var aluno in value) alunos.add(aluno)});
   }
@@ -1344,6 +1358,8 @@ getDoneByCapituloForEscola(escolaId) async {
   finalList.add(mapa);
   finalList.add(turmas);
   finalList.add(contents);
+  finalList.add(nomes);
+  finalList.add(nome);
 
   return finalList;
 }
@@ -1358,7 +1374,7 @@ getDoneByCapituloForTurma(escolaId, turmas) async {
   Map mapaTurma = {};
 
   Map mapaFinal = {};
-
+String nomeTurma="";
   double dones;
   int id;
 
@@ -1384,10 +1400,11 @@ getDoneByCapituloForTurma(escolaId, turmas) async {
   capitulos_sorted.sort();
 
   for (var turma in turmas) {
+   
     id = 0;
     List alunosDaTurma = [];
     alunosDaTurma = await getAlunosForTurma(turma);
-
+  
     Map mapa = {};
 
     for (var capituloId in capitulos_sorted) {
@@ -1420,21 +1437,37 @@ getDoneByCapituloForTurma(escolaId, turmas) async {
       }
 
       for (var r in allResultados) {
-        if (alunosDaTurma.contains(r['aluno'])) if (r['done'] == true) dones++;
+        
+        if (alunosDaTurma.contains(r['aluno'])) {
+         
+        
+        if (r['done'] == true) dones++;
+        }
       }
       totalAndDones["total"] =
           allMissoes.length.toDouble() * alunosDaTurma.length;
       totalAndDones["dones"] = dones;
-
+      
       mapa[id] = totalAndDones;
       id++;
     }
-    mapaTurma[turma] = mapa;
+    
+   
+     await Firestore.instance
+      .collection('turma')
+      .where('id', isEqualTo: turma)
+      .getDocuments()
+      .then((doc) {
+    nomeTurma = doc.documents[0]['nome'];
+  
+  });
+    mapaTurma[nomeTurma] = mapa;
   }
 
   finalList.add(mapaTurma);
 
   return finalList;
+ 
 }
 
 getQuestionarioRespostasGeralDaAventura(List perguntas, List alunos) {

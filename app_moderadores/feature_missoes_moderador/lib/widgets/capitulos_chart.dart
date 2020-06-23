@@ -26,6 +26,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   @override
   void initState() {
+    print(results);
     resultados = [];
 
     for (var a in results.values) {

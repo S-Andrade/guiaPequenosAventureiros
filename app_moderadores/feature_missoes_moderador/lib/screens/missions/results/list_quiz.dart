@@ -141,7 +141,7 @@ class _ResultsByMissionQuizForTurmaState
                           ]),
                       child: Row(children: [
                         Text(
-                          '      Aluno                    Missão feita      Tempo passado na missão        Visitas                 Último score ',
+                          '      Aluno                    Missão feita      Tempo passado na missão        Visitas               Última pontuação ',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
