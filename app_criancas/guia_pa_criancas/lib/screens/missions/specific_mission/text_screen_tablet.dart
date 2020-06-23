@@ -320,7 +320,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
               ),
             ),
             content: FractionallySizedBox(
-              heightFactor: 0.3,
+              heightFactor: screenHeight < 700 ? 0.6 : 0.4,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -381,7 +381,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
             .then((downloadUrl) {
           image = Image.network(
             downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.fitWidth,
           );
         });
 
@@ -406,7 +406,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -488,7 +488,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,

@@ -355,13 +355,14 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
+//                    height: 1,
                     fontWeight: FontWeight.w700,
                     fontSize: 28,
                     color: Colors.white),
               ),
             ),
             content: FractionallySizedBox(
-              heightFactor: 0.3,
+              heightFactor: screenHeight < 700 ? 0.6 : 0.4,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -425,7 +426,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
             .then((downloadUrl) {
           image = Image.network(
             downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.fitWidth,
           );
         });
 
@@ -451,7 +452,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -535,7 +536,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
                   ),
                 ),
                 content: FractionallySizedBox(
-                  heightFactor: 0.6,
+                  heightFactor: 0.8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
