@@ -661,40 +661,32 @@ class _UploadVideoScreenTabletPortraitState
               .then((downloadUrl) {
             image = Image.network(
               downloadUrl.toString(),
-              fit: BoxFit.scaleDown,
+              fit: BoxFit.fitWidth,
             );
           });
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
+
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
                   ),
                   content: FractionallySizedBox(
-                    heightFactor: 0.6,
+                    heightFactor: 0.8,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -764,16 +756,21 @@ class _UploadVideoScreenTabletPortraitState
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo\npara a turma",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
                   ),
                   content: FractionallySizedBox(
-                    heightFactor: 0.6,
+                    heightFactor: 0.8,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
