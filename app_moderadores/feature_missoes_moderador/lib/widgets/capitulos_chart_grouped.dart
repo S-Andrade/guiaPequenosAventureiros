@@ -28,7 +28,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   @override
   void initState() {
     super.initState();
-
+  
     List<List> finalList = [];
     nomes = [];
     for (var key in results.keys) {

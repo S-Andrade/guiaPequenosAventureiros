@@ -20,7 +20,7 @@ class TextScreenMobilePortrait extends StatefulWidget {
       _TextScreenMobilePortraitState(mission);
 }
 
-class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
+class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> with WidgetsBindingObserver {
   Mission mission;
   int _state = 0;
   DateTime _start;
@@ -53,6 +53,8 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
       });
     });
 
+    WidgetsBinding.instance.addObserver(this);
+
     _start = DateTime.now();
 
     super.initState();
@@ -81,8 +83,16 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
+     
       _paused = DateTime.now();
-    } else if (state == AppLifecycleState.resumed) {
+    } 
+
+    if (state == AppLifecycleState.inactive) {
+    
+      _paused = DateTime.now();
+    }
+    
+    else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
 

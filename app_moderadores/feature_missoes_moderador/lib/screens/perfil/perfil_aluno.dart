@@ -63,7 +63,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
         if (value2[2].length == 0)
           setState(() {
             uploaded.add(
-                "https://cdn.dribbble.com/users/598368/screenshots/3890110/dribble_no_data.jpg");
+                "https://image.freepik.com/vetores-gratis/nenhuma-ilustracao-do-conceito-de-dados_114360-626.jpg");
           });
         else
           setState(() {
@@ -95,6 +95,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                   respostasFinal = lista;
                 });
               }
+              
             });
           } else
             setState(() {
@@ -109,10 +110,13 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
   Widget build(BuildContext context) {
     Future<void> _refresh() async {}
     if (aluno != null) {
-      if (aluno.idadeAluno != 'idade') {
+     
+      if (aluno.generoAluno != 'genero') {
+        
         if (resultsByCapitulo.length != 0) {
+  
           if (respostasFinal.length != 0) {
-            print(respostasFinal);
+         
             if (respostasFinal[0] == "null")
               setState(() {
                 _questExists = false;
@@ -601,7 +605,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                                 )
                                                               : Container(
 
-                                                                  //child: BarChartSample1(results:resultsByCapitulo),
+                                                                  child: BarChartSample1(results:resultsByCapitulo),
                                                                   ),
                                                     ),
                                                   ),
