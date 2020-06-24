@@ -107,7 +107,14 @@ class _AudioScreenTabletPortraitState extends State<AudioScreenTabletPortrait>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _paused = DateTime.now();
-    } else if (state == AppLifecycleState.resumed) {
+    } 
+    
+     if (state == AppLifecycleState.inactive) {
+    
+      _paused = DateTime.now();
+    }
+    
+    else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
 

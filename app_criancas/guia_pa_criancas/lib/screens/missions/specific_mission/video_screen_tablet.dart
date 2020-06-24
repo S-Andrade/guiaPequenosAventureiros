@@ -55,7 +55,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   List<bool> resultado = [];
   CameraController _cameracontroller;
   Future<void> _initializeControllerFuture;
-  int _counterPause;
+  int _counterPause=0;
   String texto = "Olá, hoje vamos ver um vídeo juntos!";
 
   @override
@@ -70,7 +70,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
             _done = resultados["done"];
             _counterVisited = resultados["counterVisited"];
             _timeVisited = resultados["timeVisited"];
-            _counterPause = resultados["counterPause"];
           }
         }
       });
@@ -90,9 +89,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
     });
 
-    if (_counterPause == null) {
-      _counterPause = 0;
-    }
+   
 
     super.initState();
   }
@@ -106,7 +103,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     _timeSpentOnThisScreen = _end.difference(_start).inSeconds;
     _timeVisited = _timeVisited + _timeSpentOnThisScreen;
     updateMissionTimeAndCounterVisitedInFirestoreVideo(
-        mission, _userID, _timeVisited, _counterVisited, _counterPause);
+        mission, _userID, _timeVisited, _counterVisited);
     super.deactivate();
   }
 
@@ -114,7 +111,15 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _paused = DateTime.now();
-    } else if (state == AppLifecycleState.resumed) {
+    } 
+
+     if (state == AppLifecycleState.inactive) {
+    
+      _paused = DateTime.now();
+    }
+    
+    
+    else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
     _totalPaused = _returned.difference(_paused).inSeconds;
@@ -327,7 +332,8 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       Navigator.pop(context);
     } else {
       Timer(Duration(milliseconds: 3000), () async {
-        updateMissionDoneInFirestore(mission, _userID);
+        print("COUNTTTTER   "+_counterPause.toString());
+        updateMissionVideoDoneInFirestore(mission, _userID,_counterPause);
         await updatePoints(_userID, mission.points, context);
         Navigator.pop(context);
       });

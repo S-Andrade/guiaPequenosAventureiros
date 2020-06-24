@@ -252,6 +252,31 @@ updateMissionDoneInFirestore(Mission mission, String id) async {
       .updateData({'resultados': mission.resultados});
 }
 
+
+
+//////// ATUALIZAR A MISSÃO COM DONE ( FEITA )
+updateMissionVideoDoneInFirestore(Mission mission, String id,int counterPause) async {
+  CollectionReference missionRef = Firestore.instance.collection('mission');
+
+  Map<String, dynamic> mapa;
+
+  mission.resultados.forEach((element) {
+    mapa = element;
+
+    if (mapa["aluno"] == id) {
+      mapa["done"] = true;
+      mapa["counterPause"] = counterPause;
+    }
+  });
+  mission.reload = true;
+
+  await missionRef
+      .document(mission.id)
+      .updateData({'resultados': mission.resultados});
+}
+
+
+
 // UPDATE DO DONE COM LINK DO FICHEIRO UPLOADED ( APENAS PARA MISSAO DE UPLOAD IMAGEM OU VIDEO )
 
 updateMissionDoneWithLinkInFirestore(
@@ -371,7 +396,7 @@ updateMissionTimeAndCounterVisitedInFirestore(
 }
 
 updateMissionTimeAndCounterVisitedInFirestoreVideo(Mission mission, String id,
-    int timeVisited, int counterVisited, int counterPause) async {
+    int timeVisited, int counterVisited) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -382,7 +407,7 @@ updateMissionTimeAndCounterVisitedInFirestoreVideo(Mission mission, String id,
     if (mapa["aluno"] == id) {
       mapa["counterVisited"] = counterVisited;
       mapa["timeVisited"] = timeVisited;
-      mapa["counterPause"] = counterPause;
+      
     }
   });
 
