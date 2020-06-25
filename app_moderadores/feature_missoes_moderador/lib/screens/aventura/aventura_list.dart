@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'dart:html';
 
 import 'package:feature_missoes_moderador/screens/aventura/aventura_capitulo.dart';
 import 'package:feature_missoes_moderador/screens/aventura/aventura_details.dart';
@@ -17,7 +18,6 @@ import 'package:meta/meta.dart';
 import 'dart:ui' as ui;
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class AventuraList extends StatefulWidget {
   final FirebaseUser user;
   AventuraList({this.user});
@@ -33,8 +33,7 @@ class _AventuraListState extends State<AventuraList> {
   List<Aventura> aventuras = [];
   List<Aventura> aventura;
 
-  List images =[];
-
+  List images = [];
 
   Widget _buildInfo() {
     return Padding(
@@ -61,15 +60,15 @@ class _AventuraListState extends State<AventuraList> {
 
   Widget _buildAventuraScroller(aventuras) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:130.0,left:50),
-      child: SizedBox.fromSize(
+        padding: const EdgeInsets.only(bottom: 130.0, left: 50),
+        child: SizedBox.fromSize(
           size: Size.fromHeight(300.0),
           child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            itemCount: aventuras.length,
-            itemBuilder: (BuildContext context, int index) {
-              /*
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              itemCount: aventuras.length,
+              itemBuilder: (BuildContext context, int index) {
+                /*
               return FutureBuilder<void>(
                 future:  getImage(aventuras[index], index),
                 builder: (context, AsyncSnapshot<void> snapshot) {
@@ -79,36 +78,34 @@ class _AventuraListState extends State<AventuraList> {
                 return new Text('Erro: ${snapshot.error}');
               else
                 */
-                    return GestureDetector(
-                        onTap: () {
-                          showOptions(aventuras[index]);
-                        },
-                        child: Card(aventura: aventuras[index], image_capa: null));
-              /*  break;
+                return GestureDetector(
+                    onTap: () {
+                      showOptions(aventuras[index]);
+                    },
+                    child: Card(aventura: aventuras[index], image_capa: null));
+                /*  break;
             default:
               return Container();
           }
-               
+
               });*/
-            }
-      ),
-    ));
+              }),
+        ));
   }
 
-  Future <void> getImage(Aventura aventura, int index)async{
+  Future<void> getImage(Aventura aventura, int index) async {
     Image image_capa;
     await FirebaseStorage.instance
-            .ref()
-            .child(aventura.capa)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image_capa = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-    images.insert(index,image_capa);
-    
+        .ref()
+        .child(aventura.capa)
+        .getDownloadURL()
+        .then((downloadUrl) {
+      image_capa = Image.network(
+        downloadUrl.toString(),
+        fit: BoxFit.scaleDown,
+      );
+    });
+    images.insert(index, image_capa);
   }
 
   Widget _buildContent(aventuras) {
@@ -117,7 +114,6 @@ class _AventuraListState extends State<AventuraList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-           
             Padding(
               padding: const EdgeInsets.all(40.0),
               child: Container(
@@ -159,31 +155,33 @@ class _AventuraListState extends State<AventuraList> {
               if (snapshot.hasError)
                 return new Text('Erro: ${snapshot.error}');
               else
-                return  Container(
-                      child: ListView(children: [
-                    Column(children: <Widget>[
-                  
-                  Container(width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height ,
-                            color: Colors.transparent,child:Stack(
-                            children: [
-                              
-                              
-                              Center(
-                                child: Text(
-                                  "Bem Vindo!",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 100,
-                                      fontFamily: 'Amatic SC',
-                                      letterSpacing: 4),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),]),),
-                    _buildContent(aventuras),
-                  ],)])
-                );
+                return Container(
+                    child: ListView(children: [
+                  Column(
+                    children: <Widget>[
+//                      Container(
+//                        width: MediaQuery.of(context).size.width,
+//                        height: MediaQuery.of(context).size.height,
+//                        color: Colors.transparent,
+//                        child: Stack(children: [
+//                          Center(
+//                            child: Text(
+//                              "Bem Vindo!",
+//                              style: TextStyle(
+//                                  color: Colors.black,
+//                                  fontWeight: FontWeight.w900,
+//                                  fontSize: 100,
+//                                  fontFamily: 'Amatic SC',
+//                                  letterSpacing: 4),
+//                              textAlign: TextAlign.center,
+//                            ),
+//                          ),
+//                        ]),
+//                      ),
+                      _buildContent(aventuras),
+                    ],
+                  )
+                ]));
               break;
             default:
               return Container();
@@ -208,14 +206,14 @@ class _AventuraListState extends State<AventuraList> {
       build: (options) => MyTemplateOptions(options),
     );
 
-    Widget cancelaButton = FlatButton(
+    Widget cancelaButton = OutlineButton(
+      color: Colors.red,
       child: Text(
         "Cancelar",
         style: TextStyle(
             color: Colors.red,
             fontFamily: 'Monteserrat',
-            letterSpacing: 2,
-            fontSize: 20),
+            fontSize: 18),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -238,119 +236,86 @@ class _AventuraListState extends State<AventuraList> {
             width: 300,
             child: Column(
               children: [
-                Text(
-                  "Escolha uma opção:",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Amatic SC',
-                      letterSpacing: 2,
-                      fontSize: 15),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) => ParticipantesScreen(
-                                escolasId: aventura.escolas,
-                                aventuraId: aventura.id)));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10.0,
-                      left: 10.0,
-                      right: 10,
-                      bottom: 10,
-                    ),
-                    child: Container(
-                      height: 20,
-                      width: 300,
-                      child: Center(child: Text("Ver Dashboard Geral")),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: parseColor("#432F49"),
-                              blurRadius: 4.0,
-                            )
-                          ]),
-                    ),
+//                Text(
+//                  "Escolha uma opção:",
+//                  style: TextStyle(
+//                      color: Colors.black,
+//                      fontWeight: FontWeight.w900,
+//                      fontFamily: 'Amatic SC',
+//                      letterSpacing: 2,
+//                      fontSize: 15),
+//                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) => ParticipantesScreen(
+                                  escolasId: aventura.escolas,
+                                  aventuraId: aventura.id)));
+                    },
+                    child: Text('Ver Dashboard Geral',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontFamily: 'Monteserrat')),
+                    color: Colors.blue,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AventuraCapitulo(aventura: aventura)));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      height: 20,
-                      width: 300,
-                      child: Center(child: Text("Ir para capítulos")),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: parseColor("#432F49"),
-                              blurRadius: 4.0,
-                            )
-                          ]),
-                    ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AventuraCapitulo(aventura: aventura)));
+                    },
+                    child: Text('Ir para capítulos',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontFamily: 'Monteserrat')),
+                    color: Colors.blue,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AventuraDetails(aventura: aventura)));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      height: 20,
-                      width: 300,
-                      child: Center(child: Text("Editar participantes")),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: parseColor("#432F49"),
-                              blurRadius: 4.0,
-                            )
-                          ]),
-                    ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AventuraDetails(aventura: aventura)));
+                    },
+                    child: Text('Editar participantes',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontFamily: 'Monteserrat')),
+                    color: Colors.blue,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AventuraEdit(user: user, aventura: aventura)));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      height: 20,
-                      width: 300,
-                      child: Center(child: Text("Editar Aventura")),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: parseColor("#432F49"),
-                              blurRadius: 4.0,
-                            )
-                          ]),
-                    ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AventuraEdit(user: user, aventura: aventura)));
+                    },
+                    child: Text('Editar Aventura',
+                        style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                        fontFamily: 'Monteserrat')),
+                    color: Colors.indigo,
                   ),
                 ),
               ],
@@ -372,7 +337,8 @@ class Card extends StatefulWidget {
 
   Card({this.aventura, this.image_capa});
   @override
-  _CardState createState() => _CardState(aventura: aventura, image_capa: image_capa);
+  _CardState createState() =>
+      _CardState(aventura: aventura, image_capa: image_capa);
 }
 
 class _CardState extends State<Card> {
@@ -381,26 +347,24 @@ class _CardState extends State<Card> {
   final Image image_capa;
 
   BoxDecoration _buildCapa() {
-
-      return BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 5.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
-              offset: Offset(
-                0.0, // horizontal
-                2.5, // vertical
-              ),
-            )
-          ],
-          image: DecorationImage(
-            image:AssetImage("assets/images/story_1.png"),
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-          ));
-  
+    return BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 5.0, // has the effect of softening the shadow
+            spreadRadius: 2.0, // has the effect of extending the shadow
+            offset: Offset(
+              0.0, // horizontal
+              2.5, // vertical
+            ),
+          )
+        ],
+        image: DecorationImage(
+          image: AssetImage("assets/images/story_1.png"),
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
+        ));
   }
 
   Widget _buildInfo() {
@@ -417,18 +381,18 @@ class _CardState extends State<Card> {
 
   @override
   Widget build(BuildContext context) {
-
-   // if (image_capa != null){
-      return Container(
-        width: 230.0,
+    // if (image_capa != null){
+    return Container(
+//        height: MediaQuery.of(context).size.height/2,
+        width: 200.0,
         padding: const EdgeInsets.all(8.0),
         margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
         decoration: _buildCapa(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Flexible(flex: 2, child: _buildInfo()),
         ]));
-    }
-    /*else{
+  }
+  /*else{
       return ColorLoader();
     }
     
