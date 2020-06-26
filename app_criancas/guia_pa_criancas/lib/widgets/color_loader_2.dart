@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class ColorLoader2 extends StatefulWidget {
-
   final Color dotOneColor;
   final Color dotTwoColor;
   final Color dotThreeColor;
@@ -11,14 +10,13 @@ class ColorLoader2 extends StatefulWidget {
   final DotType dotType;
   final Icon dotIcon;
 
-  ColorLoader2({
-    this.dotOneColor = Colors.indigoAccent,
-    this.dotTwoColor = Colors.yellow,
-    this.dotThreeColor = Colors.deepOrange,
-    this.duration = const Duration(milliseconds: 1000),
-    this.dotType = DotType.circle,
-    this.dotIcon = const Icon(Icons.blur_on)
-  });
+  ColorLoader2(
+      {this.dotOneColor = Colors.indigoAccent,
+      this.dotTwoColor = Colors.yellow,
+      this.dotThreeColor = Colors.deepOrange,
+      this.duration = const Duration(milliseconds: 1000),
+      this.dotType = DotType.circle,
+      this.dotIcon = const Icon(Icons.blur_on)});
 
   @override
   _ColorLoaderState createState() => _ColorLoaderState();
@@ -35,8 +33,7 @@ class _ColorLoaderState extends State<ColorLoader2>
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-        duration: widget.duration, vsync: this);
+    controller = AnimationController(duration: widget.duration, vsync: this);
 
     animation_1 = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -76,7 +73,11 @@ class _ColorLoaderState extends State<ColorLoader2>
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Opacity(
-            opacity: (animation_1.value <= 0.4 ? 2.5 * animation_1.value : (animation_1.value > 0.40 && animation_1.value <= 0.60) ? 1.0 : 2.5 - (2.5 * animation_1.value)),
+            opacity: (animation_1.value <= 0.4
+                ? 2.5 * animation_1.value
+                : (animation_1.value > 0.40 && animation_1.value <= 0.60)
+                    ? 1.0
+                    : 2.5 - (2.5 * animation_1.value)),
             child: new Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
@@ -88,7 +89,11 @@ class _ColorLoaderState extends State<ColorLoader2>
             ),
           ),
           Opacity(
-            opacity: (animation_2.value <= 0.4 ? 2.5 * animation_2.value : (animation_2.value > 0.40 && animation_2.value <= 0.60)? 1.0 : 2.5 - (2.5 * animation_2.value)),
+            opacity: (animation_2.value <= 0.4
+                ? 2.5 * animation_2.value
+                : (animation_2.value > 0.40 && animation_2.value <= 0.60)
+                    ? 1.0
+                    : 2.5 - (2.5 * animation_2.value)),
             child: new Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
@@ -100,7 +105,11 @@ class _ColorLoaderState extends State<ColorLoader2>
             ),
           ),
           Opacity(
-            opacity: (animation_3.value <= 0.4 ? 2.5 * animation_3.value : (animation_3.value > 0.40 && animation_3.value <= 0.60) ? 1.0 : 2.5 - (2.5 * animation_3.value)),
+            opacity: (animation_3.value <= 0.4
+                ? 2.5 * animation_3.value
+                : (animation_3.value > 0.40 && animation_3.value <= 0.60)
+                    ? 1.0
+                    : 2.5 - (2.5 * animation_3.value)),
             child: new Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
@@ -118,7 +127,6 @@ class _ColorLoaderState extends State<ColorLoader2>
 
   @override
   void dispose() {
-
     controller.dispose();
     super.dispose();
   }
@@ -135,16 +143,24 @@ class Dot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Center(
-      child: type == DotType.icon ?
-          Icon(icon.icon, color: color, size: 1.3 * radius,)
+      child: type == DotType.icon
+          ? Icon(
+              icon.icon,
+              color: color,
+              size: 1.3 * radius,
+            )
           : new Transform.rotate(
-        angle: type == DotType.diamond ? pi/4 : 0.0,
-        child: Container(
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(color: color, shape: type == DotType.circle? BoxShape.circle : BoxShape.rectangle),
-        ),
-      ),
+              angle: type == DotType.diamond ? pi / 4 : 0.0,
+              child: Container(
+                width: radius,
+                height: radius,
+                decoration: BoxDecoration(
+                    color: color,
+                    shape: type == DotType.circle
+                        ? BoxShape.circle
+                        : BoxShape.rectangle),
+              ),
+            ),
     );
   }
 }

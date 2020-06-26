@@ -800,12 +800,12 @@ class _UploadImageScreenTabletPortraitState
       _image = image;
       addUploadedImageToFirebaseStorage(_image, _titulo).then((value) =>
           {updateMissionDoneWithLinkInFirestore(mission, _userID, value)});
+      await updatePoints(_userID, mission.points);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AllMissionsScreen(missionNotifier.missionsDocList)));
     }
-    await updatePoints(_userID, mission.points);
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                AllMissionsScreen(missionNotifier.missionsDocList)));
   }
 }

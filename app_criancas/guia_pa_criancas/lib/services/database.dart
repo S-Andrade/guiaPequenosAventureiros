@@ -5,15 +5,21 @@ import '../screens/turma/turma.dart';
 import '../screens/escola/escola.dart';
 
 class DatabaseService {
-
   //----------------------------------------------------------------------------------------------------------------------------------------------------------
   //Aventura
 
   final CollectionReference aventuraCollection =
       Firestore.instance.collection('aventura');
 
-  Future<void> updateAventuraData(String id, String historia, Timestamp data,
-      String local, List escolas, String moderador, String nome, String capa) async {
+  Future<void> updateAventuraData(
+      String id,
+      String historia,
+      Timestamp data,
+      String local,
+      List escolas,
+      String moderador,
+      String nome,
+      String capa) async {
     return await aventuraCollection.document(id).setData({
       'id': id,
       'historia': historia,
@@ -65,8 +71,8 @@ class DatabaseService {
   final CollectionReference capituloCollection =
       Firestore.instance.collection('capitulo');
 
-  Future<void> updateCapituloData(
-      String id, bool bloquado, List missoes, int nome, Map disponibilidade) async {
+  Future<void> updateCapituloData(String id, bool bloquado, List missoes,
+      int nome, Map disponibilidade) async {
     return await capituloCollection.document(id).setData({
       'id': id,
       'bloqueado': bloquado,
@@ -83,8 +89,7 @@ class DatabaseService {
           bloqueado: doc.data['bloqueado'] ?? null,
           missoes: doc.data['missoes'] ?? [],
           nome: doc.data['nome'] ?? 0,
-          disponibilidade: doc.data['disponibilidade'] ?? {} 
-        );
+          disponibilidade: doc.data['disponibilidade'] ?? {});
     }).toList();
   }
 
@@ -190,7 +195,6 @@ updateUserData(
   CollectionReference alunoCollection = Firestore.instance.collection('aluno');
   print(id);
   await alunoCollection.document(id).updateData({
-    
     'idadeAluno': idade,
     'generoAluno': genero,
     'dataNascimentoAluno': dateTime,

@@ -4,8 +4,6 @@ import 'package:path_provider/path_provider.dart';
 import 'TextToSpeechAPI.dart';
 import 'dart:io';
 
-
-
 class Synth {
   AudioPlayer audioPlugin = AudioPlayer();
 
@@ -14,7 +12,8 @@ class Synth {
       await audioPlugin.stop();
     }
     // Hard coding the voice related settings
-    final String audioContent = await TextToSpeechAPI().synthesizeText(text, 'pt-PT-Wavenet-B', 'pt-PT');
+    final String audioContent = await TextToSpeechAPI()
+        .synthesizeText(text, 'pt-PT-Wavenet-B', 'pt-PT');
     if (audioContent == null) return;
     final bytes = Base64Decoder().convert(audioContent, 0, audioContent.length);
     final dir = await getTemporaryDirectory();

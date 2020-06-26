@@ -1,4 +1,3 @@
-
 import 'package:app_criancas/auth.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
@@ -57,8 +56,6 @@ class _MyHomePageState extends State<MyApp> {
   //}
   //}
 
-  
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -66,24 +63,24 @@ class _MyHomePageState extends State<MyApp> {
     ]);
 
     return MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate, // if it's a RTL language
-        ],
-        supportedLocales: [
-          const Locale('pt', 'PT'), // include country code too
-        ],
-        title: 'Guia de Pequenos Aventureiros',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Color(0xFF7C4DFF),
-          accentColor: Color(0xFF64FFDA),
-          scaffoldBackgroundColor: Color(0xFFF3F5F7),
-        ),
-        home: LoginScreen(),
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics),
-        ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate, // if it's a RTL language
+      ],
+      supportedLocales: [
+        const Locale('pt', 'PT'), // include country code too
+      ],
+      title: 'Guia de Pequenos Aventureiros',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Color(0xFF7C4DFF),
+        accentColor: Color(0xFF64FFDA),
+        scaffoldBackgroundColor: Color(0xFFF3F5F7),
+      ),
+      home: LoginScreen(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
     );
   }
 }

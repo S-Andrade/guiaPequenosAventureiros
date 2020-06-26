@@ -539,11 +539,6 @@ class _UploadVideoScreenTabletPortraitState
                           await updatePoints(_userID, mission.points);
                           Navigator.pop(context);
                         });
-                        Navigator.pop(context);
-                        setState(() {
-                          _done = true;
-                          _loadButton();
-                        });
                       } else {
                         Fluttertoast.showToast(
                             msg: "Verifique se inseriu o pin correto",
@@ -830,6 +825,12 @@ class _UploadVideoScreenTabletPortraitState
       _video = video;
       addUploadedVideoToFirebaseStorage(_video, _titulo).then((value) =>
           {updateMissionDoneWithLinkInFirestore(mission, _userID, value)});
+      await updatePoints(_userID, mission.points);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AllMissionsScreen(missionNotifier.missionsDocList)));
     }
   }
 }

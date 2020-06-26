@@ -7,7 +7,6 @@ import 'package:app_criancas/screens/ranking/ranking_screen.dart';
 import 'package:app_criancas/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,18 +40,20 @@ class BottomBar extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-          left: screenWidth > 800 ? 100.0 : 0.0,
-          right: screenWidth > 800 ? 100.0 : 0.0,
-          bottom: screenWidth > 800 ? 20.0 : 0.0,
+        left: screenWidth > 800 ? 100.0 : 0.0,
+        right: screenWidth > 800 ? 100.0 : 0.0,
+        bottom: screenWidth > 800 ? 20.0 : 0.0,
       ),
       child: BottomNavigationBar(
         selectedFontSize: screenWidth > 800 ? 16 : 12,
         unselectedFontSize: screenWidth > 800 ? 16 : 12,
         selectedLabelStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+          textStyle:
+              TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         unselectedLabelStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          textStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
         ),
         iconSize: screenWidth > 800 ? 36 : screenHeight < 700 ? 22 : 24.0,
         type: BottomNavigationBarType.fixed,
@@ -119,7 +120,7 @@ class BottomBar extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.trophy),
-            title: Text('Ranking'),
+            title: Text('Classificação'),
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.th),
