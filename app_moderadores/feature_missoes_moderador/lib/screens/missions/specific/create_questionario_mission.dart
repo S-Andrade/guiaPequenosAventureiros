@@ -94,13 +94,13 @@ class _CreateQuestionarioMissionScreenState
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsets.only(top: 85.0, right: 20.0, left: 50.0),
+                        EdgeInsets.only(top: 80.0, right: 20.0, left: 50.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 30.0,
+                            height: 0.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 0.0, bottom: 5.0),
@@ -116,7 +116,7 @@ class _CreateQuestionarioMissionScreenState
                             ),
                           ),
                           SizedBox(
-                            height: 40.0,
+                            height: 10.0,
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -159,7 +159,7 @@ class _CreateQuestionarioMissionScreenState
                 ),
                 Container(
                     padding:
-                        EdgeInsets.only(top: 50.0, left: 70.0, bottom: 10.0),
+                        EdgeInsets.only(top: 30.0, left: 70.0, bottom: 10.0),
                     child: Column(children: <Widget>[
                       LayoutBuilder(
                         builder:
@@ -441,6 +441,7 @@ class _CreateQuestionarioMissionScreenState
                                               template: TemplateTerm,
                                             );
                                             popup.show(
+                                              
                                                 title: Text(""),
                                                 close: Container(),
                                                 content: Column(
@@ -456,7 +457,7 @@ class _CreateQuestionarioMissionScreenState
                                                                 'Quer criar uma questão nova ou utilizar uma já existente de outro Questionário?',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        15,
+                                                                        13,
                                                                     fontFamily:
                                                                         'Monteserrat',
                                                                     color: Colors

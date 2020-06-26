@@ -151,7 +151,7 @@ class ChooseMissionScreen extends StatelessWidget {
                                   )),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Text("Mandar um audio",
+                                child: Text("Mandar um áudio",
                                     style: TextStyle(
                                         fontSize: 13.0,
                                         letterSpacing: 2,

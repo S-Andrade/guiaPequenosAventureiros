@@ -88,7 +88,7 @@ class _ResultsByMissionNormalForTurmaState
                   child: Text(
                     "Resultados para a missão  '" +
                         mission.title +
-                        "'  dos " +
+                        "'\n\ndos " +
                         turma.nAlunos.toString() +
                         " alunos da turma " +
                         turma.nome +
@@ -125,7 +125,7 @@ class _ResultsByMissionNormalForTurmaState
                         ]),
                     child: Row(children: [
                       Text(
-                        '         Aluno                      Missão feita         Tempo passado na missão         Visitas        ',
+                        '         Aluno                      Realizada?         Tempo passado na missão         Visitas        ',
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Monteserrat',
@@ -201,7 +201,7 @@ class _ResultsByMissionNormalForTurmaState
                                                 height: 60,
                                                 width: 100,
                                                 child: Center(
-                                                  child: Text("Feita",
+                                                  child: Text("Sim",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:
@@ -232,7 +232,7 @@ class _ResultsByMissionNormalForTurmaState
                                             : Container(
                                                 height: 60,
                                                 child: Center(
-                                                  child: Text("Não feita",
+                                                  child: Text("Não",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:

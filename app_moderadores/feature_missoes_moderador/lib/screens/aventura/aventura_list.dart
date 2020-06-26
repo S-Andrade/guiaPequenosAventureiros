@@ -39,7 +39,7 @@ class _AventuraListState extends State<AventuraList> {
   Widget _buildInfo() {
     return Padding(
       padding:
-          const EdgeInsets.only(top: 50.0, left: 30.0, right: 16.0, bottom: 50),
+          const EdgeInsets.only(top: 10.0, left: 30.0, right: 16.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -238,15 +238,7 @@ class _AventuraListState extends State<AventuraList> {
             width: 300,
             child: Column(
               children: [
-                Text(
-                  "Escolha uma opção:",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Amatic SC',
-                      letterSpacing: 2,
-                      fontSize: 15),
-                ),
+               
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context, rootNavigator: true).push(
@@ -396,7 +388,7 @@ class _CardState extends State<Card> {
             )
           ],
           image: DecorationImage(
-            image:AssetImage("assets/images/story_1.png"),
+            image:AssetImage("assets/images/musicos.jpg"),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ));

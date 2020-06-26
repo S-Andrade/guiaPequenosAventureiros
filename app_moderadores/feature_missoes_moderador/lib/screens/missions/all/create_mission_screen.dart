@@ -86,7 +86,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
               children: <Widget>[
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 70,
+                    height: MediaQuery.of(context).size.height - 400,
                     color: Colors.transparent,
                     child: Stack(children: [
                       Center(
@@ -105,7 +105,9 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Container(
-                    height: 900,
+                    height:( capitulo
+                                                  .missoes.length !=
+                                              0 ) ? 900:500,
                      decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
@@ -124,24 +126,15 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
                         ]),
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.only(left:20.0,right:20,top:100,bottom:50),
-                            child: Text(
-                                "Missões deste capítulo: " ,
-                                   
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    letterSpacing: 2,
-                                  
-                                    color: Colors.black,
-                                    fontFamily: 'Monteserrat')),
-                          ),
+                       
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: new RefreshIndicator(
                               onRefresh: _refreshList,
                               child: Container(
-                                  height: 500,
+                                  height:( capitulo
+                                                  .missoes.length !=
+                                              0 ) ? 700:300,
                                   width: 800,
                                   
                                   child: Padding(
@@ -408,7 +401,7 @@ class _CreateMissionScreenState extends State<CreateMissionScreen> {
             color: Colors.red,
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 20),
+            fontSize: 15),
       ),
       onPressed: () async {
         Navigator.pop(context);

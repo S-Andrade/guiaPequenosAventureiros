@@ -325,7 +325,7 @@ class _CreateImageMissionScreenState extends State<CreateImageMissionScreen> {
                           );
                         },
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       Row(children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -356,7 +356,7 @@ class _CreateImageMissionScreenState extends State<CreateImageMissionScreen> {
                                 : Container()),
                       ]),
                       SizedBox(
-                        height: 40.0,
+                        height: 20.0,
                       ),
                       Row(
                         children: <Widget>[

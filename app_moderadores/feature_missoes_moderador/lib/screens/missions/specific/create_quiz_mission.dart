@@ -305,7 +305,7 @@ class _CreateQuizMissionScreenState extends State<CreateQuizMissionScreen> {
                                 padding: const EdgeInsets.only(right: 30.0),
                                 child: Column(children: [
                                   Container(
-                                      height: 250,
+                                      height: 200,
                                       color: Colors.white,
                                       width: 430,
                                       child: ListView.separated(
