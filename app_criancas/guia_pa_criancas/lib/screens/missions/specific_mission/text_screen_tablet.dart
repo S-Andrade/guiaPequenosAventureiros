@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
+import 'package:app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_2.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
-import '../../../widgets/color_loader.dart';
 import '../../../auth.dart';
 
 class TextScreenMobilePortrait extends StatefulWidget {
@@ -20,7 +21,8 @@ class TextScreenMobilePortrait extends StatefulWidget {
       _TextScreenMobilePortraitState(mission);
 }
 
-class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> with WidgetsBindingObserver {
+class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait>
+    with WidgetsBindingObserver {
   Mission mission;
   int _state = 0;
   DateTime _start;
@@ -83,16 +85,12 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> wit
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-     
-      _paused = DateTime.now();
-    } 
-
-    if (state == AppLifecycleState.inactive) {
-    
       _paused = DateTime.now();
     }
-    
-    else if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.inactive) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
 
@@ -269,7 +267,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> wit
     if (_done == false) {
       if (_state == 0) {
         return new Text(
-          "Lido",
+          "Lido!",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
               fontWeight: FontWeight.normal,
@@ -279,7 +277,7 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> wit
           ),
         );
       } else
-        return ColorLoader();
+        return ColorLoader2();
     } else {
       return new Text(
         "Feita",
@@ -303,6 +301,11 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> wit
         updateMissionDoneInFirestore(mission, _userID);
         await updatePoints(_userID, mission.points);
         Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    AllMissionsScreen(missionNotifier.missionsDocList)));
       });
     }
   }
@@ -311,7 +314,6 @@ class _TextScreenMobilePortraitState extends State<TextScreenMobilePortrait> wit
   //melhorar frontend
   updatePoints(String aluno, int points) async {
     List cromos = await updatePontuacao(aluno, points);
-    print("tellle");
     print(cromos);
 
     await showDialog(

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_2.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -14,8 +16,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../models/mission.dart';
 import '../../../notifier/missions_notifier.dart';
 import '../../../services/missions_api.dart';
-import '../../../widgets/color_loader.dart';
-import '../../../widgets/color_parser.dart';
 import 'package:provider/provider.dart';
 import '../../../auth.dart';
 
@@ -384,7 +384,7 @@ class _UploadVideoScreenTabletPortraitState
           ),
         );
       } else
-        return ColorLoader();
+        return ColorLoader2();
     } else {
       return Text(
         "Já carregado",
@@ -402,7 +402,12 @@ class _UploadVideoScreenTabletPortraitState
   void _loadButton() {
     if (_done == true) {
       Timer(Duration(milliseconds: 500), () {
-        Navigator.pop(context);
+        //Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    AllMissionsScreen(missionNotifier.missionsDocList)));
       });
     } else {
       enviarDialog();

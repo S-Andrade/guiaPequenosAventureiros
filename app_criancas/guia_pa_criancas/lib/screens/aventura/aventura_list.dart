@@ -9,22 +9,20 @@ import '../escola/escola.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AventuraList extends StatefulWidget {
-
   final FirebaseUser user;
   AventuraList({this.user});
-  
+
   @override
   _AventuraListState createState() => _AventuraListState(user: user);
 }
 
 class _AventuraListState extends State<AventuraList> {
-
   final FirebaseUser user;
   _AventuraListState({this.user});
 
   PageController _controller = PageController(viewportFraction: 0.80);
 
-  List<Aventura> aventura ;
+  List<Aventura> aventura;
   List<Turma> turma;
   List<Escola> escola;
   List<Aventura> ave = [];
@@ -41,42 +39,39 @@ class _AventuraListState extends State<AventuraList> {
       child: Builder(
         builder: (BuildContext context) {
           return FutureBuilder<void>(
-            future: getAventuras(context),
-            builder: (context, AsyncSnapshot<void> snapshot) {
-              return PageView.builder(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  controller: _controller,
-                  pageSnapping: true,
-
-                  itemCount: ave.length,
-                  itemBuilder: (context,index) {
-                  return AventuraTile(aventura: ave[index]);
-                }
-              );
-            }
-            ); 
-          },
+              future: getAventuras(context),
+              builder: (context, AsyncSnapshot<void> snapshot) {
+                return PageView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    controller: _controller,
+                    pageSnapping: true,
+                    itemCount: ave.length,
+                    itemBuilder: (context, index) {
+                      return AventuraTile(aventura: ave[index]);
+                    });
+              });
+        },
       ),
     );
   }
 
-  Future<void> getAventuras(BuildContext context) async{
+  Future<void> getAventuras(BuildContext context) async {
     //print("aventura");
     //while(aventura != null){
-      getAllAventuras(context);
+    getAllAventuras(context);
     //}
     //print(aventura);
 
     //print("turma");
     //while(turma != null){
-      getAllTurmas(context);
+    getAllTurmas(context);
     //}
     //print(turma);
 
     //print("escola");
     //while(escola != null){
-      getAllEscolas(context);
+    getAllEscolas(context);
     //}
     //print(escola);
 
@@ -85,19 +80,27 @@ class _AventuraListState extends State<AventuraList> {
     await getEscola();
 
     await getAvent();
-    
   }
-  Future<void> getAllAventuras(BuildContext context) async{aventura = Provider.of<List<Aventura>>(context);}
-  Future<void> getAllTurmas(BuildContext context) async{turma = Provider.of<List<Turma>>(context);}
-  Future<void> getAllEscolas(BuildContext context) async{escola = Provider.of<List<Escola>>(context);}
-  
-  Future<void> getTurma() async{
-    if(turma != null){
-      for (Turma t in turma){
+
+  Future<void> getAllAventuras(BuildContext context) async {
+    aventura = Provider.of<List<Aventura>>(context);
+  }
+
+  Future<void> getAllTurmas(BuildContext context) async {
+    turma = Provider.of<List<Turma>>(context);
+  }
+
+  Future<void> getAllEscolas(BuildContext context) async {
+    escola = Provider.of<List<Escola>>(context);
+  }
+
+  Future<void> getTurma() async {
+    if (turma != null) {
+      for (Turma t in turma) {
         //print(t.id);
         //print(t.alunos);
         //print(user.email);
-        if(t.alunos.contains(user.email)){
+        if (t.alunos.contains(user.email)) {
           turmaIn = t;
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("turma", turmaIn.id);
@@ -105,20 +108,22 @@ class _AventuraListState extends State<AventuraList> {
       }
     }
   }
-  Future<void> getEscola() async{
-    if(escola != null){
-      for (Escola e in escola){
-        if(e.turmas.contains(turmaIn.id)){
+
+  Future<void> getEscola() async {
+    if (escola != null) {
+      for (Escola e in escola) {
+        if (e.turmas.contains(turmaIn.id)) {
           escolaIn = e;
         }
       }
     }
   }
-  Future<void> getAvent() async{
+
+  Future<void> getAvent() async {
     ave = [];
-    if(aventura != null){
-      for (Aventura a in aventura){
-        if(a.escolas.contains(escolaIn.id)){
+    if (aventura != null) {
+      for (Aventura a in aventura) {
+        if (a.escolas.contains(escolaIn.id)) {
           ave.add(a);
         }
       }

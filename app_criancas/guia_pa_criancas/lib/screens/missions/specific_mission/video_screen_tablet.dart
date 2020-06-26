@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_2.dart';
 import 'package:app_criancas/widgets/video_player.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -55,7 +57,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   List<bool> resultado = [];
   CameraController _cameracontroller;
   Future<void> _initializeControllerFuture;
-  int _counterPause=0;
+  int _counterPause = 0;
   String texto = "Olá, hoje vamos ver um vídeo juntos!";
 
   @override
@@ -89,8 +91,6 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkForFace());
     });
 
-   
-
     super.initState();
   }
 
@@ -111,15 +111,11 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _paused = DateTime.now();
-    } 
-
-     if (state == AppLifecycleState.inactive) {
-    
-      _paused = DateTime.now();
     }
-    
-    
-    else if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.inactive) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
     _totalPaused = _returned.difference(_paused).inSeconds;
@@ -134,8 +130,10 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
@@ -305,6 +303,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
         ]),
       ),
     );
+    
   }
 
   Widget setButton() {
@@ -321,7 +320,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
           ),
         );
       } else
-        return ColorLoader();
+        return ColorLoader2();
     } else {
       return new Text(
         "Feita",
@@ -342,17 +341,21 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       Navigator.pop(context);
     } else {
       Timer(Duration(milliseconds: 3000), () async {
-        print("COUNTTTTER   "+_counterPause.toString());
-        updateMissionVideoDoneInFirestore(mission, _userID,_counterPause);
-        updatePoints(_userID, mission.points, context);
+        print("COUNTTTTER   " + _counterPause.toString());
+        updateMissionVideoDoneInFirestore(mission, _userID, _counterPause);
+        await updatePoints(_userID, mission.points, context);
         Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AllMissionsScreen(missionNotifier.missionsDocList)));
       });
     }
   }
 
   updatePoints(String aluno, int points, BuildContext context) async {
     List cromos = await updatePontuacao(aluno, points);
-    print("tellle");
     print(cromos);
 
     await showDialog(

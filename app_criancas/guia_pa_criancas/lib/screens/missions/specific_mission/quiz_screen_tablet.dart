@@ -83,10 +83,10 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                     ),
                   ),
                   FractionallySizedBox(
-                    widthFactor:  screenHeight < 700 ? 0.4 : 0.5,
+                    widthFactor: screenHeight < 700 ? 0.4 : 0.5,
                     child: SizedBox(
                       width: double.infinity,
-                      height:  screenHeight < 700 ? 55 : 65,
+                      height: screenHeight < 700 ? 55 : 65,
                       child: FlatButton(
                         onPressed: () {
                           Navigator.push(context,
@@ -102,7 +102,7 @@ class _QuizScreenTabletPortraitState extends State<QuizScreenTabletPortrait> {
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontSize:  screenHeight < 700 ? 16 : 20,
+                              fontSize: screenHeight < 700 ? 16 : 20,
                               color: Colors.white,
                             ),
                           ),

@@ -1,10 +1,7 @@
-
-
 class Escola {
-
   final String id;
   final String nome;
-  final List turmas; 
+  final List turmas;
 
-  Escola( {this.id, this.nome, this.turmas});
+  Escola({this.id, this.nome, this.turmas});
 }

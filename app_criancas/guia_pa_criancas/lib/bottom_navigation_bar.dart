@@ -80,6 +80,7 @@ class BottomBar extends StatelessWidget {
               }),
             );
           } else if (i == 2) {
+            user = await getUserA();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {

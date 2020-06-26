@@ -30,6 +30,7 @@ class _Perfil extends State<Perfil> {
   int pontuacao_turma;
   String id_turma;
   String aa;
+  bool checkNome = false;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _Perfil extends State<Perfil> {
   _getNomeUser() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     nomeUser = sp.getString('myName');
+    checkNome = true;
   }
 
   static MediaQueryData _mediaQueryData;
@@ -118,7 +120,7 @@ class _Perfil extends State<Perfil> {
                             Column(
                               children: [
                                 Text(
-                                  (nomeUser != null)
+                                  (nomeUser != null && !checkNome)
                                       ? "Olá, $aa!"
                                       : "Olá, $nomeUser!",
                                   textAlign: TextAlign.center,

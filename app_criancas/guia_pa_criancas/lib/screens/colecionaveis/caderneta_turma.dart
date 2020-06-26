@@ -1,7 +1,6 @@
 import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
-import 'package:app_criancas/widgets/color_loader.dart';
 import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -146,38 +145,48 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                                 controller: _controllerScroll,
                                 child: GridView.count(
                                     crossAxisCount: screenWidth > 800 ? 3 : 2,
-                                    children:
-                                        List.generate(imageCromo.length, (index) {
+                                    children: List.generate(imageCromo.length,
+                                        (index) {
                                       return Padding(
-                                        padding: EdgeInsets.all(screenWidth > 800 ? 16 : screenHeight < 700 ? 6 : 10),
+                                        padding: EdgeInsets.all(
+                                            screenWidth > 800
+                                                ? 16
+                                                : screenHeight < 700 ? 6 : 10),
                                         child: DelayedDisplay(
-                                          delay: Duration(milliseconds: 200*index),
+                                          delay: Duration(
+                                              milliseconds: 200 * index),
                                           fadingDuration:
-                                          const Duration(milliseconds: 800),
+                                              const Duration(milliseconds: 800),
                                           slidingBeginOffset:
-                                          const Offset(-0.0, 0.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            image: DecorationImage(
-                                              image:
-                                                  NetworkImage(imageCromo[index]),
-                                              fit: BoxFit.cover,
+                                              const Offset(-0.0, 0.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    imageCromo[index]),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        ),),
+                                        ),
                                       );
                                     })),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical:screenHeight > 1000 ? 40 : screenHeight<700?16.0:20),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight > 1000
+                                      ? 40
+                                      : screenHeight < 700 ? 16.0 : 20),
                               child: FractionallySizedBox(
                                 widthFactor: screenWidth > 800 ? 0.5 : 0.7,
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: FlatButton(
-                                      padding: EdgeInsets.all(screenWidth > 800 ? 22 : 16.0),
+                                      padding: EdgeInsets.all(
+                                          screenWidth > 800 ? 22 : 16.0),
                                       color: Color(0xFFF3C463),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -188,7 +197,11 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: screenWidth > 800 ? 24 : screenHeight < 700 ? 16 : 18,
+                                              fontSize: screenWidth > 800
+                                                  ? 24
+                                                  : screenHeight < 700
+                                                      ? 16
+                                                      : 18,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -212,8 +225,12 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
-                    widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                    heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                    widthFactor: screenHeight < 700
+                        ? 0.8
+                        : screenWidth > 800 ? 0.77 : 0.9,
+                    heightFactor: screenHeight < 700
+                        ? 0.14
+                        : screenHeight < 1000 ? 0.14 : 0.20,
                     child: Stack(
                       children: [
                         FlareActor(
@@ -230,14 +247,22 @@ class _CadernetaTurmaState extends State<CadernetaTurma> {
                             fadingDuration: const Duration(milliseconds: 800),
                             slidingBeginOffset: const Offset(0, 0.0),
                             child: Padding(
-                              padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                              padding: EdgeInsets.only(
+                                  left: screenHeight > 1000
+                                      ? 40
+                                      : screenHeight < 700 ? 16 : 20.0,
+                                  right: screenHeight > 1000
+                                      ? 130
+                                      : screenHeight < 700 ? 60 : 100),
                               child: Text(
                                 "Bom trabalho de equipa!",
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.pangolin(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                      fontSize: screenHeight < 700
+                                          ? 16
+                                          : screenHeight < 1000 ? 20 : 32,
                                       color: Colors.white),
                                 ),
                               ),

@@ -1,5 +1,5 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
-import 'package:app_criancas/widgets/color_loader.dart';
+import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +54,8 @@ class _AventuraTile extends State<AventuraTile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.all(screenHeight > 1000 ? 40 : 20),
+                            padding:
+                                EdgeInsets.all(screenHeight > 1000 ? 40 : 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -65,7 +66,9 @@ class _AventuraTile extends State<AventuraTile> {
                                         textStyle: TextStyle(
                                             height: 1,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: screenHeight > 1000 ? 40 : screenHeight < 700 ? 20 : 24,
+                                            fontSize: screenHeight > 1000
+                                                ? 40
+                                                : screenHeight < 700 ? 20 : 24,
                                             color: Colors.white),
                                       )),
                                 ),
@@ -73,7 +76,8 @@ class _AventuraTile extends State<AventuraTile> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(screenHeight > 1000 ? 20 : 20.0),
+                            padding:
+                                EdgeInsets.all(screenHeight > 1000 ? 20 : 20.0),
                             child: RaisedButton(
                               onPressed: () {
                                 missionsNotifier.currentAventura = aventura;
@@ -87,7 +91,8 @@ class _AventuraTile extends State<AventuraTile> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Padding(
-                                padding: EdgeInsets.all(screenHeight > 1000 ? 30 : 20.0),
+                                padding: EdgeInsets.all(
+                                    screenHeight > 1000 ? 30 : 20.0),
                                 child: Text(
                                   "Entrar na Aventura",
                                   style: GoogleFonts.quicksand(
@@ -131,7 +136,7 @@ class _AventuraTile extends State<AventuraTile> {
           } else {
             return Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Center(child: ColorLoader()));
+                child: Center(child: ColorLoader5()));
           }
         });
   }

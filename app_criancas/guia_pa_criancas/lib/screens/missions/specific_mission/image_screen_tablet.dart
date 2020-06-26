@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
+import 'package:app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_2.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -8,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../models/mission.dart';
 import '../../../services/missions_api.dart';
-import '../../../widgets/color_loader.dart';
 import '../../../auth.dart';
 
 class ImageScreenTabletPortrait extends StatefulWidget {
@@ -89,14 +90,11 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _paused = DateTime.now();
-    } 
-
-     if (state == AppLifecycleState.inactive) {
-    
-      _paused = DateTime.now();
     }
-    
-    else if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.inactive) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
     _totalPaused = _returned.difference(_paused).inSeconds;
@@ -312,7 +310,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
     if (_done == false) {
       if (_state == 0) {
         return Text(
-          "Okay",
+          "Terminei",
           textAlign: TextAlign.center,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
@@ -323,7 +321,7 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
           ),
         );
       } else
-        return ColorLoader();
+        return ColorLoader2();
     } else {
       return Text(
         "Feita",
@@ -347,16 +345,19 @@ class _ImageScreenTabletPortraitState extends State<ImageScreenTabletPortrait>
       Timer(Duration(milliseconds: 3000), () async {
         updateMissionDoneInFirestore(mission, _userID);
         await updatePoints(_userID, mission.points);
-        Navigator.pop(context);
+        //Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    AllMissionsScreen(missionNotifier.missionsDocList)));
       });
     }
   }
 
   //adiciona a pontuação e os cromos ao aluno e turma
-  //melhorar frontend
   updatePoints(String aluno, int points) async {
     List cromos = await updatePontuacao(aluno, points);
-    print("tellle");
     print(cromos);
 
     await showDialog(

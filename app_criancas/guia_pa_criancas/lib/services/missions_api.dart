@@ -22,6 +22,7 @@ getMissions(
   List<Mission> _missionListFinal = [];
   List<Mission> _missionListNotDone = [];
   List<Mission> _missionListDone = [];
+  missionNotifier.missionsDocList = missions;
 
   missions.forEach((document) {
     document.get().then((missionSnapchot) {

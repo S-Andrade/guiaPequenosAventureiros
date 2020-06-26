@@ -1,5 +1,4 @@
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
-import 'package:app_criancas/services/missions_api.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';

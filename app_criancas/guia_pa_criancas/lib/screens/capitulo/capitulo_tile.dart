@@ -2,7 +2,6 @@ import 'package:app_criancas/screens/capitulo/capitulo.dart';
 import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../missions/all_missions/all_missions_screen.dart';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +62,7 @@ class _CapituloTile extends State<CapituloTile> {
                   child: Container(
                       clipBehavior: Clip.none,
                       decoration: BoxDecoration(
-                      color: colors[capitulo.nome.hashCode % colors.length],
+                          color: colors[capitulo.nome.hashCode % colors.length],
 //                        color: colors[math.Random().nextInt(colors.length)],
 //                        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(15)),

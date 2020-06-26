@@ -1,7 +1,6 @@
 import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/companheiro/companheiro_appwide.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
-import 'package:app_criancas/widgets/color_loader.dart';
 import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,7 +154,8 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
                                                 ? 16
                                                 : screenHeight < 700 ? 6 : 10),
                                         child: DelayedDisplay(
-                                          delay: Duration(milliseconds: 200*index),
+                                          delay: Duration(
+                                              milliseconds: 200 * index),
                                           fadingDuration:
                                               const Duration(milliseconds: 800),
                                           slidingBeginOffset:
@@ -225,8 +225,12 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
-                    widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                    heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                    widthFactor: screenHeight < 700
+                        ? 0.8
+                        : screenWidth > 800 ? 0.77 : 0.9,
+                    heightFactor: screenHeight < 700
+                        ? 0.14
+                        : screenHeight < 1000 ? 0.14 : 0.20,
                     child: Stack(
                       children: [
                         FlareActor(
@@ -243,14 +247,22 @@ class _MinhaCadernetaState extends State<MinhaCaderneta> {
                             fadingDuration: const Duration(milliseconds: 800),
                             slidingBeginOffset: const Offset(0, 0.0),
                             child: Padding(
-                              padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                              padding: EdgeInsets.only(
+                                  left: screenHeight > 1000
+                                      ? 40
+                                      : screenHeight < 700 ? 16 : 20.0,
+                                  right: screenHeight > 1000
+                                      ? 130
+                                      : screenHeight < 700 ? 60 : 100),
                               child: Text(
                                 "Olha só o que já juntamos!",
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.pangolin(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                      fontSize: screenHeight < 700
+                                          ? 16
+                                          : screenHeight < 1000 ? 20 : 32,
                                       color: Colors.white),
                                 ),
                               ),

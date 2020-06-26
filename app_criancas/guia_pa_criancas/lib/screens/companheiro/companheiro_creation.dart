@@ -23,11 +23,9 @@ class CreateCompanheiro extends StatefulWidget {
 }
 
 class CreateCompanheiroState extends State<CreateCompanheiro> {
-
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
-
 
   String userID;
   FirebaseUser user;
@@ -63,12 +61,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
   List<bool> _isSelectedBodyParts = [false, false, false, false];
 
   getUserI() async {
-    FirebaseUser temp =  await Auth().getUser();
+    FirebaseUser temp = await Auth().getUser();
     print(temp.email);
     setState(() {
       user = temp;
     });
   }
+
   @override
   initState() {
     _flareController = IdleControls();
@@ -82,7 +81,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
     Auth().getUser().then((user) {
       setState(() {
         userID = user.email;
-        print('este é o user'+userID);
+        print('este é o user' + userID);
       });
     });
     getUserI();
@@ -240,7 +239,6 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
 
   @override
   Widget build(BuildContext context) {
-
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
@@ -298,7 +296,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           textStyle: TextStyle(
                                               height: 1,
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 26 : screenHeight > 1100 ? 38 : 30,
+                                              fontSize: screenHeight < 700
+                                                  ? 26
+                                                  : screenHeight > 1100
+                                                      ? 38
+                                                      : 30,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -319,7 +321,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           textStyle: TextStyle(
                                               height: 1,
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 20 : screenHeight > 1100 ? 32 : 24,
+                                              fontSize: screenHeight < 700
+                                                  ? 20
+                                                  : screenHeight > 1100
+                                                      ? 32
+                                                      : 24,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -328,7 +334,10 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: screenHeight > 1100 ? 60 : 30, right: screenHeight > 1100 ? 60 : 30, bottom: 0, top: screenHeight > 1100 ? 30 : 10),
+                                      left: screenHeight > 1100 ? 60 : 30,
+                                      right: screenHeight > 1100 ? 60 : 30,
+                                      bottom: 0,
+                                      top: screenHeight > 1100 ? 30 : 10),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText(
                                         'mas ainda não estou pronto, dás-me uma ajuda?'),
@@ -341,7 +350,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             textStyle: TextStyle(
                                                 height: 1,
                                                 fontWeight: FontWeight.w700,
-                                                fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 : 22,
+                                                fontSize: screenHeight < 700
+                                                    ? 18
+                                                    : screenHeight > 1100
+                                                        ? 30
+                                                        : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -350,7 +363,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "animation",
@@ -370,7 +383,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 : 22,
+                                            fontSize: screenHeight < 700
+                                                ? 18
+                                                : screenHeight > 1100 ? 30 : 22,
                                             color: Colors.black),
                                       ),
                                     ),
@@ -395,7 +410,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 90 : 45,
+                                            width:
+                                                screenHeight > 1100 ? 90 : 45,
                                           ),
                                         ),
                                       ),
@@ -410,7 +426,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 74 :37,
+                                            width:
+                                                screenHeight > 1100 ? 74 : 37,
                                           ),
                                         ),
                                       ),
@@ -425,7 +442,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 94 : 47,
+                                            width:
+                                                screenHeight > 1100 ? 94 : 47,
                                           ),
                                         ),
                                       ),
@@ -440,7 +458,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 80 : 40,
+                                            width:
+                                                screenHeight > 1100 ? 80 : 40,
                                           ),
                                         ),
                                       ),
@@ -455,7 +474,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 90 : 45,
+                                            width:
+                                                screenHeight > 1100 ? 90 : 45,
                                           ),
                                         ),
                                       ),
@@ -471,7 +491,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ? Colors.yellowAccent
                                                     .withOpacity(0.6)
                                                 : Color(0x99FFFFFF),
-                                            width: screenHeight > 1100 ? 80 : 40,
+                                            width:
+                                                screenHeight > 1100 ? 80 : 40,
                                           ),
                                         ),
                                       ),
@@ -479,15 +500,17 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () => reader.synthesizeText(
-                                      _shapeName),
+                                  onTap: () =>
+                                      reader.synthesizeText(_shapeName),
                                   child: Text(
                                     _shapeName,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: screenHeight < 700 ? 16 : screenHeight > 1100 ? 28 : 20,
+                                          fontSize: screenHeight < 700
+                                              ? 16
+                                              : screenHeight > 1100 ? 28 : 20,
                                           color: Color(0x99FFFFFF)),
                                     ),
                                   ),
@@ -511,7 +534,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: screenHeight > 1100 ? 100 : 30, right: screenHeight > 1100 ? 100 : 30, bottom: screenHeight > 1100 ? 30 : 10),
+                                      left: screenHeight > 1100 ? 100 : 30,
+                                      right: screenHeight > 1100 ? 100 : 30,
+                                      bottom: screenHeight > 1100 ? 30 : 10),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText(
                                         'Humm, acho preciso de um pouco de cor!'),
@@ -522,7 +547,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 24 : screenHeight > 1100 ? 36 : 28,
+                                              fontSize: screenHeight < 700
+                                                  ? 24
+                                                  : screenHeight > 1100
+                                                      ? 36
+                                                      : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -530,7 +559,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -555,7 +584,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 20 : screenHeight > 1100 ? 32 :24,
+                                                  fontSize: screenHeight < 700
+                                                      ? 20
+                                                      : screenHeight > 1100
+                                                          ? 32
+                                                          : 24,
                                                   color: Colors.black),
                                             ),
                                           ),
@@ -576,7 +609,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             Wrap(
                                                 direction: Axis.horizontal,
                                                 alignment: WrapAlignment.center,
-                                                spacing: screenHeight < 700 ? 6 : screenHeight > 1100 ? 20 : 10,
+                                                spacing: screenHeight < 700
+                                                    ? 6
+                                                    : screenHeight > 1100
+                                                        ? 20
+                                                        : 10,
                                                 runSpacing: 5.0,
                                                 children: <Widget>[
                                                   MaterialButton(
@@ -588,7 +625,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xfff24e4e),
                                                     onPressed: () =>
                                                         _changeColour(0),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -600,7 +643,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffff9d47),
                                                     onPressed: () =>
                                                         _changeColour(1),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -612,7 +661,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffffea5c),
                                                     onPressed: () =>
                                                         _changeColour(2),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -624,7 +679,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xff48D597),
                                                     onPressed: () =>
                                                         _changeColour(3),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -636,7 +697,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xff3bd8ff),
                                                     onPressed: () =>
                                                         _changeColour(4),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -648,7 +715,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffb38aff),
                                                     onPressed: () =>
                                                         _changeColour(5),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                   MaterialButton(
@@ -660,7 +733,13 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                     color: Color(0xffff96bb),
                                                     onPressed: () =>
                                                         _changeColour(6),
-                                                    padding: EdgeInsets.all(screenHeight < 700 ? 12 : screenHeight > 1100 ? 24 : 16),
+                                                    padding: EdgeInsets.all(
+                                                        screenHeight < 700
+                                                            ? 12
+                                                            : screenHeight >
+                                                                    1100
+                                                                ? 24
+                                                                : 16),
                                                     shape: CircleBorder(),
                                                   ),
                                                 ]),
@@ -700,7 +779,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 24 : screenHeight > 1100 ? 36 :  28,
+                                              fontSize: screenHeight < 700
+                                                  ? 24
+                                                  : screenHeight > 1100
+                                                      ? 36
+                                                      : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -709,7 +792,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: screenHeight < 700 ? 10 : 30),
+                                      left: 30,
+                                      right: 30,
+                                      bottom: screenHeight < 700 ? 10 : 30),
                                   child: InkWell(
                                     onTap: () => reader.synthesizeText(
                                         'Muitos pares de olhos ou um muito grande?'),
@@ -720,7 +805,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 : 22,
+                                              fontSize: screenHeight < 700
+                                                  ? 18
+                                                  : screenHeight > 1100
+                                                      ? 30
+                                                      : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -728,7 +817,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -749,7 +838,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 :  22,
+                                            fontSize: screenHeight < 700
+                                                ? 18
+                                                : screenHeight > 1100 ? 30 : 22,
                                             color: Colors.black),
                                       ),
                                     ),
@@ -764,12 +855,17 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             MainAxisAlignment.spaceEvenly,
 //                                        mainAxisSize: MainAxisSize.max,
 //                                        layoutBehavior: ButtonBarLayoutBehavior.padded,
-                                        buttonHeight: screenHeight < 700 ? 20 : screenHeight > 1100 ? 60 :  40,
+                                        buttonHeight: screenHeight < 700
+                                            ? 20
+                                            : screenHeight > 1100 ? 60 : 40,
                                         children: <Widget>[
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.all(screenHeight > 1100 ? 10 : 0),
+                                                padding: EdgeInsets.all(
+                                                    screenHeight > 1100
+                                                        ? 10
+                                                        : 0),
                                                 child: OutlineButton(
                                                   borderSide: BorderSide(
                                                     width: _isSelectedEyes[0]
@@ -782,16 +878,23 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   child: Text(
                                                     '1',
                                                     textAlign: TextAlign.center,
-                                                    style: GoogleFonts.quicksand(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                       textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 24 :  18,
-                                                          color:
-                                                              _isSelectedEyes[0]
-                                                                  ? Colors
-                                                                      .greenAccent
-                                                                  : Colors.white),
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize:
+                                                              screenHeight < 700
+                                                                  ? 14
+                                                                  : screenHeight >
+                                                                          1100
+                                                                      ? 24
+                                                                      : 18,
+                                                          color: _isSelectedEyes[
+                                                                  0]
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.white),
                                                     ),
                                                   ),
                                                   color: Color(0xffFE595A),
@@ -802,7 +905,10 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.all(screenHeight > 1100 ? 10 : 0),
+                                                padding: EdgeInsets.all(
+                                                    screenHeight > 1100
+                                                        ? 10
+                                                        : 0),
                                                 child: OutlineButton(
                                                   borderSide: BorderSide(
                                                     width: _isSelectedEyes[1]
@@ -815,16 +921,23 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   child: Text(
                                                     '2',
                                                     textAlign: TextAlign.center,
-                                                    style: GoogleFonts.quicksand(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                       textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: screenHeight < 700 ? 14 :screenHeight > 1100 ? 24 :  18,
-                                                          color:
-                                                              _isSelectedEyes[1]
-                                                                  ? Colors
-                                                                      .greenAccent
-                                                                  : Colors.white),
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize:
+                                                              screenHeight < 700
+                                                                  ? 14
+                                                                  : screenHeight >
+                                                                          1100
+                                                                      ? 24
+                                                                      : 18,
+                                                          color: _isSelectedEyes[
+                                                                  1]
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.white),
                                                     ),
                                                   ),
                                                   color: Color(0xffFE595A),
@@ -835,7 +948,10 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.all(screenHeight > 1100 ? 10 : 0),
+                                                padding: EdgeInsets.all(
+                                                    screenHeight > 1100
+                                                        ? 10
+                                                        : 0),
                                                 child: OutlineButton(
                                                   borderSide: BorderSide(
                                                     width: _isSelectedEyes[2]
@@ -848,27 +964,37 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   child: Text(
                                                     '3',
                                                     textAlign: TextAlign.center,
-                                                    style: GoogleFonts.quicksand(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                       textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 24 :  18,
-                                                          color:
-                                                              _isSelectedEyes[2]
-                                                                  ? Colors
-                                                                      .greenAccent
-                                                                  : Colors.white),
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize:
+                                                              screenHeight < 700
+                                                                  ? 14
+                                                                  : screenHeight >
+                                                                          1100
+                                                                      ? 24
+                                                                      : 18,
+                                                          color: _isSelectedEyes[
+                                                                  2]
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.white),
                                                     ),
                                                   ),
                                                   color: Color(0xffFE595A),
-                                                  onPressed: () =>
-                                                      _selectEye('three_eyes', 2),
+                                                  onPressed: () => _selectEye(
+                                                      'three_eyes', 2),
                                                   padding: EdgeInsets.all(12),
                                                   shape: CircleBorder(),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.all(screenHeight > 1100 ? 10 : 0),
+                                                padding: EdgeInsets.all(
+                                                    screenHeight > 1100
+                                                        ? 10
+                                                        : 0),
                                                 child: OutlineButton(
                                                   borderSide: BorderSide(
                                                     width: _isSelectedEyes[3]
@@ -881,21 +1007,28 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                   child: Text(
                                                     '+',
                                                     textAlign: TextAlign.center,
-                                                    style: GoogleFonts.quicksand(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                       textStyle: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 24 : 18,
-                                                          color:
-                                                              _isSelectedEyes[3]
-                                                                  ? Colors
-                                                                      .greenAccent
-                                                                  : Colors.white),
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize:
+                                                              screenHeight < 700
+                                                                  ? 14
+                                                                  : screenHeight >
+                                                                          1100
+                                                                      ? 24
+                                                                      : 18,
+                                                          color: _isSelectedEyes[
+                                                                  3]
+                                                              ? Colors
+                                                                  .greenAccent
+                                                              : Colors.white),
                                                     ),
                                                   ),
                                                   color: Color(0xffFE595A),
-                                                  onPressed: () =>
-                                                      _selectEye('multi_eyes', 3),
+                                                  onPressed: () => _selectEye(
+                                                      'multi_eyes', 3),
                                                   padding: EdgeInsets.all(12),
                                                   shape: CircleBorder(),
                                                 ),
@@ -926,7 +1059,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:  screenHeight > 1100 ? 60 : 30, right:  screenHeight > 1100 ? 60 : 30, bottom: screenHeight < 700 ? 5 : 10),
+                                      left: screenHeight > 1100 ? 60 : 30,
+                                      right: screenHeight > 1100 ? 60 : 30,
+                                      bottom: screenHeight < 700 ? 5 : 10),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -937,7 +1072,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 24 : screenHeight > 1100 ? 36 :  28,
+                                              fontSize: screenHeight < 700
+                                                  ? 24
+                                                  : screenHeight > 1100
+                                                      ? 36
+                                                      : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -945,7 +1084,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -968,7 +1107,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 :  22,
+                                                fontSize: screenHeight < 700
+                                                    ? 18
+                                                    : screenHeight > 1100
+                                                        ? 30
+                                                        : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -994,7 +1137,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                  fontSize: screenHeight < 700
+                                                      ? 14
+                                                      : screenHeight > 1100
+                                                          ? 26
+                                                          : 18,
                                                   color: _isSelectedSmile[0]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1028,7 +1175,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                  fontSize: screenHeight < 700
+                                                      ? 14
+                                                      : screenHeight > 1100
+                                                          ? 26
+                                                          : 18,
                                                   color: _isSelectedSmile[1]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1094,7 +1245,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:  screenHeight > 1100 ? 60 : 30, right:  screenHeight > 1100 ? 60 : 30, bottom: 10),
+                                      left: screenHeight > 1100 ? 60 : 30,
+                                      right: screenHeight > 1100 ? 60 : 30,
+                                      bottom: 10),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1105,7 +1258,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 24 : screenHeight > 1100 ? 36 :  28,
+                                              fontSize: screenHeight < 700
+                                                  ? 24
+                                                  : screenHeight > 1100
+                                                      ? 36
+                                                      : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -1114,7 +1271,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:  screenHeight > 1100 ? 60 : 30, right:  screenHeight > 1100 ? 60 : 30, bottom: screenHeight < 700 ? 10 : 30),
+                                      left: screenHeight > 1100 ? 60 : 30,
+                                      right: screenHeight > 1100 ? 60 : 30,
+                                      bottom: screenHeight < 700 ? 10 : 30),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1125,7 +1284,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 :  22,
+                                              fontSize: screenHeight < 700
+                                                  ? 18
+                                                  : screenHeight > 1100
+                                                      ? 30
+                                                      : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -1133,7 +1296,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -1151,23 +1314,30 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         onTap: () => reader.synthesizeText(
                                             'O que achas mais bonito?'),
                                         child: Text(
-                                            'O que achas mais bonito?',
+                                          'O que achas mais bonito?',
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 : 22,
+                                                fontSize: screenHeight < 700
+                                                    ? 18
+                                                    : screenHeight > 1100
+                                                        ? 30
+                                                        : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(screenHeight < 700 ? 5 : 20.0),
+                                      padding: EdgeInsets.all(
+                                          screenHeight < 700 ? 5 : 20.0),
                                       child: Wrap(
                                         direction: Axis.horizontal,
                                         alignment: WrapAlignment.spaceAround,
-                                        spacing: screenHeight < 700 ? 8 : screenHeight > 1100 ? 20 :  10,
+                                        spacing: screenHeight < 700
+                                            ? 8
+                                            : screenHeight > 1100 ? 20 : 10,
                                         runSpacing: 5.0,
                                         children: <Widget>[
                                           OutlineButton(
@@ -1184,7 +1354,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                  fontSize: screenHeight < 700
+                                                      ? 14
+                                                      : screenHeight > 1100
+                                                          ? 26
+                                                          : 18,
                                                   color: _isSelectedHeadTop[0]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1215,7 +1389,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 14 :  screenHeight > 1100 ? 26 : 18,
+                                                  fontSize: screenHeight < 700
+                                                      ? 14
+                                                      : screenHeight > 1100
+                                                          ? 26
+                                                          : 18,
                                                   color: _isSelectedHeadTop[1]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1247,7 +1425,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                               style: GoogleFonts.pangolin(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 14 :  screenHeight > 1100 ? 26 :  18,
+                                                  fontSize: screenHeight < 700
+                                                      ? 14
+                                                      : screenHeight > 1100
+                                                          ? 26
+                                                          : 18,
                                                   color: _isSelectedHeadTop[2]
                                                       ? Colors.white
                                                       : Colors.black54,
@@ -1289,7 +1471,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left:  screenHeight > 1100 ? 60 : 30, right:  screenHeight > 1100 ? 60 : 30, bottom: 10),
+                                      left: screenHeight > 1100 ? 60 : 30,
+                                      right: screenHeight > 1100 ? 60 : 30,
+                                      bottom: 10),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1300,7 +1484,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: screenHeight < 700 ? 24 :  screenHeight > 1100 ? 36 :  28,
+                                              fontSize: screenHeight < 700
+                                                  ? 24
+                                                  : screenHeight > 1100
+                                                      ? 36
+                                                      : 28,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -1309,7 +1497,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: screenHeight < 700 ? 10 : 30),
+                                      left: 30,
+                                      right: 30,
+                                      bottom: screenHeight < 700 ? 10 : 30),
                                   child: Flexible(
                                     child: InkWell(
                                       onTap: () => reader.synthesizeText(
@@ -1320,7 +1510,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: screenHeight < 700 ? 18 :  screenHeight > 1100 ? 30 :  22,
+                                              fontSize: screenHeight < 700
+                                                  ? 18
+                                                  : screenHeight > 1100
+                                                      ? 30
+                                                      : 22,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -1328,7 +1522,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   ),
                                 ),
                                 Container(
-                                  height: screenHeight/2.7,
+                                  height: screenHeight / 2.7,
                                   child: FlareActor(
                                     "assets/animation/shapes3.flr",
                                     animation: "standby",
@@ -1341,7 +1535,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                 Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.all( screenHeight > 1100 ? 16 : 8.0),
+                                      padding: EdgeInsets.all(
+                                          screenHeight > 1100 ? 16 : 8.0),
                                       child: InkWell(
                                         onTap: () => reader.synthesizeText(
                                             'O que achas que dá mais jeito?'),
@@ -1351,7 +1546,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 :  22,
+                                                fontSize: screenHeight < 700
+                                                    ? 18
+                                                    : screenHeight > 1100
+                                                        ? 30
+                                                        : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -1362,7 +1561,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       runAlignment: WrapAlignment.center,
                                       crossAxisAlignment:
                                           WrapCrossAlignment.center,
-                                      spacing: screenHeight < 700 ? 5 : screenHeight > 1100 ? 20 :  10,
+                                      spacing: screenHeight < 700
+                                          ? 5
+                                          : screenHeight > 1100 ? 20 : 10,
                                       runSpacing: screenHeight < 700 ? 0 : 5,
                                       children: <Widget>[
                                         OutlineButton(
@@ -1379,7 +1580,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 : 18,
+                                                fontSize: screenHeight < 700
+                                                    ? 14
+                                                    : screenHeight > 1100
+                                                        ? 26
+                                                        : 18,
                                                 color: _isSelectedBodyParts[0]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1410,7 +1615,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                fontSize: screenHeight < 700
+                                                    ? 14
+                                                    : screenHeight > 1100
+                                                        ? 26
+                                                        : 18,
                                                 color: _isSelectedBodyParts[1]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1442,7 +1651,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                fontSize: screenHeight < 700
+                                                    ? 14
+                                                    : screenHeight > 1100
+                                                        ? 26
+                                                        : 18,
                                                 color: _isSelectedBodyParts[2]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1474,7 +1687,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 14 : screenHeight > 1100 ? 26 :  18,
+                                                fontSize: screenHeight < 700
+                                                    ? 14
+                                                    : screenHeight > 1100
+                                                        ? 26
+                                                        : 18,
                                                 color: _isSelectedBodyParts[3]
                                                     ? Colors.white
                                                     : Colors.black54,
@@ -1510,7 +1727,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                             ),
                           ),
                           child: SingleChildScrollView(
-                            padding: EdgeInsets.only(top: screenHeight/5),
+                            padding: EdgeInsets.only(top: screenHeight / 5),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1528,7 +1745,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.w900,
-                                                fontSize: screenHeight < 700 ? 24 : screenHeight > 1100 ? 36 :  28,
+                                                fontSize: screenHeight < 700
+                                                    ? 24
+                                                    : screenHeight > 1100
+                                                        ? 36
+                                                        : 28,
                                                 color: Colors.white),
                                           ),
                                         ),
@@ -1536,7 +1757,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(left:  screenHeight > 1100 ? 60 : 30, right:  screenHeight > 1100 ? 60 : 30),
+                                    padding: EdgeInsets.only(
+                                        left: screenHeight > 1100 ? 60 : 30,
+                                        right: screenHeight > 1100 ? 60 : 30),
                                     child: Flexible(
                                       child: InkWell(
                                         onTap: () => reader.synthesizeText(
@@ -1547,7 +1770,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                           style: GoogleFonts.pangolin(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: screenHeight < 700 ? 18 : screenHeight > 1100 ? 30 :  22,
+                                                fontSize: screenHeight < 700
+                                                    ? 18
+                                                    : screenHeight > 1100
+                                                        ? 30
+                                                        : 22,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -1555,7 +1782,7 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                     ),
                                   ),
                                   Container(
-                                    height: screenHeight/2.7,
+                                    height: screenHeight / 2.7,
                                     child: FlareActor(
                                       "assets/animation/shapes3.flr",
                                       animation: "standby",
@@ -1572,8 +1799,8 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                       children: [
 //
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 0.0),
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0.0),
                                           child: TextField(
                                             maxLength: 30,
                                             autofocus: true,
@@ -1582,19 +1809,28 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                                 hintText: 'Escreve aqui...',
                                                 labelStyle: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: screenHeight < 700 ? 10 : screenHeight > 1100 ? 24 :  16.0)),
+                                                    fontSize: screenHeight < 700
+                                                        ? 10
+                                                        : screenHeight > 1100
+                                                            ? 24
+                                                            : 16.0)),
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.pangolin(
                                               textStyle: TextStyle(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: screenHeight < 700 ? 16 : screenHeight > 1100 ? 30 :  22,
+                                                  fontSize: screenHeight < 700
+                                                      ? 16
+                                                      : screenHeight > 1100
+                                                          ? 30
+                                                          : 22,
                                                   color: Colors.black),
                                             ),
                                           ),
                                         ),
 
                                         Container(
-                                            height: screenHeight < 700 ? 0 : 50 ),
+                                            height:
+                                                screenHeight < 700 ? 0 : 50),
                                       ],
                                     ),
                                   ),
@@ -1630,14 +1866,19 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                   bottom: 0,
                   child: Align(
                       alignment: Alignment.bottomRight,
-                      child: _currentPage == 6 && MediaQuery.of(context).viewInsets.bottom == 0
+                      child: _currentPage == 6 &&
+                              MediaQuery.of(context).viewInsets.bottom == 0
                           ? Container(
                               child: FlatButton(
-                                onPressed: (){
-                                    _submitCreation(myController.text);
-                                    print(user.email);
-                                    Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));},
+                                onPressed: () {
+                                  _submitCreation(myController.text);
+                                  print(user.email);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomeScreen(user: user)));
+                                },
                                 color: Colors.transparent,
                                 textColor: Colors.white,
 //                              disabledColor: Colors.white,
@@ -1650,7 +1891,9 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                                   style: GoogleFonts.pangolin(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: screenHeight < 700 ? 20 : screenHeight > 1100 ? 34 :  26,
+                                        fontSize: screenHeight < 700
+                                            ? 20
+                                            : screenHeight > 1100 ? 34 : 26,
                                         color: Colors.white),
                                   ),
                                 ),
@@ -1660,10 +1903,11 @@ class CreateCompanheiroState extends State<CreateCompanheiro> {
                 ),
                 Positioned(
                   bottom: 25,
-                  left:  screenHeight > 1100 ? 40 : 20,
+                  left: screenHeight > 1100 ? 40 : 20,
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: _currentPage == 0 || MediaQuery.of(context).viewInsets.bottom != 0
+                    child: _currentPage == 0 ||
+                            MediaQuery.of(context).viewInsets.bottom != 0
                         ? Container()
                         :
 //                           IconButton(
