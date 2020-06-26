@@ -344,7 +344,7 @@ class _VideoScreenTabletPortraitState extends State<VideoScreenTabletPortrait>
       Timer(Duration(milliseconds: 3000), () async {
         print("COUNTTTTER   "+_counterPause.toString());
         updateMissionVideoDoneInFirestore(mission, _userID,_counterPause);
-        await updatePoints(_userID, mission.points, context);
+        updatePoints(_userID, mission.points, context);
         Navigator.pop(context);
       });
     }

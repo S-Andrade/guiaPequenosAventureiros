@@ -47,7 +47,7 @@ updatePontuacaoTurma(String aluno, int pontuacao) async {
   int nCromos = howMany(1000, pontos, novaPontuacao);
   List c = [];
   for (int i = 0; i < nCromos; i++) {
-    c.add(await giveCromoTurma(aluno));
+    c.add(await giveCromoTurma(turma));
   }
   return c;
 }
@@ -84,6 +84,8 @@ getAlunoTurma(String aluno) async {
     String c = snapshot.data['turma'];
     return c;
   });
+  print("aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+  print(turma);
   return turma;
 }
 
