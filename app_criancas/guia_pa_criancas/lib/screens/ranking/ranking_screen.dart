@@ -31,7 +31,8 @@ class _RankingScreenState extends State<RankingScreen> {
   Aventura aventura;
   @override
   initState() {
-    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context, listen: false);
+    MissionsNotifier missionsNotifier =
+        Provider.of<MissionsNotifier>(context, listen: false);
     getAll();
     super.initState();
   }
@@ -47,8 +48,8 @@ class _RankingScreenState extends State<RankingScreen> {
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
 
-     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
-     aventura = missionsNotifier.currentAventura;
+    MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+    aventura = missionsNotifier.currentAventura;
     if (turmas.isEmpty) {
       return ColorLoader5();
     } else {
@@ -102,7 +103,8 @@ class _RankingScreenState extends State<RankingScreen> {
                           children: <Widget>[
                             Expanded(
                               child: ListView.builder(
-                                padding: const EdgeInsets.symmetric(vertical:60),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 60),
                                 itemBuilder: (BuildContext context, int index) {
                                   print(turmas[index].pontuacao.toString());
                                   if (turmas[index].alunos.contains(userId)) {
@@ -125,23 +127,29 @@ class _RankingScreenState extends State<RankingScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(5.0),
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Text('A tua turma',
+                                                Text(
+                                                  'A tua turma',
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
-                                                        fontWeight: FontWeight.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
                                                         fontSize: 18,
                                                         color: Colors.white),
                                                   ),
                                                 ),
                                                 Text(
-                                                  turmas[index].pontuacao.toString(),
+                                                  turmas[index]
+                                                      .pontuacao
+                                                      .toString(),
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
-                                                        fontWeight: FontWeight.w700,
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                         fontSize: 30,
                                                         color: Colors.white),
                                                   ),
@@ -173,11 +181,14 @@ class _RankingScreenState extends State<RankingScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              turmas[index].pontuacao.toString(),
+                                              turmas[index]
+                                                  .pontuacao
+                                                  .toString(),
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.quicksand(
                                                 textStyle: TextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 20,
                                                     color: Colors.white),
                                               ),
@@ -200,8 +211,12 @@ class _RankingScreenState extends State<RankingScreen> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: FractionallySizedBox(
-                    widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                    heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                    widthFactor: screenHeight < 700
+                        ? 0.8
+                        : screenWidth > 800 ? 0.77 : 0.9,
+                    heightFactor: screenHeight < 700
+                        ? 0.14
+                        : screenHeight < 1000 ? 0.14 : 0.20,
                     child: Stack(
                       children: [
                         FlareActor(
@@ -218,14 +233,22 @@ class _RankingScreenState extends State<RankingScreen> {
                             fadingDuration: const Duration(milliseconds: 800),
                             slidingBeginOffset: const Offset(0, 0.0),
                             child: Padding(
-                              padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                              padding: EdgeInsets.only(
+                                  left: screenHeight > 1000
+                                      ? 40
+                                      : screenHeight < 700 ? 16 : 20.0,
+                                  right: screenHeight > 1000
+                                      ? 130
+                                      : screenHeight < 700 ? 60 : 100),
                               child: Text(
                                 "Bom trabalho de equipa!",
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.pangolin(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                      fontSize: screenHeight < 700
+                                          ? 16
+                                          : screenHeight < 1000 ? 20 : 32,
                                       color: Colors.white),
                                 ),
                               ),
@@ -244,9 +267,7 @@ class _RankingScreenState extends State<RankingScreen> {
 //                          delay: Duration(seconds: 1),
                         fadingDuration: const Duration(milliseconds: 800),
 //                          slidingBeginOffset: const Offset(-0.5, 0.0),
-                        child: CompanheiroAppwide()
-                    )
-                ),
+                        child: CompanheiroAppwide())),
               ),
               Positioned(
                 child: Align(
@@ -257,16 +278,15 @@ class _RankingScreenState extends State<RankingScreen> {
 //                        height: 130,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/clouds_bottom_navigation_white.png'),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                          )),
+                        image: AssetImage(
+                            'assets/images/clouds_bottom_navigation_white.png'),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
                     ),
                   ),
                 ),
               ),
-
             ],
           ),
         ),

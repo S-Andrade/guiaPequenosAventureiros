@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'all_missions_screen_tablet.dart';
 
 class AllMissionsScreen extends StatelessWidget {

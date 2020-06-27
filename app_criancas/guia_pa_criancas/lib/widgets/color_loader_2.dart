@@ -1,8 +1,8 @@
+import 'package:app_criancas/widgets/dot_type.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'dot_type.dart';
 
-class ColorLoader5 extends StatefulWidget {
+class ColorLoader2 extends StatefulWidget {
   final Color dotOneColor;
   final Color dotTwoColor;
   final Color dotThreeColor;
@@ -10,19 +10,19 @@ class ColorLoader5 extends StatefulWidget {
   final DotType dotType;
   final Icon dotIcon;
 
-  ColorLoader5(
-      {this.dotOneColor = Colors.redAccent,
-      this.dotTwoColor = Colors.green,
-      this.dotThreeColor = Colors.blueAccent,
+  ColorLoader2(
+      {this.dotOneColor = Colors.indigoAccent,
+      this.dotTwoColor = Colors.yellow,
+      this.dotThreeColor = Colors.deepOrange,
       this.duration = const Duration(milliseconds: 1000),
       this.dotType = DotType.circle,
       this.dotIcon = const Icon(Icons.blur_on)});
 
   @override
-  _ColorLoader5State createState() => _ColorLoader5State();
+  _ColorLoaderState createState() => _ColorLoaderState();
 }
 
-class _ColorLoader5State extends State<ColorLoader5>
+class _ColorLoaderState extends State<ColorLoader2>
     with SingleTickerProviderStateMixin {
   Animation<double> animation_1;
   Animation<double> animation_2;
@@ -69,7 +69,6 @@ class _ColorLoader5State extends State<ColorLoader5>
   Widget build(BuildContext context) {
     //print(animation_1.value <= 0.4 ? 2.5 * animation_1.value : (animation_1.value > 0.40 && animation_1.value <= 0.60) ? 1.0 : 2.5 - (2.5 * animation_1.value));
     return Container(
-      color: Colors.white,
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -80,7 +79,7 @@ class _ColorLoader5State extends State<ColorLoader5>
                     ? 1.0
                     : 2.5 - (2.5 * animation_1.value)),
             child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
                 radius: 10.0,
                 color: widget.dotOneColor,
@@ -96,7 +95,7 @@ class _ColorLoader5State extends State<ColorLoader5>
                     ? 1.0
                     : 2.5 - (2.5 * animation_2.value)),
             child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
                 radius: 10.0,
                 color: widget.dotTwoColor,
@@ -112,7 +111,7 @@ class _ColorLoader5State extends State<ColorLoader5>
                     ? 1.0
                     : 2.5 - (2.5 * animation_3.value)),
             child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 15.0),
               child: Dot(
                 radius: 10.0,
                 color: widget.dotThreeColor,

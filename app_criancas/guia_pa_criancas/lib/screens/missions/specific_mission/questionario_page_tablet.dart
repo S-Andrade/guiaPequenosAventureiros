@@ -1,6 +1,8 @@
 import 'package:app_criancas/notifier/missions_notifier.dart';
+import 'package:app_criancas/screens/missions/all_missions/all_missions_screen.dart';
 import 'package:app_criancas/services/missions_api.dart';
 import 'package:app_criancas/services/recompensas_api.dart';
+import 'package:app_criancas/widgets/color_loader_2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +21,6 @@ class QuestionarioPage extends StatefulWidget {
 
 class _QuestionarioPageState extends State<QuestionarioPage>
     with WidgetsBindingObserver {
-
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
@@ -45,6 +46,8 @@ class _QuestionarioPageState extends State<QuestionarioPage>
   int _totalPaused;
   Light _light;
   int points;
+  int _state = 0;
+
   StreamSubscription _subscription;
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
@@ -150,15 +153,11 @@ class _QuestionarioPageState extends State<QuestionarioPage>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _paused = DateTime.now();
-    } 
-
-     if (state == AppLifecycleState.inactive) {
-    
-      _paused = DateTime.now();
     }
-    
-    
-    else if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.inactive) {
+      _paused = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
       _returned = DateTime.now();
     }
 
@@ -470,15 +469,7 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                           borderRadius: BorderRadius.circular(8.0)),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          'Entregar',
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Colors.white),
-                          ),
-                        ),
+                        child: setButton(),
                       ),
                       onPressed: () async {
                         int respondidas = 0;
@@ -494,15 +485,15 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                           });
                         });
                         print(respondidas.toString());
-                        print('loooooooooooool');
-                        print(allQuestions.length.toString());
                         if (respondidas == allQuestions.length) {
                           for (StreamSubscription<dynamic> subscription
                               in _streamSubscriptions) {
                             subscription.cancel();
                           }
                           stopListening();
-                          print('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+                          setState(() {
+                            _state = 1;
+                          });
                           await updatePoints(_userID, points);
                           updateMissionCounterInFirestore(
                               missionNotifier.currentMission, _userID, 1);
@@ -515,16 +506,20 @@ class _QuestionarioPageState extends State<QuestionarioPage>
                               _lightData);
                           saveMissionData(missionNotifier.currentMission,
                               _userID, Timestamp.now());
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          
+                          //Navigator.pop(context);
+                          //Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllMissionsScreen(
+                                      missionNotifier.missionsDocList)));
                         } else {
                           showDialog(
                               context: context,
                               builder: (context) {
                                 return new AlertDialog(
                                     content: new Text(
-                                        "Tens de preencher todas as questões antes de submeter :)"));
+                                        "Tens de responder a todas as questões antes de submeter!"));
                               });
                         }
                       }),
@@ -541,7 +536,6 @@ class _QuestionarioPageState extends State<QuestionarioPage>
   //melhorar frontend
   updatePoints(String aluno, int points) async {
     List cromos = await updatePontuacao(aluno, points);
-    print("tellle");
     print(cromos);
 
     await showDialog(
@@ -622,170 +616,186 @@ class _QuestionarioPageState extends State<QuestionarioPage>
     if (cromos[0] != []) {
       for (String i in cromos[0]) {
         Image image;
-        if(i!=null){
+        if (i != null) {
+          await FirebaseStorage.instance
+              .ref()
+              .child(i)
+              .getDownloadURL()
+              .then((downloadUrl) {
+            image = Image.network(
+              downloadUrl.toString(),
+              fit: BoxFit.fitWidth,
+            );
+          });
 
-        await FirebaseStorage.instance
-            .ref()
-            .child(i)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.fitWidth,
-          );
-        });
-
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          image,
-                          SizedBox(
-                            width: double.infinity,
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(10.0)),
-                              color: Color(0xFFEF807A),
-                              child: new Text(
-                                "Fechar",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.white),
+                  ),
+                  content: FractionallySizedBox(
+                    heightFactor: 0.8,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            image,
+                            SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Color(0xFFEF807A),
+                                child: new Text(
+                                  "Fechar",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        );}
+              );
+            },
+          );
+        }
       }
     }
     if (cromos[1] != []) {
       for (String i in cromos[1]) {
         Image image;
-        if(i!=null){
+        if (i != null) {
+          await FirebaseStorage.instance
+              .ref()
+              .child(i)
+              .getDownloadURL()
+              .then((downloadUrl) {
+            image = Image.network(
+              downloadUrl.toString(),
+              fit: BoxFit.scaleDown,
+            );
+          });
 
-        await FirebaseStorage.instance
-            .ref()
-            .child(i)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
-              child: AlertDialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: Text(
-                  "Ganhas-te um cromo\npara a turma",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28,
-                        color: Color(0xFFffcc00)),
-                  ),
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                content: FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "Ganhas-te um cromo\npara a turma",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                          color: Color(0xFFffcc00)),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          image,
-                          SizedBox(
-                            width: double.infinity,
-                            child: FlatButton(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(10.0)),
-                              color: Color(0xFFEF807A),
-                              child: new Text(
-                                "Fechar",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.white),
+                  ),
+                  content: FractionallySizedBox(
+                    heightFactor: 0.8,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            image,
+                            SizedBox(
+                              width: double.infinity,
+                              child: FlatButton(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Color(0xFFEF807A),
+                                child: new Text(
+                                  "Fechar",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        );}
+              );
+            },
+          );
+        }
       }
     }
+  }
+
+  Widget setButton() {
+    if (_state == 0) {
+      return new Text(
+        "Entregar",
+        style: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: screenHeight < 700 ? 16 : 20,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else
+      return ColorLoader2();
   }
 }

@@ -1,8 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
-
 import 'historia.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import '../capitulo/capitulos_details.dart';
 
 class HistoriaTile extends StatelessWidget {
@@ -17,7 +15,6 @@ class HistoriaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
@@ -30,7 +27,10 @@ class HistoriaTile extends StatelessWidget {
            return new Text("Erro");
            else */
     return Padding(
-      padding: EdgeInsets.symmetric(vertical:  screenHeight < 700 ? 90 : screenHeight > 1000 ? screenHeight/6 : 110),
+      padding: EdgeInsets.symmetric(
+          vertical: screenHeight < 700
+              ? 90
+              : screenHeight > 1000 ? screenHeight / 6 : 110),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -38,14 +38,15 @@ class HistoriaTile extends StatelessWidget {
 //                  Text(historia.titulo),
 //                  Text('Capítulos'),
           Padding(
-            padding: EdgeInsets.all( screenHeight < 700 ? 10 : 20.0),
+            padding: EdgeInsets.all(screenHeight < 700 ? 10 : 20.0),
             child: Text(
               "Toca e escolhe o capítulo:",
               textAlign: TextAlign.center,
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize:  screenHeight > 1000 ? 30 :screenHeight < 700 ? 20 :24,
+                    fontSize:
+                        screenHeight > 1000 ? 30 : screenHeight < 700 ? 20 : 24,
                     color: Color(0xFF30246A)),
               ),
             ),

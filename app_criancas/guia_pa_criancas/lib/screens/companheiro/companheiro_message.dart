@@ -23,8 +23,6 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
   int companheiroColour;
   bool flag;
 
-
-
   getComp() async {
     Companheiro tempCompanheiro = await getCompanheiro(userID);
     setState(() {
@@ -121,7 +119,6 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
       _setBodyPart(companheiroBodyPart);
       return Container(
         margin: EdgeInsets.only(top: screenHeight > 100 ? 100 : 0),
-
         child: FlareActor(
           "assets/animation/shapes3.flr",
           animation: "animation",
@@ -134,7 +131,5 @@ class CompanheiroMessageState extends State<CompanheiroMessage> {
     } else {
       return Container();
     }
-
-
   }
 }

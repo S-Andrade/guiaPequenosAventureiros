@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 class MissionsNotifier with ChangeNotifier{
 
   List<Mission> _missionsList = [];
+  List _missionsDocList = [];
   Mission _currentMission;
   dynamic _missionContent;
   bool _completed;
@@ -20,6 +21,7 @@ class MissionsNotifier with ChangeNotifier{
 
 
   UnmodifiableListView<Mission> get missionsList => UnmodifiableListView(_missionsList);
+  UnmodifiableListView<dynamic> get missionsDocList => UnmodifiableListView(_missionsDocList);
   UnmodifiableListView<Question> get allQuestions => UnmodifiableListView(_allQuestions);
 
   bool get completed => _completed;
@@ -32,6 +34,10 @@ class MissionsNotifier with ChangeNotifier{
 
   set missionsList(List<Mission> missionList) {
     _missionsList = missionList;
+    notifyListeners();
+  }
+  set missionsDocList(List<dynamic> missionDocList) {
+    _missionsDocList = missionDocList;
     notifyListeners();
   }
 

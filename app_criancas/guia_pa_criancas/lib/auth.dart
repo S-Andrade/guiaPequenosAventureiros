@@ -53,6 +53,8 @@ class Auth {
   Future<AuthResult> logOut() async{
     auth.currentUser();
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    String nome = preferences.get('myName');
     preferences.clear();
+    preferences.setString('myName', nome);
   }
 }

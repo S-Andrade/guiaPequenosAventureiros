@@ -22,6 +22,7 @@ getMissions(
   List<Mission> _missionListFinal = [];
   List<Mission> _missionListNotDone = [];
   List<Mission> _missionListDone = [];
+  missionNotifier.missionsDocList = missions;
 
   missions.forEach((document) {
     document.get().then((missionSnapchot) {
@@ -121,14 +122,14 @@ getUserInfo(String email) async {
 getUserAmigo(String email) async {
   final QuerySnapshot companheiros =
       await Firestore.instance.collection('companheiro').getDocuments();
-      bool dataSaved;
-      bool amigo = false;
+  bool dataSaved;
+  bool amigo = false;
   companheiros.documents.forEach((element) {
-    if(element.data['id']==email){
-      dataSaved =true;
+    if (element.data['id'] == email) {
+      dataSaved = true;
       amigo = dataSaved;
-    }else{
-      dataSaved =false;
+    } else {
+      dataSaved = false;
     }
   });
   return amigo;
@@ -252,10 +253,9 @@ updateMissionDoneInFirestore(Mission mission, String id) async {
       .updateData({'resultados': mission.resultados});
 }
 
-
-
 //////// ATUALIZAR A MISSÃO COM DONE ( FEITA )
-updateMissionVideoDoneInFirestore(Mission mission, String id,int counterPause) async {
+updateMissionVideoDoneInFirestore(
+    Mission mission, String id, int counterPause) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -274,8 +274,6 @@ updateMissionVideoDoneInFirestore(Mission mission, String id,int counterPause) a
       .document(mission.id)
       .updateData({'resultados': mission.resultados});
 }
-
-
 
 // UPDATE DO DONE COM LINK DO FICHEIRO UPLOADED ( APENAS PARA MISSAO DE UPLOAD IMAGEM OU VIDEO )
 
@@ -395,8 +393,8 @@ updateMissionTimeAndCounterVisitedInFirestore(
       .updateData({'resultados': mission.resultados});
 }
 
-updateMissionTimeAndCounterVisitedInFirestoreVideo(Mission mission, String id,
-    int timeVisited, int counterVisited) async {
+updateMissionTimeAndCounterVisitedInFirestoreVideo(
+    Mission mission, String id, int timeVisited, int counterVisited) async {
   CollectionReference missionRef = Firestore.instance.collection('mission');
 
   Map<String, dynamic> mapa;
@@ -407,7 +405,6 @@ updateMissionTimeAndCounterVisitedInFirestoreVideo(Mission mission, String id,
     if (mapa["aluno"] == id) {
       mapa["counterVisited"] = counterVisited;
       mapa["timeVisited"] = timeVisited;
-      
     }
   });
 

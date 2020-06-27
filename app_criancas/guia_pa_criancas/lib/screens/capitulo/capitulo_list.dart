@@ -1,6 +1,5 @@
 import 'package:app_criancas/widgets/color_loader_5.dart';
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'capitulo.dart';
 import 'package:provider/provider.dart';
 import 'capitulo_tile.dart';
@@ -35,25 +34,26 @@ class _CapituloListState extends State<CapituloList> {
       return FutureBuilder<void>(
           future: getCapitulos(),
           builder: (context, AsyncSnapshot<void> snapshot) {
-             switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return new Text('Erro: ${snapshot.error}');
-              else
-              return GridView.builder(
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                if (snapshot.hasError)
+                  return new Text('Erro: ${snapshot.error}');
+                else
+                  return GridView.builder(
 //                padding: EdgeInsets.symmetric(vertical: screenHeight > 1000 ? screenHeight/6 : 100),
-                itemCount: cap.length,
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: screenWidth > 800 ? 4 : 3,
-                  childAspectRatio: 0.8,
-                ),
-                itemBuilder: (context, index) {
-                  return CapituloTile(capitulo: cap[index]);
-                });
-                   break;
-            default:
-              return Container();
-             }
+                      itemCount: cap.length,
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: screenWidth > 800 ? 4 : 3,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemBuilder: (context, index) {
+                        return CapituloTile(capitulo: cap[index]);
+                      });
+                break;
+              default:
+                return Container();
+            }
           });
     }
   }

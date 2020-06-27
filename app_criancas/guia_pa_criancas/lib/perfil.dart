@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:app_criancas/auth.dart';
 import 'package:app_criancas/screens/companheiro/companheiro_message.dart';
 import 'package:app_criancas/screens/colecionaveis/caderneta_turma.dart';
 import 'package:app_criancas/screens/colecionaveis/minha_caderneta.dart';
+import 'package:app_criancas/services/missions_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 
@@ -30,6 +35,13 @@ class _Perfil extends State<Perfil> {
   int pontuacao_turma;
   String id_turma;
   String aa;
+  bool checkNome = false;
+  String currentText = "";
+  StreamController<ErrorAnimationType> errorController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+  bool hasError = false;
+  String errorMessage;
 
   @override
   void initState() {
@@ -41,6 +53,9 @@ class _Perfil extends State<Perfil> {
   _getNomeUser() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     nomeUser = sp.getString('myName');
+    if (nomeUser != null) {
+      checkNome = true;
+    }
   }
 
   static MediaQueryData _mediaQueryData;
@@ -118,7 +133,7 @@ class _Perfil extends State<Perfil> {
                             Column(
                               children: [
                                 Text(
-                                  (nomeUser != null)
+                                  (nomeUser != null && !checkNome)
                                       ? "Olá, $aa!"
                                       : "Olá, $nomeUser!",
                                   textAlign: TextAlign.center,
@@ -295,24 +310,20 @@ class _Perfil extends State<Perfil> {
                   alignment: Alignment.bottomCenter,
                   child: Expanded(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: screenHeight > 700 ? 10 : 0 ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: screenHeight > 700 ? 10 : 0),
                       child: OutlineButton.icon(
-                        icon:
-                            Icon(Icons.exit_to_app, color: Colors.grey, size: 16),
+                        icon: Icon(Icons.exit_to_app,
+                            color: Colors.grey, size: 16),
 
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                           5.0,
                         )),
 //                  color: Color(0xFFFF2929),
-                        onPressed: () async {
-                          await Auth().logOut();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return MyApp();
-                            }),
-                          );
+                        onPressed: () {
+                          enviarDialog();
+                          print('AQUI');
                         },
                         label: Text(
                           'Terminar sessão',
@@ -390,5 +401,141 @@ class _Perfil extends State<Perfil> {
         print("No such Turma");
       }
     });
+  }
+
+  enviarDialog() {
+    final TextEditingController _pin = TextEditingController();
+    int _pinIntro = 0;
+
+    TextEditingController pinController = TextEditingController();
+    errorController = StreamController<ErrorAnimationType>();
+
+    return showDialog(
+          context: context,
+          builder: (context) => SingleChildScrollView(
+            child: new AlertDialog(
+              title: Text(
+                "Para terminar sessão pede ajuda aos teus pais!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color(0xFF30246A)),
+                ),
+              ),
+              content: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '(Introduza o seu(pai/mãe/encarregado de educação) ano de nascimento para verificação)',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18,
+                            color: Colors.black45),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20.0),
+                      child: Form(
+                        key: formKey,
+                        child: PinCodeTextField(
+                          textInputType: TextInputType.number,
+                          autoFocus: true,
+                          length: 4,
+                          obsecureText: false,
+                          animationType: AnimationType.fade,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(5),
+                            fieldHeight: 50,
+                            fieldWidth: 40,
+                            activeFillColor:
+                                hasError ? Colors.yellowAccent : Colors.white,
+                          ),
+                          animationDuration: Duration(milliseconds: 300),
+                          enableActiveFill: true,
+                          errorAnimationController: errorController,
+                          controller: pinController,
+                          onChanged: (value) {
+                            print(value);
+                            setState(() {
+                              currentText = value;
+                              _pinIntro = int.parse(currentText);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                SizedBox(
+                  width: 100,
+                  child: FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    color: Colors.deepPurple,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    child: Text(
+                      "Cancelar",
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 100,
+                  child: FlatButton(
+                    onPressed: () async {
+                      List datas = await getUserInfoEEPaiMae(user.email);
+                      if (datas.contains(_pinIntro)) {
+                        await Auth().logOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return MyApp();
+                          }),
+                        );
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Verifique se inseriu o pin correto",
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white);
+                      }
+                    },
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    child: Text(
+                      "Enviar",
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ) ??
+        false;
   }
 }

@@ -410,13 +410,14 @@ class _UserDataState extends State<UserData> {
         ),
       ),
       Step(
-        title: Text('Dados da Mãe',
+        title: Text(
+          'Dados da Mãe',
           style: GoogleFonts.raleway(
               textStyle: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 26,
-                color: Color(0xFF100043),
-              )),
+            fontWeight: FontWeight.w300,
+            fontSize: 26,
+            color: Color(0xFF100043),
+          )),
         ),
         isActive: false,
         state: StepState.indexed,
@@ -523,13 +524,14 @@ class _UserDataState extends State<UserData> {
         ),
       ),
       Step(
-        title: Text('Dados do Pai',
+        title: Text(
+          'Dados do Pai',
           style: GoogleFonts.raleway(
               textStyle: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 26,
-                color: Color(0xFF100043),
-              )),
+            fontWeight: FontWeight.w300,
+            fontSize: 26,
+            color: Color(0xFF100043),
+          )),
         ),
         isActive: false,
         state: StepState.indexed,
@@ -815,10 +817,8 @@ class _UserDataState extends State<UserData> {
                 _nacionalidadePai,
                 _profissaoPai,
                 _habilitacoesPai);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>CreateCompanheiro()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateCompanheiro()));
           }
           currentStep + 1 != steps.length
               ? goTo(currentStep + 1)
@@ -886,10 +886,8 @@ class _UserDataState extends State<UserData> {
               _nacionalidadePai,
               _profissaoPai,
               _habilitacoesPai);
-           Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>CreateCompanheiro()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateCompanheiro()));
         }
       }
     }
@@ -914,7 +912,8 @@ class _UserDataState extends State<UserData> {
                 child: SingleChildScrollView(
                   child: Stack(
                     children: [
-                      Image(image:AssetImage('assets/images/userdata.png'),
+                      Image(
+                          image: AssetImage('assets/images/userdata.png'),
                           fit: BoxFit.cover,
                           alignment: Alignment.topCenter),
                       Column(children: <Widget>[
@@ -925,24 +924,25 @@ class _UserDataState extends State<UserData> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 36,
-                                  color: Color(0xFF100043),
-                                )),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 36,
+                              color: Color(0xFF100043),
+                            )),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right:30.0,left: 30.0, bottom: 30.0),
+                          padding: const EdgeInsets.only(
+                              right: 30.0, left: 30.0, bottom: 30.0),
                           child: Text(
                             'Convidamos a preencher este questionário com o objetivo de avaliarmos a progressão do projeto e o seu impacto na vida escolar dos alunos e alunas de quarto ano.\nSe surgirem dúvidas estamos aqui para esclarecer. É muito importante que responda a todas as perguntas.',
                             textAlign: TextAlign.justify,
                             style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  height: 1.1,
-                                  fontSize: 22,
-                                  color: Color(0xFF100043),
-                                )),
+                              fontWeight: FontWeight.w300,
+                              height: 1.1,
+                              fontSize: 22,
+                              color: Color(0xFF100043),
+                            )),
                           ),
                         ),
                         Container(

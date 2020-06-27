@@ -12,7 +12,6 @@ import '../../../notifier/missions_notifier.dart';
 import '../specific_mission/mission_screen.dart';
 import '../../../services/missions_api.dart';
 import '../../../widgets/color_parser.dart';
-import '../../../widgets/color_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:delayed_display/delayed_display.dart';
 
@@ -33,6 +32,9 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
   Map resultados;
   bool _done;
   bool flag;
+  List<Mission> _missionListNotDone = [];
+  List<Mission> _missionListDone = [];
+  List<Mission> missionListFinal = [];
 
   _AllMissionsTabletPortraitState(this.missoes);
 
@@ -48,12 +50,35 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     super.initState();
   }
 
+  getMissoesOrdenadas(List<Mission> missons) {
+    _missionListNotDone = [];
+    _missionListDone = [];
+    missons.forEach((mission) {
+      bool missionDone = false;
+      for (var a in mission.resultados) {
+        if (a["aluno"] == _userID) {
+          missionDone = a["done"];
+        }
+      }
+
+      if (missionDone == false) {
+        _missionListNotDone.add(mission);
+      } else {
+        _missionListDone.add(mission);
+      }
+      setState(() {
+        missionListFinal = _missionListNotDone + _missionListDone;
+      });
+    });
+  }
+
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
 
   @override
   Widget build(BuildContext context) {
+    print(missionListFinal.toString());
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
@@ -68,11 +93,12 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     ));
 
     MissionsNotifier missionsNotifier = Provider.of<MissionsNotifier>(context);
+    getMissoesOrdenadas(missionsNotifier.missionsList);
     double _completada;
     String _imagem;
     flag = false;
 
-    if (missoes.length == missionsNotifier.missionsList.length) {
+    if (missoes.length == missionListFinal.length) {
       setState(() {
         flag = true;
       });
@@ -81,6 +107,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
     Future<void> _refreshList() async {
       print('refresh');
       getMissions(missionsNotifier, missoes, _userID);
+      getMissoesOrdenadas(missionsNotifier.missionsList);
+      print(missionListFinal.toString());
     }
 
     if (flag) {
@@ -124,13 +152,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                         Expanded(
                           child: ListView.builder(
                             padding: EdgeInsets.only(
-                                bottom:
-                                    screenHeight > 1000 ? screenHeight / 4 : 170,
-                                top:
-                                    screenHeight > 1000 ? screenHeight / 5.5 : 120),
+                                bottom: screenHeight > 1000
+                                    ? screenHeight / 4
+                                    : 170,
+                                top: screenHeight > 1000
+                                    ? screenHeight / 5.5
+                                    : 120),
                             itemBuilder: (BuildContext context, int index) {
-                              Mission mission =
-                                  missionsNotifier.missionsList[index];
+                              Mission mission = missionListFinal[index];
                               for (var a in mission.resultados) {
                                 if (a["aluno"] == _userID) {
                                   resultados = a;
@@ -163,8 +192,10 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 
                               return Padding(
                                 padding: EdgeInsets.only(
-                                  left: screenWidth > 800 ? screenWidth / 8 : 20,
-                                  right: screenWidth > 800 ? screenWidth / 8 : 20,
+                                  left:
+                                      screenWidth > 800 ? screenWidth / 8 : 20,
+                                  right:
+                                      screenWidth > 800 ? screenWidth / 8 : 20,
                                   top: screenWidth > 800
                                       ? 16
                                       : screenHeight < 700 ? 8 : 10,
@@ -174,7 +205,8 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                 ),
                                 child: DelayedDisplay(
                                   delay: Duration(milliseconds: 600),
-                                  fadingDuration: const Duration(milliseconds: 800),
+                                  fadingDuration:
+                                      const Duration(milliseconds: 800),
                                   slidingBeginOffset: const Offset(0, 0.0),
                                   child: Container(
                                       key: UniqueKey(),
@@ -182,14 +214,16 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                         image: new DecorationImage(
                                           image: ExactAssetImage(_imagem),
                                           colorFilter: new ColorFilter.mode(
-                                              Colors.white.withOpacity(_completada),
+                                              Colors.white
+                                                  .withOpacity(_completada),
                                               BlendMode.dstIn),
                                           fit: BoxFit.fitWidth,
                                           alignment: Alignment.center,
                                         ),
 //                                      color: Color(0xFF01BBB6),
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(16.0),
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
 //                                      boxShadow: [
 //                                        BoxShadow(
 //                                          color: Colors.black.withOpacity(0.1),
@@ -210,10 +244,14 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                             right: screenWidth > 800 ? 30 : 20,
                                             top: screenWidth > 800
                                                 ? 30
-                                                : screenHeight < 700 ? 16 : 20.0,
+                                                : screenHeight < 700
+                                                    ? 16
+                                                    : 20.0,
                                             bottom: screenWidth > 800
                                                 ? 30
-                                                : screenHeight < 700 ? 12 : 20.0),
+                                                : screenHeight < 700
+                                                    ? 12
+                                                    : 20.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
@@ -223,20 +261,24 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                           children: <Widget>[
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     color: Colors.black
                                                         .withOpacity(0.2),
                                                     borderRadius:
-                                                        BorderRadius.circular(6.0),
+                                                        BorderRadius.circular(
+                                                            6.0),
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(4.0),
+                                                        const EdgeInsets.all(
+                                                            4.0),
                                                     child: Text(
-                                                      mission.type == 'UploadVideo'
+                                                      mission.type ==
+                                                              'UploadVideo'
                                                           ? ' Carregar Vídeo '
                                                           : mission.type ==
                                                                   'UploadImage'
@@ -250,21 +292,21 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                                       : mission.type ==
                                                                               'Quiz'
                                                                           ? ' Quiz '
-                                                                          : mission.type ==
-                                                                                  'Activity'
+                                                                          : mission.type == 'Activity'
                                                                               ? ' Actividade '
-                                                                              : mission.type == 'Video'
-                                                                                  ? ' Vídeo '
-                                                                                  : mission.type == 'Questionario' ? ' Questionário ' : mission.type == 'Image' ? ' Imagem ' : mission.type,
-                                                      style: GoogleFonts.quicksand(
+                                                                              : mission.type == 'Video' ? ' Vídeo ' : mission.type == 'Questionario' ? ' Questionário ' : mission.type == 'Image' ? ' Imagem ' : mission.type,
+                                                      style:
+                                                          GoogleFonts.quicksand(
                                                         textStyle: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w700,
                                                             fontSize:
-                                                                screenWidth > 800
+                                                                screenWidth >
+                                                                        800
                                                                     ? 20
                                                                     : 14,
-                                                            color: Colors.white),
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                       textAlign: TextAlign.left,
                                                     ),
@@ -275,10 +317,12 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                       ' pontos',
                                                   style: GoogleFonts.quicksand(
                                                     textStyle: TextStyle(
-                                                        fontWeight: FontWeight.w900,
-                                                        fontSize: screenWidth > 800
-                                                            ? 22
-                                                            : 16,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        fontSize:
+                                                            screenWidth > 800
+                                                                ? 22
+                                                                : 16,
                                                         color: Colors.yellow),
                                                   ),
                                                   textAlign: TextAlign.left,
@@ -287,19 +331,22 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Flexible(
                                                   child: Text(
                                                     mission.title,
-                                                    style: GoogleFonts.quicksand(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                       textStyle: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontSize: screenWidth >
                                                                   800
                                                               ? 28
-                                                              : screenHeight < 700
+                                                              : screenHeight <
+                                                                      700
                                                                   ? 20
                                                                   : 22,
                                                           color: Colors.black),
@@ -308,14 +355,16 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                                                   ),
                                                 ),
                                                 new Builder(
-                                                  builder: (BuildContext context) =>
+                                                  builder: (BuildContext
+                                                          context) =>
                                                       _done
                                                           ? IconButton(
                                                               icon: Icon(
                                                                   FontAwesomeIcons
                                                                       .redo),
                                                               iconSize: 20,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               tooltip:
                                                                   'Repetir a missão',
                                                               onPressed: () {
@@ -371,8 +420,12 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: FractionallySizedBox(
-                      widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                      heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                      widthFactor: screenHeight < 700
+                          ? 0.8
+                          : screenWidth > 800 ? 0.77 : 0.9,
+                      heightFactor: screenHeight < 700
+                          ? 0.14
+                          : screenHeight < 1000 ? 0.14 : 0.20,
                       child: Stack(
                         children: [
                           FlareActor(
@@ -389,14 +442,22 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
                               fadingDuration: const Duration(milliseconds: 800),
                               slidingBeginOffset: const Offset(0, 0.0),
                               child: Padding(
-                                padding: EdgeInsets.only(right: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, left: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                                padding: EdgeInsets.only(
+                                    right: screenHeight > 1000
+                                        ? 40
+                                        : screenHeight < 700 ? 16 : 20.0,
+                                    left: screenHeight > 1000
+                                        ? 130
+                                        : screenHeight < 700 ? 60 : 100),
                                 child: Text(
                                   "Aqui estou a dizer algo mesmo muito pertinente",
                                   textAlign: TextAlign.left,
                                   style: GoogleFonts.pangolin(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                        fontSize: screenHeight < 700
+                                            ? 16
+                                            : screenHeight < 1000 ? 20 : 32,
                                         color: Colors.white),
                                   ),
                                 ),
@@ -415,9 +476,7 @@ class _AllMissionsTabletPortraitState extends State<AllMissionsTabletPortrait> {
 //                          delay: Duration(seconds: 1),
                           fadingDuration: const Duration(milliseconds: 800),
 //                          slidingBeginOffset: const Offset(-0.5, 0.0),
-                          child: CompanheiroAppwide()
-                      )
-                  ),
+                          child: CompanheiroAppwide())),
                 ),
                 Positioned(
                   child: Align(

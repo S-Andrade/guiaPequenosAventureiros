@@ -16,9 +16,6 @@ import 'aventura/aventura_list.dart';
 import 'companheiro/companheiro_appwide.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   final FirebaseUser user;
@@ -30,13 +27,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> with AnimationMixin {
   // PIN PAD
-  String currentText  = "";
+  String currentText = "";
   StreamController<ErrorAnimationType> errorController;
   final formKey = GlobalKey<FormState>();
 //  int pinLength = 4;
   bool hasError = false;
   String errorMessage;
-
 
   final FirebaseUser user;
   _HomeScreen({this.user});
@@ -52,7 +48,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
 
   Future<bool> _onBackPressed() {
     final TextEditingController _pin = TextEditingController();
-     TextEditingController pinController = TextEditingController();
+    TextEditingController pinController = TextEditingController();
     errorController = StreamController<ErrorAnimationType>();
     int _pinIntro = 0;
 
@@ -79,8 +75,8 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                   child: Column(children: [
                     Text(
                       '(Introduza o seu ano de nascimento para verificação)',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 18,
@@ -88,7 +84,8 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20,left: 20,right:20.0),
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20.0),
                       child: Form(
                         key: formKey,
                         child: PinCodeTextField(
@@ -103,7 +100,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                             fieldHeight: 50,
                             fieldWidth: 40,
                             activeFillColor:
-                            hasError ? Colors.yellowAccent : Colors.white,
+                                hasError ? Colors.yellowAccent : Colors.white,
                           ),
                           animationDuration: Duration(milliseconds: 300),
                           enableActiveFill: true,
@@ -138,7 +135,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize:  16,
+                          fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -153,7 +150,8 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       if (datas.contains(_pinIntro)) {
                         print('yes');
                         Navigator.of(context).pop(true);
-                        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                        SystemChannels.platform
+                            .invokeMethod('SystemNavigator.pop');
                       } else {
                         Fluttertoast.showToast(
                             msg: "Verifique se inseriu o pin correto",
@@ -169,7 +167,7 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize:  16,
+                          fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -313,8 +311,12 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: FractionallySizedBox(
-                          widthFactor: screenHeight < 700 ? 0.8 : screenWidth > 800 ? 0.77 : 0.9,
-                          heightFactor: screenHeight < 700 ? 0.14 : screenHeight < 1000 ? 0.14 : 0.20,
+                          widthFactor: screenHeight < 700
+                              ? 0.8
+                              : screenWidth > 800 ? 0.77 : 0.9,
+                          heightFactor: screenHeight < 700
+                              ? 0.14
+                              : screenHeight < 1000 ? 0.14 : 0.20,
                           child: Stack(
                             children: [
                               FlareActor(
@@ -328,17 +330,26 @@ class _HomeScreen extends State<HomeScreen> with AnimationMixin {
                               Center(
                                 child: DelayedDisplay(
                                   delay: Duration(seconds: 1),
-                                  fadingDuration: const Duration(milliseconds: 800),
+                                  fadingDuration:
+                                      const Duration(milliseconds: 800),
                                   slidingBeginOffset: const Offset(0, 0.0),
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: screenHeight > 1000 ? 40 : screenHeight < 700 ? 16 : 20.0, right: screenHeight > 1000 ? 130 : screenHeight < 700 ? 60 : 100),
+                                    padding: EdgeInsets.only(
+                                        left: screenHeight > 1000
+                                            ? 40
+                                            : screenHeight < 700 ? 16 : 20.0,
+                                        right: screenHeight > 1000
+                                            ? 130
+                                            : screenHeight < 700 ? 60 : 100),
                                     child: Text(
-                                    "Vamos escolher uma aventura para começar a diversão?",
+                                      "Vamos escolher uma aventura para começar a diversão?",
                                       textAlign: TextAlign.right,
                                       style: GoogleFonts.pangolin(
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: screenHeight < 700 ? 16 : screenHeight < 1000 ? 20 : 32,
+                                            fontSize: screenHeight < 700
+                                                ? 16
+                                                : screenHeight < 1000 ? 20 : 32,
                                             color: Colors.white),
                                       ),
                                     ),

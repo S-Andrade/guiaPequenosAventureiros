@@ -87,16 +87,22 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   key: Key('play_button'),
                   onPressed: _isPlaying ? null : () => _play(),
                   iconSize: screenHeight < 700 ? 36 : 40.0,
-                  icon: Icon(Icons.play_arrow, semanticLabel: 'teste',),
+                  icon: Icon(
+                    Icons.play_arrow,
+                    semanticLabel: 'teste',
+                  ),
                   color: Colors.indigo,
                 ),
-                Text('Reproduzir',style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: _isPlaying ? Colors.grey : Colors.indigo,
+                Text(
+                  'Reproduzir',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: _isPlaying ? Colors.grey : Colors.indigo,
+                    ),
                   ),
-                ),),
+                ),
               ],
             ),
             Column(
@@ -104,17 +110,20 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                 IconButton(
                   key: Key('pause_button'),
                   onPressed: _isPlaying ? () => _pause() : null,
-                  iconSize: screenHeight < 700 ? 36 :40.0,
+                  iconSize: screenHeight < 700 ? 36 : 40.0,
                   icon: Icon(Icons.pause),
                   color: Colors.indigo,
                 ),
-                Text('Pausa',style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: _isPlaying ? Colors.indigo : Colors.grey,
+                Text(
+                  'Pausa',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: _isPlaying ? Colors.indigo : Colors.grey,
+                    ),
                   ),
-                ),),
+                ),
               ],
             ),
             Column(
@@ -122,36 +131,43 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                 IconButton(
                   key: Key('stop_button'),
                   onPressed: _isPlaying || _isPaused ? () => _stop() : null,
-                  iconSize: screenHeight < 700 ? 36 :40.0,
+                  iconSize: screenHeight < 700 ? 36 : 40.0,
                   icon: Icon(Icons.stop),
                   color: Colors.indigo,
                 ),
-                Text('Parar',style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: _isPlaying || _isPaused ? Colors.indigo : Colors.grey,
+                Text(
+                  'Parar',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color:
+                          _isPlaying || _isPaused ? Colors.indigo : Colors.grey,
+                    ),
                   ),
-                ),),
+                ),
               ],
             ),
             Column(
               children: [
                 IconButton(
                   onPressed: _earpieceOrSpeakersToggle,
-                  iconSize: screenHeight < 700 ? 36 :40.0,
+                  iconSize: screenHeight < 700 ? 36 : 40.0,
                   icon: _isPlayingThroughEarpiece
                       ? Icon(Icons.volume_up)
                       : Icon(Icons.hearing),
                   color: Colors.indigo,
                 ),
-                Text('...',style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: Colors.black,
+                Text(
+                  '...',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
                   ),
-                ),),
+                ),
               ],
             ),
           ],
@@ -183,11 +199,12 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               _position != null
                   ? '${_positionText ?? ''} / ${_durationText ?? ''}'
                   : _duration != null ? _durationText : '',
-              style: TextStyle(fontSize: screenHeight < 700 ? 20 :24.0,color:Colors.indigo),
+              style: TextStyle(
+                  fontSize: screenHeight < 700 ? 20 : 24.0,
+                  color: Colors.indigo),
             ),
           ],
         ),
-        
       ],
     );
   }

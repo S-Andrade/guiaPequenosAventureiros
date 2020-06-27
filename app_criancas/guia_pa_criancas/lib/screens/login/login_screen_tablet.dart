@@ -61,8 +61,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/background_sky.png'),
-                      fit: BoxFit.cover)
-                  ),
+                      fit: BoxFit.cover)),
               padding: const EdgeInsets.all(20.0),
               child: Center(
                 child: SingleChildScrollView(
@@ -114,7 +113,8 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10.0),
+                                padding: EdgeInsets.all(
+                                    screenHeight < 700 ? 4 : 10.0),
                                 child: TextFormField(
                                     controller: myControllerEmail,
                                     textAlign: TextAlign.center,
@@ -159,14 +159,15 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                         )),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10),
+                                padding:
+                                    EdgeInsets.all(screenHeight < 700 ? 4 : 10),
                                 child: TextFormField(
                                     controller: myControllerPass,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: screenHeight < 700 ? 16 :18,
+                                        fontSize: screenHeight < 700 ? 16 : 18,
                                       ),
                                     ),
                                     validator: (input) {
@@ -205,7 +206,8 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                         )),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(screenHeight < 700 ? 4 : 10.0),
+                                padding: EdgeInsets.all(
+                                    screenHeight < 700 ? 4 : 10.0),
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: FlatButton(
@@ -221,7 +223,8 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                       style: GoogleFonts.quicksand(
                                         textStyle: TextStyle(
                                           fontWeight: FontWeight.w900,
-                                          fontSize: screenHeight < 700 ? 16 : 20,
+                                          fontSize:
+                                              screenHeight < 700 ? 16 : 20,
                                         ),
                                       ),
                                     ),
@@ -303,18 +306,18 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
     });
     bool flag = await getInfo(email);
     bool flag2 = await getCompInfo(email);
-      if (flag) {
-        if (flag2) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
-        } else {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateCompanheiro()));
-        }
+    if (flag) {
+      if (flag2) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
       } else {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => UserData(user: user)));
+            MaterialPageRoute(builder: (context) => CreateCompanheiro()));
       }
+    } else {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => UserData(user: user)));
+    }
     myControllerEmail.clear();
     myControllerPass.clear();
   }

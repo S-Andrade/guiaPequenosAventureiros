@@ -1,3 +1,1 @@
-enum DotType {
-  square, circle, diamond, icon
-}
+enum DotType { square, circle, diamond, icon }

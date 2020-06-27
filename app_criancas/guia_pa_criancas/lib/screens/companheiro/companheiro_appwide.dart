@@ -91,7 +91,6 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
 
   @override
   Widget build(BuildContext context) {
-
     flag = false;
 
     if (companheiro != null) {
@@ -117,8 +116,7 @@ class CompanheiroAppwideState extends State<CompanheiroAppwide> {
           widthFactor: 0.3,
           heightFactor: 0.2,
           child: GestureDetector(
-            child:
-            FlareActor(
+            child: FlareActor(
               "assets/animation/shapes3.flr",
               animation: "standby",
               fit: BoxFit.contain,
