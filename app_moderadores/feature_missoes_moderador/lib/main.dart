@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyApp> {
   Widget build(BuildContext context) {
     
     return MaterialApp(
+      
       title: 'Guia de Pequenos Aventureiros',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

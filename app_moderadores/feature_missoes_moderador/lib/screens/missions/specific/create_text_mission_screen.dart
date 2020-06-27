@@ -80,7 +80,7 @@ final _textPontos = TextEditingController();
                             ),
                           ),
                           SizedBox(
-                            height: 100.0,
+                            height: 70.0,
                           ),
                           FlatButton(
                             color: parseColor("F4F19C"),
@@ -290,7 +290,7 @@ final _textPontos = TextEditingController();
                       ),
                       SizedBox(height: 20.0),
                       SizedBox(
-                        height: 70.0,
+                        height: 50.0,
                       ),
                       Row(
                         children: <Widget>[

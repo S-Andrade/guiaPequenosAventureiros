@@ -309,7 +309,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        " Clique no nome de uma criança, para ver perfil... ",
+                                        " Clique no nome de uma criança, para ver o seu perfil pessoal. ",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'Monteserrat',
@@ -360,7 +360,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                           right: 20),
                                       child: Container(
                                           height: 400,
-                                          width: 350,
+                                          width: 410,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -410,7 +410,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                                         context)
                                                                     .size
                                                                     .height /
-                                                                300,
+                                                                250,
                                                         children: List.generate(
                                                             alunosPorTurma[
                                                                     turmasList[
@@ -460,8 +460,8 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                                     boxShadow: [
                                                                       BoxShadow(
                                                                         color: Colors
-                                                                            .black
-                                                                            .withOpacity(0.1),
+                                                                            .green
+                                                                            .withOpacity(0.3),
                                                                         blurRadius:
                                                                             5.0, // has the effect of softening the shadow
                                                                         spreadRadius:
@@ -517,7 +517,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "São apresentados valores médios para cada um, tendo em conta o número de respostas dadas até ao momento.\n\n                                                           Clique numa média para ver número total de respostas. ",
+                                        "São apresentadas médias das respostas numéricas, tendo em conta o número de respostas dadas até ao momento.\n\n                                                           Clique numa média para ver número total de respostas. ",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'Monteserrat',
@@ -570,7 +570,7 @@ class _ParticipantesScreenState extends State<ParticipantesScreen> {
                                                     color: Colors.white,
                                                     child: Row(children: [
                                                       Text(
-                                                        '     Questão                                                                                               1º    2º   3º',
+                                                        '     Questão                                                                                                  1º     2º     3º',
                                                         style: TextStyle(
                                                           fontSize: 20,
                                                           letterSpacing: 1,

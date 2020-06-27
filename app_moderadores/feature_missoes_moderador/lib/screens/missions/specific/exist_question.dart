@@ -62,7 +62,7 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
           child: Container(
             color: Colors.white,
             width: 840,
-            height: 600,
+            height: 500,
             child: Column(
               children: <Widget>[
                 Row(children: [
@@ -115,7 +115,7 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    height: 350,
+                    height: 250,
                     child: ListView.separated(
                         itemBuilder: (context, index) {
                           return Padding(
@@ -194,6 +194,7 @@ class _QuestionarioQuestionExistState extends State<QuestionarioQuestionExist> {
                             }
                           });
                           Navigator.pop(context);
+                      
                         },
                         child: Text("Adicionar")),
                     FlatButton(

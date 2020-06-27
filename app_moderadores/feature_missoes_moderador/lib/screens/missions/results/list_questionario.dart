@@ -161,7 +161,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                               fontSize: 13),
                         ),
                         Text(
-                          '               Missão feita',
+                          '               Realizada?',
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Monteserrat',
@@ -269,7 +269,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                                   height: 60,
                                                   width: 100,
                                                   child: Center(
-                                                    child: Text("Feita",
+                                                    child: Text("Sim",
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontFamily:
@@ -300,7 +300,7 @@ class _ResultsByMissionQuestionarioForTurmaState
                                               : Container(
                                                   height: 60,
                                                   child: Center(
-                                                    child: Text("Não feita",
+                                                    child: Text("Não",
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontFamily:
@@ -728,7 +728,7 @@ class _ResultsByMissionQuestionarioForTurmaState
     for (var luz in graficos["lightData"]) {
       if ((luz >= 0) & (luz < 4))
         _nenhumaLuz++;
-      else if ((luz >= 4) & (luz < 20))
+      else if ((luz >= 3) & (luz < 20))
         _poucaLuz++;
       else if ((luz >= 20) & (luz < 40))
         _algumaLuz++;
@@ -756,7 +756,7 @@ class _ResultsByMissionQuestionarioForTurmaState
 
     AlertDialog alert = AlertDialog(
       title: Text(
-        "Gráfico da luz ambiental ao realizar a missão",
+        "Gráfico da luz ambiental",
         style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
@@ -766,7 +766,7 @@ class _ResultsByMissionQuestionarioForTurmaState
       ),
       content: Container(
         width: 700,
-        height: 400,
+        height: 300,
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(30.0),
@@ -780,9 +780,9 @@ class _ResultsByMissionQuestionarioForTurmaState
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Container(
-              height: 230,
+              height: 200,
               width: 700,
               child: new PieChart(
                 dataMap: dataMap,
@@ -812,3 +812,4 @@ class _ResultsByMissionQuestionarioForTurmaState
     );
   }
 }
+

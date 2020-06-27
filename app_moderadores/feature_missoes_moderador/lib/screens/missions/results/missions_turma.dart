@@ -49,7 +49,7 @@ class ResultsTurmaByMission extends StatelessWidget {
                             ),
                           ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30.0, bottom: 30),
+                      padding: const EdgeInsets.only(top: 30.0, bottom: 5),
                       child: Text(
                         "Resultados gerais da turma " +
                             turma.nome +
@@ -62,20 +62,13 @@ class ResultsTurmaByMission extends StatelessWidget {
                             letterSpacing: 3),
                       ),
                     ),
-                    Text(
-                      "( Selecione para ver ) ",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontFamily: 'Monteserrat',
-                          letterSpacing: 2),
-                    ),
+                   
                   ]),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
-                height: 300,
+                height: 270,
                 width: 1000,
                 child: Row(children: [
                   Expanded(

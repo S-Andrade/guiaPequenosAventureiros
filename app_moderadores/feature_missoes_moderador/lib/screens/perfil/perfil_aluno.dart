@@ -636,7 +636,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                             top: 30.0, bottom: 30, left: 30),
                                         child: _questExists
                                             ? Container(
-                                                height: 600,
+                                                height: 400,
                                                 width: 920,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
@@ -669,7 +669,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                         color: Colors.white,
                                                         child: Row(children: [
                                                           Text(
-                                                            '     Questão                                                                1º           2º         3º',
+                                                            '     Questão                                                          1º           2º         3º',
                                                             style: TextStyle(
                                                               fontSize: 25,
                                                               letterSpacing: 1,
@@ -689,7 +689,7 @@ class _PerfilAlunoScreenState extends State<PerfilAlunoScreen> {
                                                             left: 30.0,
                                                             right: 30),
                                                     child: Container(
-                                                        height: 450,
+                                                        height: 250,
                                                         child: new ListView
                                                             .separated(
                                                           itemBuilder: (context,

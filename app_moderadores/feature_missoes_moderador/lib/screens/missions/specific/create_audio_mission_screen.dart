@@ -328,7 +328,7 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
                         },
                       ),
 
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       Row(children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -359,7 +359,7 @@ class _CreateAudioMissionScreenState extends State<CreateAudioMissionScreen> {
                                 : Container()),
                       ]),
                       SizedBox(
-                        height: 40.0,
+                        height: 20.0,
                       ),
                       Row(
                         children: <Widget>[

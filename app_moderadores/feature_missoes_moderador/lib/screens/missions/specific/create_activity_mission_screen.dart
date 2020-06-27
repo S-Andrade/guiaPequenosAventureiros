@@ -85,7 +85,7 @@ class _CreateActivityMissionScreenState
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/26.jpg"),
+                      image: AssetImage("assets/images/act.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -291,8 +291,8 @@ class _CreateActivityMissionScreenState
                                 ]),
                             child: Column(children: [
                               Container(
-                                height: 300,
-                                width: 400,
+                                height: 200,
+                                width: 450,
                                 child: ListView(
                                   children:
                                       List.generate(activities.length, (index) {
@@ -304,7 +304,7 @@ class _CreateActivityMissionScreenState
                                             IconButton(
                                               icon:
                                                   Icon(FontAwesomeIcons.check),
-                                              iconSize: 20,
+                                              iconSize: 15,
                                               color: Colors.blue,
                                               onPressed: null,
                                             ),
@@ -312,7 +312,7 @@ class _CreateActivityMissionScreenState
                                               padding:
                                                   const EdgeInsets.all(10.0),
                                               child: Container(
-                                                  width: 250,
+                                                  width: 200,
                                                   child: Row(children: [
                                                     Flexible(
                                                       child: Text(
@@ -321,11 +321,11 @@ class _CreateActivityMissionScreenState
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight.w900,
+                                                                FontWeight.w600,
                                                             fontFamily:
                                                                 'Monteserrat',
                                                             letterSpacing: 2,
-                                                            fontSize: 20),
+                                                            fontSize: 13),
                                                       ),
                                                     ),
                                                   ])),
@@ -411,7 +411,7 @@ class _CreateActivityMissionScreenState
                                     child: Row(
                                       children: <Widget>[
                                         Padding(
-                                          padding: const EdgeInsets.all(15.0),
+                                          padding: const EdgeInsets.all(10.0),
                                           child: Container(
                                             height: 150,
                                             width: 200,
@@ -426,7 +426,7 @@ class _CreateActivityMissionScreenState
                                                   color: Colors.black,
                                                   fontFamily: 'Monteserrat',
                                                   letterSpacing: 2,
-                                                  fontSize: 20),
+                                                  fontSize: 13),
                                               maxLines: 7,
                                               decoration: InputDecoration(
                                                 contentPadding:
@@ -446,11 +446,11 @@ class _CreateActivityMissionScreenState
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.all(15.0),
+                                          padding: const EdgeInsets.all(10.0),
                                           child: Container(
                                             child: MaterialButton(
-                                              height: 50,
-                                              minWidth: 70,
+                                              height: 40,
+                                              minWidth: 50,
                                               color: parseColor("#FFCE02"),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
@@ -459,7 +459,7 @@ class _CreateActivityMissionScreenState
                                               child: Text(
                                                 'Escolher imagem',
                                                 style: TextStyle(
-                                                    fontSize: 20,
+                                                    fontSize: 13,
                                                     fontFamily: 'Monteserrat',
                                                     color: Colors.black,
                                                     letterSpacing: 2),

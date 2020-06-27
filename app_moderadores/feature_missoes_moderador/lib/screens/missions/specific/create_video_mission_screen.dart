@@ -75,7 +75,7 @@ final _textPontos = TextEditingController();
                   height: MediaQuery.of(context).size.height,
                  decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/29.jpg"),
+                image: AssetImage("assets/images/videoM.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -89,7 +89,7 @@ final _textPontos = TextEditingController();
                           Container(
                             padding: EdgeInsets.only(top: 0.0, bottom: 5.0),
                             child: Text(
-                              "Enviar um video",
+                              "Enviar um vídeo",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w900,
@@ -100,10 +100,10 @@ final _textPontos = TextEditingController();
                             ),
                           ),
                           SizedBox(
-                            height: 40.0,
+                            height: 0.0,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 110.0, bottom: 5.0),
+                            padding: EdgeInsets.only(top: 60.0, bottom: 5.0),
                             child: Text(
                               "As crianças irão receber uma missão, em forma de vídeo, ao qual poderão assistir.",
                               style: TextStyle(
@@ -116,7 +116,7 @@ final _textPontos = TextEditingController();
                             ),
                           ),
                           SizedBox(
-                            height: 100.0,
+                            height: 50.0,
                           ),
                           FlatButton(
                             color:parseColor("F4F19C"),

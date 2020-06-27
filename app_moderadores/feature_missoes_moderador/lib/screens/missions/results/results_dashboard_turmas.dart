@@ -169,7 +169,7 @@ class _ResultsDashboardTurmasScreenState
                       children: <Widget>[
                         Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height - 70,
+                            height: MediaQuery.of(context).size.height - 400,
                             color: Colors.transparent,
                             child: Stack(children: [
                               Center(
@@ -210,7 +210,7 @@ class _ResultsDashboardTurmasScreenState
                               ),
                             ])),
                         Container(
-                            height: 700 * (turmas.length / 4),
+                            height: 1000 * (turmas.length / 4),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
@@ -229,20 +229,7 @@ class _ResultsDashboardTurmasScreenState
                                 ]),
                             child: Column(
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0,
-                                      right: 20,
-                                      top: 100,
-                                      bottom: 50),
-                                  child: Text(
-                                      "Percentagens de Missões feitas por cada turma: ",
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          letterSpacing: 2,
-                                          color: Colors.black,
-                                          fontFamily: 'Monteserrat')),
-                                ),
+                               
                                 Expanded(
                                   child: GridView.count(
                                     // Create a grid with 2 columns. If you change the scrollDirection to
@@ -337,7 +324,7 @@ class _ResultsDashboardTurmasScreenState
                                                               .alunos
                                                               .length
                                                               .toString() +
-                                                          " aluno(s)",
+                                                          " alunos",
                                                       style: TextStyle(
                                                           fontSize: 15.0,
                                                           letterSpacing: 2,
@@ -531,7 +518,7 @@ class _ResultsDashboardTurmasScreenState
             color: Colors.black,
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 20),
+            fontSize: 15),
       ),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -575,7 +562,7 @@ class _ResultsDashboardTurmasScreenState
             color: Colors.black,
             fontFamily: 'Monteserrat',
             letterSpacing: 2,
-            fontSize: 20),
+            fontSize: 18),
       ),
       actions: [
         cancelaButton,

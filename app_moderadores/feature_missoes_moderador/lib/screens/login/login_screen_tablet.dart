@@ -60,15 +60,15 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                       /* Container(
+                                        Container(
                               height:200,width:200,child: SvgPicture.asset(
                             'assets/images/logo_temp.svg',
 //                            width: 50,
-                              ),),*/
+                              ),),
                             
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 40, bottom: 54),
+                                              top: 30, bottom: 40),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,

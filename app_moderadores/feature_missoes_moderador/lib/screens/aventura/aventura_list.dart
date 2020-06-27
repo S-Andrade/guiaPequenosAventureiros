@@ -33,13 +33,12 @@ class _AventuraListState extends State<AventuraList> {
   List<Aventura> aventuras = [];
   List<Aventura> aventura;
 
-  List images =[];
-
+  Map images = {};
 
   Widget _buildInfo() {
     return Padding(
       padding:
-          const EdgeInsets.only(top: 50.0, left: 30.0, right: 16.0, bottom: 50),
+          const EdgeInsets.only(top: 10.0, left: 30.0, right: 16.0, bottom: 70),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -69,47 +68,19 @@ class _AventuraListState extends State<AventuraList> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             itemCount: aventuras.length,
             itemBuilder: (BuildContext context, int index) {
-              /*
-              return FutureBuilder<void>(
-                future:  getImage(aventuras[index], index),
-                builder: (context, AsyncSnapshot<void> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return new Text('Erro: ${snapshot.error}');
-              else
-                */
-                    return GestureDetector(
-                        onTap: () {
-                          showOptions(aventuras[index]);
-                        },
-                        child: Card(aventura: aventuras[index], image_capa: null));
-              /*  break;
-            default:
-              return Container();
-          }
-               
-              });*/
+                 return  GestureDetector(
+                    onTap: () {
+                      showOptions(aventuras[index]);
+                    },
+                    child: Card(aventura: aventuras[index], image_capa: images[aventuras[index].capa])
+                  );
             }
-      ),
-    ));
-  }
+          )));
+      }
+          
 
-  Future <void> getImage(Aventura aventura, int index)async{
-    Image image_capa;
-    await FirebaseStorage.instance
-            .ref()
-            .child(aventura.capa)
-            .getDownloadURL()
-            .then((downloadUrl) {
-          image_capa = Image.network(
-            downloadUrl.toString(),
-            fit: BoxFit.scaleDown,
-          );
-        });
-    images.insert(index,image_capa);
-    
-  }
+
+ 
 
   Widget _buildContent(aventuras) {
     if (aventuras.length != 0)
@@ -191,6 +162,23 @@ class _AventuraListState extends State<AventuraList> {
         });
   }
 
+
+
+    Future<Image> getImage(Aventura aventura)async{
+    Image i;
+    await FirebaseStorage.instance
+            .ref()
+            .child(aventura.capa)
+            .getDownloadURL()
+            .then((downloadUrl) {
+          i= Image.network(
+            downloadUrl.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });   
+    return i;
+  }
+
   Future<void> getAventuras(BuildContext context) async {
     aventuras = [];
     aventura = Provider.of<List<Aventura>>(context);
@@ -198,6 +186,13 @@ class _AventuraListState extends State<AventuraList> {
     for (Aventura a in aventura) {
       if (a.moderador == user.email) {
         aventuras.add(a);
+        if(images.containsKey(a.capa) == false){
+          getImage(a).then((value) => setState((){
+            print(value);
+            images[a.capa] = value;}))
+          ;
+        }
+        print(images);
       }
     }
   }
@@ -238,15 +233,7 @@ class _AventuraListState extends State<AventuraList> {
             width: 300,
             child: Column(
               children: [
-                Text(
-                  "Escolha uma opção:",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Amatic SC',
-                      letterSpacing: 2,
-                      fontSize: 15),
-                ),
+               
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context, rootNavigator: true).push(
@@ -376,62 +363,50 @@ class Card extends StatefulWidget {
 }
 
 class _CardState extends State<Card> {
-  _CardState({this.aventura, this.image_capa});
+
   final Aventura aventura;
   final Image image_capa;
 
-  BoxDecoration _buildCapa() {
-
-      return BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 5.0, // has the effect of softening the shadow
-              spreadRadius: 2.0, // has the effect of extending the shadow
-              offset: Offset(
-                0.0, // horizontal
-                2.5, // vertical
-              ),
-            )
-          ],
-          image: DecorationImage(
-            image:AssetImage("assets/images/story_1.png"),
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-          ));
+  _CardState({this.aventura, this.image_capa});
   
-  }
-
-  Widget _buildInfo() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0, left: 20.0, right: 4.0),
-      child: Text(aventura.nome,
-          style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              fontFamily: 'Monteserrat')),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-
-   // if (image_capa != null){
-      return Container(
-        width: 230.0,
-        padding: const EdgeInsets.all(8.0),
-        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-        decoration: _buildCapa(),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Flexible(flex: 2, child: _buildInfo()),
-        ]));
-    }
-    /*else{
-      return ColorLoader();
-    }
+          return Container(
+                  width: 230.0,
+                  padding: const EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5.0, // has the effect of softening the shadow
+                          spreadRadius: 2.0, // has the effect of extending the shadow
+                          offset: Offset(
+                            0.0, // horizontal
+                            2.5, // vertical
+                          ),
+                        )
+                      ],
+                      image: DecorationImage(
+                        image:image_capa.image,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      )),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Flexible(flex: 2, 
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0, left: 20.0, right: 4.0),
+                          child: Text(aventura.nome,
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                  fontFamily: 'Monteserrat')),
+                        )),
+                  ]));
+                             
     
-    
-  }*/
+  }
 }

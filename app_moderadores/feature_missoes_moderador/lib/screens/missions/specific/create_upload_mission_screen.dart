@@ -63,7 +63,7 @@ final _textPontos = TextEditingController();
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/30.jpg"),
+                image: AssetImage("assets/images/submissao.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -107,7 +107,7 @@ final _textPontos = TextEditingController();
                             ),
                           ),
                           SizedBox(
-                            height: 100.0,
+                            height: 70.0,
                           ),
                           FlatButton(
                             color: parseColor("F4F19C"),
@@ -192,7 +192,7 @@ final _textPontos = TextEditingController();
                           );
                         },
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {

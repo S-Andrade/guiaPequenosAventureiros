@@ -37,7 +37,7 @@ class CapituloTile extends StatelessWidget {
                                     capitulo: capitulo, aventura: aventura)));
                       },
                       child: Container(
-                        height: 430,
+                        height: 400,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[

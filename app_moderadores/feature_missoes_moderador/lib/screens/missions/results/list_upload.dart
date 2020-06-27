@@ -86,7 +86,7 @@ class _ResultsByMissionUploadForTurmaState
                   child: Text(
                     "Resultados para a missão  '" +
                         mission.title +
-                        "'  dos " +
+                        "'\n\ndos "+
                         turma.nAlunos.toString() +
                         " alunos da turma " +
                         turma.nome +
@@ -123,7 +123,7 @@ class _ResultsByMissionUploadForTurmaState
                         ]),
                     child: Row(children: [
                       Text(
-                        '                   Aluno                    Missão feita         Ficheiro carregado',
+                        '                   Aluno                    Realizada?           Ficheiro carregado',
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Monteserrat',
@@ -189,7 +189,7 @@ class _ResultsByMissionUploadForTurmaState
                                                 height: 60,
                                                 width: 100,
                                                 child: Center(
-                                                  child: Text("Feita",
+                                                  child: Text("Sim",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:
@@ -220,7 +220,7 @@ class _ResultsByMissionUploadForTurmaState
                                             : Container(
                                                 height: 60,
                                                 child: Center(
-                                                  child: Text("Não feita",
+                                                  child: Text("Não",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:
